@@ -1,5 +1,9 @@
 # Cachebench
 
+**An unofficial community project.** Not affiliated with or endorsed by Google, OpenAI, Anthropic, or Theo. Results are experimental and are not guaranteed to be accurate. Feedback and methodology corrections are welcome through [GitHub issues](https://github.com/LyalinDotCom/prompt-cache-repro/issues); **pull requests are not accepted**. The repository is private for now.
+
+Licensed under [Apache 2.0](LICENSE). See [feedback guidelines](CONTRIBUTING.md).
+
 A small outside-in prompt-cache benchmark for public Gemini, OpenAI, and Anthropic APIs. Run it in a browser or from the CLI; both share the same workloads, official SDK adapters, accounting, and report generator.
 
 The question is whether Theo's reported cache behavior appears under reproducible public API conditions. A report preserves the requests and usage counters behind every result. It does not claim a short smoke test proves a provider-wide rate or identifies an internal cause.
