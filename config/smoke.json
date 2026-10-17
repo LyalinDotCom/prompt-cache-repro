@@ -1,0 +1,26 @@
+{
+  "scenario": "replay",
+  "accounts": [
+    "gemini-paid",
+    "openai-paid",
+    "anthropic-paid"
+  ],
+  "models": [
+    "gemini-4-argon",
+    "gemini-3.8-flash",
+    "gpt-6.1-sol",
+    "claude-opus-5-5"
+  ],
+  "turns": 3,
+  "trials": 1,
+  "gapsSeconds": [
+    0
+  ],
+  "prefixChars": 52000,
+  "deltaChars": 2000,
+  "maxOutputTokens": 128,
+  "toleranceTokens": 64,
+  "timeoutMs": 120000,
+  "seed": "cachebench-smoke-v1",
+  "maxEstimatedUsd": 5
+}

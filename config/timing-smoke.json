@@ -1,0 +1,15 @@
+{
+  "scenario": "replay",
+  "accounts": ["gemini-paid"],
+  "models": ["gemini-4-argon", "gemini-3.8-flash"],
+  "turns": 2,
+  "trials": 1,
+  "gapsSeconds": [5, 30, 120],
+  "prefixChars": 52000,
+  "deltaChars": 2400,
+  "maxOutputTokens": 128,
+  "toleranceTokens": 64,
+  "timeoutMs": 120000,
+  "seed": "cachebench-timing-smoke-v1",
+  "maxEstimatedUsd": 5
+}

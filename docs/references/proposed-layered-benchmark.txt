@@ -1,0 +1,280 @@
+## 1. First, I think you're looking at the wrong layer
+
+There's an important clue in Theo's reply to Varun Mohan:
+
+> This was a very basic cache test simulating normal agentic work. Exact same test for all 3 APIs.
+
+That strongly suggests he's testing the provider APIs directly, not running Claude Code, Codex, and Gemini CLI through ACP.
+
+And that distinction matters enormously.
+
+In a real coding agent, prompt caching depends on three different layers:
+
+1. The agent harness: How it constructs and replays conversation history, tool definitions, and tool results.
+2. The transport: Whether requests go through ACP, a CLI's internal SDK, or the provider's public API.
+3. The provider: Whether its caching infrastructure recognizes and reuses the previous prompt prefix.
+
+Theo appears to be measuring layer 3 using a controlled simulation of layer 1.
+
+I would build a reproduction that tests both the raw APIs and actual CLI agents. That would tell us whether Gemini has an underlying caching problem, whether its agent harness is causing misses, or both.
+
+## 2. What the providers actually expose
+
+I checked the current API documentation, and there's an important asymmetry.
+
+| Provider          | Caching mechanism                                      | Can we measure cache reads? |
+| ----------------- | ------------------------------------------------------ | --------------------------- |
+| Gemini 4 Argon    | Automatic implicit caching, minimum 4,096 input tokens | Yes                         |
+| GPT-6.1 Sol       | Implicit or explicit cache breakpoints                 | Yes                         |
+| Claude Sonnet 5.5 | Automatic or explicit cache controls                   | Yes                         |
+
+The particularly interesting discovery is that Gemini 4 Argon no longer supports manually created explicit caches. Google's documentation says Gemini 4 uses implicit caching and offers a 95% discount on cached input tokens.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://ai.google.dev\&sz=32)
+
+Google AI for Developers
+
++1
+
+
+
+That means we can inspect Google's cache hit behavior, but we cannot force Gemini 4 to create a particular cache object using the older `caches.create` mechanism.
+
+### How we'd read the actual counters
+
+| API                      | Response fields                                                                            |
+| ------------------------ | ------------------------------------------------------------------------------------------ |
+| Gemini `generateContent` | `usageMetadata.promptTokenCount`, `usageMetadata.cachedContentTokenCount`                  |
+| OpenAI Responses         | `usage.input_tokens`, `usage.input_tokens_details.cached_tokens`                           |
+| Anthropic Messages       | `usage.input_tokens`, `usage.cache_read_input_tokens`, `usage.cache_creation_input_tokens` |
+
+[image](https://www.google.com/s2/favicons?domain=https://ai.google.dev\&sz=32)
+
+Google AI for Developers
+
++2
+
+This gives us independently reported caching data, rather than having to infer cache hits from latency or estimated token costs.
+
+One caveat: a 73% full-hit rate is not necessarily a 27% token miss rate. Theo's image reports 167 full hits out of 228 turns. It doesn't establish how many tokens were missed or whether some of the other 61 turns had substantial partial hits.
+
+I also couldn't locate a public repository or complete methodology for this particular October 17 experiment. So the screenshot and Theo's reply are the evidence we have for his specific test, not a verified independent reproduction.
+
+## 3. Testing CLI agents: ACP versus native CLI interfaces
+
+I found a good reason not to use ACP as the primary measurement interface.
+
+ACP supports session-level usage updates, including context size and optional cost. But those standard updates do not provide the detailed per-request cached-token counters we need. There's also an open protocol issue documenting differences in how agents report usage.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://github.com\&sz=32)
+
+GitHub
+
++1
+
+
+
+Native CLI output is more promising:
+
+| Tool        | Programmatic interface                  | What to capture                                         |
+| ----------- | --------------------------------------- | ------------------------------------------------------- |
+| Codex CLI   | `codex exec --json`                     | `turn.completed.usage`, including cached input tokens   |
+| Claude Code | `claude -p --output-format stream-json` | Assistant-message token usage, cache reads/writes       |
+| Gemini CLI  | `gemini -p --output-format stream-json` | Per-model usage statistics, cached tokens when reported |
+
+[image](https://www.google.com/s2/favicons?domain=https://github.com\&sz=32)
+
+GitHub
+
++2
+
+There's another wrinkle: Gemini CLI's published documentation distinguishes API-key authentication from personal-account OAuth authentication for caching statistics. We should use API-key billing for a comparable test, not silently mix an AI subscription on one CLI with usage-based APIs on the others.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://geminicli.com\&sz=32)
+
+Gemini CLI
+
++1
+
+
+
+I'd support ACP as an additional transport adapter, but capture usage from native agent events or underlying API telemetry wherever possible.
+
+## 4. The harness I would build
+
+I'd use TypeScript, with a shared workload generator and interchangeable execution adapters.
+
+Benchmark runner
+
+Shared scenarios, timings, seeds, and configuration
+
+Direct API
+
+Native CLI
+
+ACP
+
+Normalized telemetry
+
+Raw API responses, cached/read/write tokens, timing and cost
+
+Analysis and visualization
+
+Full hits, partial hits, cost ratios, reproducibility and comparisons
+
+### Workload scenarios
+
+We want more than one synthetic benchmark, because they measure different things.
+
+| Scenario                       | Purpose                                                               |
+| ------------------------------ | --------------------------------------------------------------------- |
+| Static prefix                  | Establish whether caching works at all                                |
+| Growing conversation           | Replicate a typical append-only agent history                         |
+| Tool-call loop                 | Measure the effect of tool outputs and schemas                        |
+| Idle gaps: 5s / 30s / 120s     | Reproduce Theo's visible timing comparison                            |
+| Prefix perturbation            | Verify that changing early context causes the expected misses         |
+| Context lengths: 4K / 8K / 32K | Find length-dependent behavior                                        |
+| Stateful vs stateless APIs     | Determine whether server-side conversation state improves reliability |
+
+For the first scenario, start with approximately 12,000 tokens of identical system/reference material, append a short user turn, capture the model's response, then append another user turn while preserving the earlier conversation.
+
+For the tool-call scenario, supply fixed tools like `read_file`, `search_code`, and `run_tests`. The tools should return predetermined fixture data. The exact same fixture should be used across models, with only the required provider-specific serialization changing.
+
+This prevents differences in real shell execution or file contents from contaminating the cache experiment.
+
+### Normalized telemetry
+
+Every provider adapter should produce one record per actual model API request, not merely one record per user instruction.
+
+```
+
+type CacheObservation = {
+  provider: "openai" | "anthropic" | "google";
+  transport: "api" | "cli" | "acp";
+  model: string;
+  runId: string;
+  turn: number;
+
+  requestedGapMs: number;
+  actualIdleGapMs: number;
+  startedAt: string;
+  durationMs: number;
+
+  inputTokens: number;
+  cachedReadTokens: number;
+  cacheWriteTokens: number;
+  uncachedInputTokens: number;
+  outputTokens: number;
+
+  expectedReusableTokens: number | null;
+  fullHit: boolean | null;
+  costUsd: number | null;
+
+  requestHash: string | null;
+  responseFile: string;
+};
+
+```
+
+The `requestHash` should describe the exact canonical request, with a separate hash of the expected reusable prefix. Preserve the actual provider payload alongside that representation. Canonically equivalent JSON does not always guarantee an identical provider-rendered prompt.
+
+Full-hit detection needs provider-aware tolerances and must respect where eligible cache breakpoints exist. A request can have a large shared prefix without all of it being cacheable.
+
+### How to calculate cost
+
+Normalize every provider's counters, then apply the appropriate model-specific rates.
+
+\\[ C\_{\text{input}} = U P\_{\text{input}}+ R P\_{\text{read}}+ W P\_{\text{write}} \\]
+
+Where \\(U\\) is uncached input tokens, \\(R\\) is cached-read tokens, and \\(W\\) is cache-write tokens. Gemini's implicit writes are not separately charged like the explicit write charges used by Claude and newer GPT models.
+
+The ideal baseline should simulate maximum eligible reuse under each provider's own caching rules, including required first writes. The denominator must not assume cache writes are free.
+
+That is particularly relevant because GPT-6.1 Sol charges $2.50 per million cache-write tokens, compared with $0.10 per million cached-read tokens.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://developers.openai.com\&sz=32)
+
+OpenAI API
+
+
+
+I would publish three separate results: full-hit percentage, weighted reusable-token hit percentage, and input cost versus perfect eligible caching. I'd report total cost including output separately.
+
+## 5. Start with a small CLI smoke test
+
+The following are the starting commands, assuming the CLIs are installed and configured with provider API credentials.
+
+```
+
+# Claude Code
+claude --bare \
+  --model claude-sonnet-5-5 \
+  -p "Summarize this repository" \
+  --output-format stream-json --verbose \
+  > claude.jsonl
+
+# Codex
+codex exec \
+  -m gpt-6.1-sol \
+  --json \
+  "Summarize this repository" \
+  > codex.jsonl
+
+# Gemini CLI
+gemini \
+  -m gemini-4-argon \
+  -p "Summarize this repository" \
+  --output-format stream-json \
+  > gemini.jsonl
+
+```
+
+These are smoke tests, not yet an apples-to-apples benchmark. The CLIs load different instructions, tool definitions, and repository context.
+
+For the real CLI measurement, the runner would resume each session using its returned session ID and send the next controlled prompt. Claude Code supports `--resume`, Codex provides `codex exec resume`, and Gemini CLI supports `--resume`.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://code.claude.com\&sz=32)
+
+Claude Code Docs
+
++2
+
+
+
+Importantly, track the actual underlying model request count. A single agent turn may perform multiple inference calls, so a CLI result containing aggregate usage isn't sufficient for declaring every individual cache read successful.
+
+## 6. What would make Theo's result convincing?
+
+I'd want the reproduction to answer these four questions.
+
+Is Gemini losing the static prefix or only the growing conversation? If the 12K static prefix remains cached but the latest history doesn't, that suggests a different problem from complete cache loss.
+
+Are misses caused by time gaps or by request mutation? We need to know whether the effective prompt is really append-only. This includes tool ordering, hidden CLI instructions, thinking blocks, compaction, and model settings.
+
+Does Gemini's stateful Interactions API behave differently? Google's documentation supports implicit caching with `previous_interaction_id`. It specifically recommends server-side conversation state for Gemini 4. That is worth testing against full-history stateless requests.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://ai.google.dev\&sz=32)
+
+Google AI for Developers
+
++1
+
+
+
+Is the result reproducible across runs? A single run with 228 observations is a starting point. I'd want repeated independent runs, with the order of providers randomized and request histories isolated so we can distinguish a consistent weakness from a transient routing or cache-capacity effect.
+
+One practical detail: 228 turns with a genuine 120-second idle interval would take more than 7.5 hours for that scenario alone. Start with a 20-turn smoke test, then run the longer timed suites unattended.
+
+## My recommendation
+
+Build this in two phases.
+
+Phase A: Provider cache benchmark. Use `@google/genai`, `openai`, and `@anthropic-ai/sdk`. This should be deterministic, inexpensive to debug, and able to reproduce or refute the specific provider-level claim Theo made. Pin package versions and model IDs, and preserve raw responses.
+
+Phase B: Real agent benchmark. Add adapters for Codex, Claude Code, and Gemini CLI, then ACP. Run identical fixture repositories and prompts. This answers the more interesting operational question: which agent stack actually makes the best use of prompt caching during real development workflows?
+
+I would prioritize Phase A rather than jump into ACP. Once it works, adding the CLI comparison becomes much more informative.
+
+And there's a useful broader takeaway: Theo's screenshot demonstrates a potentially significant inefficiency, but without his complete methodology it doesn't establish that Gemini costs 50% more for real agent workloads. That's exactly what a properly instrumented harness could determine.
+
+If you want to turn this into a coding project, I would start with a TypeScript CLI named `cachebench`, a JSONL result store, three direct-provider adapters, and the first three scenarios. ACP would come after the native CLI adapters are producing reliable cache telemetry.

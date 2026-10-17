@@ -1,0 +1,28 @@
+{
+  "scenario": "append",
+  "accounts": [
+    "gemini-paid",
+    "openai-paid",
+    "anthropic-paid"
+  ],
+  "models": [
+    "gemini-4-argon",
+    "gemini-3.8-flash",
+    "gpt-6.1-sol",
+    "claude-opus-5-5"
+  ],
+  "turns": 20,
+  "trials": 12,
+  "gapsSeconds": [
+    5,
+    30,
+    120
+  ],
+  "prefixChars": 52000,
+  "deltaChars": 2400,
+  "maxOutputTokens": 128,
+  "toleranceTokens": 64,
+  "timeoutMs": 120000,
+  "seed": "cachebench-retention-v1",
+  "maxEstimatedUsd": 50
+}

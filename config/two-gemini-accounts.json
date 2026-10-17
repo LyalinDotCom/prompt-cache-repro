@@ -1,0 +1,18 @@
+{
+  "scenario": "replay",
+  "accounts": [
+    "gemini-paid",
+    {
+      "id": "gemini-second",
+      "label": "Gemini second project",
+      "provider": "gemini",
+      "tier": "Tier 2 · user declared",
+      "keyEnv": "GEMINI_SECOND_API_KEY"
+    }
+  ],
+  "models": ["gemini-4-argon", "gemini-3.8-flash"],
+  "turns": 3,
+  "trials": 1,
+  "gapsSeconds": [0],
+  "maxEstimatedUsd": 5
+}

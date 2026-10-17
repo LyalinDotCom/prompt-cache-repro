@@ -1,0 +1,26 @@
+{
+  "scenario": "agent",
+  "accounts": [
+    "gemini-paid",
+    "openai-paid",
+    "anthropic-paid"
+  ],
+  "models": [
+    "gemini-4-argon",
+    "gemini-3.8-flash",
+    "gpt-6.1-sol",
+    "claude-opus-5-5"
+  ],
+  "turns": 4,
+  "trials": 1,
+  "gapsSeconds": [
+    5
+  ],
+  "prefixChars": 52000,
+  "deltaChars": 2000,
+  "maxOutputTokens": 512,
+  "toleranceTokens": 64,
+  "timeoutMs": 120000,
+  "seed": "cachebench-agent-smoke-v1",
+  "maxEstimatedUsd": 5
+}
