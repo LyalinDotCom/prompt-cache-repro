@@ -1,0 +1,277 @@
+{
+  "schemaVersion": 1,
+  "profile": {
+    "id": "anthropic-paid::claude-opus-5-5",
+    "accountId": "anthropic-paid",
+    "label": "Claude Opus 5.5 · Anthropic paid account",
+    "provider": "anthropic",
+    "model": "claude-opus-5-5",
+    "tier": "Paid · user declared",
+    "keyEnv": "ANTHROPIC_API_KEY",
+    "pricing": {
+      "input": 4,
+      "cachedRead": 0.2,
+      "cacheWrite": 5,
+      "output": 20,
+      "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "asOf": "2026-10-17",
+      "note": "Opus 5.5 Standard, global processing; 5-minute automatic cache writes."
+    },
+    "cacheMinTokens": 512
+  },
+  "cwd": "/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-14-48.100Z/04-anthropic-paid__claude-opus-5-5-5s-t1/workspace",
+  "startedAt": "2026-10-17T20:18:41.002Z",
+  "finishedAt": "2026-10-17T20:19:22.402Z",
+  "status": "completed",
+  "stopReason": null,
+  "settings": {
+    "piVersion": "1.3.0",
+    "cacheWarming": "off",
+    "compaction": {
+      "enabled": false
+    },
+    "retry": {
+      "enabled": false,
+      "provider": {
+        "maxRetries": 0,
+        "timeoutMs": 90000
+      }
+    },
+    "maxRequests": 12,
+    "maxTokens": 4096,
+    "gapSeconds": 5,
+    "timeoutMs": 480000,
+    "tools": [
+      "read",
+      "edit",
+      "write",
+      "bash"
+    ],
+    "bashCommand": "node --test",
+    "mutablePaths": [
+      "src/",
+      "bin/"
+    ],
+    "runtime": "node",
+    "auth": "explicit paid API key; operator-declared tier",
+    "allowedBashCommands": [
+      "node --test",
+      "node --test test/*.test.mjs",
+      "npm test",
+      "node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json"
+    ],
+    "model": {
+      "id": "claude-opus-5-5",
+      "name": "Claude Opus 5.5",
+      "api": "anthropic-messages",
+      "provider": "anthropic",
+      "baseUrl": "https://api.anthropic.com",
+      "reasoning": true,
+      "input": [
+        "text",
+        "image"
+      ],
+      "cost": {
+        "input": 4,
+        "output": 20,
+        "cacheRead": 0.2,
+        "cacheWrite": 5
+      },
+      "contextWindow": 1000000,
+      "maxTokens": 128000,
+      "thinkingLevelMap": {
+        "off": null,
+        "minimal": null,
+        "low": "low",
+        "medium": "medium",
+        "high": "high",
+        "xhigh": "xhigh",
+        "max": "max"
+      },
+      "compat": {
+        "supportsMidConvoEffort": true,
+        "supportsMidConvoSystemMessages": true,
+        "supportsMidConvoToolChanges": true,
+        "forceAdaptiveThinking": true,
+        "supportsTemperature": false,
+        "supportsStrictTools": true
+      },
+      "promptCache": {
+        "short": 300,
+        "long": 3600
+      },
+      "inputLimits": {
+        "maxRequestBytes": 33554432,
+        "images": {
+          "maxPerRequest": 600,
+          "resize": {
+            "maxWidth": 2000,
+            "maxHeight": 2000,
+            "maxBytes": 4718592,
+            "jpegQuality": 80
+          }
+        }
+      },
+      "type": "chat"
+    }
+  },
+  "requests": [
+    {
+      "index": 0,
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "startedAt": "2026-10-17T20:18:41.036Z",
+      "completedAt": "2026-10-17T20:18:46.537Z",
+      "durationMs": 5500.774042000005,
+      "actualIdleGapMs": null,
+      "httpStatus": 200,
+      "requestFile": "requests/000-request.json",
+      "responseFile": "requests/000-response.sse",
+      "requestHash": "4dcd0addbb07cb2e4e37613716c513ddb960a220cf45f448e48b8e5534cd0bd9",
+      "rawUsage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 30184,
+        "cache_read_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 30184,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 99,
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        }
+      },
+      "usage": {
+        "inputTokens": 30188,
+        "cachedReadTokens": 0,
+        "cacheWriteTokens": 30184,
+        "uncachedInputTokens": 4,
+        "outputTokens": 99,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 1,
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "startedAt": "2026-10-17T20:18:51.537Z",
+      "completedAt": "2026-10-17T20:18:59.526Z",
+      "durationMs": 7985.9655839999905,
+      "actualIdleGapMs": 5000.410417000006,
+      "httpStatus": 200,
+      "requestFile": "requests/001-request.json",
+      "responseFile": "requests/001-response.sse",
+      "requestHash": "24fa22c629c3e7171cdf3df59143c1221d2cf1b9607277f6912c3e6fe9cd339c",
+      "rawUsage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 5421,
+        "cache_read_input_tokens": 30184,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 5421,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 774,
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 141
+        }
+      },
+      "usage": {
+        "inputTokens": 35607,
+        "cachedReadTokens": 30184,
+        "cacheWriteTokens": 5421,
+        "uncachedInputTokens": 2,
+        "outputTokens": 774,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 2,
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "startedAt": "2026-10-17T20:19:04.528Z",
+      "completedAt": "2026-10-17T20:19:08.090Z",
+      "durationMs": 3559.760666999995,
+      "actualIdleGapMs": 5002.293291000009,
+      "httpStatus": 200,
+      "requestFile": "requests/002-request.json",
+      "responseFile": "requests/002-response.sse",
+      "requestHash": "c96c432d6337f24f420082b23ce0c1b2ff976c5571bad4f3cb23b128665478a4",
+      "rawUsage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 928,
+        "cache_read_input_tokens": 35605,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 928,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 257,
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 66
+        }
+      },
+      "usage": {
+        "inputTokens": 36535,
+        "cachedReadTokens": 35605,
+        "cacheWriteTokens": 928,
+        "uncachedInputTokens": 2,
+        "outputTokens": 257,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 3,
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "startedAt": "2026-10-17T20:19:13.091Z",
+      "completedAt": "2026-10-17T20:19:22.398Z",
+      "durationMs": 9304.537333000044,
+      "actualIdleGapMs": 5001.711041000031,
+      "httpStatus": 200,
+      "requestFile": "requests/003-request.json",
+      "responseFile": "requests/003-response.sse",
+      "requestHash": "fc8869d710c605fa7c36a88603764a3da6be8641764902048d13e6dd8971f329",
+      "rawUsage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 3414,
+        "cache_read_input_tokens": 36533,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 3414,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 746,
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        }
+      },
+      "usage": {
+        "inputTokens": 39949,
+        "cachedReadTokens": 36533,
+        "cacheWriteTokens": 3414,
+        "uncachedInputTokens": 2,
+        "outputTokens": 746,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    }
+  ],
+  "finalText": "I fixed all three importer problems with three small source changes. The full test suite now passes (44 of 44), and the sample feed imports all four invoices.\n\n**Changes**\n- **`src/csv.mjs`**: the last line of a file now counts as a record even without a final newline. That covers a quoted last value and a trailing empty field. A file that already ends with a newline still produces no extra empty record.\n- **`src/money.mjs`**: amounts are now converted to cents with exact whole-number arithmetic on the original digits instead of floating-point math. Halves round away from zero, so `1.005` becomes 101 cents and `-1.005` becomes -101. The existing format check and the check against numbers too large to store exactly are still in place.\n- **`src/dedupe.mjs`**: an invoice is now identified by vendor plus invoice number together. The two values are stored as a JSON pair, so different combinations can't run together into the same key (for example `a:b` + `c` versus `a` + `b:c`). Payments are matched to invoices through the same function, so they follow the same rule. Exact repeats within one vendor still collapse into one entry, and conflicting rows still keep the first one and are reported.\n\n**Commands run**\n1. `node --test test/*.test.mjs` before the fix: 38 passed, 6 failed. The failures were the end-of-file record, half-cent rounding, vendor-scoped identity (two tests), the mixed-feed pipeline test and the CLI exit status.\n2. The same command after the fix: 44 passed, 0 failed.\n3. `node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json`:\n   - **Import:** 4 source rows, 4 accepted, no conflicts or diagnostics.\n   - **Amounts:** 1.01, 10.08, -1.01 and 2.00, for a USD total of 1208 cents.\n   - **Payments:** all 3 applied and none unapplied. 458 cents is still outstanding.\n   - **By vendor:** vendor-a shows -50 cents outstanding, because its 50-cent payment exceeds its net balance of 0 after the credit note. vendor-b owes 508 cents and vendor-c owes nothing.",
+  "warnings": [
+    "Pi streaming API arm; compare separately from earlier synthetic nonstreaming runs.",
+    "Tool file operations are path-restricted; test and CLI children have empty environments. This is a trusted fixture workflow, not an operating-system sandbox."
+  ]
+}

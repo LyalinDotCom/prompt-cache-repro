@@ -1,0 +1,347 @@
+{
+  "schemaVersion": 1,
+  "profile": {
+    "id": "anthropic-paid::claude-opus-5-5",
+    "accountId": "anthropic-paid",
+    "label": "Claude Opus 5.5 · Anthropic paid account",
+    "provider": "anthropic",
+    "model": "claude-opus-5-5",
+    "tier": "Paid · user declared",
+    "keyEnv": "ANTHROPIC_API_KEY",
+    "pricing": {
+      "input": 4,
+      "cachedRead": 0.2,
+      "cacheWrite": 5,
+      "output": 20,
+      "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "asOf": "2026-10-17",
+      "note": "Opus 5.5 Standard, global processing; 5-minute automatic cache writes."
+    },
+    "cacheMinTokens": 512
+  },
+  "cwd": "/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-10-03.919Z/04-anthropic-paid__claude-opus-5-5-5s-t1/workspace",
+  "startedAt": "2026-10-17T20:11:14.075Z",
+  "finishedAt": "2026-10-17T20:12:14.033Z",
+  "status": "completed",
+  "stopReason": null,
+  "settings": {
+    "piVersion": "1.3.0",
+    "cacheWarming": "off",
+    "compaction": {
+      "enabled": false
+    },
+    "retry": {
+      "enabled": false,
+      "provider": {
+        "maxRetries": 0,
+        "timeoutMs": 90000
+      }
+    },
+    "maxRequests": 12,
+    "maxTokens": 4096,
+    "gapSeconds": 5,
+    "timeoutMs": 480000,
+    "tools": [
+      "read",
+      "edit",
+      "write",
+      "bash"
+    ],
+    "bashCommand": "node --test",
+    "mutablePaths": [
+      "src/",
+      "bin/"
+    ],
+    "runtime": "node",
+    "auth": "explicit paid API key; operator-declared tier",
+    "model": {
+      "id": "claude-opus-5-5",
+      "name": "Claude Opus 5.5",
+      "api": "anthropic-messages",
+      "provider": "anthropic",
+      "baseUrl": "https://api.anthropic.com",
+      "reasoning": true,
+      "input": [
+        "text",
+        "image"
+      ],
+      "cost": {
+        "input": 4,
+        "output": 20,
+        "cacheRead": 0.2,
+        "cacheWrite": 5
+      },
+      "contextWindow": 1000000,
+      "maxTokens": 128000,
+      "thinkingLevelMap": {
+        "off": null,
+        "minimal": null,
+        "low": "low",
+        "medium": "medium",
+        "high": "high",
+        "xhigh": "xhigh",
+        "max": "max"
+      },
+      "compat": {
+        "supportsMidConvoEffort": true,
+        "supportsMidConvoSystemMessages": true,
+        "supportsMidConvoToolChanges": true,
+        "forceAdaptiveThinking": true,
+        "supportsTemperature": false,
+        "supportsStrictTools": true
+      },
+      "promptCache": {
+        "short": 300,
+        "long": 3600
+      },
+      "inputLimits": {
+        "maxRequestBytes": 33554432,
+        "images": {
+          "maxPerRequest": 600,
+          "resize": {
+            "maxWidth": 2000,
+            "maxHeight": 2000,
+            "maxBytes": 4718592,
+            "jpegQuality": 80
+          }
+        }
+      },
+      "type": "chat"
+    }
+  },
+  "requests": [
+    {
+      "index": 0,
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "startedAt": "2026-10-17T20:11:14.113Z",
+      "completedAt": "2026-10-17T20:11:26.047Z",
+      "durationMs": 11933.809209,
+      "actualIdleGapMs": null,
+      "httpStatus": 200,
+      "requestFile": "requests/000-request.json",
+      "responseFile": "requests/000-response.sse",
+      "requestHash": "b97fa98b61f6efadb4907f66f79eb00554b9eb9c890e0feed58432e4464971bd",
+      "rawUsage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 30064,
+        "cache_read_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 30064,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 125,
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        }
+      },
+      "usage": {
+        "inputTokens": 30068,
+        "cachedReadTokens": 0,
+        "cacheWriteTokens": 30064,
+        "uncachedInputTokens": 4,
+        "outputTokens": 125,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 1,
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "startedAt": "2026-10-17T20:11:31.047Z",
+      "completedAt": "2026-10-17T20:11:33.007Z",
+      "durationMs": 1958.6634579999954,
+      "actualIdleGapMs": 4999.537333,
+      "httpStatus": 200,
+      "requestFile": "requests/001-request.json",
+      "responseFile": "requests/001-response.sse",
+      "requestHash": "29730fda4c42bc6b2e12726f2219cfded5116fa89cdc518b4d27a45d71cafdf7",
+      "rawUsage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 179,
+        "cache_read_input_tokens": 30064,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 179,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 80,
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        }
+      },
+      "usage": {
+        "inputTokens": 30245,
+        "cachedReadTokens": 30064,
+        "cacheWriteTokens": 179,
+        "uncachedInputTokens": 2,
+        "outputTokens": 80,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 2,
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "startedAt": "2026-10-17T20:11:38.008Z",
+      "completedAt": "2026-10-17T20:11:45.975Z",
+      "durationMs": 7964.94975,
+      "actualIdleGapMs": 5001.061999999991,
+      "httpStatus": 200,
+      "requestFile": "requests/002-request.json",
+      "responseFile": "requests/002-response.sse",
+      "requestHash": "97ed56b5bbd3f41f6a99e55e2aec273bdc582c16e9e9905d28d17b6b50d96c49",
+      "rawUsage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 5401,
+        "cache_read_input_tokens": 30243,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 5401,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 893,
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 123
+        }
+      },
+      "usage": {
+        "inputTokens": 35646,
+        "cachedReadTokens": 30243,
+        "cacheWriteTokens": 5401,
+        "uncachedInputTokens": 2,
+        "outputTokens": 893,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 3,
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "startedAt": "2026-10-17T20:11:50.977Z",
+      "completedAt": "2026-10-17T20:11:54.231Z",
+      "durationMs": 3251.3387499999953,
+      "actualIdleGapMs": 5001.830457999997,
+      "httpStatus": 200,
+      "requestFile": "requests/003-request.json",
+      "responseFile": "requests/003-response.sse",
+      "requestHash": "52c964823c200368cf3217d89cc14bc8a628f66f35ca94d03f1190538320ce59",
+      "rawUsage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1047,
+        "cache_read_input_tokens": 35644,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1047,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 240,
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        }
+      },
+      "usage": {
+        "inputTokens": 36693,
+        "cachedReadTokens": 35644,
+        "cacheWriteTokens": 1047,
+        "uncachedInputTokens": 2,
+        "outputTokens": 240,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 4,
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "startedAt": "2026-10-17T20:11:59.232Z",
+      "completedAt": "2026-10-17T20:12:01.246Z",
+      "durationMs": 2011.9541249999893,
+      "actualIdleGapMs": 5001.627833000006,
+      "httpStatus": 200,
+      "requestFile": "requests/004-request.json",
+      "responseFile": "requests/004-response.sse",
+      "requestHash": "25e5caf6ac953582d3631e70c08babd201ba900ecb8ac0cccca8e73f9ba970df",
+      "rawUsage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 376,
+        "cache_read_input_tokens": 36691,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 376,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 80,
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        }
+      },
+      "usage": {
+        "inputTokens": 37069,
+        "cachedReadTokens": 36691,
+        "cacheWriteTokens": 376,
+        "uncachedInputTokens": 2,
+        "outputTokens": 80,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 5,
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "startedAt": "2026-10-17T20:12:06.247Z",
+      "completedAt": "2026-10-17T20:12:14.029Z",
+      "durationMs": 7778.812250000003,
+      "actualIdleGapMs": 5000.933959000002,
+      "httpStatus": 200,
+      "requestFile": "requests/005-request.json",
+      "responseFile": "requests/005-response.sse",
+      "requestHash": "8e15ae316d8770571f8f1f5ca0edbfddc57a9c4bfde93611fcb2f53120251168",
+      "rawUsage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1529,
+        "cache_read_input_tokens": 37067,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1529,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 683,
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        }
+      },
+      "usage": {
+        "inputTokens": 38598,
+        "cachedReadTokens": 37067,
+        "cacheWriteTokens": 1529,
+        "uncachedInputTokens": 2,
+        "outputTokens": 683,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    }
+  ],
+  "finalText": "I fixed all three regressions, and the full test suite now passes: 44 of 44, up from 38 passing and 6 failing before the change. I couldn't run the `--payments … --as-of 2026-03-01 --format json` reconciliation command, so I haven't seen its output or exit code. This environment only allows `node --test` commands. The CLI subprocess test did run the importer on `data/invoices.csv` (without payments) and passed.\n\n**Changes:**\n- **`src/csv.mjs`** (last invoice dropped): reaching the end of the file now completes any record still in progress, including a quoted final field or a trailing empty field. A file that already ends with a newline doesn't get an extra empty record.\n- **`src/money.mjs`** (half-cent rounding): amounts are now converted to cents with exact whole-number arithmetic on the digits instead of floating point. Halves round away from zero, so `1.005` gives 101 cents and `-1.005` gives -101. The amount format check and the safe-integer limit still apply.\n- **`src/dedupe.mjs`** (supplier conflicts): an invoice is now identified by the supplier and invoice number together, so two suppliers can use the same number. The two parts are combined in a way that can't mix them up, so `a:b` + `c` stays distinct from `a` + `b:c`. Exact repeats within one supplier still collapse, and conflicting rows are still flagged with the first one kept. Payments are matched to invoices using the same key, so each payment only goes to its own supplier's invoice.\n\n**Commands and results:**\n- `node --test test/*.test.mjs` before the fix: 6 failures, covering the end-of-file row, rounding, supplier-scoped identity, the mixed feed (only 3 rows read, 2 accepted, 1 false conflict) and the CLI exit status (2 instead of 0).\n- The same command after the fix: all 44 pass. This includes the CLI test that imports `data/invoices.csv`: 4 invoices accepted, total 1208 cents, 3 suppliers, exit code 0.",
+  "warnings": [
+    "Pi streaming API arm; compare separately from earlier synthetic nonstreaming runs.",
+    "Tool file operations are path-restricted; the test child has an empty environment. This is a trusted fixture workflow, not an operating-system sandbox."
+  ]
+}

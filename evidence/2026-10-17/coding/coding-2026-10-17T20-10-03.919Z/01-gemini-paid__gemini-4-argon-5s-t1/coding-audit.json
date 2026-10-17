@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-17T20:22:59.794Z",
+  "trialRoot": "/Users/dmitrylyalin/Source/prompt-cache-repro/evidence/2026-10-17/coding/coding-2026-10-17T20-10-03.919Z/01-gemini-paid__gemini-4-argon-5s-t1",
+  "provider": "gemini",
+  "requestedModel": "gemini-4-argon",
+  "reportStatus": "stopped",
+  "stopReason": "Pi assistant error",
+  "derivation": "Independent raw SSE/JSON parsing. OpenAI terminal usage only; Gemini latest usageMetadata; Anthropic start/delta counters overwrite cumulative values, never sum. No application imports.",
+  "ratesAsOf": "2026-10-17",
+  "ratesPerMillion": {
+    "ordinary": 2,
+    "read": 0.1,
+    "write": 2,
+    "output": 10
+  },
+  "totals": {
+    "capturedTransportAttempts": 0,
+    "validRawUsageAttempts": 0,
+    "unknownUsageAttempts": 0,
+    "usageBasedInputUsd": 0,
+    "usageBasedOutputUsd": 0,
+    "followupDenominator": 0,
+    "priorInputBelow95Percent": 0,
+    "eligibleFrontierDenominator": 0,
+    "eligibleFrontierFullyReused": 0,
+    "followupActualInputUsd": 0,
+    "fullPriorInputCounterfactualUsd": null,
+    "followupActualVsFullPriorInputCounterfactual": null,
+    "eligibleFrontierCounterfactualUsd": null,
+    "followupActualVsEligibleFrontierCounterfactual": null,
+    "passChecks": 4,
+    "failChecks": 4,
+    "unknownChecks": 0
+  },
+  "limitations": [
+    "Each record is one captured fetch invocation; logical model-request retries may produce multiple records and must not be collapsed.",
+    "Missing raw usage stays unknown. Interrupted or unreported charges can exceed known usage costs.",
+    "Gemini has no exposed implicit-write frontier; prior-input coverage is descriptive, not documented eligibility.",
+    "A patch and passing tests establish this task result, not general coding quality.",
+    "A functional qualification is unknown until actual baseline/final command outputs and immutable test hashes are supplied."
+  ],
+  "functional": {
+    "baselineExitCode": 1,
+    "finalExitCode": 1,
+    "immutableFileCount": 10,
+    "changedSourceFiles": [],
+    "patchFile": "patch.diff",
+    "finalCli": null
+  },
+  "checks": [
+    {
+      "check": "actual-baseline-process-failed",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "actual-final-process-passed",
+      "id": "functional",
+      "verdict": "FAIL",
+      "detail": 1
+    },
+    {
+      "check": "baseline-test-output-shows-failures",
+      "id": "functional",
+      "verdict": "PASS"
+    },
+    {
+      "check": "final-test-output-shows-pass-and-zero-failures",
+      "id": "functional",
+      "verdict": "FAIL"
+    },
+    {
+      "check": "immutable-tests-and-inputs-unchanged",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": {
+        "immutableFiles": 10
+      }
+    },
+    {
+      "check": "actual-source-edit-present",
+      "id": "functional",
+      "verdict": "FAIL",
+      "detail": []
+    },
+    {
+      "check": "actual-source-diff-present",
+      "id": "functional",
+      "verdict": "FAIL"
+    },
+    {
+      "check": "current-fixture-files-match-recorded-final-hashes",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": []
+    }
+  ],
+  "rows": []
+}

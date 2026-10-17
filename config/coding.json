@@ -2,7 +2,7 @@
   "scenario": "agent",
   "accounts": ["gemini-paid", "openai-paid", "anthropic-paid"],
   "models": ["gemini-4-argon", "gpt-6.1-sol", "gemini-3.8-flash", "claude-opus-5-5"],
-  "turns": 12,
+  "turns": 24,
   "trials": 1,
   "gapsSeconds": [5],
   "maxOutputTokens": 4096,

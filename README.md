@@ -54,7 +54,7 @@ npm run coding
 npm run coding -- --model gemini-4-argon,gemini-3.8-flash
 ```
 
-The coding experiment runs on Node using the existing ignored `.env`; its configuration is [config/coding.json](config/coding.json). `turns` is a maximum API request count per coding task, and repository files determine context size. A real task may finish earlier. Evidence is written under `runs/coding-<timestamp>/`. Earlier generic fixture experiments below remain controls and are not a coding-agent reproduction.
+The coding experiment runs on Node using the existing ignored `.env`; its configuration is [config/coding.json](config/coding.json). `turns` is a maximum API request count per coding task, and repository files determine context size. A real task may finish earlier. The current quick-run cap is 24; the registered confirmation study retains its original 12-request cap. Evidence, independent per-task audits, Markdown reports, and model/trial CSVs are written under `runs/coding-<timestamp>/`. Incomplete or unqualified tasks return a nonzero exit while preserving their reports. Earlier generic fixture experiments below remain controls and are not a coding-agent reproduction.
 
 - **Exact replay:** identical requests, independent of generated responses.
 - **Text growth:** deterministic append-only conversation fixtures.
@@ -68,6 +68,8 @@ Full-hit classification compares cached reads to the previous request's input co
 The small default configurations establish behavior and telemetry. The optional `retention.json` sweep is much longer; inspect its request count, duration, and conservative cost estimate with `--dry-run` first. Spend guards cannot enforce provider-side billing limits.
 
 ## First measured data
+
+[Real coding-agent validation results](docs/VALIDATED_RESULTS.md) are the primary evidence for coding workloads. They include actual fixes, independent test results, and raw API usage.
 
 [Initial results and limitations](docs/INITIAL_RESULTS.md) include 50 real public API attempts, with complete raw evidence retained for all six runs.
 

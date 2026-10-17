@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "profile": {
+    "id": "gemini-paid::gemini-4-argon",
+    "accountId": "gemini-paid",
+    "label": "Gemini Argon 4 · Gemini paid account",
+    "provider": "gemini",
+    "model": "gemini-4-argon",
+    "tier": "Paid · user declared",
+    "keyEnv": "GEMINI_API_KEY",
+    "pricing": {
+      "input": 2,
+      "cachedRead": 0.1,
+      "cacheWrite": 2,
+      "output": 10,
+      "source": "https://ai.google.dev/gemini-api/docs/pricing",
+      "asOf": "2026-10-17",
+      "note": "Argon Standard introductory rates through 2026-11-30; recheck before later runs."
+    },
+    "cacheMinTokens": 4096
+  },
+  "cwd": "/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-12-00.180Z/01-gemini-paid__gemini-4-argon-5s-t1/workspace",
+  "startedAt": "2026-10-17T20:12:00.325Z",
+  "finishedAt": "2026-10-17T20:12:57.973Z",
+  "status": "completed",
+  "stopReason": null,
+  "settings": {
+    "piVersion": "1.3.0",
+    "cacheWarming": "off",
+    "compaction": {
+      "enabled": false
+    },
+    "retry": {
+      "enabled": false,
+      "provider": {
+        "maxRetries": 0,
+        "timeoutMs": 90000
+      }
+    },
+    "maxRequests": 12,
+    "maxTokens": 4096,
+    "gapSeconds": 5,
+    "timeoutMs": 480000,
+    "tools": [
+      "read",
+      "edit",
+      "write",
+      "bash"
+    ],
+    "bashCommand": "node --test",
+    "mutablePaths": [
+      "src/",
+      "bin/"
+    ],
+    "runtime": "node",
+    "auth": "explicit paid API key; operator-declared tier",
+    "allowedBashCommands": [
+      "node --test",
+      "node --test test/*.test.mjs",
+      "npm test",
+      "node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json"
+    ],
+    "model": {
+      "id": "gemini-4-argon",
+      "name": "Gemini 4 Argon",
+      "api": "google-generative-ai",
+      "provider": "google",
+      "baseUrl": "https://generativelanguage.googleapis.com/v1beta",
+      "reasoning": true,
+      "thinkingLevelMap": {
+        "off": null,
+        "minimal": null,
+        "low": "low",
+        "medium": "medium",
+        "high": "high",
+        "xhigh": null,
+        "max": null
+      },
+      "input": [
+        "text",
+        "image"
+      ],
+      "cost": {
+        "input": 2,
+        "output": 10,
+        "cacheRead": 0.1,
+        "cacheWrite": 0
+      },
+      "contextWindow": 1048576,
+      "maxTokens": 32768,
+      "inputLimits": {
+        "maxRequestBytes": 20971520,
+        "images": {
+          "maxPerRequest": 3600,
+          "resize": {
+            "maxWidth": 2000,
+            "maxHeight": 2000,
+            "maxBytes": 4718592,
+            "jpegQuality": 80
+          }
+        }
+      },
+      "type": "chat"
+    },
+    "transportCapture": "Temporary global fetch boundary, restored after this sequential Gemini trial; Pi rejects per-request Google fetch overrides."
+  },
+  "requests": [
+    {
+      "index": 0,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-4-argon:streamGenerateContent",
+      "startedAt": "2026-10-17T20:12:00.351Z",
+      "completedAt": "2026-10-17T20:12:04.346Z",
+      "durationMs": 3994.5227079999995,
+      "actualIdleGapMs": null,
+      "httpStatus": 200,
+      "requestFile": "requests/000-request.json",
+      "responseFile": "requests/000-response.sse",
+      "requestHash": "6810e8c5e6482ffdf320e410d6d2b0a53fe0dc0d67c6a83296db6cd909015999",
+      "rawUsage": {
+        "promptTokenCount": 20997,
+        "candidatesTokenCount": 32,
+        "totalTokenCount": 21029,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 20997
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 32
+          }
+        ],
+        "rawPromptTokenCount": 20997
+      },
+      "usage": {
+        "inputTokens": 20997,
+        "cachedReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 20997,
+        "outputTokens": 32,
+        "thinkingTokens": 0
+      },
+      "warnings": [
+        "Gemini omitted cachedContentTokenCount; decoded as zero under the proto3 non-presence int32 / ProtoJSON default-zero contract. Raw usage is preserved."
+      ],
+      "error": null
+    },
+    {
+      "index": 1,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-4-argon:streamGenerateContent",
+      "startedAt": "2026-10-17T20:12:09.347Z",
+      "completedAt": "2026-10-17T20:12:32.085Z",
+      "durationMs": 22735.403250000003,
+      "actualIdleGapMs": 5001.246834,
+      "httpStatus": 200,
+      "requestFile": "requests/001-request.json",
+      "responseFile": "requests/001-response.sse",
+      "requestHash": "ab6ebcd2318f3e9c187d5e6ae031a361d3db3718217c47c35aa7cd87faa87e42",
+      "rawUsage": {
+        "promptTokenCount": 25279,
+        "candidatesTokenCount": 538,
+        "totalTokenCount": 25817,
+        "cachedContentTokenCount": 20998,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 25279
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 20998
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 538
+          }
+        ],
+        "rawPromptTokenCount": 25279
+      },
+      "usage": {
+        "inputTokens": 25279,
+        "cachedReadTokens": 20998,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 4281,
+        "outputTokens": 538,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 2,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-4-argon:streamGenerateContent",
+      "startedAt": "2026-10-17T20:12:37.086Z",
+      "completedAt": "2026-10-17T20:12:40.970Z",
+      "durationMs": 3882.071416999999,
+      "actualIdleGapMs": 5000.736916000002,
+      "httpStatus": 200,
+      "requestFile": "requests/002-request.json",
+      "responseFile": "requests/002-response.sse",
+      "requestHash": "d5afd69375fb3a898bfbc3845c6df729a5a7b5cb5ca9a629db1cc698fdccd3cf",
+      "rawUsage": {
+        "promptTokenCount": 25908,
+        "candidatesTokenCount": 89,
+        "totalTokenCount": 25997,
+        "cachedContentTokenCount": 23230,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 25908
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 23230
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 89
+          }
+        ],
+        "rawPromptTokenCount": 25908
+      },
+      "usage": {
+        "inputTokens": 25908,
+        "cachedReadTokens": 23230,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 2678,
+        "outputTokens": 89,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 3,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-4-argon:streamGenerateContent",
+      "startedAt": "2026-10-17T20:12:45.971Z",
+      "completedAt": "2026-10-17T20:12:57.971Z",
+      "durationMs": 11997.637999999999,
+      "actualIdleGapMs": 5000.467875000002,
+      "httpStatus": 200,
+      "requestFile": "requests/003-request.json",
+      "responseFile": "requests/003-response.sse",
+      "requestHash": "ec443a6f5ba3a30fe03e72101ad8175c45249f6ed9773bb9f3b418041dd40d8c",
+      "rawUsage": {
+        "promptTokenCount": 28565,
+        "candidatesTokenCount": 583,
+        "totalTokenCount": 29148,
+        "cachedContentTokenCount": 25909,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 28565
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 25909
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 583
+          }
+        ],
+        "rawPromptTokenCount": 28565
+      },
+      "usage": {
+        "inputTokens": 28565,
+        "cachedReadTokens": 25909,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 2656,
+        "outputTokens": 583,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    }
+  ],
+  "finalText": "### Changes Implemented\n\n1. **CSV EOF Record Termination (`src/csv.mjs`)**:\n   - In `parseCsv`, committed any in-progress record at end-of-file (`if (recordStarted) endRecord();`). Because `recordStarted` is set when encountering quotes, delimiters, or plain characters and cleared on `endRecord()`, this captures final records lacking a trailing newline (including quoted fields and trailing empty fields) without creating phantom records after a trailing newline.\n\n2. **Exact Half-Away-From-Zero Cent Rounding (`src/money.mjs`)**:\n   - In `parseMoney`, replaced binary floating-point multiplication (`Math.round(Number(text) * 100)`) with exact decimal `BigInt` parsing scaled to $10^{-4}$ major units (`(scaled + 50n) / 100n`), applying the sign symmetrically so both positive and negative half-cent amounts round away from zero while preserving format and safe-integer validation.\n\n3. **Vendor-Scoped Collision-Safe Invoice Identity (`src/dedupe.mjs`)**:\n   - Updated `invoiceKey` from `invoice.invoiceId` to `JSON.stringify([invoice.vendorId, invoice.invoiceId])` (matching `paymentKey`), ensuring invoice deduplication, conflict detection, and payment indexing/routing are scoped to each supplier without delimiter collisions.\n\n### Commands Run & Results\n\n1. `node --test test/*.test.mjs` (before changes):\n   - **Result**: 38 passed, 6 failed (failures in `cli.test.mjs`, `csv.test.mjs`, `domain.test.mjs`, `money.test.mjs`, and `pipeline.test.mjs`).\n2. `node --test test/*.test.mjs` (after changes):\n   - **Result**: All 44 tests passed, 0 failed.\n3. `node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json`:\n   - **Result**: Exited with status `0`. Imported all 4 source rows across 3 vendors (`vendor-a`, `vendor-b`, `vendor-c`) with 0 conflicts or diagnostics, rounded amounts to `1.01`, `10.08`, `-1.01`, and `2.00` (`totalCents: 1208`, `creditCents: -101`), and applied all 3 payments (`paidCents: 750`, `outstandingCents: 458`, `aging: 559` in `1-30`).",
+  "warnings": [
+    "Pi streaming API arm; compare separately from earlier synthetic nonstreaming runs.",
+    "Tool file operations are path-restricted; test and CLI children have empty environments. This is a trusted fixture workflow, not an operating-system sandbox."
+  ]
+}

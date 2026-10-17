@@ -1,0 +1,586 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-17T20:27:48.724Z",
+  "trialRoot": "/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-14-48.100Z/09-anthropic-paid__claude-opus-5-5-5s-t3",
+  "provider": "anthropic",
+  "requestedModel": "claude-opus-5-5",
+  "reportStatus": "completed",
+  "stopReason": null,
+  "derivation": "Independent raw SSE/JSON parsing. OpenAI terminal usage only; Gemini latest usageMetadata; Anthropic start/delta counters overwrite cumulative values, never sum. No application imports.",
+  "ratesAsOf": "2026-10-17",
+  "ratesPerMillion": {
+    "ordinary": 4,
+    "read": 0.2,
+    "write": 5,
+    "output": 20
+  },
+  "totals": {
+    "capturedTransportAttempts": 4,
+    "validRawUsageAttempts": 4,
+    "unknownUsageAttempts": 0,
+    "usageBasedInputUsd": 0.2130682,
+    "usageBasedOutputUsd": 0.03462,
+    "followupDenominator": 3,
+    "priorInputBelow95Percent": 0,
+    "eligibleFrontierDenominator": 3,
+    "eligibleFrontierFullyReused": 3,
+    "followupActualInputUsd": 0.0688562,
+    "fullPriorInputCounterfactualUsd": 0.06882379999999999,
+    "followupActualVsFullPriorInputCounterfactual": 1.0004707673798892,
+    "eligibleFrontierCounterfactualUsd": 0.0688562,
+    "followupActualVsEligibleFrontierCounterfactual": 1,
+    "passChecks": 44,
+    "failChecks": 0,
+    "unknownChecks": 0
+  },
+  "limitations": [
+    "Each record is one captured fetch invocation; logical model-request retries may produce multiple records and must not be collapsed.",
+    "Missing raw usage stays unknown. Interrupted or unreported charges can exceed known usage costs.",
+    "Gemini has no exposed implicit-write frontier; prior-input coverage is descriptive, not documented eligibility.",
+    "A patch and passing tests establish this task result, not general coding quality.",
+    "A functional qualification is unknown until actual baseline/final command outputs and immutable test hashes are supplied."
+  ],
+  "functional": {
+    "baselineExitCode": 1,
+    "finalExitCode": 0,
+    "immutableFileCount": 10,
+    "changedSourceFiles": [
+      "src/csv.mjs",
+      "src/dedupe.mjs",
+      "src/money.mjs"
+    ],
+    "patchFile": "patch.diff",
+    "finalCli": {
+      "exitCode": 0,
+      "verifiedAfterTrial": false,
+      "counts": {
+        "sourceRows": 4,
+        "accepted": 4,
+        "selected": 4,
+        "rejected": 0,
+        "duplicates": 0,
+        "conflicts": 0
+      },
+      "stdoutFile": "final-cli.stdout.json"
+    }
+  },
+  "checks": [
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-0",
+      "verdict": "PASS",
+      "detail": "claude-opus-5-5"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-0",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 2,
+        "terminal": "tool_use"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-1",
+      "verdict": "PASS",
+      "detail": "claude-opus-5-5"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-1",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 2,
+        "terminal": "tool_use"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-1",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-2",
+      "verdict": "PASS",
+      "detail": "claude-opus-5-5"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-2",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 2,
+        "terminal": "tool_use"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "returned-native-signatures-preserved",
+      "id": "request-2",
+      "verdict": "PASS",
+      "detail": {
+        "signatures": 1
+      }
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-2",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 3
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-3",
+      "verdict": "PASS",
+      "detail": "claude-opus-5-5"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-3",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 2,
+        "terminal": "end_turn"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-3",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 2
+      }
+    },
+    {
+      "check": "actual-baseline-process-failed",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "actual-final-process-passed",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": 0
+    },
+    {
+      "check": "baseline-test-output-shows-failures",
+      "id": "functional",
+      "verdict": "PASS"
+    },
+    {
+      "check": "final-test-output-shows-pass-and-zero-failures",
+      "id": "functional",
+      "verdict": "PASS"
+    },
+    {
+      "check": "immutable-tests-and-inputs-unchanged",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": {
+        "immutableFiles": 10
+      }
+    },
+    {
+      "check": "actual-source-edit-present",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": [
+        "src/csv.mjs",
+        "src/dedupe.mjs",
+        "src/money.mjs"
+      ]
+    },
+    {
+      "check": "actual-source-diff-present",
+      "id": "functional",
+      "verdict": "PASS"
+    },
+    {
+      "check": "current-fixture-files-match-recorded-final-hashes",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": []
+    },
+    {
+      "check": "actual-final-cli-demo-passed",
+      "id": "functional",
+      "verdict": "PASS"
+    }
+  ],
+  "rows": [
+    {
+      "id": "request-0",
+      "index": 0,
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "actualRequestModel": "claude-opus-5-5",
+      "reportedResponseModels": [
+        "claude-opus-5-5"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:23:37.694Z",
+      "durationMs": 3932.5406250000233,
+      "actualIdleGapMs": null,
+      "requestFile": "requests/000-request.json",
+      "responseFile": "requests/000-response.sse",
+      "requestHash": "e9384f1c2b511cb91c7e889346f2fd7e4d71fa96d3689e782392bcfc1e689f83",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 28783,
+        "cache_read_input_tokens": 1405,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 28783,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 99,
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        }
+      },
+      "usageSnapshots": 2,
+      "terminal": "tool_use",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 30192,
+        "read": 1405,
+        "write": 28783,
+        "ordinary": 4,
+        "output": 99,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.144212,
+        "outputUsd": 0.00198
+      },
+      "reuse": null,
+      "capturedError": null,
+      "nativeSignatureValues": 0,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": null
+    },
+    {
+      "id": "request-1",
+      "index": 1,
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "actualRequestModel": "claude-opus-5-5",
+      "reportedResponseModels": [
+        "claude-opus-5-5"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:23:46.629Z",
+      "durationMs": 6962.084416999947,
+      "actualIdleGapMs": 5001.972375000012,
+      "requestFile": "requests/001-request.json",
+      "responseFile": "requests/001-response.sse",
+      "requestHash": "b96662f5fab931ce2f9653da48e203a3c64691c682cc3c668bc38521aeef09e6",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 5422,
+        "cache_read_input_tokens": 30188,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 5422,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 724,
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 104
+        }
+      },
+      "usageSnapshots": 2,
+      "terminal": "tool_use",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 35612,
+        "read": 30188,
+        "write": 5422,
+        "ordinary": 2,
+        "output": 724,
+        "thinking": 104,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.0331556,
+        "outputUsd": 0.01448
+      },
+      "reuse": {
+        "priorInputTokens": 30192,
+        "readOverPriorInput": 0.999867514573397,
+        "priorInputBelow95Percent": false,
+        "strict64WholePriorInputFullHit": true,
+        "priorPublicCacheFrontierTokens": 30188,
+        "eligibleFrontierFullyReused": true,
+        "eligibleFrontierShortfallTokens": 0,
+        "fullPriorInputCounterfactualUsd": 0.0331384,
+        "actualVsFullPriorInputCounterfactual": 1.000519035318543,
+        "eligibleFrontierCounterfactualUsd": 0.0331556,
+        "actualVsEligibleFrontierCounterfactual": 1
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 1,
+      "nativeToolCallIds": 3,
+      "exactWireHistoryPrefixPreserved": false
+    },
+    {
+      "id": "request-2",
+      "index": 2,
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "actualRequestModel": "claude-opus-5-5",
+      "reportedResponseModels": [
+        "claude-opus-5-5"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:23:58.594Z",
+      "durationMs": 2881.5403749999823,
+      "actualIdleGapMs": 5001.195082999999,
+      "requestFile": "requests/002-request.json",
+      "responseFile": "requests/002-response.sse",
+      "requestHash": "730e9a5e52b7f07c58a0c7a0dc28a9505ca0b7c5b54ed43e5d9371c589b91a60",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 878,
+        "cache_read_input_tokens": 35610,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 878,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 218,
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        }
+      },
+      "usageSnapshots": 2,
+      "terminal": "tool_use",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 36490,
+        "read": 35610,
+        "write": 878,
+        "ordinary": 2,
+        "output": 218,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.01152,
+        "outputUsd": 0.00436
+      },
+      "reuse": {
+        "priorInputTokens": 35612,
+        "readOverPriorInput": 0.9999438391553409,
+        "priorInputBelow95Percent": false,
+        "strict64WholePriorInputFullHit": true,
+        "priorPublicCacheFrontierTokens": 35610,
+        "eligibleFrontierFullyReused": true,
+        "eligibleFrontierShortfallTokens": 0,
+        "fullPriorInputCounterfactualUsd": 0.0115124,
+        "actualVsFullPriorInputCounterfactual": 1.0006601577429555,
+        "eligibleFrontierCounterfactualUsd": 0.01152,
+        "actualVsEligibleFrontierCounterfactual": 1
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 0,
+      "nativeToolCallIds": 2,
+      "exactWireHistoryPrefixPreserved": false
+    },
+    {
+      "id": "request-3",
+      "index": 3,
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "actualRequestModel": "claude-opus-5-5",
+      "reportedResponseModels": [
+        "claude-opus-5-5"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:24:06.478Z",
+      "durationMs": 7811.317541000084,
+      "actualIdleGapMs": 4999.035708000069,
+      "requestFile": "requests/003-request.json",
+      "responseFile": "requests/003-response.sse",
+      "requestHash": "0295695d6aea141e59e6db9d300176bea879a27d1d3858a2fb8e352b7a2ee622",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 3375,
+        "cache_read_input_tokens": 36488,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 3375,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 690,
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        }
+      },
+      "usageSnapshots": 2,
+      "terminal": "end_turn",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 39865,
+        "read": 36488,
+        "write": 3375,
+        "ordinary": 2,
+        "output": 690,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.0241806,
+        "outputUsd": 0.0138
+      },
+      "reuse": {
+        "priorInputTokens": 36490,
+        "readOverPriorInput": 0.9999451904631406,
+        "priorInputBelow95Percent": false,
+        "strict64WholePriorInputFullHit": true,
+        "priorPublicCacheFrontierTokens": 36488,
+        "eligibleFrontierFullyReused": true,
+        "eligibleFrontierShortfallTokens": 0,
+        "fullPriorInputCounterfactualUsd": 0.024173,
+        "actualVsFullPriorInputCounterfactual": 1.0003144003640425,
+        "eligibleFrontierCounterfactualUsd": 0.0241806,
+        "actualVsEligibleFrontierCounterfactual": 1
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 0,
+      "nativeToolCallIds": 0,
+      "exactWireHistoryPrefixPreserved": false
+    }
+  ]
+}

@@ -2,6 +2,16 @@
 
 Verified against official documentation on 2026-10-17. The adapters use the installed official `openai`, `@google/genai`, and `@anthropic-ai/sdk` packages against their public API endpoints. Offline tests exercise the real SDK serializers through a mocked HTTP transport; no credentials or live API calls are required for tests.
 
+The direct adapters described below serve the browser and generic CLI controls. The primary real-coding arm uses Pi's own adapters; their effective wire configuration is documented separately here and in the coding protocols.
+
+## Real coding-agent arm
+
+Pi coding-agent and pi-ai are pinned to 1.3.0. Pi's provider SDKs are Google GenAI 2.21.0, OpenAI 7.19.0, and Anthropic 0.129.0, independently pinned by the lockfile. Each real inference stores exact request JSON and raw JSON/SSE, including streaming endpoint paths without query strings or credential headers. A standalone audit reconstructs cumulative usage without summing stream snapshots.
+
+Pi receives requested low reasoning. Its native wrappers represent that differently: Gemini sends `thinkingLevel: LOW`; GPT uses a low-effort `configuration_update` input item while retaining a fixed top-level medium wrapper; Opus uses a low-effort system-message update while retaining a fixed high top-level wrapper and adaptive signed thinking. Raw wire files preserve the in-context configuration items. Anthropic uses explicit moving ephemeral breakpoints; Gemini/OpenAI use implicit caching. Preserve these adapter differences when interpreting the study.
+
+Retries, provider retries, compaction, proactive cache warming, and catalog network refresh are disabled. Capture counts all dispatched HTTP attempts and blocks additional dispatches within an inference. Pi rejects per-request Google fetch overrides, so sequential Gemini trials temporarily capture the global fetch boundary and restore it in `finally`. Other providers use the supplied fetch hook. This instrumentation changes no native CLI authentication or global configuration.
+
 ## Requests and caching
 
 - OpenAI uses Responses with `store: false`, `reasoning.effort: low`, `reasoning.context: all_turns`, encrypted reasoning included, and implicit caching with the current 30-minute TTL. Current GPT-6.1 Sol cache writes use their own rate, 1.25 times ordinary input. `input_tokens` includes both reads and writes: ordinary input is **input − reads − writes**. The exact write field is `usage.input_tokens_details.cache_write_tokens`. Missing read/write counters remain unknown. [Official OpenAI prompt-caching guide](https://developers.openai.com/api/docs/guides/prompt-caching#monitor-cache-performance).

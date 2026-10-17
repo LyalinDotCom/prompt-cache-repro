@@ -1,0 +1,21 @@
+{
+  "trialRoot": "/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-14-48.100Z/03-gemini-paid__gemini-3.8-flash-5s-t1",
+  "capturedTransportAttempts": 12,
+  "validRawUsageAttempts": 12,
+  "unknownUsageAttempts": 0,
+  "usageBasedInputUsd": 0.062067000000000004,
+  "usageBasedOutputUsd": 0.00550875,
+  "followupDenominator": 11,
+  "priorInputBelow95Percent": 10,
+  "eligibleFrontierDenominator": 0,
+  "eligibleFrontierFullyReused": 0,
+  "followupActualInputUsd": 0.04610475,
+  "fullPriorInputCounterfactualUsd": 0.03227265,
+  "followupActualVsFullPriorInputCounterfactual": 1.4286013079186246,
+  "eligibleFrontierCounterfactualUsd": null,
+  "followupActualVsEligibleFrontierCounterfactual": null,
+  "passChecks": 126,
+  "failChecks": 0,
+  "unknownChecks": 0,
+  "failures": []
+}

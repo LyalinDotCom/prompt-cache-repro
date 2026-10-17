@@ -1,0 +1,1163 @@
+Coding experiment identity: 5194615a0d980570a825b3d5299a410f42fdac45779941d9392677473d6b0b66
+# Fix incorrect invoice import and reconciliation
+
+Finance has found linked regressions in the importer: the last invoice can disappear from a feed, half-cent amounts can round incorrectly (including credit notes), and two unrelated suppliers sharing an invoice number can be treated as a conflict. These issues also affect reconciliation totals and the CLI exit status.
+
+Implement the smallest credible source fixes that restore the documented data contract. Keep the architecture and CLI interface intact. You may edit `src/` and `bin/` source files only. Do not change tests, fixture data, README.md, TASK.md, or package.json; those are immutable acceptance material.
+
+Before editing, read README.md and inspect all source modules under `src/` and `bin/` so you understand the complete import/reconciliation path. Read relevant regression tests. Run `node --test test/*.test.mjs` to reproduce the actual baseline failures. Implement the source fix and run the same complete test command again. Also run `node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json` and inspect its real output.
+
+Acceptance rules:
+
+1. End-of-file is a valid CSV record terminator, including a quoted final field or trailing empty field. Existing newline-terminated behavior must not add phantom records.
+2. Decimal amounts with up to four fractional digits round half away from zero to cents. Do not use a floating-point adjustment or hard-coded example lookup; preserve safe-integer and format validation.
+3. Invoice identity must be scoped by vendor and collision-safe for arbitrary printable identifiers. Exact repeats within one vendor still collapse; conflicts within one vendor retain the first occurrence and remain diagnosed. Payment routing must use the same rule.
+4. The complete immutable test suite passes and the mixed feed imports all four invoices. Preserve currency totals, source-record evidence, status handling, and explicit payment allocation.
+
+Finish with a brief explanation of changes, commands run, and their actual results. Do not commit, access the network, install dependencies, or inspect anything outside this repository.
+
+
+The following snapshot is the real initial repository. Work on files in your current directory. Run the actual tests before and after your fix; preserve tests and fixture data.
+
+<file path="README.md">
+# Coding Ledger
+
+Coding Ledger imports supplier invoice CSV files into an integer-cent ledger, detects duplicate or conflicting imports, and optionally reconciles payment files. It is a small, dependency-free accounting utility. Every public result includes the source record number so discrepancies can be traced back to a vendor feed.
+
+Requires Node 22 or newer. There are no packages to install and no network calls.
+
+```sh
+node --test test/*.test.mjs
+node bin/ledger.mjs import data/invoices.csv --format json
+node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01
+node bin/ledger.mjs schema invoice
+```
+
+## Data contract
+
+Invoice columns are `vendor_id,invoice_id,issued_on,due_on,currency,amount,status,description`. The required subset is vendor, invoice, issue date, currency, and amount. Optional due dates default to 30 days after issue; status defaults to `open`; description defaults to empty. Header aliases are declared centrally in `src/schema.mjs`. Unsupported columns are rejected rather than silently ignored.
+
+Amounts are signed decimal major units with up to four fractional digits. Convert them to cents by rounding half away from zero; credits follow the same symmetric rule as invoices. Once parsed, all monetary operations use safe integer cents. Currencies are never mixed or implicitly converted. Date-only values use the ISO calendar and UTC arithmetic.
+
+An invoice number is unique only within its supplier. Vendor identifiers are case-sensitive and trimmed. Invoice identifiers are trimmed and normalized to uppercase. Exact repeated financial rows collapse into one entry; a conflicting row for an existing supplier/invoice identity is diagnosed and the first occurrence retained. Descriptions are not part of financial duplicate identity, so an explanatory wording change does not change totals.
+
+CSV records may end at a newline or at end-of-file. Quoted fields support embedded commas, doubled quotes, and embedded newlines. A final line ending is optional. Empty source records are ignored by the import pipeline. Ragged records become diagnostics instead of being silently truncated.
+
+## Architecture
+
+- `csv.mjs` is a record scanner and writer, independent of accounting semantics.
+- `schema.mjs` normalizes headers and validates file shape.
+- `validation.mjs` normalizes fields, dates, statuses, currencies, and amounts, collecting all row errors.
+- `money.mjs` implements cent parsing, safe arithmetic, formatting, basis points, and deterministic allocation.
+- `dates.mjs` provides calendar arithmetic and aging buckets.
+- `dedupe.mjs` defines invoice/payment identities and conflict handling.
+- `pipeline.mjs` parses and validates whole files before deduplication and report selection.
+- `payments.mjs` allocates explicit supplier/invoice payments without currency conversion.
+- `ledger.mjs` groups totals, vendors, months, and aging without mutating imported rows.
+- `reports.mjs` serializes normalized public records and diagnostics.
+- `bin/ledger.mjs` handles argument parsing, file reads, output streams, and exit codes.
+
+Report selection happens after validation and deduplication so filtering cannot conceal malformed or conflicting imports. Payment allocations preserve overpayments as negative outstanding amounts and report unknown invoices, currency mismatches, and post-cutoff payments separately. Paid/void status invoices and credit notes do not absorb new payments.
+
+## Exit and output behavior
+
+The CLI exits 0 after a clean import, 1 for invalid arguments or unreadable/invalid files, and 2 when row conflicts, invalid rows, or unapplied payments remain. Reports are emitted to stdout; curated operational errors go to stderr. JSON output has `schema_version: 1`. The CSV report exports canonical invoice columns plus the source record number; it is an audit export, not a supported re-import format.
+
+Tests exercise the scanner, monetary boundary cases, validation, duplicate identities, payment routing, report totals, and actual CLI subprocess behavior. The supplied vendor feed demonstrates the regressions described in `TASK.md`.
+
+</file>
+
+<file path="TASK.md">
+# Fix incorrect invoice import and reconciliation
+
+Finance has found linked regressions in the importer: the last invoice can disappear from a feed, half-cent amounts can round incorrectly (including credit notes), and two unrelated suppliers sharing an invoice number can be treated as a conflict. These issues also affect reconciliation totals and the CLI exit status.
+
+Implement the smallest credible source fixes that restore the documented data contract. Keep the architecture and CLI interface intact. You may edit `src/` and `bin/` source files only. Do not change tests, fixture data, README.md, TASK.md, or package.json; those are immutable acceptance material.
+
+Before editing, read README.md and inspect all source modules under `src/` and `bin/` so you understand the complete import/reconciliation path. Read relevant regression tests. Run `node --test test/*.test.mjs` to reproduce the actual baseline failures. Implement the source fix and run the same complete test command again. Also run `node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json` and inspect its real output.
+
+Acceptance rules:
+
+1. End-of-file is a valid CSV record terminator, including a quoted final field or trailing empty field. Existing newline-terminated behavior must not add phantom records.
+2. Decimal amounts with up to four fractional digits round half away from zero to cents. Do not use a floating-point adjustment or hard-coded example lookup; preserve safe-integer and format validation.
+3. Invoice identity must be scoped by vendor and collision-safe for arbitrary printable identifiers. Exact repeats within one vendor still collapse; conflicts within one vendor retain the first occurrence and remain diagnosed. Payment routing must use the same rule.
+4. The complete immutable test suite passes and the mixed feed imports all four invoices. Preserve currency totals, source-record evidence, status handling, and explicit payment allocation.
+
+Finish with a brief explanation of changes, commands run, and their actual results. Do not commit, access the network, install dependencies, or inspect anything outside this repository.
+
+</file>
+
+<file path="bin/ledger.mjs">
+#!/usr/bin/env node
+import { readFile } from 'node:fs/promises';
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
+import { importAndReconcile, importInvoices } from '../src/pipeline.mjs';
+import { hasErrors, renderReport } from '../src/reports.mjs';
+import { publicSchema } from '../src/schema.mjs';
+
+export const HELP = `Ledger: import vendor invoices and reconcile payments.
+
+Usage:
+  node bin/ledger.mjs import invoices.csv [--payments payments.csv] [options]
+  node bin/ledger.mjs schema [invoice|payment]
+
+Options:
+  --format json|csv|text   Output format (default text)
+  --vendor ID             Select one vendor after validation and deduplication
+  --currency CODE         Select one currency; currencies are never converted
+  --from YYYY-MM-DD       Inclusive issue-date lower bound
+  --to YYYY-MM-DD         Inclusive issue-date upper bound
+  --as-of YYYY-MM-DD      Filter future payments and calculate aging
+  --delimiter CHAR        CSV delimiter (default comma)
+  --help                  Print help
+
+Exit codes: 0 successful import; 1 invalid arguments/file; 2 row diagnostics.
+`;
+
+export function parseArgs(args) {
+  if (args.includes('--help') || !args.length) return { command: 'help' };
+  const [command, file, ...rest] = args;
+  if (command === 'schema') {
+    if (rest.length || (file && !['invoice','payment'].includes(file))) throw new Error('schema expects invoice or payment');
+    return { command, type: file ?? 'invoice' };
+  }
+  if (command !== 'import' || !file || file.startsWith('--')) throw new Error('Expected import followed by an invoice CSV path');
+  const options = { format: 'text' };
+  const names = { '--format':'format','--payments':'payments','--vendor':'vendorId','--currency':'currency','--from':'from','--to':'to','--as-of':'asOf','--delimiter':'delimiter' };
+  const seen = new Set();
+  for (let i = 0; i < rest.length; i += 2) {
+    const flag = rest[i], value = rest[i + 1];
+    if (!names[flag] || value === undefined || value.startsWith('--')) throw new Error(`Unknown flag or missing value: ${flag}`);
+    if (seen.has(flag)) throw new Error(`Repeated option: ${flag}`);
+    seen.add(flag);
+    options[names[flag]] = value;
+  }
+  if (!['text','json','csv'].includes(options.format)) throw new Error('format must be text, json, or csv');
+  if (options.delimiter && options.delimiter.length !== 1) throw new Error('delimiter must be one character');
+  return { command, file, options };
+}
+
+export async function main(args, { stdout = process.stdout, stderr = process.stderr } = {}) {
+  try {
+    const parsed = parseArgs(args);
+    if (parsed.command === 'help') { stdout.write(HELP); return 0; }
+    if (parsed.command === 'schema') { stdout.write(JSON.stringify(publicSchema(parsed.type), null, 2) + '\n'); return 0; }
+    const { file, options } = parsed;
+    const invoiceText = await readFile(file, 'utf8');
+    const opts = { ...options, source: file };
+    const imported = options.payments ? importAndReconcile(invoiceText, await readFile(options.payments, 'utf8'), opts) : importInvoices(invoiceText, opts);
+    stdout.write(renderReport(imported, options.format));
+    return hasErrors(imported) ? 2 : 0;
+  } catch (error) { stderr.write(`ledger: ${error.message}\n`); return 1; }
+}
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  process.exitCode = await main(process.argv.slice(2));
+}
+
+</file>
+
+<file path="data/invoices.csv">
+vendor_id,invoice_id,issued_on,due_on,currency,amount,status,description
+vendor-a,INV-100,2026-01-01,2026-01-31,USD,1.005,open,Small office purchase
+vendor-b,INV-100,2026-01-01,2026-01-31,USD,10.075,open,Shipping adjustment
+vendor-a,CREDIT-1,2026-01-01,2026-01-31,USD,-1.005,open,Returned office item
+vendor-c,LAST,2026-01-01,2026-01-31,USD,2.00,open,Final vendor invoice
+</file>
+
+<file path="data/payments.csv">
+payment_id,vendor_id,invoice_id,paid_on,currency,amount
+p-a,vendor-a,INV-100,2026-01-15,USD,0.50
+p-b,vendor-b,INV-100,2026-01-16,USD,5.00
+p-c,vendor-c,LAST,2026-01-17,USD,2.00
+
+</file>
+
+<file path="package.json">
+{
+  "name": "coding-ledger-fixture",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A dependency-free invoice import and reconciliation utility",
+  "scripts": { "test": "node --test test/*.test.mjs", "demo": "node bin/ledger.mjs import data/invoices.csv --format json" },
+  "engines": { "node": ">=22" }
+}
+
+</file>
+
+<file path="src/csv.mjs">
+/**
+ * A small RFC-4180-style reader. A record is an array of strings; callers choose
+ * how to interpret headers and values. The scanner is intentionally separate
+ * from accounting so imported evidence can be retained without normalization.
+ *
+ * Rules: commas separate fields outside quotes, doubled quotes represent one
+ * quote inside a quoted field, and CRLF/LF/CR terminate unquoted records. Quoted
+ * newlines are preserved. A UTF-8 BOM is accepted at the start of a document.
+ */
+export class CsvError extends Error {
+  constructor(message, line, column) {
+    super(`${message} at line ${line}, column ${column}`);
+    this.name = 'CsvError';
+    this.line = line;
+    this.column = column;
+  }
+}
+
+export function parseCsv(input, { delimiter = ',', maxRecords = 100_000 } = {}) {
+  if (typeof input !== 'string') throw new TypeError('CSV input must be text');
+  if (typeof delimiter !== 'string' || delimiter.length !== 1 || /["\r\n]/.test(delimiter)) {
+    throw new TypeError('Delimiter must be one non-quote, non-newline character');
+  }
+  if (!Number.isSafeInteger(maxRecords) || maxRecords < 1) throw new RangeError('Invalid record limit');
+  const text = input.replace(/^\uFEFF/, '');
+  const records = [];
+  let record = [];
+  let field = '';
+  let state = 'start';
+  let line = 1;
+  let column = 0;
+  let recordStarted = false;
+  const fail = message => { throw new CsvError(message, line, column); };
+  const endField = () => { record.push(field); field = ''; state = 'start'; };
+  const endRecord = () => {
+    endField();
+    if (records.length >= maxRecords) fail('CSV exceeds record limit');
+    records.push(record);
+    record = [];
+    recordStarted = false;
+  };
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    column++;
+    if (state === 'quoted') {
+      if (ch === '"') state = 'closed';
+      else { field += ch; if (ch === '\n') { line++; column = 0; } }
+      continue;
+    }
+    if (state === 'closed' && ch === '"') {
+      field += '"';
+      state = 'quoted';
+      continue;
+    }
+    if (ch === delimiter) {
+      recordStarted = true;
+      endField();
+      continue;
+    }
+    if (ch === '\r' || ch === '\n') {
+      if (ch === '\r' && text[i + 1] === '\n') i++;
+      endRecord();
+      line++;
+      column = 0;
+      continue;
+    }
+    if (state === 'closed') fail('Unexpected character after closing quote');
+    if (ch === '"') {
+      if (state !== 'start') fail('Quote inside an unquoted field');
+      state = 'quoted';
+      recordStarted = true;
+      continue;
+    }
+    field += ch;
+    state = 'plain';
+    recordStarted = true;
+  }
+  if (state === 'quoted') fail('Unterminated quoted field');
+  // Records are committed by the record-separator branch above.
+  return records;
+}
+
+export function quoteCsvField(value, delimiter = ',') {
+  const text = value == null ? '' : String(value);
+  return text.includes(delimiter) || /["\r\n]/.test(text)
+    ? `"${text.replaceAll('"', '""')}"` : text;
+}
+
+export function stringifyCsv(records, { delimiter = ',', newline = '\n' } = {}) {
+  if (!Array.isArray(records) || records.some(record => !Array.isArray(record))) {
+    throw new TypeError('CSV records must be arrays');
+  }
+  if (newline !== '\n' && newline !== '\r\n') throw new TypeError('Unsupported newline');
+  return records.map(record => record.map(value => quoteCsvField(value, delimiter)).join(delimiter)).join(newline) + (records.length ? newline : '');
+}
+
+/** Preserve source positions instead of silently truncating ragged rows. */
+export function csvObjects(records) {
+  if (!records.length) return { headers: [], rows: [] };
+  const headers = records[0].map(value => value.trim());
+  if (new Set(headers).size !== headers.length) throw new Error('Duplicate CSV header');
+  if (headers.some(header => !header)) throw new Error('Empty CSV header');
+  const rows = records.slice(1).filter(record => record.some(value => value !== '')).map((values, index) => {
+    if (values.length !== headers.length) {
+      return { sourceRow: index + 2, values, value: null, error: `Expected ${headers.length} fields, received ${values.length}` };
+    }
+    return { sourceRow: index + 2, values, value: Object.fromEntries(headers.map((header, i) => [header, values[i]])), error: null };
+  });
+  return { headers, rows };
+}
+
+</file>
+
+<file path="src/dates.mjs">
+/** Date-only accounting uses UTC calendar arithmetic, never the local timezone. */
+export function parseDate(value, field = 'date') {
+  const text = String(value).trim();
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(text);
+  if (!match) throw new Error(`${field} must use YYYY-MM-DD`);
+  const year = Number(match[1]), month = Number(match[2]), day = Number(match[3]);
+  if (year < 1900 || year > 2199) throw new Error(`${field} is outside the supported year range`);
+  const timestamp = Date.UTC(year, month - 1, day);
+  const date = new Date(timestamp);
+  if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) throw new Error(`${field} is not a real calendar date`);
+  return text;
+}
+
+export function dayNumber(value) { return Date.parse(`${parseDate(value)}T00:00:00.000Z`) / 86_400_000; }
+export function daysBetween(from, to) { return dayNumber(to) - dayNumber(from); }
+export function addDays(value, days) {
+  if (!Number.isSafeInteger(days)) throw new TypeError('Day offset must be an integer');
+  const date = new Date((dayNumber(value) + days) * 86_400_000);
+  return date.toISOString().slice(0, 10);
+}
+export function monthOf(value) { return parseDate(value).slice(0, 7); }
+export function inDateRange(value, from = null, to = null) {
+  const date = parseDate(value);
+  return (!from || date >= parseDate(from)) && (!to || date <= parseDate(to));
+}
+export function agingBucket(dueDate, asOf) {
+  const lateDays = daysBetween(dueDate, asOf);
+  if (lateDays <= 0) return 'current';
+  if (lateDays <= 30) return '1-30';
+  if (lateDays <= 60) return '31-60';
+  if (lateDays <= 90) return '61-90';
+  return '90+';
+}
+export function compareDates(left, right) { return parseDate(left).localeCompare(parseDate(right)); }
+export function validatePeriod(from, to) {
+  if (from) parseDate(from, 'from');
+  if (to) parseDate(to, 'to');
+  if (from && to && from > to) throw new Error('Period start must not follow its end');
+  return { from: from || null, to: to || null };
+}
+
+</file>
+
+<file path="src/dedupe.mjs">
+/**
+ * Import identity is local to a supplier. The same invoice number can appear in
+ * unrelated suppliers' books. Case normalization occurs before this layer.
+ *
+ * A repeated identical row is harmless and collapses into its first occurrence.
+ * A repeated identity with different financial fields is a conflict: retain the
+ * first row and issue a diagnostic rather than silently choosing a winner.
+ */
+export function invoiceKey(invoice) {
+  return invoice.invoiceId;
+}
+export function paymentKey(payment) { return JSON.stringify([payment.vendorId, payment.paymentId]); }
+export function invoiceFingerprint(invoice) {
+  return JSON.stringify([invoice.vendorId, invoice.invoiceId, invoice.issuedOn, invoice.dueOn, invoice.currency, invoice.amountCents, invoice.status]);
+}
+export function paymentFingerprint(payment) {
+  return JSON.stringify([payment.vendorId, payment.paymentId, payment.invoiceId, payment.paidOn, payment.currency, payment.amountCents]);
+}
+
+export function deduplicate(items, { key, fingerprint, kind }) {
+  const first = new Map();
+  const accepted = [];
+  const duplicates = [];
+  const conflicts = [];
+  for (const item of items) {
+    const identity = key(item);
+    const existing = first.get(identity);
+    if (!existing) {
+      first.set(identity, item);
+      accepted.push(item);
+      continue;
+    }
+    const diagnostic = { kind, identity, sourceRow: item.sourceRow, firstSourceRow: existing.sourceRow };
+    if (fingerprint(existing) === fingerprint(item)) duplicates.push(diagnostic);
+    else conflicts.push({ ...diagnostic, message: `Conflicting ${kind} identity; first occurrence retained` });
+  }
+  return { accepted, duplicates, conflicts };
+}
+export function deduplicateInvoices(invoices) {
+  return deduplicate(invoices, { key: invoiceKey, fingerprint: invoiceFingerprint, kind: 'invoice' });
+}
+export function deduplicatePayments(payments) {
+  return deduplicate(payments, { key: paymentKey, fingerprint: paymentFingerprint, kind: 'payment' });
+}
+export function indexInvoices(invoices) {
+  const index = new Map();
+  for (const invoice of invoices) {
+    const key = invoiceKey(invoice);
+    if (index.has(key)) throw new Error('Cannot index unresolved duplicate invoices');
+    index.set(key, invoice);
+  }
+  return index;
+}
+export function groupByVendor(items) {
+  const groups = new Map();
+  for (const item of items) {
+    const group = groups.get(item.vendorId) ?? [];
+    group.push(item);
+    groups.set(item.vendorId, group);
+  }
+  return groups;
+}
+
+</file>
+
+<file path="src/ledger.mjs">
+import { addCents, sumMoneyBy } from './money.mjs';
+import { agingBucket, inDateRange, monthOf, parseDate, validatePeriod } from './dates.mjs';
+import { groupByVendor } from './dedupe.mjs';
+
+/** Reporting filters do not mutate the imported source ledger. */
+export function selectInvoices(invoices, { vendorId = null, currency = null, from = null, to = null, includeVoid = false } = {}) {
+  validatePeriod(from, to);
+  return invoices.filter(invoice =>
+    (!vendorId || invoice.vendorId === vendorId) &&
+    (!currency || invoice.currency === currency) &&
+    (includeVoid || invoice.status !== 'void') &&
+    inDateRange(invoice.issuedOn, from, to));
+}
+
+export function summarizeInvoices(invoices) {
+  const currencies = new Map();
+  for (const invoice of invoices) {
+    const total = currencies.get(invoice.currency) ?? {
+      currency: invoice.currency, invoiceCount: 0, totalCents: 0, openCents: 0,
+      paidCents: 0, creditCents: 0, voidCount: 0,
+    };
+    total.invoiceCount++;
+    if (invoice.status === 'void') { total.voidCount++; currencies.set(invoice.currency, total); continue; }
+    total.totalCents = addCents(total.totalCents, invoice.amountCents);
+    if (invoice.amountCents < 0) total.creditCents = addCents(total.creditCents, invoice.amountCents);
+    if (invoice.status === 'paid') total.paidCents = addCents(total.paidCents, invoice.amountCents);
+    else total.openCents = addCents(total.openCents, invoice.amountCents);
+    currencies.set(invoice.currency, total);
+  }
+  return [...currencies.values()].sort((a, b) => a.currency.localeCompare(b.currency));
+}
+
+export function vendorSummary(invoices) {
+  return [...groupByVendor(invoices)].sort(([a], [b]) => a.localeCompare(b)).map(([vendorId, group]) => ({
+    vendorId, invoiceCount: group.length, currencies: summarizeInvoices(group),
+    earliestIssue: group.reduce((min, invoice) => invoice.issuedOn < min ? invoice.issuedOn : min, group[0].issuedOn),
+    latestIssue: group.reduce((max, invoice) => invoice.issuedOn > max ? invoice.issuedOn : max, group[0].issuedOn),
+  }));
+}
+
+export function monthlySummary(invoices) {
+  const groups = new Map();
+  for (const invoice of invoices) {
+    const month = monthOf(invoice.issuedOn);
+    const group = groups.get(month) ?? [];
+    group.push(invoice);
+    groups.set(month, group);
+  }
+  return [...groups].sort(([a], [b]) => a.localeCompare(b)).map(([month, group]) => ({ month, currencies: summarizeInvoices(group) }));
+}
+
+export function agingSummary(entries, asOf) {
+  parseDate(asOf, 'asOf');
+  const totals = new Map();
+  for (const entry of entries) {
+    if (entry.outstandingCents <= 0 || entry.invoice.status === 'void') continue;
+    const bucket = agingBucket(entry.invoice.dueOn, asOf);
+    const key = JSON.stringify([entry.invoice.currency, bucket]);
+    const group = totals.get(key) ?? { currency: entry.invoice.currency, bucket, count: 0, outstandingCents: 0 };
+    group.count++;
+    group.outstandingCents = addCents(group.outstandingCents, entry.outstandingCents);
+    totals.set(key, group);
+  }
+  const bucketOrder = ['current', '1-30', '31-60', '61-90', '90+'];
+  return [...totals.values()].sort((a, b) => a.currency.localeCompare(b.currency) || bucketOrder.indexOf(a.bucket) - bucketOrder.indexOf(b.bucket));
+}
+
+export function outstandingByVendor(entries) {
+  return sumMoneyBy(entries, entry => JSON.stringify([entry.invoice.vendorId, entry.invoice.currency]), entry => entry.outstandingCents)
+    .map(({ key, cents }) => { const [vendorId, currency] = JSON.parse(key); return { vendorId, currency, outstandingCents: cents }; });
+}
+
+</file>
+
+<file path="src/money.mjs">
+/** Money stays in integer minor units once it enters the ledger. */
+export class MoneyError extends Error {
+  constructor(message) { super(message); this.name = 'MoneyError'; }
+}
+
+/**
+ * Parse signed decimal major units into cents. Vendor feeds may contain up to
+ * four fractional digits. The business rule is round half away from zero at
+ * the cent boundary (1.005 => 101; -1.005 => -101), not bankers' rounding.
+ * Group separators and scientific notation are deliberately unsupported.
+ */
+export function parseMoney(value) {
+  const text = String(value).trim();
+  if (!/^[+-]?\d+(?:\.\d{1,4})?$/.test(text)) throw new MoneyError('Expected a decimal amount with at most four fractional digits');
+  const cents = Math.round(Number(text) * 100);
+  if (!Number.isSafeInteger(cents)) throw new MoneyError('Amount exceeds safe integer range');
+  return Object.is(cents, -0) ? 0 : cents;
+}
+
+export function assertCents(value) {
+  if (!Number.isSafeInteger(value)) throw new MoneyError('Money must be integer cents');
+  return value;
+}
+
+export function addCents(...values) {
+  return values.reduce((sum, value) => {
+    assertCents(value);
+    const next = sum + value;
+    if (!Number.isSafeInteger(next)) throw new MoneyError('Money total exceeds safe integer range');
+    return next;
+  }, 0);
+}
+
+export function subtractCents(left, right) { return addCents(left, -assertCents(right)); }
+
+export function formatMoney(cents, { currency = 'USD', withCurrency = false } = {}) {
+  assertCents(cents);
+  const sign = cents < 0 ? '-' : '';
+  const magnitude = Math.abs(cents);
+  const decimal = `${sign}${Math.floor(magnitude / 100)}.${String(magnitude % 100).padStart(2, '0')}`;
+  return withCurrency ? `${currency} ${decimal}` : decimal;
+}
+
+/** Largest-remainder allocation preserves the exact total and stable tie order. */
+export function allocateCents(cents, weights) {
+  assertCents(cents);
+  if (!Array.isArray(weights) || !weights.length || weights.some(w => !Number.isSafeInteger(w) || w < 0)) {
+    throw new MoneyError('Allocation weights must be nonnegative integers');
+  }
+  const weightTotal = weights.reduce((sum, weight) => sum + BigInt(weight), 0n);
+  if (weightTotal === 0n) throw new MoneyError('Allocation needs a positive total weight');
+  const magnitude = BigInt(Math.abs(cents));
+  const parts = weights.map((weight, index) => ({ index, base: magnitude * BigInt(weight) / weightTotal, remainder: magnitude * BigInt(weight) % weightTotal }));
+  let left = magnitude - parts.reduce((sum, part) => sum + part.base, 0n);
+  const order = [...parts].sort((a, b) => a.remainder === b.remainder ? a.index - b.index : a.remainder > b.remainder ? -1 : 1);
+  for (const part of order) { if (left === 0n) break; part.base++; left--; }
+  const sign = cents < 0 ? -1 : 1;
+  return parts.map(part => sign * Number(part.base));
+}
+
+/** Integer basis points avoid floating-point percentage drift. */
+export function applyBasisPoints(cents, basisPoints) {
+  assertCents(cents);
+  if (!Number.isSafeInteger(basisPoints)) throw new MoneyError('Basis points must be integers');
+  const product = BigInt(cents) * BigInt(basisPoints);
+  const sign = product < 0n ? -1n : 1n;
+  const magnitude = product < 0n ? -product : product;
+  const rounded = sign * ((magnitude + 5000n) / 10000n);
+  const result = Number(rounded);
+  return assertCents(result);
+}
+
+export function sumMoneyBy(items, selectKey, selectCents) {
+  const totals = new Map();
+  for (const item of items) {
+    const key = selectKey(item);
+    totals.set(key, addCents(totals.get(key) ?? 0, selectCents(item)));
+  }
+  return [...totals].sort(([a], [b]) => String(a).localeCompare(String(b))).map(([key, cents]) => ({ key, cents }));
+}
+
+</file>
+
+<file path="src/payments.mjs">
+import { addCents, subtractCents } from './money.mjs';
+import { indexInvoices, invoiceKey } from './dedupe.mjs';
+
+/**
+ * Payments are never implicitly converted between currencies. Every allocation
+ * names the invoice and supplier explicitly. Unknown invoices and overpayments
+ * stay visible in the reconciliation result for a human to investigate.
+ */
+export function reconcilePayments(invoices, payments, { asOf = null } = {}) {
+  const index = indexInvoices(invoices);
+  const balances = new Map(invoices.map(invoice => [invoiceKey(invoice), {
+    invoice,
+    originalCents: invoice.status === 'void' ? 0 : invoice.amountCents,
+    paidCents: invoice.status === 'paid' ? invoice.amountCents : 0,
+    paymentIds: [],
+  }]));
+  const applied = [];
+  const unapplied = [];
+  for (const payment of [...payments].sort((a, b) => a.paidOn.localeCompare(b.paidOn) || a.sourceRow - b.sourceRow)) {
+    const key = invoiceKey(payment);
+    const invoice = index.get(key);
+    let reason = null;
+    if (asOf && payment.paidOn > asOf) reason = 'after-as-of';
+    else if (!invoice) reason = 'unknown-invoice';
+    else if (invoice.currency !== payment.currency) reason = 'currency-mismatch';
+    else if (invoice.status === 'void') reason = 'void-invoice';
+    else if (invoice.status === 'paid') reason = 'already-paid-status';
+    else if (invoice.amountCents <= 0) reason = 'credit-invoice';
+    if (reason) { unapplied.push({ payment, reason }); continue; }
+    const balance = balances.get(key);
+    balance.paidCents = addCents(balance.paidCents, payment.amountCents);
+    balance.paymentIds.push(payment.paymentId);
+    applied.push({ paymentId: payment.paymentId, vendorId: payment.vendorId, invoiceId: payment.invoiceId, amountCents: payment.amountCents });
+  }
+  const entries = [...balances.values()].map(balance => ({
+    ...balance,
+    outstandingCents: subtractCents(balance.originalCents, balance.paidCents),
+    overpaymentCents: Math.max(0, balance.paidCents - Math.max(0, balance.originalCents)),
+  }));
+  return { entries, applied, unapplied };
+}
+
+export function paymentSummary(reconciliation) {
+  const totals = new Map();
+  for (const entry of reconciliation.entries) {
+    const currency = entry.invoice.currency;
+    const value = totals.get(currency) ?? { currency, invoicedCents: 0, paidCents: 0, outstandingCents: 0, overpaymentCents: 0 };
+    value.invoicedCents = addCents(value.invoicedCents, entry.originalCents);
+    value.paidCents = addCents(value.paidCents, entry.paidCents);
+    value.outstandingCents = addCents(value.outstandingCents, entry.outstandingCents);
+    value.overpaymentCents = addCents(value.overpaymentCents, entry.overpaymentCents);
+    totals.set(currency, value);
+  }
+  return [...totals.values()].sort((a, b) => a.currency.localeCompare(b.currency));
+}
+
+</file>
+
+<file path="src/pipeline.mjs">
+import { parseCsv } from './csv.mjs';
+import { inspectHeaders, projectColumns } from './schema.mjs';
+import { validateInvoice, validatePayment, flattenValidationErrors } from './validation.mjs';
+import { deduplicateInvoices, deduplicatePayments } from './dedupe.mjs';
+import { monthlySummary, selectInvoices, summarizeInvoices, vendorSummary, agingSummary, outstandingByVendor } from './ledger.mjs';
+import { paymentSummary, reconcilePayments } from './payments.mjs';
+
+/** Parse and validate complete files before applying accounting or report filters. */
+function readRows(text, type, options) {
+  const records = parseCsv(text, { delimiter: options.delimiter ?? ',', maxRecords: options.maxRecords ?? 100_000 });
+  if (!records.length) throw new Error(`Empty ${type} CSV`);
+  const { normalized, errors } = inspectHeaders(records[0], { type, rejectUnknown: options.rejectUnknown ?? true });
+  if (errors.length) throw new Error(errors.join('; '));
+  const good = [];
+  const diagnostics = [];
+  let sourceRows = 0;
+  records.slice(1).forEach((values, index) => {
+    if (values.every(value => value.trim() === '')) return;
+    sourceRows++;
+    const sourceRow = index + 2;
+    try {
+      const raw = projectColumns(values, normalized);
+      const validation = type === 'invoice' ? validateInvoice(raw, sourceRow) : validatePayment(raw, sourceRow);
+      const value = type === 'invoice' ? validation.invoice : validation.payment;
+      if (value) good.push(value);
+      else diagnostics.push(...flattenValidationErrors([validation]).map(error => ({ kind: 'validation', ...error })));
+    } catch (error) { diagnostics.push({ kind: 'shape', sourceRow, message: error.message }); }
+  });
+  return { good, diagnostics, sourceRows };
+}
+
+export function importInvoices(text, options = {}) {
+  const parsed = readRows(text, 'invoice', options);
+  const deduped = deduplicateInvoices(parsed.good);
+  const diagnostics = [...parsed.diagnostics, ...deduped.conflicts.map(conflict => ({ ...conflict, kind: 'conflict' }))];
+  const invoices = selectInvoices(deduped.accepted, { ...options, includeVoid: options.includeVoid ?? true });
+  const rejectedRows = new Set(parsed.diagnostics.map(error => error.sourceRow));
+  return {
+    source: options.source ?? '(memory)', invoices,
+    counts: { sourceRows: parsed.sourceRows, accepted: deduped.accepted.length, selected: invoices.length,
+      rejected: rejectedRows.size, duplicates: deduped.duplicates.length, conflicts: deduped.conflicts.length },
+    totals: summarizeInvoices(invoices), vendors: vendorSummary(invoices), months: monthlySummary(invoices),
+    diagnostics, duplicates: deduped.duplicates, reconciliation: null,
+  };
+}
+
+export function importPayments(text, options = {}) {
+  const parsed = readRows(text, 'payment', options);
+  const deduped = deduplicatePayments(parsed.good);
+  return { payments: deduped.accepted, duplicates: deduped.duplicates,
+    diagnostics: [...parsed.diagnostics, ...deduped.conflicts.map(conflict => ({ ...conflict, kind: 'payment-conflict' }))],
+    sourceRows: parsed.sourceRows };
+}
+
+export function importAndReconcile(invoiceText, paymentText, options = {}) {
+  const imported = importInvoices(invoiceText, options);
+  const paymentImport = importPayments(paymentText, options);
+  const reconciliation = reconcilePayments(imported.invoices, paymentImport.payments, { asOf: options.asOf ?? null });
+  imported.diagnostics.push(...paymentImport.diagnostics,
+    ...reconciliation.unapplied.map(item => ({ kind: 'unapplied-payment', sourceRow: item.payment.sourceRow, message: `Payment ${item.payment.paymentId}: ${item.reason}` })));
+  imported.reconciliation = {
+    appliedCount: reconciliation.applied.length, unappliedCount: reconciliation.unapplied.length,
+    totals: paymentSummary(reconciliation), outstandingByVendor: outstandingByVendor(reconciliation.entries),
+    aging: options.asOf ? agingSummary(reconciliation.entries, options.asOf) : null,
+    unapplied: reconciliation.unapplied.map(item => ({ paymentId: item.payment.paymentId, vendorId: item.payment.vendorId, reason: item.reason })),
+  };
+  return imported;
+}
+
+</file>
+
+<file path="src/reports.mjs">
+import { formatMoney } from './money.mjs';
+import { stringifyCsv } from './csv.mjs';
+
+/** Public reports expose normalized values and their source row for audit. */
+export function publicInvoice(invoice) {
+  return { vendor_id: invoice.vendorId, invoice_id: invoice.invoiceId, issued_on: invoice.issuedOn,
+    due_on: invoice.dueOn, currency: invoice.currency, amount: formatMoney(invoice.amountCents),
+    status: invoice.status, description: invoice.description, source_row: invoice.sourceRow };
+}
+export function invoiceCsv(invoices) {
+  const columns = ['vendor_id','invoice_id','issued_on','due_on','currency','amount','status','description','source_row'];
+  return stringifyCsv([columns, ...invoices.map(invoice => { const row = publicInvoice(invoice); return columns.map(column => row[column]); })]);
+}
+export function reportJson(result, { pretty = true } = {}) {
+  return JSON.stringify({ schema_version: 1, source: result.source, counts: result.counts,
+    totals: result.totals, vendors: result.vendors, months: result.months, diagnostics: result.diagnostics,
+    invoices: result.invoices.map(publicInvoice), reconciliation: result.reconciliation,
+  }, null, pretty ? 2 : undefined) + '\n';
+}
+function pad(value, width, right = false) {
+  const text = String(value);
+  return right ? text.padStart(width) : text.padEnd(width);
+}
+export function reportText(result) {
+  const lines = [`Ledger import: ${result.source}`, `Read ${result.counts.sourceRows} rows; accepted ${result.counts.accepted}; rejected ${result.counts.rejected}; duplicate ${result.counts.duplicates}; conflict ${result.counts.conflicts}.`, ''];
+  lines.push(`${pad('Currency', 10)}${pad('Invoices', 10, true)}${pad('Total', 16, true)}${pad('Open', 16, true)}${pad('Paid', 16, true)}`);
+  for (const total of result.totals) lines.push(`${pad(total.currency, 10)}${pad(total.invoiceCount, 10, true)}${pad(formatMoney(total.totalCents), 16, true)}${pad(formatMoney(total.openCents), 16, true)}${pad(formatMoney(total.paidCents), 16, true)}`);
+  if (result.diagnostics.length) {
+    lines.push('', 'Diagnostics:');
+    for (const diagnostic of result.diagnostics) lines.push(`- row ${diagnostic.sourceRow ?? '?'}: ${diagnostic.message}`);
+  }
+  if (result.reconciliation) {
+    lines.push('', `Payments: ${result.reconciliation.appliedCount} applied, ${result.reconciliation.unappliedCount} unapplied.`);
+    for (const total of result.reconciliation.totals) lines.push(`${total.currency}: outstanding ${formatMoney(total.outstandingCents)}, overpayment ${formatMoney(total.overpaymentCents)}`);
+  }
+  return lines.join('\n') + '\n';
+}
+export function diagnosticsCsv(diagnostics) {
+  return stringifyCsv([['kind','source_row','field','message'], ...diagnostics.map(item => [item.kind, item.sourceRow, item.field ?? '', item.message])]);
+}
+export function hasErrors(result) { return result.counts.rejected > 0 || result.counts.conflicts > 0 || Boolean(result.reconciliation?.unappliedCount); }
+export function renderReport(result, format = 'text') {
+  if (format === 'json') return reportJson(result);
+  if (format === 'csv') return invoiceCsv(result.invoices);
+  if (format === 'text') return reportText(result);
+  throw new Error('Report format must be json, csv, or text');
+}
+
+</file>
+
+<file path="src/schema.mjs">
+export const INVOICE_COLUMNS = Object.freeze([
+  'vendor_id', 'invoice_id', 'issued_on', 'due_on', 'currency', 'amount', 'status', 'description',
+]);
+export const PAYMENT_COLUMNS = Object.freeze(['payment_id', 'vendor_id', 'invoice_id', 'paid_on', 'currency', 'amount']);
+export const REQUIRED_INVOICE_COLUMNS = Object.freeze(['vendor_id', 'invoice_id', 'issued_on', 'currency', 'amount']);
+export const REQUIRED_PAYMENT_COLUMNS = Object.freeze([...PAYMENT_COLUMNS]);
+export const CURRENCIES = Object.freeze(['USD', 'EUR', 'GBP', 'CAD', 'AUD']);
+export const STATUSES = Object.freeze(['open', 'paid', 'void']);
+export const HEADER_ALIASES = Object.freeze({ vendor: 'vendor_id', supplier: 'vendor_id', invoice: 'invoice_id', invoice_date: 'issued_on', due_date: 'due_on', total: 'amount', notes: 'description' });
+
+export function normalizeHeader(header) {
+  const key = String(header).trim().toLowerCase().replace(/[ -]+/g, '_');
+  return HEADER_ALIASES[key] ?? key;
+}
+export function inspectHeaders(headers, { type = 'invoice', rejectUnknown = true } = {}) {
+  const allowed = type === 'payment' ? PAYMENT_COLUMNS : INVOICE_COLUMNS;
+  const required = type === 'payment' ? REQUIRED_PAYMENT_COLUMNS : REQUIRED_INVOICE_COLUMNS;
+  const normalized = headers.map(normalizeHeader);
+  const errors = [];
+  for (const name of required) if (!normalized.includes(name)) errors.push(`Missing required column: ${name}`);
+  for (const name of new Set(normalized)) if (normalized.filter(value => value === name).length > 1) errors.push(`Columns normalize to the same name: ${name}`);
+  if (rejectUnknown) for (const name of normalized) if (!allowed.includes(name)) errors.push(`Unknown column: ${name}`);
+  return { normalized, errors };
+}
+export function projectColumns(values, headers) {
+  if (values.length !== headers.length) throw new Error(`Expected ${headers.length} fields, received ${values.length}`);
+  return Object.fromEntries(headers.map((name, i) => [name, values[i]]));
+}
+export function publicSchema(type = 'invoice') {
+  const columns = type === 'payment' ? PAYMENT_COLUMNS : INVOICE_COLUMNS;
+  const required = type === 'payment' ? REQUIRED_PAYMENT_COLUMNS : REQUIRED_INVOICE_COLUMNS;
+  return columns.map(name => ({ name, required: required.includes(name), kind: name.endsWith('_on') ? 'date' : name === 'amount' ? 'decimal' : 'text' }));
+}
+
+</file>
+
+<file path="src/validation.mjs">
+import { parseMoney } from './money.mjs';
+import { addDays, parseDate } from './dates.mjs';
+import { CURRENCIES, STATUSES } from './schema.mjs';
+
+export function identifier(value, field) {
+  const text = String(value ?? '').trim();
+  if (!text || text.length > 80 || /[\x00-\x1f\x7f]/.test(text)) throw new Error(`${field} must be 1-80 printable characters`);
+  return text;
+}
+export function normalizeInvoiceId(value) {
+  // Supplier invoice identifiers are case-insensitive; vendor identifiers are not.
+  return identifier(value, 'invoice_id').toUpperCase();
+}
+export function currencyCode(value) {
+  const code = String(value ?? '').trim().toUpperCase();
+  if (!CURRENCIES.includes(code)) throw new Error(`Unsupported currency: ${code || '(empty)'}`);
+  return code;
+}
+function get(row, key, fallback = '') { return row[key] === undefined || row[key] === '' ? fallback : row[key]; }
+
+/** One invalid row is reported without dropping valid peers from the import. */
+export function validateInvoice(row, sourceRow) {
+  const errors = [];
+  const result = { sourceRow };
+  const attempt = (name, operation) => { try { result[name] = operation(); } catch (error) { errors.push({ field: name, message: error.message }); } };
+  attempt('vendorId', () => identifier(row.vendor_id, 'vendor_id'));
+  attempt('invoiceId', () => normalizeInvoiceId(row.invoice_id));
+  attempt('issuedOn', () => parseDate(row.issued_on, 'issued_on'));
+  attempt('dueOn', () => get(row, 'due_on') ? parseDate(row.due_on, 'due_on') : addDays(parseDate(row.issued_on), 30));
+  attempt('currency', () => currencyCode(row.currency));
+  attempt('amountCents', () => parseMoney(row.amount));
+  attempt('status', () => {
+    const status = String(get(row, 'status', 'open')).trim().toLowerCase();
+    if (!STATUSES.includes(status)) throw new Error('status must be open, paid, or void');
+    return status;
+  });
+  attempt('description', () => {
+    const description = String(get(row, 'description')).trim();
+    if (description.length > 1000 || /[\x00\x7f]/.test(description)) throw new Error('description is too long or contains control characters');
+    return description;
+  });
+  if (result.issuedOn && result.dueOn && result.dueOn < result.issuedOn) errors.push({ field: 'dueOn', message: 'due_on precedes issued_on' });
+  return errors.length ? { sourceRow, invoice: null, errors } : { sourceRow, invoice: Object.freeze(result), errors: [] };
+}
+
+export function validatePayment(row, sourceRow) {
+  const errors = [];
+  const result = { sourceRow };
+  for (const [field, action] of [
+    ['paymentId', () => identifier(row.payment_id, 'payment_id')],
+    ['vendorId', () => identifier(row.vendor_id, 'vendor_id')],
+    ['invoiceId', () => normalizeInvoiceId(row.invoice_id)],
+    ['paidOn', () => parseDate(row.paid_on, 'paid_on')],
+    ['currency', () => currencyCode(row.currency)],
+    ['amountCents', () => { const cents = parseMoney(row.amount); if (cents <= 0) throw new Error('Payment amount must be positive'); return cents; }],
+  ]) {
+    try { result[field] = action(); } catch (error) { errors.push({ field, message: error.message }); }
+  }
+  return errors.length ? { sourceRow, payment: null, errors } : { sourceRow, payment: Object.freeze(result), errors: [] };
+}
+
+export function flattenValidationErrors(validations) {
+  return validations.flatMap(row => row.errors.map(error => ({ sourceRow: row.sourceRow, ...error })));
+}
+export function describeErrors(errors) { return errors.map(error => `row ${error.sourceRow} / ${error.field}: ${error.message}`).join('\n'); }
+
+</file>
+
+<file path="test/cli.test.mjs">
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { execFileSync, spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { parseArgs, main } from '../bin/ledger.mjs';
+const root=fileURLToPath(new URL('..',import.meta.url));
+test('CLI parses only supported and nonrepeated options', () => {
+  assert.deepEqual(parseArgs(['import','feed.csv','--format','json','--vendor','a']),{command:'import',file:'feed.csv',options:{format:'json',vendorId:'a'}});
+  assert.throws(()=>parseArgs(['import','feed.csv','--format','json','--format','text']),/Repeated/);
+  assert.throws(()=>parseArgs(['import','feed.csv','--wat','x']),/Unknown/);
+  assert.throws(()=>parseArgs(['import','feed.csv','--format','yaml']),/format/);assert.equal(parseArgs(['--help']).command,'help');
+});
+test('schema command is usable without loading invoice files', () => {
+  const result=execFileSync(process.execPath,['bin/ledger.mjs','schema','invoice'],{cwd:root,encoding:'utf8'});
+  assert.equal(JSON.parse(result).find(column=>column.name==='amount').kind,'decimal');
+});
+test('missing file is a curated CLI error with nonzero status', () => {
+  const result=spawnSync(process.execPath,['bin/ledger.mjs','import','data/not-present.csv'],{cwd:root,encoding:'utf8'});
+  assert.equal(result.status,1);assert.match(result.stderr,/ledger:/);assert.equal(result.stdout,'');
+});
+test('actual mixed-feed CLI output includes all supplier invoices and exact cents', () => {
+  const result=spawnSync(process.execPath,['bin/ledger.mjs','import','data/invoices.csv','--format','json'],{cwd:root,encoding:'utf8'});
+  assert.equal(result.status,0,result.stderr||result.stdout);
+  const parsed=JSON.parse(result.stdout);
+  assert.equal(parsed.counts.accepted,4);assert.equal(parsed.counts.sourceRows,4);
+  assert.equal(parsed.totals[0].totalCents,1208);assert.equal(parsed.vendors.length,3);
+});
+test('help output and usage errors are written to their intended streams', async () => {
+  const stdout={text:'',write(value){this.text+=value;}},stderr={text:'',write(value){this.text+=value;}};
+  assert.equal(await main(['--help'],{stdout,stderr}),0);assert.match(stdout.text,/Ledger:/);assert.equal(stderr.text,'');
+  assert.equal(await main(['wat'],{stdout,stderr}),1);assert.match(stderr.text,/Expected import/);
+});
+
+</file>
+
+<file path="test/csv.test.mjs">
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { parseCsv, stringifyCsv, quoteCsvField, csvObjects, CsvError } from '../src/csv.mjs';
+
+test('reads comma-delimited records and preserves empty fields', () => {
+  assert.deepEqual(parseCsv('a,b,c\n1,,3\n'), [['a','b','c'],['1','','3']]);
+});
+test('accepts all common unquoted record separators', () => {
+  assert.deepEqual(parseCsv('a,b\r\n1,2\r3,4\n'), [['a','b'],['1','2'],['3','4']]);
+});
+test('preserves commas, escaped quotes, and newlines inside quoted values', () => {
+  const text='id,note\n1,"one, two"\n2,"say ""hello"""\n3,"line one\nline two"\n';
+  assert.deepEqual(parseCsv(text), [['id','note'],['1','one, two'],['2','say "hello"'],['3','line one\nline two']]);
+});
+test('accepts a UTF-8 BOM and custom delimiter', () => {
+  assert.deepEqual(parseCsv('\uFEFFname;amount\nAda;12.00\n',{delimiter:';'}), [['name','amount'],['Ada','12.00']]);
+});
+test('CSV EOF is a valid record boundary, including a trailing empty field', () => {
+  assert.deepEqual(parseCsv('id,amount,note\n42,12.00,'), [['id','amount','note'],['42','12.00','']]);
+  assert.deepEqual(parseCsv('name\n"last quoted value"'), [['name'],['last quoted value']]);
+  assert.deepEqual(parseCsv('single'), [['single']]);
+  assert.deepEqual(parseCsv('""'), [['']]);
+});
+test('an existing final newline does not create a phantom record', () => {
+  assert.deepEqual(parseCsv('a,b\n1,2\n'), [['a','b'],['1','2']]);
+  assert.deepEqual(parseCsv(''), []);
+});
+test('malformed quoting fails with a useful source position', () => {
+  assert.throws(()=>parseCsv('a\n"unterminated'), CsvError);
+  assert.throws(()=>parseCsv('a\nx"y\n'), /Quote inside an unquoted field/);
+  assert.throws(()=>parseCsv('a\n"x"q\n'), /Unexpected character after closing quote/);
+});
+test('record limits and delimiter validation are enforced', () => {
+  assert.throws(()=>parseCsv('a\nb\n',{maxRecords:1}), /record limit/);
+  assert.throws(()=>parseCsv('x',{delimiter:'||'}), /Delimiter/);
+  assert.throws(()=>parseCsv('x',{maxRecords:0}), /record limit/);
+});
+test('writer round trips arbitrary accounting descriptions', () => {
+  const records=[['id','description'],['1','Office, east'],['2','Includes "rush" fee'],['3','first\nsecond'],['4','']];
+  assert.deepEqual(parseCsv(stringifyCsv(records)),records);
+  assert.equal(quoteCsvField(null),'');
+  assert.equal(stringifyCsv([]),'');
+  assert.match(stringifyCsv([['x']],{newline:'\r\n'}), /\r\n$/);
+});
+test('object projection reports ragged rows without truncating values', () => {
+  const result=csvObjects([[' id ','amount'],['1','2.00'],['2'],['3','4.00','extra']]);
+  assert.deepEqual(result.headers,['id','amount']);
+  assert.deepEqual(result.rows[0].value,{id:'1',amount:'2.00'});
+  assert.equal(result.rows[1].sourceRow,3);
+  assert.match(result.rows[2].error,/received 3/);
+  assert.throws(()=>csvObjects([['x','x']]),/Duplicate/);
+});
+
+</file>
+
+<file path="test/domain.test.mjs">
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { addDays, agingBucket, daysBetween, parseDate, validatePeriod } from '../src/dates.mjs';
+import { inspectHeaders, publicSchema } from '../src/schema.mjs';
+import { validateInvoice, validatePayment } from '../src/validation.mjs';
+import { deduplicateInvoices, deduplicatePayments, invoiceKey } from '../src/dedupe.mjs';
+import { selectInvoices, summarizeInvoices, monthlySummary } from '../src/ledger.mjs';
+
+const row={vendor_id:'acme',invoice_id:' inv-1 ',issued_on:'2026-01-01',currency:'usd',amount:'10.00'};
+const invoice=(patch={})=>({...validateInvoice(row,2).invoice,...patch});
+test('date-only arithmetic handles leap years and timezone boundaries', () => {
+  assert.equal(addDays('2024-02-28',1),'2024-02-29');
+  assert.equal(addDays('2026-12-31',1),'2027-01-01');
+  assert.equal(daysBetween('2026-03-08','2026-03-09'),1);
+  for(const text of ['2025-02-29','2026-13-01','2026-04-31','01/01/2026'])assert.throws(()=>parseDate(text));
+  assert.throws(()=>validatePeriod('2026-02-01','2026-01-01'),/must not follow/);
+});
+test('aging buckets use due date, with the due day still current', () => {
+  assert.equal(agingBucket('2026-01-01','2026-01-01'),'current');
+  assert.equal(agingBucket('2026-01-01','2026-01-31'),'1-30');
+  assert.equal(agingBucket('2026-01-01','2026-02-01'),'31-60');
+  assert.equal(agingBucket('2026-01-01','2026-05-01'),'90+');
+});
+test('header aliases normalize once and ambiguous columns are rejected', () => {
+  assert.deepEqual(inspectHeaders(['Supplier','Invoice','Invoice Date','Currency','Total']).errors,[]);
+  assert.match(inspectHeaders(['vendor','vendor_id']).errors.join(' '),/same name/);
+  assert.match(inspectHeaders(['nonsense']).errors.join(' '),/Unknown column/);
+  assert.equal(publicSchema().find(c=>c.name==='due_on').required,false);
+});
+test('invoice validation supplies explicit defaults and collects independent errors', () => {
+  const good=validateInvoice(row,2);
+  assert.equal(good.invoice.invoiceId,'INV-1');
+  assert.equal(good.invoice.dueOn,'2026-01-31');
+  assert.equal(good.invoice.currency,'USD');
+  assert.equal(good.invoice.status,'open');
+  assert.ok(Object.isFrozen(good.invoice));
+  const bad=validateInvoice({...row,vendor_id:'',currency:'XYZ',amount:'oops',due_on:'2025-01-01'},8);
+  assert.equal(bad.invoice,null);assert.equal(bad.sourceRow,8);assert.equal(bad.errors.length,4);
+});
+test('payments require positive amounts and valid external identities', () => {
+  const base={payment_id:'p1',vendor_id:'acme',invoice_id:'inv-1',paid_on:'2026-01-02',currency:'USD',amount:'1.00'};
+  assert.equal(validatePayment(base,2).payment.amountCents,100);
+  assert.equal(validatePayment({...base,amount:'0'},2).payment,null);
+  assert.equal(validatePayment({...base,payment_id:'\u0000'},2).payment,null);
+});
+test('invoice identity includes vendor and keeps the same invoice number in two suppliers', () => {
+  const a=invoice({vendorId:'vendor-a',invoiceId:'INV-100',sourceRow:2});
+  const b=invoice({vendorId:'vendor-b',invoiceId:'INV-100',amountCents:2000,sourceRow:3});
+  const result=deduplicateInvoices([a,b]);
+  assert.equal(result.accepted.length,2);assert.equal(result.conflicts.length,0);
+  assert.notEqual(invoiceKey(a),invoiceKey(b));
+  assert.notEqual(invoiceKey({...a,vendorId:'a:b',invoiceId:'c'}),invoiceKey({...a,vendorId:'a',invoiceId:'b:c'}));
+});
+test('same-vendor duplicate rows collapse and conflicting values remain auditable', () => {
+  const first=invoice(), repeated=invoice({sourceRow:3}), changed=invoice({amountCents:2000,sourceRow:4});
+  const result=deduplicateInvoices([first,repeated,changed]);
+  assert.deepEqual(result.accepted,[first]);assert.equal(result.duplicates.length,1);
+  assert.equal(result.conflicts[0].firstSourceRow,2);assert.equal(result.conflicts[0].sourceRow,4);
+});
+test('payment IDs are likewise scoped to vendor, with exact duplicates collapsed', () => {
+  const a={vendorId:'a',paymentId:'p1',invoiceId:'i1',paidOn:'2026-01-01',currency:'USD',amountCents:1,sourceRow:2};
+  const b={...a,vendorId:'b',sourceRow:3};
+  const result=deduplicatePayments([a,b,{...a,sourceRow:4}]);
+  assert.equal(result.accepted.length,2);assert.equal(result.duplicates.length,1);
+});
+test('filtering does not change source order or mutate immutable imported rows', () => {
+  const list=[invoice(),invoice({vendorId:'b',currency:'EUR',issuedOn:'2026-02-01'}),invoice({status:'void'})];
+  assert.equal(selectInvoices(list,{vendorId:'acme'}).length,1);
+  assert.equal(selectInvoices(list,{from:'2026-02-01'}).length,1);
+  assert.equal(list.length,3);
+});
+test('summary splits currencies and excludes void financial totals', () => {
+  const list=[invoice(),invoice({amountCents:-50}),invoice({currency:'EUR',amountCents:200}),invoice({status:'void'}),invoice({status:'paid',amountCents:300})];
+  const usd=summarizeInvoices(list).find(total=>total.currency==='USD');
+  assert.deepEqual(usd,{currency:'USD',invoiceCount:4,totalCents:1250,openCents:950,paidCents:300,creditCents:-50,voidCount:1});
+  assert.deepEqual(monthlySummary(list).map(item=>item.month),['2026-01']);
+});
+
+</file>
+
+<file path="test/money.test.mjs">
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { parseMoney, formatMoney, addCents, subtractCents, allocateCents, applyBasisPoints, sumMoneyBy } from '../src/money.mjs';
+
+test('ordinary decimal amounts normalize to integer cents', () => {
+  for(const [text,cents] of [['0',0],['12',1200],['12.3',1230],['+12.34',1234],['-12.34',-1234],[' 003.40 ',340]]) assert.equal(parseMoney(text),cents,text);
+  assert.equal(formatMoney(0),'0.00');
+  assert.equal(formatMoney(-1234),'-12.34');
+  assert.equal(formatMoney(7,{currency:'GBP',withCurrency:true}),'GBP 0.07');
+});
+test('rounding at a half cent is decimal and symmetric for credits', () => {
+  const cases=[['1.005',101],['-1.005',-101],['10.075',1008],['-10.075',-1008],['0.0049',0],['-0.0050',-1],['2.675',268],['2.6749',267],['99.9999',10000]];
+  for(const [text,cents] of cases) assert.equal(parseMoney(text),cents,`wrong rounding for ${text}`);
+});
+test('unsafe and ambiguous money formats are rejected', () => {
+  for(const value of ['1e3','1,000.00','NaN','Infinity','1.00001','','.5','12.','--1','9007199254740992']) assert.throws(()=>parseMoney(value),undefined,String(value));
+  assert.throws(()=>formatMoney(1.5),/integer cents/);
+  assert.throws(()=>addCents(Number.MAX_SAFE_INTEGER,1),/safe integer/);
+});
+test('totals and subtraction preserve sign and exact cents', () => {
+  assert.equal(addCents(101,-1,900),1000);
+  assert.equal(subtractCents(1000,1001),-1);
+  assert.equal(addCents(),0);
+});
+test('allocation preserves total, sign, and deterministic tie order', () => {
+  assert.deepEqual(allocateCents(10,[1,1,1]),[4,3,3]);
+  assert.deepEqual(allocateCents(-10,[1,1,1]),[-4,-3,-3]);
+  assert.deepEqual(allocateCents(101,[0,3,1]),[0,76,25]);
+  assert.throws(()=>allocateCents(10,[0,0]),/positive/);
+  assert.throws(()=>allocateCents(10,[-1,2]),/nonnegative/);
+});
+test('basis-point calculation rounds halves away from zero', () => {
+  assert.equal(applyBasisPoints(100,1250),13);
+  assert.equal(applyBasisPoints(-100,1250),-13);
+  assert.equal(applyBasisPoints(100,0),0);
+  assert.throws(()=>applyBasisPoints(100,1.5),/integers/);
+});
+test('grouped monetary sums do not merge keys or lose minor units', () => {
+  const result=sumMoneyBy([{k:'USD',v:100},{k:'EUR',v:2},{k:'USD',v:-1}],x=>x.k,x=>x.v);
+  assert.deepEqual(result,[{key:'EUR',cents:2},{key:'USD',cents:99}]);
+});
+
+</file>
+
+<file path="test/pipeline.test.mjs">
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { importInvoices, importPayments, importAndReconcile } from '../src/pipeline.mjs';
+import { reportJson, reportText, invoiceCsv, diagnosticsCsv, hasErrors } from '../src/reports.mjs';
+import { parseCsv } from '../src/csv.mjs';
+import { reconcilePayments, paymentSummary } from '../src/payments.mjs';
+import { agingSummary, outstandingByVendor } from '../src/ledger.mjs';
+
+const header='vendor_id,invoice_id,issued_on,due_on,currency,amount,status,description';
+const csv=(rows,newline=true)=>header+'\n'+rows.join('\n')+(newline?'\n':'');
+const simple=(vendor='acme',id='I-1',amount='10.00')=>`${vendor},${id},2026-01-01,2026-01-31,USD,${amount},open,Office supplies`;
+const payments='payment_id,vendor_id,invoice_id,paid_on,currency,amount\n';
+
+test('imports a valid invoice and builds stable public reports', () => {
+  const result=importInvoices(csv([simple()]),{source:'feed.csv'});
+  assert.equal(result.counts.accepted,1);assert.equal(result.totals[0].totalCents,1000);
+  assert.equal(result.vendors[0].vendorId,'acme');assert.equal(result.months[0].month,'2026-01');
+  const json=JSON.parse(reportJson(result));
+  assert.equal(json.schema_version,1);assert.equal(json.invoices[0].amount,'10.00');
+  assert.match(reportText(result),/accepted 1/);
+  assert.equal(parseCsv(invoiceCsv(result.invoices))[1][0],'acme');
+  assert.equal(hasErrors(result),false);
+});
+test('mixed supplier feed retains the EOF row, rounds cents, and scopes identities', () => {
+  const result=importInvoices(csv([simple('vendor-a','INV-100','1.005'),simple('vendor-b','INV-100','10.075'),simple('vendor-a','CREDIT-1','-1.005'),simple('vendor-c','LAST','2.00')],false));
+  assert.deepEqual(result.counts,{sourceRows:4,accepted:4,selected:4,rejected:0,duplicates:0,conflicts:0});
+  assert.deepEqual(result.invoices.map(invoice=>invoice.amountCents),[101,1008,-101,200]);
+  assert.equal(result.totals[0].totalCents,1208);assert.equal(result.vendors.length,3);
+});
+test('identical repeated rows do not double-count, but conflicting revisions are diagnosed', () => {
+  const result=importInvoices(csv([simple(),simple(),simple('acme','I-1','20.00')]));
+  assert.equal(result.counts.accepted,1);assert.equal(result.counts.duplicates,1);assert.equal(result.counts.conflicts,1);
+  assert.equal(result.totals[0].totalCents,1000);assert.equal(hasErrors(result),true);
+  assert.match(diagnosticsCsv(result.diagnostics),/conflict/);
+});
+test('all row validation errors survive while valid rows still import', () => {
+  const result=importInvoices(csv([simple(),simple('bad','I-2','oops'),'broken,row']));
+  assert.equal(result.counts.sourceRows,3);assert.equal(result.counts.accepted,1);assert.equal(result.counts.rejected,2);
+  assert.ok(result.diagnostics.some(error=>error.field==='amountCents'));assert.ok(result.diagnostics.some(error=>error.kind==='shape'));
+});
+test('header failures stop import rather than inventing an empty ledger', () => {
+  assert.throws(()=>importInvoices(''),/Empty invoice/);
+  assert.throws(()=>importInvoices('vendor_id,amount\na,1.00\n'),/Missing required column/);
+  assert.throws(()=>importInvoices(header+',surprise\n'),/Unknown column/);
+});
+test('alias columns and a semicolon feed use the same financial pipeline', () => {
+  const result=importInvoices('supplier;invoice;invoice_date;currency;total\nacme;i-1;2026-01-01;usd;3.45\n',{delimiter:';'});
+  assert.equal(result.invoices[0].invoiceId,'I-1');assert.equal(result.invoices[0].amountCents,345);
+});
+test('report selection runs after duplicate detection and does not conceal conflicts', () => {
+  const result=importInvoices(csv([simple('a'),simple('b','B-1'),simple('a','I-1','11.00')]),{vendorId:'b'});
+  assert.equal(result.counts.accepted,2);assert.equal(result.counts.selected,1);assert.equal(result.counts.conflicts,1);assert.equal(result.invoices[0].vendorId,'b');
+});
+test('partial payments and overpayments remain exact and visible', () => {
+  const invoices=importInvoices(csv([simple('a','A','10.00'),simple('a','B','2.00')])).invoices;
+  const paymentResult=importPayments(payments+'p1,a,A,2026-01-02,USD,4.00\np2,a,A,2026-01-03,USD,1.00\np3,a,B,2026-01-04,USD,3.00\n');
+  const reconciled=reconcilePayments(invoices,paymentResult.payments);
+  assert.equal(reconciled.applied.length,3);assert.deepEqual(reconciled.entries.map(entry=>entry.outstandingCents),[500,-100]);
+  assert.equal(paymentSummary(reconciled)[0].outstandingCents,400);assert.equal(paymentSummary(reconciled)[0].overpaymentCents,100);
+  assert.equal(outstandingByVendor(reconciled.entries)[0].outstandingCents,400);
+});
+test('same invoice number in different suppliers receives only its own payments', () => {
+  const result=importAndReconcile(csv([simple('a','SHARED','10.00'),simple('b','SHARED','20.00')]),payments+'pa,a,SHARED,2026-01-02,USD,3.00\npb,b,SHARED,2026-01-02,USD,7.00\n',{asOf:'2026-02-01'});
+  assert.equal(result.counts.conflicts,0);assert.equal(result.reconciliation.appliedCount,2);
+  assert.deepEqual(result.reconciliation.outstandingByVendor,[{vendorId:'a',currency:'USD',outstandingCents:700},{vendorId:'b',currency:'USD',outstandingCents:1300}]);
+});
+test('unmatched, mismatched, and future payments are not silently allocated', () => {
+  const paymentText=payments+'p1,a,missing,2026-01-02,USD,1.00\np2,a,I-1,2026-01-02,EUR,1.00\np3,a,I-1,2026-03-01,USD,1.00\n';
+  const result=importAndReconcile(csv([simple('a','I-1')]),paymentText,{asOf:'2026-02-01'});
+  assert.equal(result.reconciliation.appliedCount,0);assert.equal(result.reconciliation.unappliedCount,3);
+  assert.deepEqual(result.reconciliation.unapplied.map(payment=>payment.reason),['unknown-invoice','currency-mismatch','after-as-of']);assert.equal(hasErrors(result),true);
+});
+test('paid and void invoice statuses cannot accidentally receive fresh payments', () => {
+  const imported=importInvoices(csv([simple('a','PAID').replace(',open,',',paid,'),simple('a','VOID').replace(',open,',',void,')]));
+  const importedPayments=importPayments(payments+'p1,a,PAID,2026-01-02,USD,1.00\np2,a,VOID,2026-01-02,USD,1.00\n');
+  const result=reconcilePayments(imported.invoices,importedPayments.payments);
+  assert.deepEqual(result.unapplied.map(item=>item.reason),['already-paid-status','void-invoice']);
+  assert.equal(result.entries[0].outstandingCents,0);assert.equal(result.entries[1].outstandingCents,0);
+});
+test('aging excludes credits and paid balances and honors the requested as-of date', () => {
+  const invoices=importInvoices(csv([simple('a','OPEN'),simple('a','CREDIT','-2.00'),simple('a','PAID').replace(',open,',',paid,')])).invoices;
+  assert.deepEqual(agingSummary(reconcilePayments(invoices,[]).entries,'2026-03-01'),[{currency:'USD',bucket:'1-30',count:1,outstandingCents:1000}]);
+});
+
+</file>

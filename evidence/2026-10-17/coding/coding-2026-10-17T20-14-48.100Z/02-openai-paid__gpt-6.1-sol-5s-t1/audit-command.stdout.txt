@@ -1,0 +1,21 @@
+{
+  "trialRoot": "/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-14-48.100Z/02-openai-paid__gpt-6.1-sol-5s-t1",
+  "capturedTransportAttempts": 6,
+  "validRawUsageAttempts": 6,
+  "unknownUsageAttempts": 0,
+  "usageBasedInputUsd": 0.07238030000000001,
+  "usageBasedOutputUsd": 0.00732,
+  "followupDenominator": 5,
+  "priorInputBelow95Percent": 0,
+  "eligibleFrontierDenominator": 5,
+  "eligibleFrontierFullyReused": 5,
+  "followupActualInputUsd": 0.0276743,
+  "fullPriorInputCounterfactualUsd": 0.0276458,
+  "followupActualVsFullPriorInputCounterfactual": 1.0010308980025897,
+  "eligibleFrontierCounterfactualUsd": 0.0276743,
+  "followupActualVsEligibleFrontierCounterfactual": 1,
+  "passChecks": 62,
+  "failChecks": 0,
+  "unknownChecks": 0,
+  "failures": []
+}

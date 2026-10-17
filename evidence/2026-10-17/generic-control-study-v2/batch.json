@@ -1,0 +1,967 @@
+{
+  "protocol": "docs/VALIDATION_PROTOCOL.md",
+  "revision": "validation-v2",
+  "startedAt": "2026-10-17T19:57:38.109Z",
+  "updatedAt": "2026-10-17T20:00:50.924Z",
+  "plannedRequests": 96,
+  "maxKnownObservedSpendUsd": 5,
+  "deadlineMinutes": 30,
+  "knownSpendUsd": 0.9643120249999999,
+  "stopReason": "SIGINT",
+  "stages": [
+    {
+      "id": "control-replay",
+      "config": {
+        "scenario": "replay",
+        "profiles": [
+          {
+            "id": "gemini-paid::gemini-4-argon",
+            "accountId": "gemini-paid",
+            "label": "Gemini Argon 4 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-4-argon",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2,
+              "output": 10,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Argon Standard introductory rates through 2026-11-30; recheck before later runs."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "gemini-paid::gemini-3.8-flash",
+            "accountId": "gemini-paid",
+            "label": "Gemini Flash 3.8 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 0.75,
+              "cachedRead": 0.075,
+              "cacheWrite": 0.75,
+              "output": 3.75,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Flash 3.8 Standard introductory rates through 2026-12-31; implicit cache only in this benchmark."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "openai-paid::gpt-6.1-sol",
+            "accountId": "openai-paid",
+            "label": "GPT-6.1 Sol · OpenAI paid account",
+            "provider": "openai",
+            "model": "gpt-6.1-sol",
+            "tier": "Paid · user declared",
+            "keyEnv": "CODEX_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2.5,
+              "output": 10,
+              "source": "https://developers.openai.com/api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Standard, global processing; GPT-6.1 Sol writes at 1.25x input. Under 100K input only in this version."
+            },
+            "cacheMinTokens": 1024
+          },
+          {
+            "id": "anthropic-paid::claude-opus-5-5",
+            "accountId": "anthropic-paid",
+            "label": "Claude Opus 5.5 · Anthropic paid account",
+            "provider": "anthropic",
+            "model": "claude-opus-5-5",
+            "tier": "Paid · user declared",
+            "keyEnv": "ANTHROPIC_API_KEY",
+            "pricing": {
+              "input": 4,
+              "cachedRead": 0.2,
+              "cacheWrite": 5,
+              "output": 20,
+              "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+              "asOf": "2026-10-17",
+              "note": "Opus 5.5 Standard, global processing; 5-minute automatic cache writes."
+            },
+            "cacheMinTokens": 512
+          }
+        ],
+        "turns": 2,
+        "trials": 1,
+        "gapsSeconds": [
+          5
+        ],
+        "prefixChars": 48000,
+        "deltaChars": 2400,
+        "maxOutputTokens": 512,
+        "toleranceTokens": 64,
+        "timeoutMs": 90000,
+        "seed": "validation-v2-control-replay",
+        "maxEstimatedUsd": 5
+      }
+    },
+    {
+      "id": "control-append",
+      "config": {
+        "scenario": "append",
+        "profiles": [
+          {
+            "id": "gemini-paid::gemini-4-argon",
+            "accountId": "gemini-paid",
+            "label": "Gemini Argon 4 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-4-argon",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2,
+              "output": 10,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Argon Standard introductory rates through 2026-11-30; recheck before later runs."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "gemini-paid::gemini-3.8-flash",
+            "accountId": "gemini-paid",
+            "label": "Gemini Flash 3.8 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 0.75,
+              "cachedRead": 0.075,
+              "cacheWrite": 0.75,
+              "output": 3.75,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Flash 3.8 Standard introductory rates through 2026-12-31; implicit cache only in this benchmark."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "openai-paid::gpt-6.1-sol",
+            "accountId": "openai-paid",
+            "label": "GPT-6.1 Sol · OpenAI paid account",
+            "provider": "openai",
+            "model": "gpt-6.1-sol",
+            "tier": "Paid · user declared",
+            "keyEnv": "CODEX_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2.5,
+              "output": 10,
+              "source": "https://developers.openai.com/api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Standard, global processing; GPT-6.1 Sol writes at 1.25x input. Under 100K input only in this version."
+            },
+            "cacheMinTokens": 1024
+          },
+          {
+            "id": "anthropic-paid::claude-opus-5-5",
+            "accountId": "anthropic-paid",
+            "label": "Claude Opus 5.5 · Anthropic paid account",
+            "provider": "anthropic",
+            "model": "claude-opus-5-5",
+            "tier": "Paid · user declared",
+            "keyEnv": "ANTHROPIC_API_KEY",
+            "pricing": {
+              "input": 4,
+              "cachedRead": 0.2,
+              "cacheWrite": 5,
+              "output": 20,
+              "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+              "asOf": "2026-10-17",
+              "note": "Opus 5.5 Standard, global processing; 5-minute automatic cache writes."
+            },
+            "cacheMinTokens": 512
+          }
+        ],
+        "turns": 2,
+        "trials": 1,
+        "gapsSeconds": [
+          5
+        ],
+        "prefixChars": 48000,
+        "deltaChars": 2400,
+        "maxOutputTokens": 512,
+        "toleranceTokens": 64,
+        "timeoutMs": 90000,
+        "seed": "validation-v2-control-append",
+        "maxEstimatedUsd": 5
+      }
+    },
+    {
+      "id": "control-perturb",
+      "config": {
+        "scenario": "perturb",
+        "profiles": [
+          {
+            "id": "gemini-paid::gemini-4-argon",
+            "accountId": "gemini-paid",
+            "label": "Gemini Argon 4 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-4-argon",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2,
+              "output": 10,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Argon Standard introductory rates through 2026-11-30; recheck before later runs."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "gemini-paid::gemini-3.8-flash",
+            "accountId": "gemini-paid",
+            "label": "Gemini Flash 3.8 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 0.75,
+              "cachedRead": 0.075,
+              "cacheWrite": 0.75,
+              "output": 3.75,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Flash 3.8 Standard introductory rates through 2026-12-31; implicit cache only in this benchmark."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "openai-paid::gpt-6.1-sol",
+            "accountId": "openai-paid",
+            "label": "GPT-6.1 Sol · OpenAI paid account",
+            "provider": "openai",
+            "model": "gpt-6.1-sol",
+            "tier": "Paid · user declared",
+            "keyEnv": "CODEX_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2.5,
+              "output": 10,
+              "source": "https://developers.openai.com/api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Standard, global processing; GPT-6.1 Sol writes at 1.25x input. Under 100K input only in this version."
+            },
+            "cacheMinTokens": 1024
+          },
+          {
+            "id": "anthropic-paid::claude-opus-5-5",
+            "accountId": "anthropic-paid",
+            "label": "Claude Opus 5.5 · Anthropic paid account",
+            "provider": "anthropic",
+            "model": "claude-opus-5-5",
+            "tier": "Paid · user declared",
+            "keyEnv": "ANTHROPIC_API_KEY",
+            "pricing": {
+              "input": 4,
+              "cachedRead": 0.2,
+              "cacheWrite": 5,
+              "output": 20,
+              "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+              "asOf": "2026-10-17",
+              "note": "Opus 5.5 Standard, global processing; 5-minute automatic cache writes."
+            },
+            "cacheMinTokens": 512
+          }
+        ],
+        "turns": 2,
+        "trials": 1,
+        "gapsSeconds": [
+          5
+        ],
+        "prefixChars": 48000,
+        "deltaChars": 2400,
+        "maxOutputTokens": 512,
+        "toleranceTokens": 64,
+        "timeoutMs": 90000,
+        "seed": "validation-v2-control-perturb",
+        "maxEstimatedUsd": 5
+      }
+    },
+    {
+      "id": "agent-5s-block-1",
+      "config": {
+        "scenario": "agent",
+        "profiles": [
+          {
+            "id": "gemini-paid::gemini-4-argon",
+            "accountId": "gemini-paid",
+            "label": "Gemini Argon 4 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-4-argon",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2,
+              "output": 10,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Argon Standard introductory rates through 2026-11-30; recheck before later runs."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "gemini-paid::gemini-3.8-flash",
+            "accountId": "gemini-paid",
+            "label": "Gemini Flash 3.8 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 0.75,
+              "cachedRead": 0.075,
+              "cacheWrite": 0.75,
+              "output": 3.75,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Flash 3.8 Standard introductory rates through 2026-12-31; implicit cache only in this benchmark."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "openai-paid::gpt-6.1-sol",
+            "accountId": "openai-paid",
+            "label": "GPT-6.1 Sol · OpenAI paid account",
+            "provider": "openai",
+            "model": "gpt-6.1-sol",
+            "tier": "Paid · user declared",
+            "keyEnv": "CODEX_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2.5,
+              "output": 10,
+              "source": "https://developers.openai.com/api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Standard, global processing; GPT-6.1 Sol writes at 1.25x input. Under 100K input only in this version."
+            },
+            "cacheMinTokens": 1024
+          },
+          {
+            "id": "anthropic-paid::claude-opus-5-5",
+            "accountId": "anthropic-paid",
+            "label": "Claude Opus 5.5 · Anthropic paid account",
+            "provider": "anthropic",
+            "model": "claude-opus-5-5",
+            "tier": "Paid · user declared",
+            "keyEnv": "ANTHROPIC_API_KEY",
+            "pricing": {
+              "input": 4,
+              "cachedRead": 0.2,
+              "cacheWrite": 5,
+              "output": 20,
+              "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+              "asOf": "2026-10-17",
+              "note": "Opus 5.5 Standard, global processing; 5-minute automatic cache writes."
+            },
+            "cacheMinTokens": 512
+          }
+        ],
+        "turns": 4,
+        "trials": 1,
+        "gapsSeconds": [
+          5
+        ],
+        "prefixChars": 48000,
+        "deltaChars": 2400,
+        "maxOutputTokens": 512,
+        "toleranceTokens": 64,
+        "timeoutMs": 90000,
+        "seed": "validation-v2-block-1",
+        "maxEstimatedUsd": 5
+      }
+    },
+    {
+      "id": "agent-5s-block-2",
+      "config": {
+        "scenario": "agent",
+        "profiles": [
+          {
+            "id": "gemini-paid::gemini-4-argon",
+            "accountId": "gemini-paid",
+            "label": "Gemini Argon 4 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-4-argon",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2,
+              "output": 10,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Argon Standard introductory rates through 2026-11-30; recheck before later runs."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "gemini-paid::gemini-3.8-flash",
+            "accountId": "gemini-paid",
+            "label": "Gemini Flash 3.8 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 0.75,
+              "cachedRead": 0.075,
+              "cacheWrite": 0.75,
+              "output": 3.75,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Flash 3.8 Standard introductory rates through 2026-12-31; implicit cache only in this benchmark."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "openai-paid::gpt-6.1-sol",
+            "accountId": "openai-paid",
+            "label": "GPT-6.1 Sol · OpenAI paid account",
+            "provider": "openai",
+            "model": "gpt-6.1-sol",
+            "tier": "Paid · user declared",
+            "keyEnv": "CODEX_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2.5,
+              "output": 10,
+              "source": "https://developers.openai.com/api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Standard, global processing; GPT-6.1 Sol writes at 1.25x input. Under 100K input only in this version."
+            },
+            "cacheMinTokens": 1024
+          },
+          {
+            "id": "anthropic-paid::claude-opus-5-5",
+            "accountId": "anthropic-paid",
+            "label": "Claude Opus 5.5 · Anthropic paid account",
+            "provider": "anthropic",
+            "model": "claude-opus-5-5",
+            "tier": "Paid · user declared",
+            "keyEnv": "ANTHROPIC_API_KEY",
+            "pricing": {
+              "input": 4,
+              "cachedRead": 0.2,
+              "cacheWrite": 5,
+              "output": 20,
+              "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+              "asOf": "2026-10-17",
+              "note": "Opus 5.5 Standard, global processing; 5-minute automatic cache writes."
+            },
+            "cacheMinTokens": 512
+          }
+        ],
+        "turns": 4,
+        "trials": 1,
+        "gapsSeconds": [
+          5
+        ],
+        "prefixChars": 48000,
+        "deltaChars": 2400,
+        "maxOutputTokens": 512,
+        "toleranceTokens": 64,
+        "timeoutMs": 90000,
+        "seed": "validation-v2-block-2",
+        "maxEstimatedUsd": 5
+      }
+    },
+    {
+      "id": "agent-5s-block-3",
+      "config": {
+        "scenario": "agent",
+        "profiles": [
+          {
+            "id": "gemini-paid::gemini-4-argon",
+            "accountId": "gemini-paid",
+            "label": "Gemini Argon 4 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-4-argon",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2,
+              "output": 10,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Argon Standard introductory rates through 2026-11-30; recheck before later runs."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "gemini-paid::gemini-3.8-flash",
+            "accountId": "gemini-paid",
+            "label": "Gemini Flash 3.8 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 0.75,
+              "cachedRead": 0.075,
+              "cacheWrite": 0.75,
+              "output": 3.75,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Flash 3.8 Standard introductory rates through 2026-12-31; implicit cache only in this benchmark."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "openai-paid::gpt-6.1-sol",
+            "accountId": "openai-paid",
+            "label": "GPT-6.1 Sol · OpenAI paid account",
+            "provider": "openai",
+            "model": "gpt-6.1-sol",
+            "tier": "Paid · user declared",
+            "keyEnv": "CODEX_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2.5,
+              "output": 10,
+              "source": "https://developers.openai.com/api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Standard, global processing; GPT-6.1 Sol writes at 1.25x input. Under 100K input only in this version."
+            },
+            "cacheMinTokens": 1024
+          },
+          {
+            "id": "anthropic-paid::claude-opus-5-5",
+            "accountId": "anthropic-paid",
+            "label": "Claude Opus 5.5 · Anthropic paid account",
+            "provider": "anthropic",
+            "model": "claude-opus-5-5",
+            "tier": "Paid · user declared",
+            "keyEnv": "ANTHROPIC_API_KEY",
+            "pricing": {
+              "input": 4,
+              "cachedRead": 0.2,
+              "cacheWrite": 5,
+              "output": 20,
+              "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+              "asOf": "2026-10-17",
+              "note": "Opus 5.5 Standard, global processing; 5-minute automatic cache writes."
+            },
+            "cacheMinTokens": 512
+          }
+        ],
+        "turns": 4,
+        "trials": 1,
+        "gapsSeconds": [
+          5
+        ],
+        "prefixChars": 48000,
+        "deltaChars": 2400,
+        "maxOutputTokens": 512,
+        "toleranceTokens": 64,
+        "timeoutMs": 90000,
+        "seed": "validation-v2-block-3",
+        "maxEstimatedUsd": 5
+      }
+    },
+    {
+      "id": "agent-30s-block-1",
+      "config": {
+        "scenario": "agent",
+        "profiles": [
+          {
+            "id": "gemini-paid::gemini-4-argon",
+            "accountId": "gemini-paid",
+            "label": "Gemini Argon 4 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-4-argon",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2,
+              "output": 10,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Argon Standard introductory rates through 2026-11-30; recheck before later runs."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "gemini-paid::gemini-3.8-flash",
+            "accountId": "gemini-paid",
+            "label": "Gemini Flash 3.8 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 0.75,
+              "cachedRead": 0.075,
+              "cacheWrite": 0.75,
+              "output": 3.75,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Flash 3.8 Standard introductory rates through 2026-12-31; implicit cache only in this benchmark."
+            },
+            "cacheMinTokens": 4096
+          }
+        ],
+        "turns": 2,
+        "trials": 1,
+        "gapsSeconds": [
+          30
+        ],
+        "prefixChars": 48000,
+        "deltaChars": 2400,
+        "maxOutputTokens": 512,
+        "toleranceTokens": 64,
+        "timeoutMs": 90000,
+        "seed": "validation-v2-block-1",
+        "maxEstimatedUsd": 5
+      }
+    },
+    {
+      "id": "agent-120s-block-1",
+      "config": {
+        "scenario": "agent",
+        "profiles": [
+          {
+            "id": "gemini-paid::gemini-4-argon",
+            "accountId": "gemini-paid",
+            "label": "Gemini Argon 4 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-4-argon",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2,
+              "output": 10,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Argon Standard introductory rates through 2026-11-30; recheck before later runs."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "gemini-paid::gemini-3.8-flash",
+            "accountId": "gemini-paid",
+            "label": "Gemini Flash 3.8 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 0.75,
+              "cachedRead": 0.075,
+              "cacheWrite": 0.75,
+              "output": 3.75,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Flash 3.8 Standard introductory rates through 2026-12-31; implicit cache only in this benchmark."
+            },
+            "cacheMinTokens": 4096
+          }
+        ],
+        "turns": 2,
+        "trials": 1,
+        "gapsSeconds": [
+          120
+        ],
+        "prefixChars": 48000,
+        "deltaChars": 2400,
+        "maxOutputTokens": 512,
+        "toleranceTokens": 64,
+        "timeoutMs": 90000,
+        "seed": "validation-v2-block-1",
+        "maxEstimatedUsd": 5
+      }
+    },
+    {
+      "id": "agent-30s-block-2",
+      "config": {
+        "scenario": "agent",
+        "profiles": [
+          {
+            "id": "gemini-paid::gemini-4-argon",
+            "accountId": "gemini-paid",
+            "label": "Gemini Argon 4 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-4-argon",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2,
+              "output": 10,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Argon Standard introductory rates through 2026-11-30; recheck before later runs."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "gemini-paid::gemini-3.8-flash",
+            "accountId": "gemini-paid",
+            "label": "Gemini Flash 3.8 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 0.75,
+              "cachedRead": 0.075,
+              "cacheWrite": 0.75,
+              "output": 3.75,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Flash 3.8 Standard introductory rates through 2026-12-31; implicit cache only in this benchmark."
+            },
+            "cacheMinTokens": 4096
+          }
+        ],
+        "turns": 2,
+        "trials": 1,
+        "gapsSeconds": [
+          30
+        ],
+        "prefixChars": 48000,
+        "deltaChars": 2400,
+        "maxOutputTokens": 512,
+        "toleranceTokens": 64,
+        "timeoutMs": 90000,
+        "seed": "validation-v2-block-2",
+        "maxEstimatedUsd": 5
+      }
+    },
+    {
+      "id": "agent-120s-block-2",
+      "config": {
+        "scenario": "agent",
+        "profiles": [
+          {
+            "id": "gemini-paid::gemini-4-argon",
+            "accountId": "gemini-paid",
+            "label": "Gemini Argon 4 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-4-argon",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2,
+              "output": 10,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Argon Standard introductory rates through 2026-11-30; recheck before later runs."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "gemini-paid::gemini-3.8-flash",
+            "accountId": "gemini-paid",
+            "label": "Gemini Flash 3.8 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 0.75,
+              "cachedRead": 0.075,
+              "cacheWrite": 0.75,
+              "output": 3.75,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Flash 3.8 Standard introductory rates through 2026-12-31; implicit cache only in this benchmark."
+            },
+            "cacheMinTokens": 4096
+          }
+        ],
+        "turns": 2,
+        "trials": 1,
+        "gapsSeconds": [
+          120
+        ],
+        "prefixChars": 48000,
+        "deltaChars": 2400,
+        "maxOutputTokens": 512,
+        "toleranceTokens": 64,
+        "timeoutMs": 90000,
+        "seed": "validation-v2-block-2",
+        "maxEstimatedUsd": 5
+      }
+    },
+    {
+      "id": "agent-30s-block-3",
+      "config": {
+        "scenario": "agent",
+        "profiles": [
+          {
+            "id": "gemini-paid::gemini-4-argon",
+            "accountId": "gemini-paid",
+            "label": "Gemini Argon 4 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-4-argon",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2,
+              "output": 10,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Argon Standard introductory rates through 2026-11-30; recheck before later runs."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "gemini-paid::gemini-3.8-flash",
+            "accountId": "gemini-paid",
+            "label": "Gemini Flash 3.8 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 0.75,
+              "cachedRead": 0.075,
+              "cacheWrite": 0.75,
+              "output": 3.75,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Flash 3.8 Standard introductory rates through 2026-12-31; implicit cache only in this benchmark."
+            },
+            "cacheMinTokens": 4096
+          }
+        ],
+        "turns": 2,
+        "trials": 1,
+        "gapsSeconds": [
+          30
+        ],
+        "prefixChars": 48000,
+        "deltaChars": 2400,
+        "maxOutputTokens": 512,
+        "toleranceTokens": 64,
+        "timeoutMs": 90000,
+        "seed": "validation-v2-block-3",
+        "maxEstimatedUsd": 5
+      }
+    },
+    {
+      "id": "agent-120s-block-3",
+      "config": {
+        "scenario": "agent",
+        "profiles": [
+          {
+            "id": "gemini-paid::gemini-4-argon",
+            "accountId": "gemini-paid",
+            "label": "Gemini Argon 4 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-4-argon",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 2,
+              "cachedRead": 0.1,
+              "cacheWrite": 2,
+              "output": 10,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Argon Standard introductory rates through 2026-11-30; recheck before later runs."
+            },
+            "cacheMinTokens": 4096
+          },
+          {
+            "id": "gemini-paid::gemini-3.8-flash",
+            "accountId": "gemini-paid",
+            "label": "Gemini Flash 3.8 · Gemini paid account",
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "tier": "Paid · user declared",
+            "keyEnv": "GEMINI_API_KEY",
+            "pricing": {
+              "input": 0.75,
+              "cachedRead": 0.075,
+              "cacheWrite": 0.75,
+              "output": 3.75,
+              "source": "https://ai.google.dev/gemini-api/docs/pricing",
+              "asOf": "2026-10-17",
+              "note": "Flash 3.8 Standard introductory rates through 2026-12-31; implicit cache only in this benchmark."
+            },
+            "cacheMinTokens": 4096
+          }
+        ],
+        "turns": 2,
+        "trials": 1,
+        "gapsSeconds": [
+          120
+        ],
+        "prefixChars": 48000,
+        "deltaChars": 2400,
+        "maxOutputTokens": 512,
+        "toleranceTokens": 64,
+        "timeoutMs": 90000,
+        "seed": "validation-v2-block-3",
+        "maxEstimatedUsd": 5
+      }
+    }
+  ],
+  "completed": [
+    {
+      "stageId": "control-replay",
+      "runId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c",
+      "status": "completed",
+      "attempts": 8,
+      "knownSpendUsd": 0.24820012499999997
+    },
+    {
+      "stageId": "control-append",
+      "runId": "93d61acc-6d61-44d8-bb48-08328d511cda",
+      "status": "completed",
+      "attempts": 8,
+      "knownSpendUsd": 0.2642909499999999
+    },
+    {
+      "stageId": "control-perturb",
+      "runId": "a38627de-c268-4ec5-95aa-e2a03461e3b8",
+      "status": "completed",
+      "attempts": 8,
+      "knownSpendUsd": 0.304608
+    },
+    {
+      "stageId": "agent-5s-block-1",
+      "runId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a",
+      "status": "cancelled",
+      "attempts": 6,
+      "knownSpendUsd": 0.14721295
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "protocol": "docs/CODING_VALIDATION_PROTOCOL.md",
+  "models": [
+    "gemini-4-argon",
+    "gpt-6.1-sol",
+    "gemini-3.8-flash",
+    "claude-opus-5-5"
+  ],
+  "accounts": [
+    "gemini-paid",
+    "openai-paid",
+    "anthropic-paid"
+  ],
+  "trials": 1,
+  "gapsSeconds": [
+    5
+  ],
+  "sourceFiles": 21,
+  "contextCharacters": 63226,
+  "maxRequestsPerTask": 12,
+  "maxOutputTokens": 4096,
+  "maxObservedUsd": 5,
+  "startedAt": "2026-10-17T20:10:03.920Z",
+  "updatedAt": "2026-10-17T20:12:14.212Z",
+  "knownSpendUsd": 0.35259609999999997,
+  "stopReason": null,
+  "completed": [
+    {
+      "trialName": "01-gemini-paid__gemini-4-argon-5s-t1",
+      "model": "gemini-4-argon",
+      "accountId": "gemini-paid",
+      "gapSeconds": 5,
+      "trial": 0,
+      "status": "stopped",
+      "requests": 0,
+      "qualified": false,
+      "finalTestExitCode": 1
+    },
+    {
+      "trialName": "02-openai-paid__gpt-6.1-sol-5s-t1",
+      "model": "gpt-6.1-sol",
+      "accountId": "openai-paid",
+      "gapSeconds": 5,
+      "trial": 0,
+      "status": "completed",
+      "requests": 9,
+      "qualified": true,
+      "finalTestExitCode": 0
+    },
+    {
+      "trialName": "03-gemini-paid__gemini-3.8-flash-5s-t1",
+      "model": "gemini-3.8-flash",
+      "accountId": "gemini-paid",
+      "gapSeconds": 5,
+      "trial": 0,
+      "status": "stopped",
+      "requests": 0,
+      "qualified": false,
+      "finalTestExitCode": 1
+    },
+    {
+      "trialName": "04-anthropic-paid__claude-opus-5-5-5s-t1",
+      "model": "claude-opus-5-5",
+      "accountId": "anthropic-paid",
+      "gapSeconds": 5,
+      "trial": 0,
+      "status": "completed",
+      "requests": 6,
+      "qualified": true,
+      "finalTestExitCode": 0
+    }
+  ]
+}

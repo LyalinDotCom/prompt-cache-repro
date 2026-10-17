@@ -1,0 +1,132 @@
+event: response.created
+data: {"type":"response.created","response":{"id":"resp_0dca1f67bb1588df016ad3da209d0087d2a881a941dcc1dbe7","object":"response","created_at":1792268832,"status":"in_progress","access_programs":null,"background":false,"completed_at":null,"error":null,"frequency_penalty":0.0,"incomplete_details":null,"instructions":null,"max_output_tokens":4096,"max_tool_calls":null,"model":"gpt-6.1-sol","moderation":null,"output":[],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":"01a14b8b-60e6-723f-8b20-930316fecc7d","prompt_cache_retention":"24h","reasoning":{"context":"all_turns","effort":"medium","mode":"standard","summary":"detailed"},"safety_identifier":null,"service_tier":"auto","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tool_usage":{"image_gen":{"input_tokens":0,"input_tokens_details":{"image_tokens":0,"text_tokens":0},"output_tokens":0,"output_tokens_details":{"image_tokens":0,"text_tokens":0},"total_tokens":0},"web_search":{"num_requests":0}},"tools":[{"type":"function","description":"Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.","name":"read","output_schema":null,"parameters":{"type":"object","required":["path","offset","limit"],"properties":{"path":{"type":"string","description":"Path to the file to read (relative or absolute)"},"offset":{"anyOf":[{"type":"number","description":"Line number to start reading from (1-indexed)"},{"type":"null"}]},"limit":{"anyOf":[{"type":"number","description":"Maximum number of lines to read"},{"type":"null"}]}},"additionalProperties":false},"strict":true},{"type":"function","description":"Run the actual test suite or ledger CLI inside this repository. Only these exact commands are allowed: `node --test`; `node --test test/*.test.mjs`; `npm test`; `node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json`. No compound commands, shell operators, network, or package installation. Use read/edit/write for inspection and source changes. npm test is an alias for the same direct Node test suite. Each process has a clean environment and a 30-second limit.","name":"bash","output_schema":null,"parameters":{"type":"object","required":["command","timeout"],"properties":{"command":{"type":"string","description":"Shell command to execute"},"timeout":{"anyOf":[{"type":"number","description":"Timeout in seconds (optional, no default timeout)"},{"type":"null"}]}},"additionalProperties":false},"strict":true},{"type":"function","description":"Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.","name":"edit","output_schema":null,"parameters":{"type":"object","required":["path","edits"],"properties":{"path":{"type":"string","description":"Path to the file to edit (relative or absolute)"},"edits":{"type":"array","items":{"type":"object","required":["oldText","newText"],"properties":{"oldText":{"type":"string","description":"Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."},"newText":{"type":"string","description":"Replacement text for this targeted edit."}},"additionalProperties":false},"description":"One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."}},"additionalProperties":false},"strict":true},{"type":"function","description":"Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.","name":"write","output_schema":null,"parameters":{"type":"object","required":["path","content"],"properties":{"path":{"type":"string","description":"Path to the file to write (relative or absolute)"},"content":{"type":"string","description":"Content to write to the file"}},"additionalProperties":false},"strict":true}],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":null,"user":null,"metadata":{}},"sequence_number":0}
+
+event: response.in_progress
+data: {"type":"response.in_progress","response":{"id":"resp_0dca1f67bb1588df016ad3da209d0087d2a881a941dcc1dbe7","object":"response","created_at":1792268832,"status":"in_progress","access_programs":null,"background":false,"completed_at":null,"error":null,"frequency_penalty":0.0,"incomplete_details":null,"instructions":null,"max_output_tokens":4096,"max_tool_calls":null,"model":"gpt-6.1-sol","moderation":null,"output":[],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":"01a14b8b-60e6-723f-8b20-930316fecc7d","prompt_cache_retention":"24h","reasoning":{"context":"all_turns","effort":"medium","mode":"standard","summary":"detailed"},"safety_identifier":null,"service_tier":"auto","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tool_usage":{"image_gen":{"input_tokens":0,"input_tokens_details":{"image_tokens":0,"text_tokens":0},"output_tokens":0,"output_tokens_details":{"image_tokens":0,"text_tokens":0},"total_tokens":0},"web_search":{"num_requests":0}},"tools":[{"type":"function","description":"Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.","name":"read","output_schema":null,"parameters":{"type":"object","required":["path","offset","limit"],"properties":{"path":{"type":"string","description":"Path to the file to read (relative or absolute)"},"offset":{"anyOf":[{"type":"number","description":"Line number to start reading from (1-indexed)"},{"type":"null"}]},"limit":{"anyOf":[{"type":"number","description":"Maximum number of lines to read"},{"type":"null"}]}},"additionalProperties":false},"strict":true},{"type":"function","description":"Run the actual test suite or ledger CLI inside this repository. Only these exact commands are allowed: `node --test`; `node --test test/*.test.mjs`; `npm test`; `node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json`. No compound commands, shell operators, network, or package installation. Use read/edit/write for inspection and source changes. npm test is an alias for the same direct Node test suite. Each process has a clean environment and a 30-second limit.","name":"bash","output_schema":null,"parameters":{"type":"object","required":["command","timeout"],"properties":{"command":{"type":"string","description":"Shell command to execute"},"timeout":{"anyOf":[{"type":"number","description":"Timeout in seconds (optional, no default timeout)"},{"type":"null"}]}},"additionalProperties":false},"strict":true},{"type":"function","description":"Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.","name":"edit","output_schema":null,"parameters":{"type":"object","required":["path","edits"],"properties":{"path":{"type":"string","description":"Path to the file to edit (relative or absolute)"},"edits":{"type":"array","items":{"type":"object","required":["oldText","newText"],"properties":{"oldText":{"type":"string","description":"Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."},"newText":{"type":"string","description":"Replacement text for this targeted edit."}},"additionalProperties":false},"description":"One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."}},"additionalProperties":false},"strict":true},{"type":"function","description":"Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.","name":"write","output_schema":null,"parameters":{"type":"object","required":["path","content"],"properties":{"path":{"type":"string","description":"Path to the file to write (relative or absolute)"},"content":{"type":"string","description":"Content to write to the file"}},"additionalProperties":false},"strict":true}],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":null,"user":null,"metadata":{}},"sequence_number":1}
+
+event: response.output_item.added
+data: {"type":"response.output_item.added","item":{"id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","type":"function_call","status":"in_progress","arguments":"","call_id":"call_uO3t0JJkoyl6vdxlj6N1kBWi","name":"bash"},"output_index":0,"sequence_number":2}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"{\"","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"bLJlvu8aVpZi7j","output_index":0,"sequence_number":3}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"command","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"ue6kZ4MR0","output_index":0,"sequence_number":4}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"\":\"","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"aavFRSgnw5XFt","output_index":0,"sequence_number":5}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"node","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"RFNrBnXFkJQH","output_index":0,"sequence_number":6}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" bin","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"dbgrq0CKrh5x","output_index":0,"sequence_number":7}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"/","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"4Vbgc1v8i551KZC","output_index":0,"sequence_number":8}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"ledger","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"KUna1segIy","output_index":0,"sequence_number":9}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":".m","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"hfq3XKnGXRYnSl","output_index":0,"sequence_number":10}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"js","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"hGTvyGsSLkfaNP","output_index":0,"sequence_number":11}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" import","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"KHEWf4soj","output_index":0,"sequence_number":12}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" data","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"r2puoS67i4N","output_index":0,"sequence_number":13}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"/in","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"gDmhF5H8qOfv9","output_index":0,"sequence_number":14}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"voices","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"QT8NLiRXL5","output_index":0,"sequence_number":15}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":".csv","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"se3IOlHS2Ybi","output_index":0,"sequence_number":16}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" --","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"oNLpPjZnGd5mR","output_index":0,"sequence_number":17}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"payments","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"T1H38FHA","output_index":0,"sequence_number":18}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" data","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"WAGGi4RKcF4","output_index":0,"sequence_number":19}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"/pay","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"6Wd9Ezm7I4k7","output_index":0,"sequence_number":20}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"ments","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"PAryByKha9N","output_index":0,"sequence_number":21}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":".csv","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"7fWlTv3dH4Xr","output_index":0,"sequence_number":22}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" --","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"89URSjB1TjI73","output_index":0,"sequence_number":23}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"as","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"bdyeruS86sBCI7","output_index":0,"sequence_number":24}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"-of","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"lAAJ3Vj1gRZDt","output_index":0,"sequence_number":25}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" ","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"UPURgOX5itGM6HG","output_index":0,"sequence_number":26}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"202","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"RVDUHGaPEGgyR","output_index":0,"sequence_number":27}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"6","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"WA0UlySrpnLiyjz","output_index":0,"sequence_number":28}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"-","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"jOLCyXGcP4lSMk8","output_index":0,"sequence_number":29}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"03","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"DT0jwzIHeEBHMm","output_index":0,"sequence_number":30}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"-","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"YjCOfMzyvHMA5ld","output_index":0,"sequence_number":31}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"01","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"wkJIVIGS7HOyp9","output_index":0,"sequence_number":32}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" --","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"mGMYIkLkgcVZy","output_index":0,"sequence_number":33}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"format","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"hqI5AfGJar","output_index":0,"sequence_number":34}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" json","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"i0WlVG1kRRp","output_index":0,"sequence_number":35}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"\",\"","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"942JmqKSZJftV","output_index":0,"sequence_number":36}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"timeout","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"lKTXh2Nqb","output_index":0,"sequence_number":37}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"\":","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"kdMJhBLuqgZJoZ","output_index":0,"sequence_number":38}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"30","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"rlZVfqvWnczGq5","output_index":0,"sequence_number":39}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"}","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","obfuscation":"87XqwriGgFag86f","output_index":0,"sequence_number":40}
+
+event: response.function_call_arguments.done
+data: {"type":"response.function_call_arguments.done","arguments":"{\"command\":\"node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json\",\"timeout\":30}","item_id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","output_index":0,"sequence_number":41}
+
+event: response.output_item.done
+data: {"type":"response.output_item.done","item":{"id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","type":"function_call","status":"completed","arguments":"{\"command\":\"node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json\",\"timeout\":30}","call_id":"call_uO3t0JJkoyl6vdxlj6N1kBWi","name":"bash"},"output_index":0,"sequence_number":42}
+
+event: response.completed
+data: {"type":"response.completed","response":{"id":"resp_0dca1f67bb1588df016ad3da209d0087d2a881a941dcc1dbe7","object":"response","created_at":1792268832,"status":"completed","access_programs":null,"background":false,"completed_at":1792268834,"error":null,"frequency_penalty":0.0,"incomplete_details":null,"instructions":null,"max_output_tokens":4096,"max_tool_calls":null,"model":"gpt-6.1-sol","moderation":null,"output":[{"id":"fc_0dca1f67bb1588df016ad3da21a4d487d2a95d186db69a7fff","type":"function_call","status":"completed","arguments":"{\"command\":\"node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json\",\"timeout\":30}","call_id":"call_uO3t0JJkoyl6vdxlj6N1kBWi","name":"bash"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":"01a14b8b-60e6-723f-8b20-930316fecc7d","prompt_cache_retention":"24h","reasoning":{"context":"all_turns","effort":"medium","mode":"standard","summary":"detailed"},"safety_identifier":null,"service_tier":"default","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tool_usage":{"image_gen":{"input_tokens":0,"input_tokens_details":{"image_tokens":0,"text_tokens":0},"output_tokens":0,"output_tokens_details":{"image_tokens":0,"text_tokens":0},"total_tokens":0},"web_search":{"num_requests":0}},"tools":[{"type":"function","description":"Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.","name":"read","output_schema":null,"parameters":{"type":"object","required":["path","offset","limit"],"properties":{"path":{"type":"string","description":"Path to the file to read (relative or absolute)"},"offset":{"anyOf":[{"type":"number","description":"Line number to start reading from (1-indexed)"},{"type":"null"}]},"limit":{"anyOf":[{"type":"number","description":"Maximum number of lines to read"},{"type":"null"}]}},"additionalProperties":false},"strict":true},{"type":"function","description":"Run the actual test suite or ledger CLI inside this repository. Only these exact commands are allowed: `node --test`; `node --test test/*.test.mjs`; `npm test`; `node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json`. No compound commands, shell operators, network, or package installation. Use read/edit/write for inspection and source changes. npm test is an alias for the same direct Node test suite. Each process has a clean environment and a 30-second limit.","name":"bash","output_schema":null,"parameters":{"type":"object","required":["command","timeout"],"properties":{"command":{"type":"string","description":"Shell command to execute"},"timeout":{"anyOf":[{"type":"number","description":"Timeout in seconds (optional, no default timeout)"},{"type":"null"}]}},"additionalProperties":false},"strict":true},{"type":"function","description":"Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.","name":"edit","output_schema":null,"parameters":{"type":"object","required":["path","edits"],"properties":{"path":{"type":"string","description":"Path to the file to edit (relative or absolute)"},"edits":{"type":"array","items":{"type":"object","required":["oldText","newText"],"properties":{"oldText":{"type":"string","description":"Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."},"newText":{"type":"string","description":"Replacement text for this targeted edit."}},"additionalProperties":false},"description":"One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."}},"additionalProperties":false},"strict":true},{"type":"function","description":"Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.","name":"write","output_schema":null,"parameters":{"type":"object","required":["path","content"],"properties":{"path":{"type":"string","description":"Path to the file to write (relative or absolute)"},"content":{"type":"string","description":"Content to write to the file"}},"additionalProperties":false},"strict":true}],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":38449,"input_tokens_details":{"cache_write_tokens":884,"cached_tokens":37562},"output_tokens":51,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":38500},"user":null,"metadata":{}},"sequence_number":43}
+

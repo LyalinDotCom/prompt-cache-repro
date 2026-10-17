@@ -107,4 +107,10 @@ try {
 } finally {
   clearTimeout(timer); process.off('SIGINT', interrupt); manifest();
 }
+const summary = spawnSync(process.execPath, ['--import', 'tsx', resolve('scripts/summarize-coding.ts'), outputRoot, ...(completed.length === dispatchOrder.length ? ['--final'] : [])], { cwd: resolve('.'), env: {}, encoding: 'utf8', timeout: 30000, maxBuffer: 1_000_000 });
+writeFileSync(join(outputRoot, 'summary-command.stdout.txt'), summary.stdout ?? '');
+writeFileSync(join(outputRoot, 'summary-command.stderr.txt'), summary.stderr ?? '');
+if (summary.status !== 0) { console.error('Offline batch summary needs attention; retained raw evidence is available.'); process.exitCode = 1; }
+if (completed.length !== dispatchOrder.length || completed.some(task => !task.qualified)) process.exitCode = stopReason === 'SIGINT' ? 130 : 1;
 console.log(JSON.stringify({ outputRoot, knownSpendUsd, stopReason, completed }));
+console.log(`Read the report: ${join(outputRoot, 'coding-summary.md')}`);

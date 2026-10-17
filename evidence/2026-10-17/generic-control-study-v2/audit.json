@@ -1,0 +1,3958 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-17T20:01:41.219Z",
+  "batchRoot": "/Users/dmitrylyalin/Source/prompt-cache-repro/runs/validation-v2-2026-10-17T19-57-38.109Z",
+  "revision": "validation-v2",
+  "batchSnapshotUpdatedAt": "2026-10-17T20:00:50.924Z",
+  "batchFinished": true,
+  "stopReason": "SIGINT",
+  "allocationComplete": false,
+  "plannedRequests": 96,
+  "stageReportsAvailable": 4,
+  "completedStages": 4,
+  "plannedStages": 12,
+  "counts": {
+    "attemptedRows": 30,
+    "successRows": 30,
+    "validRawUsageOneAttempt": 30,
+    "passChecks": 337,
+    "failChecks": 0,
+    "unknownChecks": 0
+  },
+  "ratesAsOf": "2026-10-17",
+  "ratesPerMillion": {
+    "gemini-4-argon": {
+      "input": 2,
+      "read": 0.1,
+      "write": 2,
+      "output": 10
+    },
+    "gemini-3.8-flash": {
+      "input": 0.75,
+      "read": 0.075,
+      "write": 0.75,
+      "output": 3.75
+    },
+    "gpt-6.1-sol": {
+      "input": 2,
+      "read": 0.1,
+      "write": 2.5,
+      "output": 10
+    },
+    "claude-opus-5-5": {
+      "input": 4,
+      "read": 0.2,
+      "write": 5,
+      "output": 20
+    }
+  },
+  "methodology": "All derived counters come from rawResponse.usage/usageMetadata; only wireRequest supplies payload/history/fixture evidence. No application module is imported. Rates are independent fixed standard published rates. Normalized fields are compared only after independent derivation. Gemini omitted non-presence cache scalar decodes to zero by public proto3/ProtoJSON contract.",
+  "limitations": [
+    "HTTP attempt count is instrumentation evidence, not an external network trace.",
+    "Eligible frontier is prior reported reads+writes for OpenAI/Anthropic only; Gemini implicit writes expose no corresponding frontier.",
+    "First requests are warm-up allocations, not proven backend-cold requests.",
+    "Timing uses first followups only; matching reference seed and fixture does not make independently generated native histories identical.",
+    "Failed attempts and invalid continuations remain visible and are excluded from reuse denominators.",
+    "Costs are usage-based estimates, not invoices. The all-prior-input baseline is a counterfactual, not a provider guarantee."
+  ],
+  "failures": [],
+  "qualificationWarnings": [
+    {
+      "rowId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "reason": "Raw response rejects the workload. Input/cost telemetry is retained, but this row and its next-followup comparison cannot establish accepted-task cache reuse.",
+      "category": "cyber"
+    },
+    {
+      "rowId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "reason": "Raw response rejects the workload. Input/cost telemetry is retained, but this row and its next-followup comparison cannot establish accepted-task cache reuse.",
+      "category": "cyber"
+    },
+    {
+      "rowId": "93d61acc-6d61-44d8-bb48-08328d511cda/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "reason": "Raw response rejects the workload. Input/cost telemetry is retained, but this row and its next-followup comparison cannot establish accepted-task cache reuse.",
+      "category": "cyber"
+    },
+    {
+      "rowId": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-2/anthropic-paid::claude-opus-5-5/t0",
+      "reason": "Raw response rejects the workload. Input/cost telemetry is retained, but this row and its next-followup comparison cannot establish accepted-task cache reuse.",
+      "category": "cyber"
+    },
+    {
+      "rowId": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-3/anthropic-paid::claude-opus-5-5/t1",
+      "reason": "Raw response rejects the workload. Input/cost telemetry is retained, but this row and its next-followup comparison cannot establish accepted-task cache reuse.",
+      "category": "cyber"
+    },
+    {
+      "rowId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "reason": "Raw response rejects the workload. Input/cost telemetry is retained, but this row and its next-followup comparison cannot establish accepted-task cache reuse.",
+      "category": "cyber"
+    }
+  ],
+  "checks": [
+    {
+      "check": "registered-rate-card",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "replay-identical-wire-payloads",
+      "row": "anthropic-paid::claude-opus-5-5@5s/trial-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "minimum-idle-gap",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS",
+      "detail": 5003.452375000001
+    },
+    {
+      "check": "reported-eligible-frontier-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS",
+      "detail": {
+        "independent": 17403,
+        "reported": 17403
+      }
+    },
+    {
+      "check": "reported-eligible-fullhit-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-eligible-cost-baseline-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS",
+      "detail": {
+        "independent": 0.0034966000000000003,
+        "reported": 0.0034966000000000003
+      }
+    },
+    {
+      "check": "replay-identical-wire-payloads",
+      "row": "openai-paid::gpt-6.1-sol@5s/trial-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "minimum-idle-gap",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS",
+      "detail": 5003.221208000001
+    },
+    {
+      "check": "reported-eligible-frontier-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS",
+      "detail": {
+        "independent": 11251,
+        "reported": 11251
+      }
+    },
+    {
+      "check": "reported-eligible-fullhit-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-eligible-cost-baseline-agrees",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS",
+      "detail": {
+        "independent": 0.0011311000000000001,
+        "reported": 0.0011311000000000001
+      }
+    },
+    {
+      "check": "replay-identical-wire-payloads",
+      "row": "gemini-paid::gemini-3.8-flash@5s/trial-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "minimum-idle-gap",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS",
+      "detail": 5003.109249999998
+    },
+    {
+      "check": "replay-identical-wire-payloads",
+      "row": "gemini-paid::gemini-4-argon@5s/trial-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "minimum-idle-gap",
+      "row": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS",
+      "detail": 5002.406000000003
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-2/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "append-control-preserves-history",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "minimum-idle-gap",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS",
+      "detail": 5001.979333999996
+    },
+    {
+      "check": "reported-eligible-frontier-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS",
+      "detail": {
+        "independent": 17403,
+        "reported": 17403
+      }
+    },
+    {
+      "check": "reported-eligible-fullhit-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-eligible-cost-baseline-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS",
+      "detail": {
+        "independent": 0.0079866,
+        "reported": 0.0079866
+      }
+    },
+    {
+      "check": "append-control-preserves-history",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "minimum-idle-gap",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS",
+      "detail": 5002.311750000001
+    },
+    {
+      "check": "reported-eligible-frontier-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS",
+      "detail": {
+        "independent": 11224,
+        "reported": 11224
+      }
+    },
+    {
+      "check": "reported-eligible-fullhit-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-eligible-cost-baseline-agrees",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-3/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS",
+      "detail": {
+        "independent": 0.0025734,
+        "reported": 0.0025734
+      }
+    },
+    {
+      "check": "append-control-preserves-history",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "minimum-idle-gap",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS",
+      "detail": 5002.340540999998
+    },
+    {
+      "check": "append-control-preserves-history",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "minimum-idle-gap",
+      "row": "93d61acc-6d61-44d8-bb48-08328d511cda/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS",
+      "detail": 5001.429625000004
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-0/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-0/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-0/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-0/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-0/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-0/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-0/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-0/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-0/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-1/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-1/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-1/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-1/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-1/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-1/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-1/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-1/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-1/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-2/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-2/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-2/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-2/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-2/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-2/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-2/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-2/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-2/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-3/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-3/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-3/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-3/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-3/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-3/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-3/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-3/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-3/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-4/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-4/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-4/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-4/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-4/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-4/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-4/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-4/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-4/openai-paid::gpt-6.1-sol/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-5/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-5/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-5/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-5/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-5/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-5/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-5/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-5/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-5/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-6/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "perturb-control-only-first-line-changes",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-1/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "minimum-idle-gap",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-1/gemini-paid::gemini-3.8-flash/t1",
+      "verdict": "PASS",
+      "detail": 5001.676209000012
+    },
+    {
+      "check": "perturb-control-only-first-line-changes",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-3/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "minimum-idle-gap",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-3/anthropic-paid::claude-opus-5-5/t1",
+      "verdict": "PASS",
+      "detail": 5002.453708000001
+    },
+    {
+      "check": "perturb-control-only-first-line-changes",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-5/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "minimum-idle-gap",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-5/openai-paid::gpt-6.1-sol/t1",
+      "verdict": "PASS",
+      "detail": 5003.067290999999
+    },
+    {
+      "check": "perturb-control-only-first-line-changes",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "minimum-idle-gap",
+      "row": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-7/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS",
+      "detail": 5002.396709000008
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "finite-validation-v2-task",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-1/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-1/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-1/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-1/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-1/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-1/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-1/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-1/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-1/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "finite-validation-v2-task",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-1/gemini-paid::gemini-4-argon/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "finite-validation-v2-task",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "finite-validation-v2-task",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "finite-validation-v2-task",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "registered-rate-card",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-5/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "wire-hash",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-5/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "one-transport-attempt",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-5/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "raw-usage-copy",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-5/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "raw-counter-partition",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-5/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "unique-response-id",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-5/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "normalized-counters-agree",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-5/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-input-cost-agrees",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-5/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "output-cost-agrees",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-5/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "finite-validation-v2-task",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-5/gemini-paid::gemini-3.8-flash/t0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "minimum-idle-gap",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS",
+      "detail": 5002.341749999992
+    },
+    {
+      "check": "agent-append-only-prefix",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "complete-native-output-preserved",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS",
+      "detail": {
+        "signedOrEncryptedBlocks": 1
+      }
+    },
+    {
+      "check": "tool-result-bound-to-real-call",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "fixture-exact-character-count",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS",
+      "detail": 2400
+    },
+    {
+      "check": "wallclock-idle-gap-consistent",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "verdict": "PASS",
+      "detail": {
+        "recordedIdleMs": 5002.341749999992,
+        "wallclockMinusPriorDurationMs": 5002.485749999993
+      }
+    },
+    {
+      "check": "minimum-idle-gap",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "verdict": "PASS",
+      "detail": 5001.4230830000015
+    },
+    {
+      "check": "agent-append-only-prefix",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "complete-native-output-preserved",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "verdict": "PASS",
+      "detail": {
+        "signedOrEncryptedBlocks": 1
+      }
+    },
+    {
+      "check": "tool-result-bound-to-real-call",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "fixture-exact-character-count",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "verdict": "PASS",
+      "detail": 2400
+    },
+    {
+      "check": "wallclock-idle-gap-consistent",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "verdict": "PASS",
+      "detail": {
+        "recordedIdleMs": 5001.4230830000015,
+        "wallclockMinusPriorDurationMs": 5002.118958000006
+      }
+    },
+    {
+      "check": "minimum-idle-gap",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "verdict": "PASS",
+      "detail": 5002.735374999989
+    },
+    {
+      "check": "agent-append-only-prefix",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "complete-native-output-preserved",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "verdict": "PASS",
+      "detail": {
+        "signedOrEncryptedBlocks": 1
+      }
+    },
+    {
+      "check": "tool-result-bound-to-real-call",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "fixture-exact-character-count",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "verdict": "PASS",
+      "detail": 2400
+    },
+    {
+      "check": "wallclock-idle-gap-consistent",
+      "row": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "verdict": "PASS",
+      "detail": {
+        "recordedIdleMs": 5002.735374999989,
+        "wallclockMinusPriorDurationMs": 5001.830124999979
+      }
+    },
+    {
+      "check": "reference-fixture-matches-across-models",
+      "row": "control-replay",
+      "verdict": "PASS",
+      "detail": {
+        "rows": 4,
+        "hashes": [
+          "ec3c80c6ac43aa8064ed3ba908059b6ee30e32465fc37ccfa108a4e4f0054845"
+        ]
+      }
+    },
+    {
+      "check": "reference-fixture-matches-across-models",
+      "row": "control-append",
+      "verdict": "PASS",
+      "detail": {
+        "rows": 4,
+        "hashes": [
+          "6cf106587b7752c0023808fd941ef1afa9c602385d983f6efd270039d959992d"
+        ]
+      }
+    },
+    {
+      "check": "reference-fixture-matches-across-models",
+      "row": "control-perturb",
+      "verdict": "PASS",
+      "detail": {
+        "rows": 4,
+        "hashes": [
+          "8d904abcbb1c1c3062bbb5d971533c4a533a392e8a447b2cea34a00482137232"
+        ]
+      }
+    },
+    {
+      "check": "reference-fixture-matches-across-models",
+      "row": "agent-5s-block-1",
+      "verdict": "PASS",
+      "detail": {
+        "rows": 3,
+        "hashes": [
+          "5208aef6faa74c80489010d7e49daf8e1fe0c4d2dcb7e591f3229e79e52a400b"
+        ]
+      }
+    },
+    {
+      "check": "fixture-consistency-across-trajectories",
+      "row": "tool-step-1",
+      "verdict": "PASS",
+      "detail": {
+        "fixtureHashes": [
+          "db9e038ec8af886c8fc03dca9da1a031f8b4d373b4cd28138a128ab02966d7ff"
+        ],
+        "rows": 1
+      }
+    },
+    {
+      "check": "fixture-consistency-across-trajectories",
+      "row": "tool-step-2",
+      "verdict": "PASS",
+      "detail": {
+        "fixtureHashes": [
+          "e27977c56ec235f2298733b7f4ce784a1e5c88ca88022c2a9456ebd411232428"
+        ],
+        "rows": 1
+      }
+    },
+    {
+      "check": "fixture-consistency-across-trajectories",
+      "row": "tool-step-3",
+      "verdict": "PASS",
+      "detail": {
+        "fixtureHashes": [
+          "a06eaa16bd4b8f8ecd441adbbf01aa269b84f191c738f927f816cbde757b988b"
+        ],
+        "rows": 1
+      }
+    }
+  ],
+  "trajectories": [
+    {
+      "stageId": "control-replay",
+      "runId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c",
+      "trialId": "anthropic-paid::claude-opus-5-5@5s/trial-1",
+      "model": "claude-opus-5-5",
+      "scenario": "replay",
+      "plannedRequests": 2,
+      "attemptedRequests": 2,
+      "rawValidUsageRequests": 2,
+      "rawInvalidAgentResponses": [],
+      "completeAllocation": true,
+      "runStatus": "completed"
+    },
+    {
+      "stageId": "control-replay",
+      "runId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c",
+      "trialId": "openai-paid::gpt-6.1-sol@5s/trial-1",
+      "model": "gpt-6.1-sol",
+      "scenario": "replay",
+      "plannedRequests": 2,
+      "attemptedRequests": 2,
+      "rawValidUsageRequests": 2,
+      "rawInvalidAgentResponses": [],
+      "completeAllocation": true,
+      "runStatus": "completed"
+    },
+    {
+      "stageId": "control-replay",
+      "runId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c",
+      "trialId": "gemini-paid::gemini-3.8-flash@5s/trial-1",
+      "model": "gemini-3.8-flash",
+      "scenario": "replay",
+      "plannedRequests": 2,
+      "attemptedRequests": 2,
+      "rawValidUsageRequests": 2,
+      "rawInvalidAgentResponses": [],
+      "completeAllocation": true,
+      "runStatus": "completed"
+    },
+    {
+      "stageId": "control-replay",
+      "runId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c",
+      "trialId": "gemini-paid::gemini-4-argon@5s/trial-1",
+      "model": "gemini-4-argon",
+      "scenario": "replay",
+      "plannedRequests": 2,
+      "attemptedRequests": 2,
+      "rawValidUsageRequests": 2,
+      "rawInvalidAgentResponses": [],
+      "completeAllocation": true,
+      "runStatus": "completed"
+    },
+    {
+      "stageId": "control-append",
+      "runId": "93d61acc-6d61-44d8-bb48-08328d511cda",
+      "trialId": "anthropic-paid::claude-opus-5-5@5s/trial-1",
+      "model": "claude-opus-5-5",
+      "scenario": "append",
+      "plannedRequests": 2,
+      "attemptedRequests": 2,
+      "rawValidUsageRequests": 2,
+      "rawInvalidAgentResponses": [],
+      "completeAllocation": true,
+      "runStatus": "completed"
+    },
+    {
+      "stageId": "control-append",
+      "runId": "93d61acc-6d61-44d8-bb48-08328d511cda",
+      "trialId": "openai-paid::gpt-6.1-sol@5s/trial-1",
+      "model": "gpt-6.1-sol",
+      "scenario": "append",
+      "plannedRequests": 2,
+      "attemptedRequests": 2,
+      "rawValidUsageRequests": 2,
+      "rawInvalidAgentResponses": [],
+      "completeAllocation": true,
+      "runStatus": "completed"
+    },
+    {
+      "stageId": "control-append",
+      "runId": "93d61acc-6d61-44d8-bb48-08328d511cda",
+      "trialId": "gemini-paid::gemini-3.8-flash@5s/trial-1",
+      "model": "gemini-3.8-flash",
+      "scenario": "append",
+      "plannedRequests": 2,
+      "attemptedRequests": 2,
+      "rawValidUsageRequests": 2,
+      "rawInvalidAgentResponses": [],
+      "completeAllocation": true,
+      "runStatus": "completed"
+    },
+    {
+      "stageId": "control-append",
+      "runId": "93d61acc-6d61-44d8-bb48-08328d511cda",
+      "trialId": "gemini-paid::gemini-4-argon@5s/trial-1",
+      "model": "gemini-4-argon",
+      "scenario": "append",
+      "plannedRequests": 2,
+      "attemptedRequests": 2,
+      "rawValidUsageRequests": 2,
+      "rawInvalidAgentResponses": [],
+      "completeAllocation": true,
+      "runStatus": "completed"
+    },
+    {
+      "stageId": "control-perturb",
+      "runId": "a38627de-c268-4ec5-95aa-e2a03461e3b8",
+      "trialId": "gemini-paid::gemini-3.8-flash@5s/trial-1",
+      "model": "gemini-3.8-flash",
+      "scenario": "perturb",
+      "plannedRequests": 2,
+      "attemptedRequests": 2,
+      "rawValidUsageRequests": 2,
+      "rawInvalidAgentResponses": [],
+      "completeAllocation": true,
+      "runStatus": "completed"
+    },
+    {
+      "stageId": "control-perturb",
+      "runId": "a38627de-c268-4ec5-95aa-e2a03461e3b8",
+      "trialId": "anthropic-paid::claude-opus-5-5@5s/trial-1",
+      "model": "claude-opus-5-5",
+      "scenario": "perturb",
+      "plannedRequests": 2,
+      "attemptedRequests": 2,
+      "rawValidUsageRequests": 2,
+      "rawInvalidAgentResponses": [],
+      "completeAllocation": true,
+      "runStatus": "completed"
+    },
+    {
+      "stageId": "control-perturb",
+      "runId": "a38627de-c268-4ec5-95aa-e2a03461e3b8",
+      "trialId": "openai-paid::gpt-6.1-sol@5s/trial-1",
+      "model": "gpt-6.1-sol",
+      "scenario": "perturb",
+      "plannedRequests": 2,
+      "attemptedRequests": 2,
+      "rawValidUsageRequests": 2,
+      "rawInvalidAgentResponses": [],
+      "completeAllocation": true,
+      "runStatus": "completed"
+    },
+    {
+      "stageId": "control-perturb",
+      "runId": "a38627de-c268-4ec5-95aa-e2a03461e3b8",
+      "trialId": "gemini-paid::gemini-4-argon@5s/trial-1",
+      "model": "gemini-4-argon",
+      "scenario": "perturb",
+      "plannedRequests": 2,
+      "attemptedRequests": 2,
+      "rawValidUsageRequests": 2,
+      "rawInvalidAgentResponses": [],
+      "completeAllocation": true,
+      "runStatus": "completed"
+    },
+    {
+      "stageId": "agent-5s-block-1",
+      "runId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a",
+      "trialId": "anthropic-paid::claude-opus-5-5@5s/trial-1",
+      "model": "claude-opus-5-5",
+      "scenario": "agent",
+      "plannedRequests": 4,
+      "attemptedRequests": 1,
+      "rawValidUsageRequests": 1,
+      "rawInvalidAgentResponses": [
+        "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-0/anthropic-paid::claude-opus-5-5/t0"
+      ],
+      "completeAllocation": false,
+      "runStatus": "cancelled"
+    },
+    {
+      "stageId": "agent-5s-block-1",
+      "runId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a",
+      "trialId": "gemini-paid::gemini-4-argon@5s/trial-1",
+      "model": "gemini-4-argon",
+      "scenario": "agent",
+      "plannedRequests": 4,
+      "attemptedRequests": 4,
+      "rawValidUsageRequests": 4,
+      "rawInvalidAgentResponses": [],
+      "completeAllocation": true,
+      "runStatus": "cancelled"
+    },
+    {
+      "stageId": "agent-5s-block-1",
+      "runId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a",
+      "trialId": "gemini-paid::gemini-3.8-flash@5s/trial-1",
+      "model": "gemini-3.8-flash",
+      "scenario": "agent",
+      "plannedRequests": 4,
+      "attemptedRequests": 1,
+      "rawValidUsageRequests": 1,
+      "rawInvalidAgentResponses": [],
+      "completeAllocation": false,
+      "runStatus": "cancelled"
+    }
+  ],
+  "summaries": [
+    {
+      "scenario": "replay",
+      "model": "claude-opus-5-5",
+      "gapSeconds": 5,
+      "attempted": 2,
+      "validUsage": 2,
+      "failedAttempts": 0,
+      "rawTaskRejections": 2,
+      "invalidAgentContinuation": null,
+      "followupDenominator": 0,
+      "anyReadFollowups": 0,
+      "priorInputBelow95Percent": 0,
+      "strict64FullHits": 0,
+      "eligibleFrontierDenominator": 0,
+      "eligibleFrontierExactFullReuse": 0,
+      "preservedSignedOrEncryptedBlocks": 0,
+      "meanReadOverPriorInput": null,
+      "aggregateInputTokens": 34814,
+      "aggregateReadTokens": 0,
+      "independentInputCostUsd": 0.174062,
+      "independentOutputCostUsd": 0,
+      "meanFollowupActualVsFullPriorCounterfactual": null,
+      "meanFollowupActualVsEligibleFrontierCounterfactual": null,
+      "observedOrdinaryTokenValues": [
+        4
+      ]
+    },
+    {
+      "scenario": "replay",
+      "model": "gpt-6.1-sol",
+      "gapSeconds": 5,
+      "attempted": 2,
+      "validUsage": 2,
+      "failedAttempts": 0,
+      "rawTaskRejections": 0,
+      "invalidAgentContinuation": null,
+      "followupDenominator": 1,
+      "anyReadFollowups": 1,
+      "priorInputBelow95Percent": 0,
+      "strict64FullHits": 1,
+      "eligibleFrontierDenominator": 1,
+      "eligibleFrontierExactFullReuse": 1,
+      "preservedSignedOrEncryptedBlocks": 0,
+      "meanReadOverPriorInput": 0.9997334281144482,
+      "aggregateInputTokens": 22508,
+      "aggregateReadTokens": 11251,
+      "independentInputCostUsd": 0.029264599999999998,
+      "independentOutputCostUsd": 0.0001,
+      "meanFollowupActualVsFullPriorCounterfactual": 1.0050648658254842,
+      "meanFollowupActualVsEligibleFrontierCounterfactual": 1,
+      "observedOrdinaryTokenValues": [
+        3
+      ]
+    },
+    {
+      "scenario": "replay",
+      "model": "gemini-3.8-flash",
+      "gapSeconds": 5,
+      "attempted": 2,
+      "validUsage": 2,
+      "failedAttempts": 0,
+      "rawTaskRejections": 0,
+      "invalidAgentContinuation": null,
+      "followupDenominator": 1,
+      "anyReadFollowups": 1,
+      "priorInputBelow95Percent": 1,
+      "strict64FullHits": 0,
+      "eligibleFrontierDenominator": 0,
+      "eligibleFrontierExactFullReuse": 0,
+      "preservedSignedOrEncryptedBlocks": 0,
+      "meanReadOverPriorInput": 0.8480279283963456,
+      "aggregateInputTokens": 26926,
+      "aggregateReadTokens": 11417,
+      "independentInputCostUsd": 0.012488025,
+      "independentOutputCostUsd": 0.0000075,
+      "meanFollowupActualVsFullPriorCounterfactual": 2.3677486444328903,
+      "meanFollowupActualVsEligibleFrontierCounterfactual": null,
+      "observedOrdinaryTokenValues": [
+        2046,
+        13463
+      ]
+    },
+    {
+      "scenario": "replay",
+      "model": "gemini-4-argon",
+      "gapSeconds": 5,
+      "attempted": 2,
+      "validUsage": 2,
+      "failedAttempts": 0,
+      "rawTaskRejections": 0,
+      "invalidAgentContinuation": null,
+      "followupDenominator": 1,
+      "anyReadFollowups": 1,
+      "priorInputBelow95Percent": 1,
+      "strict64FullHits": 0,
+      "eligibleFrontierDenominator": 0,
+      "eligibleFrontierExactFullReuse": 0,
+      "preservedSignedOrEncryptedBlocks": 0,
+      "meanReadOverPriorInput": 0.847872893310565,
+      "aggregateInputTokens": 26938,
+      "aggregateReadTokens": 11420,
+      "independentInputCostUsd": 0.032178,
+      "independentOutputCostUsd": 0.0001,
+      "meanFollowupActualVsFullPriorCounterfactual": 3.8904150270992646,
+      "meanFollowupActualVsEligibleFrontierCounterfactual": null,
+      "observedOrdinaryTokenValues": [
+        2049,
+        13469
+      ]
+    },
+    {
+      "scenario": "append",
+      "model": "claude-opus-5-5",
+      "gapSeconds": 5,
+      "attempted": 2,
+      "validUsage": 2,
+      "failedAttempts": 0,
+      "rawTaskRejections": 1,
+      "invalidAgentContinuation": null,
+      "followupDenominator": 0,
+      "anyReadFollowups": 0,
+      "priorInputBelow95Percent": 0,
+      "strict64FullHits": 0,
+      "eligibleFrontierDenominator": 0,
+      "eligibleFrontierExactFullReuse": 0,
+      "preservedSignedOrEncryptedBlocks": 0,
+      "meanReadOverPriorInput": null,
+      "aggregateInputTokens": 35712,
+      "aggregateReadTokens": 0,
+      "independentInputCostUsd": 0.178552,
+      "independentOutputCostUsd": 0.0009,
+      "meanFollowupActualVsFullPriorCounterfactual": null,
+      "meanFollowupActualVsEligibleFrontierCounterfactual": null,
+      "observedOrdinaryTokenValues": [
+        4
+      ]
+    },
+    {
+      "scenario": "append",
+      "model": "gpt-6.1-sol",
+      "gapSeconds": 5,
+      "attempted": 2,
+      "validUsage": 2,
+      "failedAttempts": 0,
+      "rawTaskRejections": 0,
+      "invalidAgentContinuation": null,
+      "followupDenominator": 1,
+      "anyReadFollowups": 1,
+      "priorInputBelow95Percent": 0,
+      "strict64FullHits": 1,
+      "eligibleFrontierDenominator": 1,
+      "eligibleFrontierExactFullReuse": 1,
+      "preservedSignedOrEncryptedBlocks": 0,
+      "meanReadOverPriorInput": 0.9997327870312639,
+      "aggregateInputTokens": 23032,
+      "aggregateReadTokens": 11224,
+      "independentInputCostUsd": 0.0306394,
+      "independentOutputCostUsd": 0.0001,
+      "meanFollowupActualVsFullPriorCounterfactual": 1.0022198855006426,
+      "meanFollowupActualVsEligibleFrontierCounterfactual": 1,
+      "observedOrdinaryTokenValues": [
+        3
+      ]
+    },
+    {
+      "scenario": "append",
+      "model": "gemini-3.8-flash",
+      "gapSeconds": 5,
+      "attempted": 2,
+      "validUsage": 2,
+      "failedAttempts": 0,
+      "rawTaskRejections": 0,
+      "invalidAgentContinuation": null,
+      "followupDenominator": 1,
+      "anyReadFollowups": 0,
+      "priorInputBelow95Percent": 1,
+      "strict64FullHits": 0,
+      "eligibleFrontierDenominator": 0,
+      "eligibleFrontierExactFullReuse": 0,
+      "preservedSignedOrEncryptedBlocks": 0,
+      "meanReadOverPriorInput": 0,
+      "aggregateInputTokens": 27473,
+      "aggregateReadTokens": 0,
+      "independentInputCostUsd": 0.020604749999999998,
+      "independentOutputCostUsd": 0.0000075,
+      "meanFollowupActualVsFullPriorCounterfactual": 7.071367499874265,
+      "meanFollowupActualVsEligibleFrontierCounterfactual": null,
+      "observedOrdinaryTokenValues": [
+        13413,
+        14060
+      ]
+    },
+    {
+      "scenario": "append",
+      "model": "gemini-4-argon",
+      "gapSeconds": 5,
+      "attempted": 2,
+      "validUsage": 2,
+      "failedAttempts": 0,
+      "rawTaskRejections": 0,
+      "invalidAgentContinuation": null,
+      "followupDenominator": 1,
+      "anyReadFollowups": 1,
+      "priorInputBelow95Percent": 1,
+      "strict64FullHits": 0,
+      "eligibleFrontierDenominator": 0,
+      "eligibleFrontierExactFullReuse": 0,
+      "preservedSignedOrEncryptedBlocks": 0,
+      "meanReadOverPriorInput": 0.8473401877514528,
+      "aggregateInputTokens": 27498,
+      "aggregateReadTokens": 11373,
+      "independentInputCostUsd": 0.0333873,
+      "independentOutputCostUsd": 0.0001,
+      "meanFollowupActualVsFullPriorCounterfactual": 2.4689834729454385,
+      "meanFollowupActualVsEligibleFrontierCounterfactual": null,
+      "observedOrdinaryTokenValues": [
+        2703,
+        13422
+      ]
+    },
+    {
+      "scenario": "perturb",
+      "model": "claude-opus-5-5",
+      "gapSeconds": 5,
+      "attempted": 2,
+      "validUsage": 2,
+      "failedAttempts": 0,
+      "rawTaskRejections": 2,
+      "invalidAgentContinuation": null,
+      "followupDenominator": 0,
+      "anyReadFollowups": 0,
+      "priorInputBelow95Percent": 0,
+      "strict64FullHits": 0,
+      "eligibleFrontierDenominator": 0,
+      "eligibleFrontierExactFullReuse": 0,
+      "preservedSignedOrEncryptedBlocks": 0,
+      "meanReadOverPriorInput": null,
+      "aggregateInputTokens": 34858,
+      "aggregateReadTokens": 0,
+      "independentInputCostUsd": 0.174282,
+      "independentOutputCostUsd": 0,
+      "meanFollowupActualVsFullPriorCounterfactual": null,
+      "meanFollowupActualVsEligibleFrontierCounterfactual": null,
+      "observedOrdinaryTokenValues": [
+        4
+      ]
+    },
+    {
+      "scenario": "perturb",
+      "model": "gpt-6.1-sol",
+      "gapSeconds": 5,
+      "attempted": 2,
+      "validUsage": 2,
+      "failedAttempts": 0,
+      "rawTaskRejections": 0,
+      "invalidAgentContinuation": null,
+      "followupDenominator": 1,
+      "anyReadFollowups": 0,
+      "priorInputBelow95Percent": 1,
+      "strict64FullHits": 0,
+      "eligibleFrontierDenominator": 0,
+      "eligibleFrontierExactFullReuse": 0,
+      "preservedSignedOrEncryptedBlocks": 0,
+      "meanReadOverPriorInput": 0,
+      "aggregateInputTokens": 22480,
+      "aggregateReadTokens": 0,
+      "independentInputCostUsd": 0.056197,
+      "independentOutputCostUsd": 0.0001,
+      "meanFollowupActualVsFullPriorCounterfactual": null,
+      "meanFollowupActualVsEligibleFrontierCounterfactual": null,
+      "observedOrdinaryTokenValues": [
+        3
+      ]
+    },
+    {
+      "scenario": "perturb",
+      "model": "gemini-3.8-flash",
+      "gapSeconds": 5,
+      "attempted": 2,
+      "validUsage": 2,
+      "failedAttempts": 0,
+      "rawTaskRejections": 0,
+      "invalidAgentContinuation": null,
+      "followupDenominator": 1,
+      "anyReadFollowups": 0,
+      "priorInputBelow95Percent": 1,
+      "strict64FullHits": 0,
+      "eligibleFrontierDenominator": 0,
+      "eligibleFrontierExactFullReuse": 0,
+      "preservedSignedOrEncryptedBlocks": 0,
+      "meanReadOverPriorInput": 0,
+      "aggregateInputTokens": 26866,
+      "aggregateReadTokens": 0,
+      "independentInputCostUsd": 0.0201495,
+      "independentOutputCostUsd": 0.0000075,
+      "meanFollowupActualVsFullPriorCounterfactual": null,
+      "meanFollowupActualVsEligibleFrontierCounterfactual": null,
+      "observedOrdinaryTokenValues": [
+        13433
+      ]
+    },
+    {
+      "scenario": "perturb",
+      "model": "gemini-4-argon",
+      "gapSeconds": 5,
+      "attempted": 2,
+      "validUsage": 2,
+      "failedAttempts": 0,
+      "rawTaskRejections": 0,
+      "invalidAgentContinuation": null,
+      "followupDenominator": 1,
+      "anyReadFollowups": 0,
+      "priorInputBelow95Percent": 1,
+      "strict64FullHits": 0,
+      "eligibleFrontierDenominator": 0,
+      "eligibleFrontierExactFullReuse": 0,
+      "preservedSignedOrEncryptedBlocks": 0,
+      "meanReadOverPriorInput": 0,
+      "aggregateInputTokens": 26886,
+      "aggregateReadTokens": 0,
+      "independentInputCostUsd": 0.053772,
+      "independentOutputCostUsd": 0.0001,
+      "meanFollowupActualVsFullPriorCounterfactual": null,
+      "meanFollowupActualVsEligibleFrontierCounterfactual": null,
+      "observedOrdinaryTokenValues": [
+        13443
+      ]
+    },
+    {
+      "scenario": "agent",
+      "model": "claude-opus-5-5",
+      "gapSeconds": 5,
+      "attempted": 1,
+      "validUsage": 1,
+      "failedAttempts": 0,
+      "rawTaskRejections": 1,
+      "invalidAgentContinuation": 1,
+      "followupDenominator": 0,
+      "anyReadFollowups": 0,
+      "priorInputBelow95Percent": 0,
+      "strict64FullHits": 0,
+      "eligibleFrontierDenominator": 0,
+      "eligibleFrontierExactFullReuse": 0,
+      "preservedSignedOrEncryptedBlocks": 0,
+      "meanReadOverPriorInput": null,
+      "aggregateInputTokens": 17851,
+      "aggregateReadTokens": 0,
+      "independentInputCostUsd": 0.089251,
+      "independentOutputCostUsd": 0,
+      "meanFollowupActualVsFullPriorCounterfactual": null,
+      "meanFollowupActualVsEligibleFrontierCounterfactual": null,
+      "observedOrdinaryTokenValues": [
+        4
+      ]
+    },
+    {
+      "scenario": "agent",
+      "model": "gemini-3.8-flash",
+      "gapSeconds": 5,
+      "attempted": 1,
+      "validUsage": 1,
+      "failedAttempts": 0,
+      "rawTaskRejections": 0,
+      "invalidAgentContinuation": 0,
+      "followupDenominator": 0,
+      "anyReadFollowups": 0,
+      "priorInputBelow95Percent": 0,
+      "strict64FullHits": 0,
+      "eligibleFrontierDenominator": 0,
+      "eligibleFrontierExactFullReuse": 0,
+      "preservedSignedOrEncryptedBlocks": 0,
+      "meanReadOverPriorInput": null,
+      "aggregateInputTokens": 13533,
+      "aggregateReadTokens": 0,
+      "independentInputCostUsd": 0.01014975,
+      "independentOutputCostUsd": 0.0000375,
+      "meanFollowupActualVsFullPriorCounterfactual": null,
+      "meanFollowupActualVsEligibleFrontierCounterfactual": null,
+      "observedOrdinaryTokenValues": [
+        13533
+      ]
+    },
+    {
+      "scenario": "agent",
+      "model": "gemini-4-argon",
+      "gapSeconds": 5,
+      "attempted": 4,
+      "validUsage": 4,
+      "failedAttempts": 0,
+      "rawTaskRejections": 0,
+      "invalidAgentContinuation": 0,
+      "followupDenominator": 3,
+      "anyReadFollowups": 3,
+      "priorInputBelow95Percent": 3,
+      "strict64FullHits": 0,
+      "eligibleFrontierDenominator": 0,
+      "eligibleFrontierExactFullReuse": 0,
+      "preservedSignedOrEncryptedBlocks": 3,
+      "meanReadOverPriorInput": 0.8558055745455468,
+      "aggregateInputTokens": 58287,
+      "aggregateReadTokens": 36547,
+      "independentInputCostUsd": 0.0471347,
+      "independentOutputCostUsd": 0.00064,
+      "meanFollowupActualVsFullPriorCounterfactual": 2.4013216915286004,
+      "meanFollowupActualVsEligibleFrontierCounterfactual": null,
+      "observedOrdinaryTokenValues": [
+        2719,
+        2729,
+        2734,
+        13558
+      ]
+    }
+  ],
+  "timingFirstFollowups": [
+    {
+      "rowId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "model": "gemini-4-argon",
+      "block": "1",
+      "gapSeconds": 5,
+      "actualIdleGapMs": 5002.341749999992,
+      "priorInputTokens": 13558,
+      "counts": {
+        "input": 14228,
+        "read": 11509,
+        "write": 0,
+        "ordinary": 2719,
+        "output": 16,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "readOverPriorInput": 0.8488715149727099,
+      "reuseAdmissible": true,
+      "inputCostUsd": 0.0065889,
+      "referenceWithoutNoncePaired": null,
+      "firstToolFixturePaired": null,
+      "availableGapConditions": [
+        5
+      ],
+      "completeThreeGapPairing": false,
+      "exactNativeHistoryPaired": false
+    }
+  ],
+  "rows": [
+    {
+      "rowId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "stageId": "control-replay",
+      "runId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c",
+      "index": 0,
+      "profileId": "anthropic-paid::claude-opus-5-5",
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "scenario": "replay",
+      "seed": "validation-v2-control-replay",
+      "block": null,
+      "trial": 0,
+      "turn": 0,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "refusal",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 0,
+      "taskRejected": true,
+      "refusalCategory": "cyber",
+      "reuseAdmissible": false,
+      "rawCounts": {
+        "input": 17407,
+        "read": 0,
+        "write": 17403,
+        "ordinary": 4,
+        "output": 0,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.087031,
+        "outputCostUsd": 0
+      },
+      "actualIdleGapMs": null,
+      "startedAt": "2026-10-17T19:57:38.116Z",
+      "durationMs": 2168.034875,
+      "referenceWithoutIdentityHash": "ec3c80c6ac43aa8064ed3ba908059b6ee30e32465fc37ccfa108a4e4f0054845",
+      "wireHash": "650c84df7190cb4fa0d265775d7d031d0c5c8e51249fd1664c4f241d53706fd8",
+      "responseId": "msg_011Cg8Q9mv1BLop8MNy7mJGp"
+    },
+    {
+      "rowId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "stageId": "control-replay",
+      "runId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c",
+      "index": 1,
+      "profileId": "anthropic-paid::claude-opus-5-5",
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "scenario": "replay",
+      "seed": "validation-v2-control-replay",
+      "block": null,
+      "trial": 0,
+      "turn": 1,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "refusal",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 0,
+      "taskRejected": true,
+      "refusalCategory": "cyber",
+      "reuseAdmissible": false,
+      "rawCounts": {
+        "input": 17407,
+        "read": 0,
+        "write": 17403,
+        "ordinary": 4,
+        "output": 0,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.087031,
+        "outputCostUsd": 0
+      },
+      "actualIdleGapMs": 5003.452375000001,
+      "startedAt": "2026-10-17T19:57:45.287Z",
+      "durationMs": 1959.2461670000002,
+      "referenceWithoutIdentityHash": "ec3c80c6ac43aa8064ed3ba908059b6ee30e32465fc37ccfa108a4e4f0054845",
+      "wireHash": "650c84df7190cb4fa0d265775d7d031d0c5c8e51249fd1664c4f241d53706fd8",
+      "responseId": "msg_011Cg8QAHsZe1tWxpje8dbkR",
+      "priorInputTokens": 17407,
+      "readOverPriorInput": 0,
+      "priorInputBelow95Percent": true,
+      "previousInputStrict64FullHit": false,
+      "priorInputShortfallTokens": 17407,
+      "fullPriorInputCounterfactualUsd": 0.0034814,
+      "actualVsFullPriorInputCounterfactual": 24.99885103693916,
+      "previousPublicCacheFrontierTokens": 17403,
+      "frontierReuseExact": false,
+      "frontierReuseWithin64": false,
+      "frontierReuseShortfallTokens": 17403,
+      "eligibleFrontierCounterfactualUsd": 0.0034966000000000003,
+      "actualVsEligibleFrontierCounterfactual": 24.89017903105874
+    },
+    {
+      "rowId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-2/openai-paid::gpt-6.1-sol/t0",
+      "stageId": "control-replay",
+      "runId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c",
+      "index": 2,
+      "profileId": "openai-paid::gpt-6.1-sol",
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "scenario": "replay",
+      "seed": "validation-v2-control-replay",
+      "block": null,
+      "trial": 0,
+      "turn": 0,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "completed",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 0,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 11254,
+        "read": 0,
+        "write": 11251,
+        "ordinary": 3,
+        "output": 5,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.0281335,
+        "outputCostUsd": 0.00005
+      },
+      "actualIdleGapMs": null,
+      "startedAt": "2026-10-17T19:57:47.258Z",
+      "durationMs": 1662.8794169999983,
+      "referenceWithoutIdentityHash": "ec3c80c6ac43aa8064ed3ba908059b6ee30e32465fc37ccfa108a4e4f0054845",
+      "wireHash": "247f1533b37d470fc994117855334a08d50fbd45b16ef65b68449734e8796d90",
+      "responseId": "resp_04e5a1461a66efc7016ad3d33b975c87d29a9f466814b1fd30"
+    },
+    {
+      "rowId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-3/openai-paid::gpt-6.1-sol/t1",
+      "stageId": "control-replay",
+      "runId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c",
+      "index": 3,
+      "profileId": "openai-paid::gpt-6.1-sol",
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "scenario": "replay",
+      "seed": "validation-v2-control-replay",
+      "block": null,
+      "trial": 0,
+      "turn": 1,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "completed",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 0,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 11254,
+        "read": 11251,
+        "write": 0,
+        "ordinary": 3,
+        "output": 5,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.0011311000000000001,
+        "outputCostUsd": 0.00005
+      },
+      "actualIdleGapMs": 5003.221208000001,
+      "startedAt": "2026-10-17T19:57:53.924Z",
+      "durationMs": 1676.6719590000012,
+      "referenceWithoutIdentityHash": "ec3c80c6ac43aa8064ed3ba908059b6ee30e32465fc37ccfa108a4e4f0054845",
+      "wireHash": "247f1533b37d470fc994117855334a08d50fbd45b16ef65b68449734e8796d90",
+      "responseId": "resp_036593c571449590016ad3d34228b087d29ac9dc085a4583c1",
+      "priorInputTokens": 11254,
+      "readOverPriorInput": 0.9997334281144482,
+      "priorInputBelow95Percent": false,
+      "previousInputStrict64FullHit": true,
+      "priorInputShortfallTokens": 3,
+      "fullPriorInputCounterfactualUsd": 0.0011254000000000001,
+      "actualVsFullPriorInputCounterfactual": 1.0050648658254842,
+      "previousPublicCacheFrontierTokens": 11251,
+      "frontierReuseExact": true,
+      "frontierReuseWithin64": true,
+      "frontierReuseShortfallTokens": 0,
+      "eligibleFrontierCounterfactualUsd": 0.0011311000000000001,
+      "actualVsEligibleFrontierCounterfactual": 1
+    },
+    {
+      "rowId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "stageId": "control-replay",
+      "runId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c",
+      "index": 4,
+      "profileId": "gemini-paid::gemini-3.8-flash",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash",
+      "scenario": "replay",
+      "seed": "validation-v2-control-replay",
+      "block": null,
+      "trial": 0,
+      "turn": 0,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 13463,
+        "read": 0,
+        "write": 0,
+        "ordinary": 13463,
+        "output": 1,
+        "thinking": 0,
+        "readDecodedZero": true
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.01009725,
+        "outputCostUsd": 0.00000375
+      },
+      "actualIdleGapMs": null,
+      "startedAt": "2026-10-17T19:57:55.613Z",
+      "durationMs": 1602.4102080000011,
+      "referenceWithoutIdentityHash": "ec3c80c6ac43aa8064ed3ba908059b6ee30e32465fc37ccfa108a4e4f0054845",
+      "wireHash": "149386272910fe0e5296bca3a85bf514ff0e27b6a5b82cb6957224d1ea4a719e",
+      "responseId": "Q9PTauqXN7rQz7IPz8XhoAY"
+    },
+    {
+      "rowId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "stageId": "control-replay",
+      "runId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c",
+      "index": 5,
+      "profileId": "gemini-paid::gemini-3.8-flash",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash",
+      "scenario": "replay",
+      "seed": "validation-v2-control-replay",
+      "block": null,
+      "trial": 0,
+      "turn": 1,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 13463,
+        "read": 11417,
+        "write": 0,
+        "ordinary": 2046,
+        "output": 1,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.002390775,
+        "outputCostUsd": 0.00000375
+      },
+      "actualIdleGapMs": 5003.109249999998,
+      "startedAt": "2026-10-17T19:58:02.219Z",
+      "durationMs": 2166.201667000001,
+      "referenceWithoutIdentityHash": "ec3c80c6ac43aa8064ed3ba908059b6ee30e32465fc37ccfa108a4e4f0054845",
+      "wireHash": "149386272910fe0e5296bca3a85bf514ff0e27b6a5b82cb6957224d1ea4a719e",
+      "responseId": "StPTavDkHYqwqtsP_4ncuAg",
+      "priorInputTokens": 13463,
+      "readOverPriorInput": 0.8480279283963456,
+      "priorInputBelow95Percent": true,
+      "previousInputStrict64FullHit": false,
+      "priorInputShortfallTokens": 2046,
+      "fullPriorInputCounterfactualUsd": 0.001009725,
+      "actualVsFullPriorInputCounterfactual": 2.3677486444328903
+    },
+    {
+      "rowId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-6/gemini-paid::gemini-4-argon/t0",
+      "stageId": "control-replay",
+      "runId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c",
+      "index": 6,
+      "profileId": "gemini-paid::gemini-4-argon",
+      "provider": "gemini",
+      "model": "gemini-4-argon",
+      "scenario": "replay",
+      "seed": "validation-v2-control-replay",
+      "block": null,
+      "trial": 0,
+      "turn": 0,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 13469,
+        "read": 0,
+        "write": 0,
+        "ordinary": 13469,
+        "output": 5,
+        "thinking": 0,
+        "readDecodedZero": true
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.026938,
+        "outputCostUsd": 0.00005
+      },
+      "actualIdleGapMs": null,
+      "startedAt": "2026-10-17T19:58:04.398Z",
+      "durationMs": 4891.966916999998,
+      "referenceWithoutIdentityHash": "ec3c80c6ac43aa8064ed3ba908059b6ee30e32465fc37ccfa108a4e4f0054845",
+      "wireHash": "0e72b8a4b879814fbf63a04aefb2bbfb13ec1e466f0400048875db70cf15b939",
+      "responseId": "TNPTatOxIbihqtsPwM7g-Ac"
+    },
+    {
+      "rowId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c/row-7/gemini-paid::gemini-4-argon/t1",
+      "stageId": "control-replay",
+      "runId": "0e77ca95-178f-4af8-b5ed-b5fc9e96747c",
+      "index": 7,
+      "profileId": "gemini-paid::gemini-4-argon",
+      "provider": "gemini",
+      "model": "gemini-4-argon",
+      "scenario": "replay",
+      "seed": "validation-v2-control-replay",
+      "block": null,
+      "trial": 0,
+      "turn": 1,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 13469,
+        "read": 11420,
+        "write": 0,
+        "ordinary": 2049,
+        "output": 5,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.00524,
+        "outputCostUsd": 0.00005
+      },
+      "actualIdleGapMs": 5002.406000000003,
+      "startedAt": "2026-10-17T19:58:14.292Z",
+      "durationMs": 3279.980208000001,
+      "referenceWithoutIdentityHash": "ec3c80c6ac43aa8064ed3ba908059b6ee30e32465fc37ccfa108a4e4f0054845",
+      "wireHash": "0e72b8a4b879814fbf63a04aefb2bbfb13ec1e466f0400048875db70cf15b939",
+      "responseId": "VtPTav3kIdrpz7IP7prl4Aw",
+      "priorInputTokens": 13469,
+      "readOverPriorInput": 0.847872893310565,
+      "priorInputBelow95Percent": true,
+      "previousInputStrict64FullHit": false,
+      "priorInputShortfallTokens": 2049,
+      "fullPriorInputCounterfactualUsd": 0.0013469,
+      "actualVsFullPriorInputCounterfactual": 3.8904150270992646
+    },
+    {
+      "rowId": "93d61acc-6d61-44d8-bb48-08328d511cda/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "stageId": "control-append",
+      "runId": "93d61acc-6d61-44d8-bb48-08328d511cda",
+      "index": 0,
+      "profileId": "anthropic-paid::claude-opus-5-5",
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "scenario": "append",
+      "seed": "validation-v2-control-append",
+      "block": null,
+      "trial": 0,
+      "turn": 0,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "refusal",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 0,
+      "taskRejected": true,
+      "refusalCategory": "cyber",
+      "reuseAdmissible": false,
+      "rawCounts": {
+        "input": 17407,
+        "read": 0,
+        "write": 17403,
+        "ordinary": 4,
+        "output": 0,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.087031,
+        "outputCostUsd": 0
+      },
+      "actualIdleGapMs": null,
+      "startedAt": "2026-10-17T19:58:17.598Z",
+      "durationMs": 1962.1084160000028,
+      "referenceWithoutIdentityHash": "6cf106587b7752c0023808fd941ef1afa9c602385d983f6efd270039d959992d",
+      "wireHash": "e103f6da59df9c443363dff9e8f4f08408e7c13864a4274bd6fdae830beb6fc4",
+      "responseId": "msg_011Cg8QCg1dCHfa8WkiYsxjA"
+    },
+    {
+      "rowId": "93d61acc-6d61-44d8-bb48-08328d511cda/row-1/anthropic-paid::claude-opus-5-5/t1",
+      "stageId": "control-append",
+      "runId": "93d61acc-6d61-44d8-bb48-08328d511cda",
+      "index": 1,
+      "profileId": "anthropic-paid::claude-opus-5-5",
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "scenario": "append",
+      "seed": "validation-v2-control-append",
+      "block": null,
+      "trial": 0,
+      "turn": 1,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "end_turn",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": false,
+      "rawCounts": {
+        "input": 18305,
+        "read": 0,
+        "write": 18301,
+        "ordinary": 4,
+        "output": 45,
+        "thinking": 41,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.091521,
+        "outputCostUsd": 0.0009
+      },
+      "actualIdleGapMs": 5001.979333999996,
+      "startedAt": "2026-10-17T19:58:24.562Z",
+      "durationMs": 3006.2623750000057,
+      "referenceWithoutIdentityHash": "6cf106587b7752c0023808fd941ef1afa9c602385d983f6efd270039d959992d",
+      "wireHash": "61ea2a4241c64345b36cd7ad2af3d812a51fc18b580b7c9d298351c9dfaf1820",
+      "responseId": "msg_011Cg8QDDTVRN86vecXCZUcs",
+      "priorInputTokens": 17407,
+      "readOverPriorInput": 0,
+      "priorInputBelow95Percent": true,
+      "previousInputStrict64FullHit": false,
+      "priorInputShortfallTokens": 17407,
+      "fullPriorInputCounterfactualUsd": 0.0079714,
+      "actualVsFullPriorInputCounterfactual": 11.481170183405675,
+      "previousPublicCacheFrontierTokens": 17403,
+      "frontierReuseExact": false,
+      "frontierReuseWithin64": false,
+      "frontierReuseShortfallTokens": 17403,
+      "eligibleFrontierCounterfactualUsd": 0.0079866,
+      "actualVsEligibleFrontierCounterfactual": 11.45931935992788
+    },
+    {
+      "rowId": "93d61acc-6d61-44d8-bb48-08328d511cda/row-2/openai-paid::gpt-6.1-sol/t0",
+      "stageId": "control-append",
+      "runId": "93d61acc-6d61-44d8-bb48-08328d511cda",
+      "index": 2,
+      "profileId": "openai-paid::gpt-6.1-sol",
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "scenario": "append",
+      "seed": "validation-v2-control-append",
+      "block": null,
+      "trial": 0,
+      "turn": 0,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "completed",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 0,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 11227,
+        "read": 0,
+        "write": 11224,
+        "ordinary": 3,
+        "output": 5,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.028066,
+        "outputCostUsd": 0.00005
+      },
+      "actualIdleGapMs": null,
+      "startedAt": "2026-10-17T19:58:27.577Z",
+      "durationMs": 2284.129208999999,
+      "referenceWithoutIdentityHash": "6cf106587b7752c0023808fd941ef1afa9c602385d983f6efd270039d959992d",
+      "wireHash": "473a4394a8b1c2e3ab0acc87af3d00f81852b337734a91bbbd5b095fe639847f",
+      "responseId": "resp_04d7f4795b9e46e6016ad3d3643c1887d292f6a8c640aa6d93"
+    },
+    {
+      "rowId": "93d61acc-6d61-44d8-bb48-08328d511cda/row-3/openai-paid::gpt-6.1-sol/t1",
+      "stageId": "control-append",
+      "runId": "93d61acc-6d61-44d8-bb48-08328d511cda",
+      "index": 3,
+      "profileId": "openai-paid::gpt-6.1-sol",
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "scenario": "append",
+      "seed": "validation-v2-control-append",
+      "block": null,
+      "trial": 0,
+      "turn": 1,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "completed",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 0,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 11805,
+        "read": 11224,
+        "write": 578,
+        "ordinary": 3,
+        "output": 5,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.0025734,
+        "outputCostUsd": 0.00005
+      },
+      "actualIdleGapMs": 5002.311750000001,
+      "startedAt": "2026-10-17T19:58:34.864Z",
+      "durationMs": 1611.231332999996,
+      "referenceWithoutIdentityHash": "6cf106587b7752c0023808fd941ef1afa9c602385d983f6efd270039d959992d",
+      "wireHash": "23fd41c72f22d8d52001a72a1317bbf4a8763d551a6a3816b8fa82884633ae42",
+      "responseId": "resp_0e52740e797b9af4016ad3d36b1dc087d29e0a16e0bed9990b",
+      "priorInputTokens": 11227,
+      "readOverPriorInput": 0.9997327870312639,
+      "priorInputBelow95Percent": false,
+      "previousInputStrict64FullHit": true,
+      "priorInputShortfallTokens": 3,
+      "fullPriorInputCounterfactualUsd": 0.0025677,
+      "actualVsFullPriorInputCounterfactual": 1.0022198855006426,
+      "previousPublicCacheFrontierTokens": 11224,
+      "frontierReuseExact": true,
+      "frontierReuseWithin64": true,
+      "frontierReuseShortfallTokens": 0,
+      "eligibleFrontierCounterfactualUsd": 0.0025734,
+      "actualVsEligibleFrontierCounterfactual": 1
+    },
+    {
+      "rowId": "93d61acc-6d61-44d8-bb48-08328d511cda/row-4/gemini-paid::gemini-3.8-flash/t0",
+      "stageId": "control-append",
+      "runId": "93d61acc-6d61-44d8-bb48-08328d511cda",
+      "index": 4,
+      "profileId": "gemini-paid::gemini-3.8-flash",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash",
+      "scenario": "append",
+      "seed": "validation-v2-control-append",
+      "block": null,
+      "trial": 0,
+      "turn": 0,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 13413,
+        "read": 0,
+        "write": 0,
+        "ordinary": 13413,
+        "output": 1,
+        "thinking": 0,
+        "readDecodedZero": true
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.01005975,
+        "outputCostUsd": 0.00000375
+      },
+      "actualIdleGapMs": null,
+      "startedAt": "2026-10-17T19:58:36.486Z",
+      "durationMs": 1647.931792000003,
+      "referenceWithoutIdentityHash": "6cf106587b7752c0023808fd941ef1afa9c602385d983f6efd270039d959992d",
+      "wireHash": "3233c9bfbe49a4082ecd74e07f0bb05d5075ef6df915916a0cf7c46113433ee7",
+      "responseId": "bNPTapGeK-_Vz7IPssq0mQY"
+    },
+    {
+      "rowId": "93d61acc-6d61-44d8-bb48-08328d511cda/row-5/gemini-paid::gemini-3.8-flash/t1",
+      "stageId": "control-append",
+      "runId": "93d61acc-6d61-44d8-bb48-08328d511cda",
+      "index": 5,
+      "profileId": "gemini-paid::gemini-3.8-flash",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash",
+      "scenario": "append",
+      "seed": "validation-v2-control-append",
+      "block": null,
+      "trial": 0,
+      "turn": 1,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 14060,
+        "read": 0,
+        "write": 0,
+        "ordinary": 14060,
+        "output": 1,
+        "thinking": 0,
+        "readDecodedZero": true
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.010545,
+        "outputCostUsd": 0.00000375
+      },
+      "actualIdleGapMs": 5002.340540999998,
+      "startedAt": "2026-10-17T19:58:43.136Z",
+      "durationMs": 1547.7832089999938,
+      "referenceWithoutIdentityHash": "6cf106587b7752c0023808fd941ef1afa9c602385d983f6efd270039d959992d",
+      "wireHash": "b2c0fd64e9dbd6506fb7712933490defc3e6ccd882b817f15ca6dd8da2a62c41",
+      "responseId": "c9PTau3HF6_sz7IP693FsQI",
+      "priorInputTokens": 13413,
+      "readOverPriorInput": 0,
+      "priorInputBelow95Percent": true,
+      "previousInputStrict64FullHit": false,
+      "priorInputShortfallTokens": 13413,
+      "fullPriorInputCounterfactualUsd": 0.0014912249999999999,
+      "actualVsFullPriorInputCounterfactual": 7.071367499874265
+    },
+    {
+      "rowId": "93d61acc-6d61-44d8-bb48-08328d511cda/row-6/gemini-paid::gemini-4-argon/t0",
+      "stageId": "control-append",
+      "runId": "93d61acc-6d61-44d8-bb48-08328d511cda",
+      "index": 6,
+      "profileId": "gemini-paid::gemini-4-argon",
+      "provider": "gemini",
+      "model": "gemini-4-argon",
+      "scenario": "append",
+      "seed": "validation-v2-control-append",
+      "block": null,
+      "trial": 0,
+      "turn": 0,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 13422,
+        "read": 0,
+        "write": 0,
+        "ordinary": 13422,
+        "output": 5,
+        "thinking": 0,
+        "readDecodedZero": true
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.026844,
+        "outputCostUsd": 0.00005
+      },
+      "actualIdleGapMs": null,
+      "startedAt": "2026-10-17T19:58:44.696Z",
+      "durationMs": 5741.904249999992,
+      "referenceWithoutIdentityHash": "6cf106587b7752c0023808fd941ef1afa9c602385d983f6efd270039d959992d",
+      "wireHash": "5da289705332c119108df912a371cc5f1ffb3bd8b113a4de9a56615b5980d51f",
+      "responseId": "dNPTapmWNK_Qz7IPyMrTKA"
+    },
+    {
+      "rowId": "93d61acc-6d61-44d8-bb48-08328d511cda/row-7/gemini-paid::gemini-4-argon/t1",
+      "stageId": "control-append",
+      "runId": "93d61acc-6d61-44d8-bb48-08328d511cda",
+      "index": 7,
+      "profileId": "gemini-paid::gemini-4-argon",
+      "provider": "gemini",
+      "model": "gemini-4-argon",
+      "scenario": "append",
+      "seed": "validation-v2-control-append",
+      "block": null,
+      "trial": 0,
+      "turn": 1,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 14076,
+        "read": 11373,
+        "write": 0,
+        "ordinary": 2703,
+        "output": 5,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.0065433,
+        "outputCostUsd": 0.00005
+      },
+      "actualIdleGapMs": 5001.429625000004,
+      "startedAt": "2026-10-17T19:58:55.440Z",
+      "durationMs": 4273.279041999995,
+      "referenceWithoutIdentityHash": "6cf106587b7752c0023808fd941ef1afa9c602385d983f6efd270039d959992d",
+      "wireHash": "6ac5e85b9c9fc7a6c23b882115bf18c0ba66b25bbc39a93edfac3922f00b410d",
+      "responseId": "f9PTavGNKLWez7IPrIm8qAY",
+      "priorInputTokens": 13422,
+      "readOverPriorInput": 0.8473401877514528,
+      "priorInputBelow95Percent": true,
+      "previousInputStrict64FullHit": false,
+      "priorInputShortfallTokens": 2049,
+      "fullPriorInputCounterfactualUsd": 0.0026501999999999997,
+      "actualVsFullPriorInputCounterfactual": 2.4689834729454385
+    },
+    {
+      "rowId": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-0/gemini-paid::gemini-3.8-flash/t0",
+      "stageId": "control-perturb",
+      "runId": "a38627de-c268-4ec5-95aa-e2a03461e3b8",
+      "index": 0,
+      "profileId": "gemini-paid::gemini-3.8-flash",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash",
+      "scenario": "perturb",
+      "seed": "validation-v2-control-perturb",
+      "block": null,
+      "trial": 0,
+      "turn": 0,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 13433,
+        "read": 0,
+        "write": 0,
+        "ordinary": 13433,
+        "output": 1,
+        "thinking": 0,
+        "readDecodedZero": true
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.01007475,
+        "outputCostUsd": 0.00000375
+      },
+      "actualIdleGapMs": null,
+      "startedAt": "2026-10-17T19:58:59.736Z",
+      "durationMs": 2057.831957999995,
+      "referenceWithoutIdentityHash": "8d904abcbb1c1c3062bbb5d971533c4a533a392e8a447b2cea34a00482137232",
+      "wireHash": "808b3877d6508ca9426a082e9596ec2d2fd88ce3de9bf59ce5484dcd019b0d7f",
+      "responseId": "g9PTas__NKbVz7IP_of4wAw"
+    },
+    {
+      "rowId": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-1/gemini-paid::gemini-3.8-flash/t1",
+      "stageId": "control-perturb",
+      "runId": "a38627de-c268-4ec5-95aa-e2a03461e3b8",
+      "index": 1,
+      "profileId": "gemini-paid::gemini-3.8-flash",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash",
+      "scenario": "perturb",
+      "seed": "validation-v2-control-perturb",
+      "block": null,
+      "trial": 0,
+      "turn": 1,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 13433,
+        "read": 0,
+        "write": 0,
+        "ordinary": 13433,
+        "output": 1,
+        "thinking": 0,
+        "readDecodedZero": true
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.01007475,
+        "outputCostUsd": 0.00000375
+      },
+      "actualIdleGapMs": 5001.676209000012,
+      "startedAt": "2026-10-17T19:59:06.796Z",
+      "durationMs": 1615.937082999997,
+      "referenceWithoutIdentityHash": "8d904abcbb1c1c3062bbb5d971533c4a533a392e8a447b2cea34a00482137232",
+      "wireHash": "071f810acc9973806ff61f4cdade0ba7aea1f9db117c737bb1cfede90f8bf94f",
+      "responseId": "i9PTaoi6ApTRz7IP0sXqgQw",
+      "priorInputTokens": 13433,
+      "readOverPriorInput": 0,
+      "priorInputBelow95Percent": true,
+      "previousInputStrict64FullHit": false,
+      "priorInputShortfallTokens": 13433
+    },
+    {
+      "rowId": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-2/anthropic-paid::claude-opus-5-5/t0",
+      "stageId": "control-perturb",
+      "runId": "a38627de-c268-4ec5-95aa-e2a03461e3b8",
+      "index": 2,
+      "profileId": "anthropic-paid::claude-opus-5-5",
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "scenario": "perturb",
+      "seed": "validation-v2-control-perturb",
+      "block": null,
+      "trial": 0,
+      "turn": 0,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "refusal",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 0,
+      "taskRejected": true,
+      "refusalCategory": "cyber",
+      "reuseAdmissible": false,
+      "rawCounts": {
+        "input": 17429,
+        "read": 0,
+        "write": 17425,
+        "ordinary": 4,
+        "output": 0,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.087141,
+        "outputCostUsd": 0
+      },
+      "actualIdleGapMs": null,
+      "startedAt": "2026-10-17T19:59:08.418Z",
+      "durationMs": 2903.2520839999925,
+      "referenceWithoutIdentityHash": "8d904abcbb1c1c3062bbb5d971533c4a533a392e8a447b2cea34a00482137232",
+      "wireHash": "67c5fd636726c6ee0514ddad05a077e9f50a81a45e479d68a0118a7bf38e67e2",
+      "responseId": "msg_011Cg8QGRX74QKDVZCgByxsG"
+    },
+    {
+      "rowId": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-3/anthropic-paid::claude-opus-5-5/t1",
+      "stageId": "control-perturb",
+      "runId": "a38627de-c268-4ec5-95aa-e2a03461e3b8",
+      "index": 3,
+      "profileId": "anthropic-paid::claude-opus-5-5",
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "scenario": "perturb",
+      "seed": "validation-v2-control-perturb",
+      "block": null,
+      "trial": 0,
+      "turn": 1,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "refusal",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 0,
+      "taskRejected": true,
+      "refusalCategory": "cyber",
+      "reuseAdmissible": false,
+      "rawCounts": {
+        "input": 17429,
+        "read": 0,
+        "write": 17425,
+        "ordinary": 4,
+        "output": 0,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.087141,
+        "outputCostUsd": 0
+      },
+      "actualIdleGapMs": 5002.453708000001,
+      "startedAt": "2026-10-17T19:59:16.324Z",
+      "durationMs": 2949.7861249999987,
+      "referenceWithoutIdentityHash": "8d904abcbb1c1c3062bbb5d971533c4a533a392e8a447b2cea34a00482137232",
+      "wireHash": "ea3def54f41360bfd18a812d43ef5139f90003d64e3364504969d618b4199128",
+      "responseId": "msg_011Cg8QH16hU99KENMoyiTzq",
+      "priorInputTokens": 17429,
+      "readOverPriorInput": 0,
+      "priorInputBelow95Percent": true,
+      "previousInputStrict64FullHit": false,
+      "priorInputShortfallTokens": 17429
+    },
+    {
+      "rowId": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-4/openai-paid::gpt-6.1-sol/t0",
+      "stageId": "control-perturb",
+      "runId": "a38627de-c268-4ec5-95aa-e2a03461e3b8",
+      "index": 4,
+      "profileId": "openai-paid::gpt-6.1-sol",
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "scenario": "perturb",
+      "seed": "validation-v2-control-perturb",
+      "block": null,
+      "trial": 0,
+      "turn": 0,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "completed",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 0,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 11240,
+        "read": 0,
+        "write": 11237,
+        "ordinary": 3,
+        "output": 5,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.0280985,
+        "outputCostUsd": 0.00005
+      },
+      "actualIdleGapMs": null,
+      "startedAt": "2026-10-17T19:59:19.284Z",
+      "durationMs": 2239.2168749999983,
+      "referenceWithoutIdentityHash": "8d904abcbb1c1c3062bbb5d971533c4a533a392e8a447b2cea34a00482137232",
+      "wireHash": "0e86b998360671efc7046a82031717f2934de608e6c82f1cbe84c31dbf6e49f7",
+      "responseId": "resp_03122b44171a2b32016ad3d397a9bc87d2b764e342a5fa8c63"
+    },
+    {
+      "rowId": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-5/openai-paid::gpt-6.1-sol/t1",
+      "stageId": "control-perturb",
+      "runId": "a38627de-c268-4ec5-95aa-e2a03461e3b8",
+      "index": 5,
+      "profileId": "openai-paid::gpt-6.1-sol",
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "scenario": "perturb",
+      "seed": "validation-v2-control-perturb",
+      "block": null,
+      "trial": 0,
+      "turn": 1,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "completed",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 0,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 11240,
+        "read": 0,
+        "write": 11237,
+        "ordinary": 3,
+        "output": 5,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.0280985,
+        "outputCostUsd": 0.00005
+      },
+      "actualIdleGapMs": 5003.067290999999,
+      "startedAt": "2026-10-17T19:59:26.527Z",
+      "durationMs": 1553.293834000011,
+      "referenceWithoutIdentityHash": "8d904abcbb1c1c3062bbb5d971533c4a533a392e8a447b2cea34a00482137232",
+      "wireHash": "ee2916c5e0f65b94116b4940f6cd8a6040e511666efa835d1edfc43906bf9f54",
+      "responseId": "resp_01553d5400819dbf016ad3d39ed75887d298027c454cef2324",
+      "priorInputTokens": 11240,
+      "readOverPriorInput": 0,
+      "priorInputBelow95Percent": true,
+      "previousInputStrict64FullHit": false,
+      "priorInputShortfallTokens": 11240
+    },
+    {
+      "rowId": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-6/gemini-paid::gemini-4-argon/t0",
+      "stageId": "control-perturb",
+      "runId": "a38627de-c268-4ec5-95aa-e2a03461e3b8",
+      "index": 6,
+      "profileId": "gemini-paid::gemini-4-argon",
+      "provider": "gemini",
+      "model": "gemini-4-argon",
+      "scenario": "perturb",
+      "seed": "validation-v2-control-perturb",
+      "block": null,
+      "trial": 0,
+      "turn": 0,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 13443,
+        "read": 0,
+        "write": 0,
+        "ordinary": 13443,
+        "output": 5,
+        "thinking": 0,
+        "readDecodedZero": true
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.026886,
+        "outputCostUsd": 0.00005
+      },
+      "actualIdleGapMs": null,
+      "startedAt": "2026-10-17T19:59:28.093Z",
+      "durationMs": 3347.4040830000013,
+      "referenceWithoutIdentityHash": "8d904abcbb1c1c3062bbb5d971533c4a533a392e8a447b2cea34a00482137232",
+      "wireHash": "d02b972eaa82485646c23aeacae286b8e64ee11c72899c6e71f2bb96528875e7",
+      "responseId": "oNPTar-HGcLmqtsP_If9oAg"
+    },
+    {
+      "rowId": "a38627de-c268-4ec5-95aa-e2a03461e3b8/row-7/gemini-paid::gemini-4-argon/t1",
+      "stageId": "control-perturb",
+      "runId": "a38627de-c268-4ec5-95aa-e2a03461e3b8",
+      "index": 7,
+      "profileId": "gemini-paid::gemini-4-argon",
+      "provider": "gemini",
+      "model": "gemini-4-argon",
+      "scenario": "perturb",
+      "seed": "validation-v2-control-perturb",
+      "block": null,
+      "trial": 0,
+      "turn": 1,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 13443,
+        "read": 0,
+        "write": 0,
+        "ordinary": 13443,
+        "output": 5,
+        "thinking": 0,
+        "readDecodedZero": true
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.026886,
+        "outputCostUsd": 0.00005
+      },
+      "actualIdleGapMs": 5002.396709000008,
+      "startedAt": "2026-10-17T19:59:36.443Z",
+      "durationMs": 3074.0434999999998,
+      "referenceWithoutIdentityHash": "8d904abcbb1c1c3062bbb5d971533c4a533a392e8a447b2cea34a00482137232",
+      "wireHash": "8e2271257fd0f555dcd8af99354e891c23e0eb6604844a40f357ece7d3117fd3",
+      "responseId": "qNPTaueEKKHUz7IPoPmCkAY",
+      "priorInputTokens": 13443,
+      "readOverPriorInput": 0,
+      "priorInputBelow95Percent": true,
+      "previousInputStrict64FullHit": false,
+      "priorInputShortfallTokens": 13443
+    },
+    {
+      "rowId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-0/anthropic-paid::claude-opus-5-5/t0",
+      "stageId": "agent-5s-block-1",
+      "runId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a",
+      "index": 0,
+      "profileId": "anthropic-paid::claude-opus-5-5",
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "scenario": "agent",
+      "seed": "validation-v2-block-1",
+      "block": "1",
+      "trial": 0,
+      "turn": 0,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "refusal",
+      "rawToolContinuationValid": false,
+      "signatureBlocks": 0,
+      "taskRejected": true,
+      "refusalCategory": "cyber",
+      "reuseAdmissible": false,
+      "rawCounts": {
+        "input": 17851,
+        "read": 0,
+        "write": 17847,
+        "ordinary": 4,
+        "output": 0,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.089251,
+        "outputCostUsd": 0
+      },
+      "actualIdleGapMs": null,
+      "startedAt": "2026-10-17T19:59:39.544Z",
+      "durationMs": 4299.538583000001,
+      "referenceWithoutIdentityHash": "5208aef6faa74c80489010d7e49daf8e1fe0c4d2dcb7e591f3229e79e52a400b",
+      "wireHash": "65834ec24ae3a3de3ce12182144e64d8ff03a34749cbb2c4773a9ad2a05e1fc4",
+      "responseId": "msg_011Cg8QJirwujGbh99ju3Zuk"
+    },
+    {
+      "rowId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-1/gemini-paid::gemini-4-argon/t0",
+      "stageId": "agent-5s-block-1",
+      "runId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a",
+      "index": 1,
+      "profileId": "gemini-paid::gemini-4-argon",
+      "provider": "gemini",
+      "model": "gemini-4-argon",
+      "scenario": "agent",
+      "seed": "validation-v2-block-1",
+      "block": "1",
+      "trial": 0,
+      "turn": 0,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": true,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 13558,
+        "read": 0,
+        "write": 0,
+        "ordinary": 13558,
+        "output": 16,
+        "thinking": 0,
+        "readDecodedZero": true
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.027116,
+        "outputCostUsd": 0.00016
+      },
+      "actualIdleGapMs": null,
+      "startedAt": "2026-10-17T19:59:43.849Z",
+      "durationMs": 6209.514250000007,
+      "referenceWithoutIdentityHash": "5208aef6faa74c80489010d7e49daf8e1fe0c4d2dcb7e591f3229e79e52a400b",
+      "wireHash": "aeac8bce09230db8430458e9886e76431f9175d1f89205c558e5c5cd29e5da69",
+      "responseId": "sNPTaufzBquHqtsPqt2ygAc"
+    },
+    {
+      "rowId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-2/gemini-paid::gemini-4-argon/t1",
+      "stageId": "agent-5s-block-1",
+      "runId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a",
+      "index": 2,
+      "profileId": "gemini-paid::gemini-4-argon",
+      "provider": "gemini",
+      "model": "gemini-4-argon",
+      "scenario": "agent",
+      "seed": "validation-v2-block-1",
+      "block": "1",
+      "trial": 0,
+      "turn": 1,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": true,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 14228,
+        "read": 11509,
+        "write": 0,
+        "ordinary": 2719,
+        "output": 16,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.0065889,
+        "outputCostUsd": 0.00016
+      },
+      "actualIdleGapMs": 5002.341749999992,
+      "startedAt": "2026-10-17T19:59:55.061Z",
+      "durationMs": 25729.881041999994,
+      "referenceWithoutIdentityHash": "5208aef6faa74c80489010d7e49daf8e1fe0c4d2dcb7e591f3229e79e52a400b",
+      "wireHash": "8030506daa914a1ce118ddb1adfceb89e727ca5852efe5b677219f152afa1c70",
+      "responseId": "u9PTauLfFpjXz7IP8_z-gAw",
+      "priorInputTokens": 13558,
+      "readOverPriorInput": 0.8488715149727099,
+      "priorInputBelow95Percent": true,
+      "previousInputStrict64FullHit": false,
+      "priorInputShortfallTokens": 2049,
+      "fullPriorInputCounterfactualUsd": 0.0026958000000000004,
+      "actualVsFullPriorInputCounterfactual": 2.444135321611395,
+      "preservedSignedOrEncryptedBlocks": 1,
+      "returnedFixtureHash": "db9e038ec8af886c8fc03dca9da1a031f8b4d373b4cd28138a128ab02966d7ff",
+      "returnedFixtureChars": 2400,
+      "requestStartGapMs": 11212
+    },
+    {
+      "rowId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-3/gemini-paid::gemini-4-argon/t2",
+      "stageId": "agent-5s-block-1",
+      "runId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a",
+      "index": 3,
+      "profileId": "gemini-paid::gemini-4-argon",
+      "provider": "gemini",
+      "model": "gemini-4-argon",
+      "scenario": "agent",
+      "seed": "validation-v2-block-1",
+      "block": "1",
+      "trial": 0,
+      "turn": 2,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": true,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 14908,
+        "read": 12179,
+        "write": 0,
+        "ordinary": 2729,
+        "output": 16,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.006675899999999999,
+        "outputCostUsd": 0.00016
+      },
+      "actualIdleGapMs": 5001.4230830000015,
+      "startedAt": "2026-10-17T20:00:25.793Z",
+      "durationMs": 8235.169875000021,
+      "referenceWithoutIdentityHash": "5208aef6faa74c80489010d7e49daf8e1fe0c4d2dcb7e591f3229e79e52a400b",
+      "wireHash": "154b37d88ed0d896bca3fde73aa70a84d1ae1bf8f79c3126b8bac49529291b82",
+      "responseId": "2tPTavfDBZ2gz7IPnqfeoQY",
+      "priorInputTokens": 14228,
+      "readOverPriorInput": 0.8559881922968794,
+      "priorInputBelow95Percent": true,
+      "previousInputStrict64FullHit": false,
+      "priorInputShortfallTokens": 2049,
+      "fullPriorInputCounterfactualUsd": 0.0027828,
+      "actualVsFullPriorInputCounterfactual": 2.398986632169038,
+      "preservedSignedOrEncryptedBlocks": 1,
+      "returnedFixtureHash": "e27977c56ec235f2298733b7f4ce784a1e5c88ca88022c2a9456ebd411232428",
+      "returnedFixtureChars": 2400,
+      "requestStartGapMs": 30732
+    },
+    {
+      "rowId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-4/gemini-paid::gemini-4-argon/t3",
+      "stageId": "agent-5s-block-1",
+      "runId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a",
+      "index": 4,
+      "profileId": "gemini-paid::gemini-4-argon",
+      "provider": "gemini",
+      "model": "gemini-4-argon",
+      "scenario": "agent",
+      "seed": "validation-v2-block-1",
+      "block": "1",
+      "trial": 0,
+      "turn": 3,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": true,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 15593,
+        "read": 12859,
+        "write": 0,
+        "ordinary": 2734,
+        "output": 16,
+        "thinking": 0,
+        "readDecodedZero": false
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.006753899999999999,
+        "outputCostUsd": 0.00016
+      },
+      "actualIdleGapMs": 5002.735374999989,
+      "startedAt": "2026-10-17T20:00:39.030Z",
+      "durationMs": 8793.774875000003,
+      "referenceWithoutIdentityHash": "5208aef6faa74c80489010d7e49daf8e1fe0c4d2dcb7e591f3229e79e52a400b",
+      "wireHash": "8b8e5558cde8bb58ff60219b089018c46e55178d335c32b8b2f89d980184a06a",
+      "responseId": "59PTasyVELnoz7IPlZWXoQ0",
+      "priorInputTokens": 14908,
+      "readOverPriorInput": 0.8625570163670513,
+      "priorInputBelow95Percent": true,
+      "previousInputStrict64FullHit": false,
+      "priorInputShortfallTokens": 2049,
+      "fullPriorInputCounterfactualUsd": 0.0028608,
+      "actualVsFullPriorInputCounterfactual": 2.360843120805369,
+      "preservedSignedOrEncryptedBlocks": 1,
+      "returnedFixtureHash": "a06eaa16bd4b8f8ecd441adbbf01aa269b84f191c738f927f816cbde757b988b",
+      "returnedFixtureChars": 2400,
+      "requestStartGapMs": 13237
+    },
+    {
+      "rowId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a/row-5/gemini-paid::gemini-3.8-flash/t0",
+      "stageId": "agent-5s-block-1",
+      "runId": "746cd808-fa78-4dcf-9723-d7d2e2e0e64a",
+      "index": 5,
+      "profileId": "gemini-paid::gemini-3.8-flash",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash",
+      "scenario": "agent",
+      "seed": "validation-v2-block-1",
+      "block": "1",
+      "trial": 0,
+      "turn": 0,
+      "gapSeconds": 5,
+      "status": "ok",
+      "transportAttemptCount": 1,
+      "rawStopReason": "STOP",
+      "rawToolContinuationValid": true,
+      "signatureBlocks": 1,
+      "taskRejected": false,
+      "refusalCategory": null,
+      "reuseAdmissible": true,
+      "rawCounts": {
+        "input": 13533,
+        "read": 0,
+        "write": 0,
+        "ordinary": 13533,
+        "output": 10,
+        "thinking": 0,
+        "readDecodedZero": true
+      },
+      "independentCosts": {
+        "inputCostUsd": 0.01014975,
+        "outputCostUsd": 0.0000375
+      },
+      "actualIdleGapMs": null,
+      "startedAt": "2026-10-17T20:00:47.832Z",
+      "durationMs": 1404.634417000023,
+      "referenceWithoutIdentityHash": "5208aef6faa74c80489010d7e49daf8e1fe0c4d2dcb7e591f3229e79e52a400b",
+      "wireHash": "03dfd7dae05ba461611fb5e52273609ba4d0a2117e66c56d578b40d682b926e3",
+      "responseId": "79PTau-HPImcz7IPkMT6iA0"
+    }
+  ]
+}

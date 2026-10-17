@@ -1,12 +1,16 @@
-# Cachebench v1: implementation contract
+# Cachebench: implementation contract
 
-Status: implementation in progress. This document describes the shipped scope, not every idea in the reference specs. The original proposals are preserved unchanged in `docs/references/`.
+Status: shipped CLI coding-agent validation and browser controls. This document describes the implemented scope. The original proposals are preserved unchanged in `docs/references/`.
 
 ## Purpose
 
 Run an outside-in public API experiment and produce enough inspectable evidence to evaluate Theo's prompt-cache observation for the tested conditions. Support different keys, account/tier labels, models, idle gaps, and repeated runs. Accounts own keys; models are independent. Every account runs every selected model for its provider. Two Gemini keys and two Gemini models produce four cells per workload/gap. Never turn a short smoke test into a provider-wide verdict or claim to identify an internal root cause.
 
 ## Product
+
+The primary coding validation runs the real pinned Pi 1.3.0 coding agent on a disposable copy of `fixtures/coding-ledger`. The repository contains three actual defects and 44 immutable acceptance tests. A common initial source/test snapshot provides substantial code context. Native read/edit/write tools are restricted to that repository; source edits are allowed under `src/` and `bin/`. The bash tool runs a disclosed allowlist of real Node test and fixture CLI commands with an empty child environment. It is a trusted fixture workflow, not an operating-system sandbox. Installed native CLI settings and authentication remain untouched.
+
+Each coding task has request, time, and observed-spend guards and ends naturally when Pi completes. The driver independently verifies baseline failure, final test success, unchanged acceptance files, a real source patch, and successful CLI output. It preserves serialized HTTP bodies, raw response streams, native agent/tool events, effective settings, file hashes, patches, and actual subprocess outputs. A standalone auditor reconstructs usage and costs from raw streams without importing app normalizers. `npm run coding` runs this path; `config/coding.json` and the preregistered coding protocols define its allocation. The browser controls below remain a separate diagnostic arm.
 
 A static web app calls each provider directly from the visitor's browser using its official TypeScript SDK. Visitors enter their own keys, select profiles and a test, run it, inspect turn results, and download JSON, JSONL, CSV, and Markdown reports. Keys live only in page memory and go only to the selected provider. No benchmark proxy, app server, analytics, key storage, or third-party fonts/scripts.
 

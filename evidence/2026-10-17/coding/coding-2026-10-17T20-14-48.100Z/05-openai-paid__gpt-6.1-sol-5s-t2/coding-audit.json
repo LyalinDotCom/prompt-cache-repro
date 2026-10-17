@@ -1,0 +1,1038 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-17T20:27:48.534Z",
+  "trialRoot": "/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-14-48.100Z/05-openai-paid__gpt-6.1-sol-5s-t2",
+  "provider": "openai",
+  "requestedModel": "gpt-6.1-sol",
+  "reportStatus": "completed",
+  "stopReason": null,
+  "derivation": "Independent raw SSE/JSON parsing. OpenAI terminal usage only; Gemini latest usageMetadata; Anthropic start/delta counters overwrite cumulative values, never sum. No application imports.",
+  "ratesAsOf": "2026-10-17",
+  "ratesPerMillion": {
+    "ordinary": 2,
+    "read": 0.1,
+    "write": 2.5,
+    "output": 10
+  },
+  "totals": {
+    "capturedTransportAttempts": 8,
+    "validRawUsageAttempts": 8,
+    "unknownUsageAttempts": 0,
+    "usageBasedInputUsd": 0.07698630000000001,
+    "usageBasedOutputUsd": 0.00763,
+    "followupDenominator": 7,
+    "priorInputBelow95Percent": 0,
+    "eligibleFrontierDenominator": 7,
+    "eligibleFrontierFullyReused": 7,
+    "followupActualInputUsd": 0.0323028,
+    "fullPriorInputCounterfactualUsd": 0.0322629,
+    "followupActualVsFullPriorInputCounterfactual": 1.0012367146164791,
+    "eligibleFrontierCounterfactualUsd": 0.0323028,
+    "followupActualVsEligibleFrontierCounterfactual": 1,
+    "passChecks": 81,
+    "failChecks": 0,
+    "unknownChecks": 0
+  },
+  "limitations": [
+    "Each record is one captured fetch invocation; logical model-request retries may produce multiple records and must not be collapsed.",
+    "Missing raw usage stays unknown. Interrupted or unreported charges can exceed known usage costs.",
+    "Gemini has no exposed implicit-write frontier; prior-input coverage is descriptive, not documented eligibility.",
+    "A patch and passing tests establish this task result, not general coding quality.",
+    "A functional qualification is unknown until actual baseline/final command outputs and immutable test hashes are supplied."
+  ],
+  "functional": {
+    "baselineExitCode": 1,
+    "finalExitCode": 0,
+    "immutableFileCount": 10,
+    "changedSourceFiles": [
+      "src/csv.mjs",
+      "src/dedupe.mjs",
+      "src/money.mjs"
+    ],
+    "patchFile": "patch.diff",
+    "finalCli": {
+      "exitCode": 0,
+      "verifiedAfterTrial": false,
+      "counts": {
+        "sourceRows": 4,
+        "accepted": 4,
+        "selected": 4,
+        "rejected": 0,
+        "duplicates": 0,
+        "conflicts": 0
+      },
+      "stdoutFile": "final-cli.stdout.json"
+    }
+  },
+  "checks": [
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-0",
+      "verdict": "PASS",
+      "detail": "gpt-6.1-sol"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-0",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 1,
+        "terminal": "response.completed"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-1",
+      "verdict": "PASS",
+      "detail": "gpt-6.1-sol"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-1",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 1,
+        "terminal": "response.completed"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-1",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-2",
+      "verdict": "PASS",
+      "detail": "gpt-6.1-sol"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-2",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 1,
+        "terminal": "response.completed"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "returned-native-signatures-preserved",
+      "id": "request-2",
+      "verdict": "PASS",
+      "detail": {
+        "signatures": 1
+      }
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-2",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-3",
+      "verdict": "PASS",
+      "detail": "gpt-6.1-sol"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-3",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 1,
+        "terminal": "response.completed"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-3",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-4",
+      "verdict": "PASS",
+      "detail": "gpt-6.1-sol"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-4",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 1,
+        "terminal": "response.completed"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-4",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-5",
+      "verdict": "PASS",
+      "detail": "gpt-6.1-sol"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-5",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 1,
+        "terminal": "response.completed"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-5",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-6",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-6",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-6",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-6",
+      "verdict": "PASS",
+      "detail": "gpt-6.1-sol"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-6",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 1,
+        "terminal": "response.completed"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-6",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-6",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-6",
+      "verdict": "PASS"
+    },
+    {
+      "check": "returned-native-signatures-preserved",
+      "id": "request-6",
+      "verdict": "PASS",
+      "detail": {
+        "signatures": 1
+      }
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-6",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-7",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-7",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-7",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-7",
+      "verdict": "PASS",
+      "detail": "gpt-6.1-sol"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-7",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 1,
+        "terminal": "response.completed"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-7",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-7",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-7",
+      "verdict": "PASS"
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-7",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "actual-baseline-process-failed",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "actual-final-process-passed",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": 0
+    },
+    {
+      "check": "baseline-test-output-shows-failures",
+      "id": "functional",
+      "verdict": "PASS"
+    },
+    {
+      "check": "final-test-output-shows-pass-and-zero-failures",
+      "id": "functional",
+      "verdict": "PASS"
+    },
+    {
+      "check": "immutable-tests-and-inputs-unchanged",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": {
+        "immutableFiles": 10
+      }
+    },
+    {
+      "check": "actual-source-edit-present",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": [
+        "src/csv.mjs",
+        "src/dedupe.mjs",
+        "src/money.mjs"
+      ]
+    },
+    {
+      "check": "actual-source-diff-present",
+      "id": "functional",
+      "verdict": "PASS"
+    },
+    {
+      "check": "current-fixture-files-match-recorded-final-hashes",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": []
+    },
+    {
+      "check": "actual-final-cli-demo-passed",
+      "id": "functional",
+      "verdict": "PASS"
+    }
+  ],
+  "rows": [
+    {
+      "id": "request-0",
+      "index": 0,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "actualRequestModel": "gpt-6.1-sol",
+      "reportedResponseModels": [
+        "gpt-6.1-sol"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:19:22.789Z",
+      "durationMs": 2550.9194159999606,
+      "actualIdleGapMs": null,
+      "requestFile": "requests/000-request.json",
+      "responseFile": "requests/000-response.sse",
+      "requestHash": "2495fce681da2f54a866481f331c5274a2e4df235769dfc39bea4bae1a5e5f9f",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 17874,
+        "input_tokens_details": {
+          "cache_write_tokens": 17871,
+          "cached_tokens": 0
+        },
+        "output_tokens": 57,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 17931
+      },
+      "usageSnapshots": 1,
+      "terminal": "response.completed",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 17874,
+        "read": 0,
+        "write": 17871,
+        "ordinary": 3,
+        "output": 57,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.0446835,
+        "outputUsd": 0.00057
+      },
+      "reuse": null,
+      "capturedError": null,
+      "nativeSignatureValues": 0,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": null
+    },
+    {
+      "id": "request-1",
+      "index": 1,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "actualRequestModel": "gpt-6.1-sol",
+      "reportedResponseModels": [
+        "gpt-6.1-sol"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:19:30.341Z",
+      "durationMs": 3236.5594159999746,
+      "actualIdleGapMs": 5001.576417000033,
+      "requestFile": "requests/001-request.json",
+      "responseFile": "requests/001-response.sse",
+      "requestHash": "966b2cf5428cda27ff6f0e548c9527e5928efb97c1569a817828a74214170680",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 18756,
+        "input_tokens_details": {
+          "cache_write_tokens": 882,
+          "cached_tokens": 17871
+        },
+        "output_tokens": 52,
+        "output_tokens_details": {
+          "reasoning_tokens": 21
+        },
+        "total_tokens": 18808
+      },
+      "usageSnapshots": 1,
+      "terminal": "response.completed",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 18756,
+        "read": 17871,
+        "write": 882,
+        "ordinary": 3,
+        "output": 52,
+        "thinking": 21,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.0039981,
+        "outputUsd": 0.00052
+      },
+      "reuse": {
+        "priorInputTokens": 17874,
+        "readOverPriorInput": 0.9998321584424303,
+        "priorInputBelow95Percent": false,
+        "strict64WholePriorInputFullHit": true,
+        "priorPublicCacheFrontierTokens": 17871,
+        "eligibleFrontierFullyReused": true,
+        "eligibleFrontierShortfallTokens": 0,
+        "fullPriorInputCounterfactualUsd": 0.0039924,
+        "actualVsFullPriorInputCounterfactual": 1.0014277126540427,
+        "eligibleFrontierCounterfactualUsd": 0.0039981,
+        "actualVsEligibleFrontierCounterfactual": 1
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 1,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": true
+    },
+    {
+      "id": "request-2",
+      "index": 2,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "actualRequestModel": "gpt-6.1-sol",
+      "reportedResponseModels": [
+        "gpt-6.1-sol"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:19:38.582Z",
+      "durationMs": 2977.253250000009,
+      "actualIdleGapMs": 5001.985875000013,
+      "requestFile": "requests/002-request.json",
+      "responseFile": "requests/002-response.sse",
+      "requestHash": "4434238376cb01e1de2dc063cbef1f6d6c4ab10a14ad954d88698e755047c68a",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 22199,
+        "input_tokens_details": {
+          "cache_write_tokens": 3443,
+          "cached_tokens": 18753
+        },
+        "output_tokens": 73,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 22272
+      },
+      "usageSnapshots": 1,
+      "terminal": "response.completed",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 22199,
+        "read": 18753,
+        "write": 3443,
+        "ordinary": 3,
+        "output": 73,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.0104888,
+        "outputUsd": 0.00073
+      },
+      "reuse": {
+        "priorInputTokens": 18756,
+        "readOverPriorInput": 0.9998400511836213,
+        "priorInputBelow95Percent": false,
+        "strict64WholePriorInputFullHit": true,
+        "priorPublicCacheFrontierTokens": 18753,
+        "eligibleFrontierFullyReused": true,
+        "eligibleFrontierShortfallTokens": 0,
+        "fullPriorInputCounterfactualUsd": 0.0104831,
+        "actualVsFullPriorInputCounterfactual": 1.0005437322929285,
+        "eligibleFrontierCounterfactualUsd": 0.0104888,
+        "actualVsEligibleFrontierCounterfactual": 1
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 0,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": true
+    },
+    {
+      "id": "request-3",
+      "index": 3,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "actualRequestModel": "gpt-6.1-sol",
+      "reportedResponseModels": [
+        "gpt-6.1-sol"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:19:46.562Z",
+      "durationMs": 3882.7794590000412,
+      "actualIdleGapMs": 5000.818499999994,
+      "requestFile": "requests/003-request.json",
+      "responseFile": "requests/003-response.sse",
+      "requestHash": "8dd9cc8565b534a4f4969b6ce2e47b326ed9252cb457d60fca4f3e84d037acbe",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 22296,
+        "input_tokens_details": {
+          "cache_write_tokens": 97,
+          "cached_tokens": 22196
+        },
+        "output_tokens": 158,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 22454
+      },
+      "usageSnapshots": 1,
+      "terminal": "response.completed",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 22296,
+        "read": 22196,
+        "write": 97,
+        "ordinary": 3,
+        "output": 158,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.0024681,
+        "outputUsd": 0.00158
+      },
+      "reuse": {
+        "priorInputTokens": 22199,
+        "readOverPriorInput": 0.9998648587774224,
+        "priorInputBelow95Percent": false,
+        "strict64WholePriorInputFullHit": true,
+        "priorPublicCacheFrontierTokens": 22196,
+        "eligibleFrontierFullyReused": true,
+        "eligibleFrontierShortfallTokens": 0,
+        "fullPriorInputCounterfactualUsd": 0.0024624,
+        "actualVsFullPriorInputCounterfactual": 1.0023148148148149,
+        "eligibleFrontierCounterfactualUsd": 0.0024681,
+        "actualVsEligibleFrontierCounterfactual": 1
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 0,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": true
+    },
+    {
+      "id": "request-4",
+      "index": 4,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "actualRequestModel": "gpt-6.1-sol",
+      "reportedResponseModels": [
+        "gpt-6.1-sol"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:19:55.449Z",
+      "durationMs": 2390.268417000014,
+      "actualIdleGapMs": 5001.2362079999875,
+      "requestFile": "requests/004-request.json",
+      "responseFile": "requests/004-response.sse",
+      "requestHash": "7e0556d0602465da7c12b149d24fb257a2a4642c56b63cab46fadd501d84962f",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 22478,
+        "input_tokens_details": {
+          "cache_write_tokens": 182,
+          "cached_tokens": 22293
+        },
+        "output_tokens": 54,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 22532
+      },
+      "usageSnapshots": 1,
+      "terminal": "response.completed",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 22478,
+        "read": 22293,
+        "write": 182,
+        "ordinary": 3,
+        "output": 54,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.0026903,
+        "outputUsd": 0.00054
+      },
+      "reuse": {
+        "priorInputTokens": 22296,
+        "readOverPriorInput": 0.9998654467168999,
+        "priorInputBelow95Percent": false,
+        "strict64WholePriorInputFullHit": true,
+        "priorPublicCacheFrontierTokens": 22293,
+        "eligibleFrontierFullyReused": true,
+        "eligibleFrontierShortfallTokens": 0,
+        "fullPriorInputCounterfactualUsd": 0.0026846,
+        "actualVsFullPriorInputCounterfactual": 1.0021232213365119,
+        "eligibleFrontierCounterfactualUsd": 0.0026903,
+        "actualVsEligibleFrontierCounterfactual": 1
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 0,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": true
+    },
+    {
+      "id": "request-5",
+      "index": 5,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "actualRequestModel": "gpt-6.1-sol",
+      "reportedResponseModels": [
+        "gpt-6.1-sol"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:20:02.844Z",
+      "durationMs": 3835.836834000016,
+      "actualIdleGapMs": 5001.59020799998,
+      "requestFile": "requests/005-request.json",
+      "responseFile": "requests/005-response.sse",
+      "requestHash": "c3d3c213b4ded609273f85194d6d16bf9857d4841eee60bdd440b7c0034deb40",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 22557,
+        "input_tokens_details": {
+          "cache_write_tokens": 79,
+          "cached_tokens": 22475
+        },
+        "output_tokens": 105,
+        "output_tokens_details": {
+          "reasoning_tokens": 10
+        },
+        "total_tokens": 22662
+      },
+      "usageSnapshots": 1,
+      "terminal": "response.completed",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 22557,
+        "read": 22475,
+        "write": 79,
+        "ordinary": 3,
+        "output": 105,
+        "thinking": 10,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.002451,
+        "outputUsd": 0.00105
+      },
+      "reuse": {
+        "priorInputTokens": 22478,
+        "readOverPriorInput": 0.9998665361686983,
+        "priorInputBelow95Percent": false,
+        "strict64WholePriorInputFullHit": true,
+        "priorPublicCacheFrontierTokens": 22475,
+        "eligibleFrontierFullyReused": true,
+        "eligibleFrontierShortfallTokens": 0,
+        "fullPriorInputCounterfactualUsd": 0.0024453,
+        "actualVsFullPriorInputCounterfactual": 1.0023310023310024,
+        "eligibleFrontierCounterfactualUsd": 0.002451,
+        "actualVsEligibleFrontierCounterfactual": 1
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 1,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": true
+    },
+    {
+      "id": "request-6",
+      "index": 6,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "actualRequestModel": "gpt-6.1-sol",
+      "reportedResponseModels": [
+        "gpt-6.1-sol"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:20:11.684Z",
+      "durationMs": 2348.823832999973,
+      "actualIdleGapMs": 5001.632125000004,
+      "requestFile": "requests/006-request.json",
+      "responseFile": "requests/006-response.sse",
+      "requestHash": "ef3d707d80eb43dd1cc8cbbd2493c426f1b498fd475d6c6c594df178933ba428",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 23519,
+        "input_tokens_details": {
+          "cache_write_tokens": 962,
+          "cached_tokens": 22554
+        },
+        "output_tokens": 51,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 23570
+      },
+      "usageSnapshots": 1,
+      "terminal": "response.completed",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 23519,
+        "read": 22554,
+        "write": 962,
+        "ordinary": 3,
+        "output": 51,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.004666399999999999,
+        "outputUsd": 0.00051
+      },
+      "reuse": {
+        "priorInputTokens": 22557,
+        "readOverPriorInput": 0.9998670035909031,
+        "priorInputBelow95Percent": false,
+        "strict64WholePriorInputFullHit": true,
+        "priorPublicCacheFrontierTokens": 22554,
+        "eligibleFrontierFullyReused": true,
+        "eligibleFrontierShortfallTokens": 0,
+        "fullPriorInputCounterfactualUsd": 0.004660700000000001,
+        "actualVsFullPriorInputCounterfactual": 1.001222992254382,
+        "eligibleFrontierCounterfactualUsd": 0.004666399999999999,
+        "actualVsEligibleFrontierCounterfactual": 1
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 0,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": true
+    },
+    {
+      "id": "request-7",
+      "index": 7,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "actualRequestModel": "gpt-6.1-sol",
+      "reportedResponseModels": [
+        "gpt-6.1-sol"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:20:19.036Z",
+      "durationMs": 5057.603417000035,
+      "actualIdleGapMs": 5000.487666999979,
+      "requestFile": "requests/007-request.json",
+      "responseFile": "requests/007-response.sse",
+      "requestHash": "b8333517e2049532eb81a5f518d84e69e765624d6b61f6e3ec2f43d05046d7f6",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 24792,
+        "input_tokens_details": {
+          "cache_write_tokens": 1273,
+          "cached_tokens": 23516
+        },
+        "output_tokens": 213,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 25005
+      },
+      "usageSnapshots": 1,
+      "terminal": "response.completed",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 24792,
+        "read": 23516,
+        "write": 1273,
+        "ordinary": 3,
+        "output": 213,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.0055401,
+        "outputUsd": 0.00213
+      },
+      "reuse": {
+        "priorInputTokens": 23519,
+        "readOverPriorInput": 0.9998724435562737,
+        "priorInputBelow95Percent": false,
+        "strict64WholePriorInputFullHit": true,
+        "priorPublicCacheFrontierTokens": 23516,
+        "eligibleFrontierFullyReused": true,
+        "eligibleFrontierShortfallTokens": 0,
+        "fullPriorInputCounterfactualUsd": 0.005534399999999999,
+        "actualVsFullPriorInputCounterfactual": 1.001029921942758,
+        "eligibleFrontierCounterfactualUsd": 0.0055401,
+        "actualVsEligibleFrontierCounterfactual": 1
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 0,
+      "nativeToolCallIds": 0,
+      "exactWireHistoryPrefixPreserved": true
+    }
+  ]
+}

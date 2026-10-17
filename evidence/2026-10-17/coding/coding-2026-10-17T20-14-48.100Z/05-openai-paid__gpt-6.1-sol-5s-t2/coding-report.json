@@ -1,0 +1,403 @@
+{
+  "schemaVersion": 1,
+  "profile": {
+    "id": "openai-paid::gpt-6.1-sol",
+    "accountId": "openai-paid",
+    "label": "GPT-6.1 Sol · OpenAI paid account",
+    "provider": "openai",
+    "model": "gpt-6.1-sol",
+    "tier": "Paid · user declared",
+    "keyEnv": "CODEX_API_KEY",
+    "pricing": {
+      "input": 2,
+      "cachedRead": 0.1,
+      "cacheWrite": 2.5,
+      "output": 10,
+      "source": "https://developers.openai.com/api/docs/pricing",
+      "asOf": "2026-10-17",
+      "note": "Standard, global processing; GPT-6.1 Sol writes at 1.25x input. Under 100K input only in this version."
+    },
+    "cacheMinTokens": 1024
+  },
+  "cwd": "/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-14-48.100Z/05-openai-paid__gpt-6.1-sol-5s-t2/workspace",
+  "startedAt": "2026-10-17T20:19:22.785Z",
+  "finishedAt": "2026-10-17T20:20:24.102Z",
+  "status": "completed",
+  "stopReason": null,
+  "settings": {
+    "piVersion": "1.3.0",
+    "cacheWarming": "off",
+    "compaction": {
+      "enabled": false
+    },
+    "retry": {
+      "enabled": false,
+      "provider": {
+        "maxRetries": 0,
+        "timeoutMs": 90000
+      }
+    },
+    "maxRequests": 12,
+    "maxTokens": 4096,
+    "gapSeconds": 5,
+    "timeoutMs": 480000,
+    "tools": [
+      "read",
+      "edit",
+      "write",
+      "bash"
+    ],
+    "bashCommand": "node --test",
+    "mutablePaths": [
+      "src/",
+      "bin/"
+    ],
+    "runtime": "node",
+    "auth": "explicit paid API key; operator-declared tier",
+    "allowedBashCommands": [
+      "node --test",
+      "node --test test/*.test.mjs",
+      "npm test",
+      "node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json"
+    ],
+    "model": {
+      "id": "gpt-6.1-sol",
+      "name": "GPT-6.1 Sol",
+      "api": "openai-responses",
+      "provider": "openai",
+      "baseUrl": "https://api.openai.com/v1",
+      "reasoning": true,
+      "input": [
+        "text",
+        "image"
+      ],
+      "cost": {
+        "input": 2,
+        "output": 10,
+        "cacheRead": 0.1,
+        "cacheWrite": 2.5,
+        "tiers": [
+          {
+            "inputTokensAbove": 272000,
+            "input": 4,
+            "output": 15,
+            "cacheRead": 0.2,
+            "cacheWrite": 5
+          }
+        ]
+      },
+      "contextWindow": 272000,
+      "maxTokens": 128000,
+      "thinkingLevelMap": {
+        "off": null,
+        "minimal": null,
+        "low": "low",
+        "medium": "medium",
+        "high": "high",
+        "xhigh": "xhigh",
+        "max": "max"
+      },
+      "compat": {
+        "supportsStrictMode": true,
+        "supportsOpenAIGrammarTools": true,
+        "supportsAdditionalTools": true,
+        "supportsToolSearch": true,
+        "supportsMidConvoSystemMessages": true,
+        "supportsExplicitPromptCacheMode": true,
+        "supportsMidConvoEffort": true
+      },
+      "inputLimits": {
+        "maxRequestBytes": 536870912,
+        "images": {
+          "maxPerRequest": 1500,
+          "resize": {
+            "maxWidth": 2000,
+            "maxHeight": 2000,
+            "maxBytes": 4718592,
+            "jpegQuality": 80
+          }
+        }
+      },
+      "type": "chat"
+    }
+  },
+  "requests": [
+    {
+      "index": 0,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "startedAt": "2026-10-17T20:19:22.789Z",
+      "completedAt": "2026-10-17T20:19:25.340Z",
+      "durationMs": 2550.9194159999606,
+      "actualIdleGapMs": null,
+      "httpStatus": 200,
+      "requestFile": "requests/000-request.json",
+      "responseFile": "requests/000-response.sse",
+      "requestHash": "2495fce681da2f54a866481f331c5274a2e4df235769dfc39bea4bae1a5e5f9f",
+      "rawUsage": {
+        "input_tokens": 17874,
+        "input_tokens_details": {
+          "cache_write_tokens": 17871,
+          "cached_tokens": 0
+        },
+        "output_tokens": 57,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 17931
+      },
+      "usage": {
+        "inputTokens": 17874,
+        "cachedReadTokens": 0,
+        "cacheWriteTokens": 17871,
+        "uncachedInputTokens": 3,
+        "outputTokens": 57,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 1,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "startedAt": "2026-10-17T20:19:30.341Z",
+      "completedAt": "2026-10-17T20:19:33.580Z",
+      "durationMs": 3236.5594159999746,
+      "actualIdleGapMs": 5001.576417000033,
+      "httpStatus": 200,
+      "requestFile": "requests/001-request.json",
+      "responseFile": "requests/001-response.sse",
+      "requestHash": "966b2cf5428cda27ff6f0e548c9527e5928efb97c1569a817828a74214170680",
+      "rawUsage": {
+        "input_tokens": 18756,
+        "input_tokens_details": {
+          "cache_write_tokens": 882,
+          "cached_tokens": 17871
+        },
+        "output_tokens": 52,
+        "output_tokens_details": {
+          "reasoning_tokens": 21
+        },
+        "total_tokens": 18808
+      },
+      "usage": {
+        "inputTokens": 18756,
+        "cachedReadTokens": 17871,
+        "cacheWriteTokens": 882,
+        "uncachedInputTokens": 3,
+        "outputTokens": 52,
+        "thinkingTokens": 21
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 2,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "startedAt": "2026-10-17T20:19:38.582Z",
+      "completedAt": "2026-10-17T20:19:41.562Z",
+      "durationMs": 2977.253250000009,
+      "actualIdleGapMs": 5001.985875000013,
+      "httpStatus": 200,
+      "requestFile": "requests/002-request.json",
+      "responseFile": "requests/002-response.sse",
+      "requestHash": "4434238376cb01e1de2dc063cbef1f6d6c4ab10a14ad954d88698e755047c68a",
+      "rawUsage": {
+        "input_tokens": 22199,
+        "input_tokens_details": {
+          "cache_write_tokens": 3443,
+          "cached_tokens": 18753
+        },
+        "output_tokens": 73,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 22272
+      },
+      "usage": {
+        "inputTokens": 22199,
+        "cachedReadTokens": 18753,
+        "cacheWriteTokens": 3443,
+        "uncachedInputTokens": 3,
+        "outputTokens": 73,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 3,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "startedAt": "2026-10-17T20:19:46.562Z",
+      "completedAt": "2026-10-17T20:19:50.448Z",
+      "durationMs": 3882.7794590000412,
+      "actualIdleGapMs": 5000.818499999994,
+      "httpStatus": 200,
+      "requestFile": "requests/003-request.json",
+      "responseFile": "requests/003-response.sse",
+      "requestHash": "8dd9cc8565b534a4f4969b6ce2e47b326ed9252cb457d60fca4f3e84d037acbe",
+      "rawUsage": {
+        "input_tokens": 22296,
+        "input_tokens_details": {
+          "cache_write_tokens": 97,
+          "cached_tokens": 22196
+        },
+        "output_tokens": 158,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 22454
+      },
+      "usage": {
+        "inputTokens": 22296,
+        "cachedReadTokens": 22196,
+        "cacheWriteTokens": 97,
+        "uncachedInputTokens": 3,
+        "outputTokens": 158,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 4,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "startedAt": "2026-10-17T20:19:55.449Z",
+      "completedAt": "2026-10-17T20:19:57.842Z",
+      "durationMs": 2390.268417000014,
+      "actualIdleGapMs": 5001.2362079999875,
+      "httpStatus": 200,
+      "requestFile": "requests/004-request.json",
+      "responseFile": "requests/004-response.sse",
+      "requestHash": "7e0556d0602465da7c12b149d24fb257a2a4642c56b63cab46fadd501d84962f",
+      "rawUsage": {
+        "input_tokens": 22478,
+        "input_tokens_details": {
+          "cache_write_tokens": 182,
+          "cached_tokens": 22293
+        },
+        "output_tokens": 54,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 22532
+      },
+      "usage": {
+        "inputTokens": 22478,
+        "cachedReadTokens": 22293,
+        "cacheWriteTokens": 182,
+        "uncachedInputTokens": 3,
+        "outputTokens": 54,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 5,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "startedAt": "2026-10-17T20:20:02.844Z",
+      "completedAt": "2026-10-17T20:20:06.682Z",
+      "durationMs": 3835.836834000016,
+      "actualIdleGapMs": 5001.59020799998,
+      "httpStatus": 200,
+      "requestFile": "requests/005-request.json",
+      "responseFile": "requests/005-response.sse",
+      "requestHash": "c3d3c213b4ded609273f85194d6d16bf9857d4841eee60bdd440b7c0034deb40",
+      "rawUsage": {
+        "input_tokens": 22557,
+        "input_tokens_details": {
+          "cache_write_tokens": 79,
+          "cached_tokens": 22475
+        },
+        "output_tokens": 105,
+        "output_tokens_details": {
+          "reasoning_tokens": 10
+        },
+        "total_tokens": 22662
+      },
+      "usage": {
+        "inputTokens": 22557,
+        "cachedReadTokens": 22475,
+        "cacheWriteTokens": 79,
+        "uncachedInputTokens": 3,
+        "outputTokens": 105,
+        "thinkingTokens": 10
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 6,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "startedAt": "2026-10-17T20:20:11.684Z",
+      "completedAt": "2026-10-17T20:20:14.035Z",
+      "durationMs": 2348.823832999973,
+      "actualIdleGapMs": 5001.632125000004,
+      "httpStatus": 200,
+      "requestFile": "requests/006-request.json",
+      "responseFile": "requests/006-response.sse",
+      "requestHash": "ef3d707d80eb43dd1cc8cbbd2493c426f1b498fd475d6c6c594df178933ba428",
+      "rawUsage": {
+        "input_tokens": 23519,
+        "input_tokens_details": {
+          "cache_write_tokens": 962,
+          "cached_tokens": 22554
+        },
+        "output_tokens": 51,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 23570
+      },
+      "usage": {
+        "inputTokens": 23519,
+        "cachedReadTokens": 22554,
+        "cacheWriteTokens": 962,
+        "uncachedInputTokens": 3,
+        "outputTokens": 51,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 7,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "startedAt": "2026-10-17T20:20:19.036Z",
+      "completedAt": "2026-10-17T20:20:24.096Z",
+      "durationMs": 5057.603417000035,
+      "actualIdleGapMs": 5000.487666999979,
+      "httpStatus": 200,
+      "requestFile": "requests/007-request.json",
+      "responseFile": "requests/007-response.sse",
+      "requestHash": "b8333517e2049532eb81a5f518d84e69e765624d6b61f6e3ec2f43d05046d7f6",
+      "rawUsage": {
+        "input_tokens": 24792,
+        "input_tokens_details": {
+          "cache_write_tokens": 1273,
+          "cached_tokens": 23516
+        },
+        "output_tokens": 213,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 25005
+      },
+      "usage": {
+        "inputTokens": 24792,
+        "cachedReadTokens": 23516,
+        "cacheWriteTokens": 1273,
+        "uncachedInputTokens": 3,
+        "outputTokens": 213,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    }
+  ],
+  "finalText": "Implemented three source-only fixes:\n\n- `src/csv.mjs`: commits pending records at EOF without adding phantom records after final newlines.\n- `src/money.mjs`: uses exact BigInt decimal arithmetic for half-away-from-zero rounding, preserving format and safe-integer validation.\n- `src/dedupe.mjs`: uses collision-safe vendor/invoice keys, shared by deduplication and payment routing.\n\nVerification:\n- `node --test test/*.test.mjs`: baseline **38 passed, 6 failed**; after fixes **44 passed, 0 failed**.\n- `node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json`: exited **0**. Output contains all four invoices with source rows 2–5, USD total **1,208 cents**, three applied payments totaling **750 cents**, and **458 cents** outstanding. No diagnostics or unapplied payments.\n\nTests, fixtures, and other acceptance material were unchanged.",
+  "warnings": [
+    "Pi streaming API arm; compare separately from earlier synthetic nonstreaming runs.",
+    "Tool file operations are path-restricted; test and CLI children have empty environments. This is a trusted fixture workflow, not an operating-system sandbox."
+  ]
+}

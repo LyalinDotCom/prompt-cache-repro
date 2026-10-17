@@ -1,0 +1,75 @@
+{
+  "baseline": {
+    "exitCode": 1,
+    "signal": null,
+    "error": null,
+    "stdoutFile": "baseline-tests.stdout.txt",
+    "stderrFile": "baseline-tests.stderr.txt"
+  },
+  "final": {
+    "exitCode": 0,
+    "signal": null,
+    "error": null,
+    "stdoutFile": "final-tests.stdout.txt",
+    "stderrFile": "final-tests.stderr.txt"
+  },
+  "finalCli": {
+    "exitCode": 0,
+    "stdoutFile": "final-cli.stdout.json",
+    "stderrFile": "final-cli.stderr.txt"
+  },
+  "beforeHashes": {
+    "README.md": "ee81b900d589810ed8ec5288e3f7bd0d93dcace26806631f6a287e12e55b6fad",
+    "TASK.md": "703e8c56e8461a369226234ca4b9958a8030cacd571372b158ab0386cb843a95",
+    "bin/ledger.mjs": "dc7e0b8fa96d800a8fa367ad3ff5a9fb41ffec778bce7205e0eea4ed6606e2c1",
+    "data/invoices.csv": "b9faf4451302cc110ab04f1226aadd67b347d5eddb692e50c2716c05e20ca79a",
+    "data/payments.csv": "59a68d89ef20b7b904d86249e9804214b9e6dae7d0cb59824fddbc8a146553a2",
+    "package.json": "335e7ebb90b421d3a87320fd260b1792ccced781e3670e1b3099182735354699",
+    "src/csv.mjs": "c5e9943561c116e1bcce137f42a4c37dc33b0f637129b7b6feea45ce499bd7a7",
+    "src/dates.mjs": "cd78d75fa2e2e59d9065434c05bf3a0b025b5a4aa6e6dc92b270def66806506b",
+    "src/dedupe.mjs": "1b7cbef530d1b2b5002d0cbf75c97357b392ea58cc302b8ed1a48a1fa7029123",
+    "src/ledger.mjs": "7863b2996b70ce5483c36450276a395148becbd841cf5d15d75a691c4bb88276",
+    "src/money.mjs": "38971cc0bfa8b90fbdabf577076553118ee273202ed78e5c81cc8a1aa55434d3",
+    "src/payments.mjs": "ff05a4fb391d49814cd4d67a14d87a4cc1d36af0c7193c8c7377fc83df8c607a",
+    "src/pipeline.mjs": "077744a7a329d45b4ded1836a9561e7caa30a8ce25e378d934c657e6b54cd28b",
+    "src/reports.mjs": "891430ad3a9cb89032edac6b243332a59725f0103aae9c2be10ac0c1fb642da6",
+    "src/schema.mjs": "7949c3933ff3a97707de22e8028c3e26674b76c7f8f331b58b1870621a8dbf7d",
+    "src/validation.mjs": "aa1bf2da70abcc1f5b012cce81ccbbb5c3f4ee224c0f195f9106fa05f33886c8",
+    "test/cli.test.mjs": "5b57023fe351bc5cc452fe329799ea3d8df1eb74c89f9d915c38036ac3a40bb8",
+    "test/csv.test.mjs": "0f6676694573906adbb409766c1d85d4c3dfadda1898a73b7418827ef4db5f0d",
+    "test/domain.test.mjs": "cadf1485d2d0751dfcc243af4973f31ebc4921c1a6b8a09419bc3285171fca84",
+    "test/money.test.mjs": "2740cafc3bb280cec603601b6b34bead5b2bc4610f6edf434218f5176e337c8c",
+    "test/pipeline.test.mjs": "4544e213609a92c5df94ddfab4be0c21ff750a03c593d58354c1f85cde08278d"
+  },
+  "afterHashes": {
+    "README.md": "ee81b900d589810ed8ec5288e3f7bd0d93dcace26806631f6a287e12e55b6fad",
+    "TASK.md": "703e8c56e8461a369226234ca4b9958a8030cacd571372b158ab0386cb843a95",
+    "bin/ledger.mjs": "dc7e0b8fa96d800a8fa367ad3ff5a9fb41ffec778bce7205e0eea4ed6606e2c1",
+    "data/invoices.csv": "b9faf4451302cc110ab04f1226aadd67b347d5eddb692e50c2716c05e20ca79a",
+    "data/payments.csv": "59a68d89ef20b7b904d86249e9804214b9e6dae7d0cb59824fddbc8a146553a2",
+    "package.json": "335e7ebb90b421d3a87320fd260b1792ccced781e3670e1b3099182735354699",
+    "src/csv.mjs": "7f26138e99811a37f7647b7f13805141f355f20b995801ba5669283b9daa5592",
+    "src/dates.mjs": "cd78d75fa2e2e59d9065434c05bf3a0b025b5a4aa6e6dc92b270def66806506b",
+    "src/dedupe.mjs": "b55645fc34f1edb417a3fbbd9c7633970e5e88be3af18a6c8fbff745eb62c365",
+    "src/ledger.mjs": "7863b2996b70ce5483c36450276a395148becbd841cf5d15d75a691c4bb88276",
+    "src/money.mjs": "7e09db441444f170d6ca79c6889a3b02ac3c4d7a2fd5f44ecac911b954ff9eb8",
+    "src/payments.mjs": "ff05a4fb391d49814cd4d67a14d87a4cc1d36af0c7193c8c7377fc83df8c607a",
+    "src/pipeline.mjs": "077744a7a329d45b4ded1836a9561e7caa30a8ce25e378d934c657e6b54cd28b",
+    "src/reports.mjs": "891430ad3a9cb89032edac6b243332a59725f0103aae9c2be10ac0c1fb642da6",
+    "src/schema.mjs": "7949c3933ff3a97707de22e8028c3e26674b76c7f8f331b58b1870621a8dbf7d",
+    "src/validation.mjs": "aa1bf2da70abcc1f5b012cce81ccbbb5c3f4ee224c0f195f9106fa05f33886c8",
+    "test/cli.test.mjs": "5b57023fe351bc5cc452fe329799ea3d8df1eb74c89f9d915c38036ac3a40bb8",
+    "test/csv.test.mjs": "0f6676694573906adbb409766c1d85d4c3dfadda1898a73b7418827ef4db5f0d",
+    "test/domain.test.mjs": "cadf1485d2d0751dfcc243af4973f31ebc4921c1a6b8a09419bc3285171fca84",
+    "test/money.test.mjs": "2740cafc3bb280cec603601b6b34bead5b2bc4610f6edf434218f5176e337c8c",
+    "test/pipeline.test.mjs": "4544e213609a92c5df94ddfab4be0c21ff750a03c593d58354c1f85cde08278d"
+  },
+  "patchFile": "patch.diff",
+  "changedFiles": [
+    "src/csv.mjs",
+    "src/dedupe.mjs",
+    "src/money.mjs"
+  ],
+  "immutableUnchanged": true,
+  "qualified": true
+}

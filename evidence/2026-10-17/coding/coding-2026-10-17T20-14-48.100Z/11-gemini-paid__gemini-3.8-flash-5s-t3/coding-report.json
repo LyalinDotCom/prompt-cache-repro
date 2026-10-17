@@ -1,0 +1,613 @@
+{
+  "schemaVersion": 1,
+  "profile": {
+    "id": "gemini-paid::gemini-3.8-flash",
+    "accountId": "gemini-paid",
+    "label": "Gemini Flash 3.8 · Gemini paid account",
+    "provider": "gemini",
+    "model": "gemini-3.8-flash",
+    "tier": "Paid · user declared",
+    "keyEnv": "GEMINI_API_KEY",
+    "pricing": {
+      "input": 0.75,
+      "cachedRead": 0.075,
+      "cacheWrite": 0.75,
+      "output": 3.75,
+      "source": "https://ai.google.dev/gemini-api/docs/pricing",
+      "asOf": "2026-10-17",
+      "note": "Flash 3.8 Standard introductory rates through 2026-12-31; implicit cache only in this benchmark."
+    },
+    "cacheMinTokens": 4096
+  },
+  "cwd": "/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-14-48.100Z/11-gemini-paid__gemini-3.8-flash-5s-t3/workspace",
+  "startedAt": "2026-10-17T20:25:02.306Z",
+  "finishedAt": "2026-10-17T20:26:27.530Z",
+  "status": "completed",
+  "stopReason": null,
+  "settings": {
+    "piVersion": "1.3.0",
+    "cacheWarming": "off",
+    "compaction": {
+      "enabled": false
+    },
+    "retry": {
+      "enabled": false,
+      "provider": {
+        "maxRetries": 0,
+        "timeoutMs": 90000
+      }
+    },
+    "maxRequests": 12,
+    "maxTokens": 4096,
+    "gapSeconds": 5,
+    "timeoutMs": 480000,
+    "tools": [
+      "read",
+      "edit",
+      "write",
+      "bash"
+    ],
+    "bashCommand": "node --test",
+    "mutablePaths": [
+      "src/",
+      "bin/"
+    ],
+    "runtime": "node",
+    "auth": "explicit paid API key; operator-declared tier",
+    "allowedBashCommands": [
+      "node --test",
+      "node --test test/*.test.mjs",
+      "npm test",
+      "node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json"
+    ],
+    "model": {
+      "id": "gemini-3.8-flash",
+      "name": "Gemini 3.8 Flash",
+      "api": "google-generative-ai",
+      "provider": "google",
+      "baseUrl": "https://generativelanguage.googleapis.com/v1beta",
+      "reasoning": true,
+      "thinkingLevelMap": {
+        "off": null,
+        "minimal": null,
+        "low": "low",
+        "medium": "medium",
+        "high": "high",
+        "xhigh": null,
+        "max": null
+      },
+      "input": [
+        "text",
+        "image"
+      ],
+      "cost": {
+        "input": 0.75,
+        "output": 3.75,
+        "cacheRead": 0.075,
+        "cacheWrite": 0
+      },
+      "contextWindow": 1048576,
+      "maxTokens": 65536,
+      "inputLimits": {
+        "maxRequestBytes": 20971520,
+        "images": {
+          "maxPerRequest": 3600,
+          "resize": {
+            "maxWidth": 2000,
+            "maxHeight": 2000,
+            "maxBytes": 4718592,
+            "jpegQuality": 80
+          }
+        }
+      },
+      "type": "chat"
+    },
+    "transportCapture": "Temporary global fetch boundary, restored after this sequential Gemini trial; Pi rejects per-request Google fetch overrides."
+  },
+  "requests": [
+    {
+      "index": 0,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "startedAt": "2026-10-17T20:25:02.309Z",
+      "completedAt": "2026-10-17T20:25:04.401Z",
+      "durationMs": 2092.119624999934,
+      "actualIdleGapMs": null,
+      "httpStatus": 200,
+      "requestFile": "requests/000-request.json",
+      "responseFile": "requests/000-response.sse",
+      "requestHash": "83fad0a9db7432af3270136a19049e7a5d14bc0f5f762fe31b5ad962364b4ac7",
+      "rawUsage": {
+        "promptTokenCount": 21289,
+        "candidatesTokenCount": 27,
+        "totalTokenCount": 21316,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 21289
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 21340
+      },
+      "usage": {
+        "inputTokens": 21289,
+        "cachedReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 21289,
+        "outputTokens": 27,
+        "thinkingTokens": 0
+      },
+      "warnings": [
+        "Gemini omitted cachedContentTokenCount; decoded as zero under the proto3 non-presence int32 / ProtoJSON default-zero contract. Raw usage is preserved."
+      ],
+      "error": null
+    },
+    {
+      "index": 1,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "startedAt": "2026-10-17T20:25:09.402Z",
+      "completedAt": "2026-10-17T20:25:11.268Z",
+      "durationMs": 1862.9667079999344,
+      "actualIdleGapMs": 5001.264708000002,
+      "httpStatus": 200,
+      "requestFile": "requests/001-request.json",
+      "responseFile": "requests/001-response.sse",
+      "requestHash": "9eecb9650150dd72c63c821c7fadc2698121e4171dcfde40c6ecf230baf6ddf4",
+      "rawUsage": {
+        "promptTokenCount": 25615,
+        "candidatesTokenCount": 29,
+        "totalTokenCount": 25644,
+        "cachedContentTokenCount": 21289,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 25615
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 21289
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 25676
+      },
+      "usage": {
+        "inputTokens": 25615,
+        "cachedReadTokens": 21289,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 4326,
+        "outputTokens": 29,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 2,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "startedAt": "2026-10-17T20:25:16.269Z",
+      "completedAt": "2026-10-17T20:25:18.422Z",
+      "durationMs": 2151.1961250000168,
+      "actualIdleGapMs": 5001.207000000053,
+      "httpStatus": 200,
+      "requestFile": "requests/002-request.json",
+      "responseFile": "requests/002-response.sse",
+      "requestHash": "bcffeff388d7131db219712fcf8c0a3260b7764b10c493dcac646f24bb69289a",
+      "rawUsage": {
+        "promptTokenCount": 26738,
+        "candidatesTokenCount": 29,
+        "totalTokenCount": 26767,
+        "cachedContentTokenCount": 23563,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 26738
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 23563
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 26809
+      },
+      "usage": {
+        "inputTokens": 26738,
+        "cachedReadTokens": 23563,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 3175,
+        "outputTokens": 29,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 3,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "startedAt": "2026-10-17T20:25:23.424Z",
+      "completedAt": "2026-10-17T20:25:25.273Z",
+      "durationMs": 1846.200458999956,
+      "actualIdleGapMs": 5002.074832999962,
+      "httpStatus": 200,
+      "requestFile": "requests/003-request.json",
+      "responseFile": "requests/003-response.sse",
+      "requestHash": "971a2874e4d31155fe2bd182439d0c15501aabecd1bf31a3d70a4a87dbe60ac4",
+      "rawUsage": {
+        "promptTokenCount": 27881,
+        "candidatesTokenCount": 30,
+        "totalTokenCount": 27911,
+        "cachedContentTokenCount": 24687,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 27881
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 24687
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 27962
+      },
+      "usage": {
+        "inputTokens": 27881,
+        "cachedReadTokens": 24687,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 3194,
+        "outputTokens": 30,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 4,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "startedAt": "2026-10-17T20:25:30.275Z",
+      "completedAt": "2026-10-17T20:25:32.068Z",
+      "durationMs": 1790.5193749999162,
+      "actualIdleGapMs": 5001.356832999969,
+      "httpStatus": 200,
+      "requestFile": "requests/004-request.json",
+      "responseFile": "requests/004-response.sse",
+      "requestHash": "0cacae1b7b8ad065e6a58527ef3dab598795b9dfaf36962f13e54fe466631512",
+      "rawUsage": {
+        "promptTokenCount": 28573,
+        "candidatesTokenCount": 29,
+        "totalTokenCount": 28602,
+        "cachedContentTokenCount": 25829,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 28573
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 25829
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 28664
+      },
+      "usage": {
+        "inputTokens": 28573,
+        "cachedReadTokens": 25829,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 2744,
+        "outputTokens": 29,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 5,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "startedAt": "2026-10-17T20:25:37.069Z",
+      "completedAt": "2026-10-17T20:25:39.389Z",
+      "durationMs": 2318.0012910000514,
+      "actualIdleGapMs": 5001.25133400003,
+      "httpStatus": 200,
+      "requestFile": "requests/005-request.json",
+      "responseFile": "requests/005-response.sse",
+      "requestHash": "fb66311efc8ab8b1711a482a03d603978da6ba4b583aa6f674d7dd3801e44288",
+      "rawUsage": {
+        "promptTokenCount": 29438,
+        "candidatesTokenCount": 110,
+        "totalTokenCount": 29548,
+        "cachedContentTokenCount": 26523,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 29438
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 26523
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 29539
+      },
+      "usage": {
+        "inputTokens": 29438,
+        "cachedReadTokens": 26523,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 2915,
+        "outputTokens": 110,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 6,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "startedAt": "2026-10-17T20:25:44.390Z",
+      "completedAt": "2026-10-17T20:25:46.744Z",
+      "durationMs": 2351.6140840000007,
+      "actualIdleGapMs": 5001.039166999981,
+      "httpStatus": 200,
+      "requestFile": "requests/006-request.json",
+      "responseFile": "requests/006-response.sse",
+      "requestHash": "b2585dfd648ba992b7f64e33555ab5fdb480b58a5d3dd415ec630f3535cd9089",
+      "rawUsage": {
+        "promptTokenCount": 29575,
+        "candidatesTokenCount": 81,
+        "totalTokenCount": 29656,
+        "cachedContentTokenCount": 27386,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 29575
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 27386
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 29686
+      },
+      "usage": {
+        "inputTokens": 29575,
+        "cachedReadTokens": 27386,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 2189,
+        "outputTokens": 81,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 7,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "startedAt": "2026-10-17T20:25:51.744Z",
+      "completedAt": "2026-10-17T20:25:55.599Z",
+      "durationMs": 3852.0363330000546,
+      "actualIdleGapMs": 4999.772583000013,
+      "httpStatus": 200,
+      "requestFile": "requests/007-request.json",
+      "responseFile": "requests/007-response.sse",
+      "requestHash": "d3e04e9871f5b3db53938b09ce571443d410e0dd153a228ba2c3bb073fd5e82d",
+      "rawUsage": {
+        "promptTokenCount": 29684,
+        "candidatesTokenCount": 410,
+        "totalTokenCount": 30094,
+        "cachedContentTokenCount": 27523,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 29684
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 27523
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 29805
+      },
+      "usage": {
+        "inputTokens": 29684,
+        "cachedReadTokens": 27523,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 2161,
+        "outputTokens": 410,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 8,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "startedAt": "2026-10-17T20:26:00.600Z",
+      "completedAt": "2026-10-17T20:26:02.776Z",
+      "durationMs": 2172.7453749999404,
+      "actualIdleGapMs": 5001.675749999937,
+      "httpStatus": 200,
+      "requestFile": "requests/008-request.json",
+      "responseFile": "requests/008-response.sse",
+      "requestHash": "23bb9c75b928ce0ce115e4cf8ac790e4660192d7e4845972a2b136beba050f6d",
+      "rawUsage": {
+        "promptTokenCount": 30121,
+        "candidatesTokenCount": 21,
+        "totalTokenCount": 30142,
+        "cachedContentTokenCount": 27634,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 30121
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 27634
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 30252
+      },
+      "usage": {
+        "inputTokens": 30121,
+        "cachedReadTokens": 27634,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 2487,
+        "outputTokens": 21,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 9,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "startedAt": "2026-10-17T20:26:07.777Z",
+      "completedAt": "2026-10-17T20:26:09.965Z",
+      "durationMs": 2185.773334000027,
+      "actualIdleGapMs": 5000.885875000036,
+      "httpStatus": 200,
+      "requestFile": "requests/009-request.json",
+      "responseFile": "requests/009-response.sse",
+      "requestHash": "54412fc944c22dfa238df8461fd44c39908a7808d9e92a55a600ceb15f5a4301",
+      "rawUsage": {
+        "promptTokenCount": 31217,
+        "candidatesTokenCount": 27,
+        "totalTokenCount": 31244,
+        "cachedContentTokenCount": 28075,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 31217
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 28075
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 31358
+      },
+      "usage": {
+        "inputTokens": 31217,
+        "cachedReadTokens": 28075,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 3142,
+        "outputTokens": 27,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 10,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "startedAt": "2026-10-17T20:26:14.965Z",
+      "completedAt": "2026-10-17T20:26:17.112Z",
+      "durationMs": 2145.029167000088,
+      "actualIdleGapMs": 4999.770625000005,
+      "httpStatus": 200,
+      "requestFile": "requests/010-request.json",
+      "responseFile": "requests/010-response.sse",
+      "requestHash": "2a633a9cf2c24be52a171df4799483b0d1c7cba2fc13b76ccd159cce751ca428",
+      "rawUsage": {
+        "promptTokenCount": 32321,
+        "candidatesTokenCount": 57,
+        "totalTokenCount": 32378,
+        "cachedContentTokenCount": 29171,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 32321
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 29171
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 32472
+      },
+      "usage": {
+        "inputTokens": 32321,
+        "cachedReadTokens": 29171,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 3150,
+        "outputTokens": 57,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    },
+    {
+      "index": 11,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "startedAt": "2026-10-17T20:26:22.113Z",
+      "completedAt": "2026-10-17T20:26:27.524Z",
+      "durationMs": 5407.409333000076,
+      "actualIdleGapMs": 5001.556540999911,
+      "httpStatus": 200,
+      "requestFile": "requests/011-request.json",
+      "responseFile": "requests/011-response.sse",
+      "requestHash": "f90afb310ea9de78da683bc92b0e40b22295bc377b786a2a8ce313d6badaafa2",
+      "rawUsage": {
+        "promptTokenCount": 33881,
+        "candidatesTokenCount": 601,
+        "totalTokenCount": 34482,
+        "cachedContentTokenCount": 30278,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 33881
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 30278
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 34042
+      },
+      "usage": {
+        "inputTokens": 33881,
+        "cachedReadTokens": 30278,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 3603,
+        "outputTokens": 601,
+        "thinkingTokens": 0
+      },
+      "warnings": [],
+      "error": null
+    }
+  ],
+  "finalText": "### Summary of Changes\n\n1. **CSV Record Termination at EOF (`src/csv.mjs`)**:\n   - Updated `parseCsv` so that when EOF is reached while a record was actively started (`recordStarted`) or ended with a closed quote (`state === 'closed'`), `endRecord()` is invoked to commit the final record. This properly retains records ending without a trailing newline (including trailing empty fields and quoted fields) without introducing phantom records on files that already end with newlines.\n\n2. **Half-Cent Decimal Rounding (`src/money.mjs`)**:\n   - Replaced floating-point multiplication (`Math.round(Number(text) * 100)`) in `parseMoney` with exact integer arithmetic using `BigInt`. Decomposes the number into integer units of $1/10000$ (with up to 4 fractional digits padded to 4 decimal places) and computes `(totalUnits + 50n) / 100n` multiplied by the parsed sign. This performs symmetric round half away from zero for positive amounts and negative credit notes without floating-point drift.\n\n3. **Vendor-Scoped Invoice Identity (`src/dedupe.mjs`)**:\n   - Updated `invoiceKey` to serialize `[invoice.vendorId, invoice.invoiceId]` (matching `invoiceFingerprint` vendor scoping and payment routing logic) so invoices sharing the same invoice identifier across distinct suppliers do not conflict and both are accepted and indexed properly.\n\n---\n\n### Commands Run and Results\n\n1. **Baseline reproduction**:\n   - `node --test test/*.test.mjs`\n   - *Result*: 6 test failures (`actual mixed-feed CLI output...`, `CSV EOF is a valid record boundary...`, `invoice identity includes vendor...`, `rounding at a half cent...`, `mixed supplier feed retains the EOF row...`, and `same invoice number in different suppliers...`).\n\n2. **Test suite verification**:\n   - `node --test` & `node --test test/*.test.mjs`\n   - *Result*: All 44 tests passed across all test files with 0 failures.\n\n3. **CLI execution and JSON inspection**:\n   - `node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json`\n   - *Result*: Exited with code 0. Successfully parsed all 4 invoices across the 3 vendors (`vendor-a`, `vendor-b`, `vendor-c`), rounded half-cent amounts to exact cents (`1.01`, `10.08`, `-1.01`, `2.00`), correctly routed and applied all 3 payments, and reported zero diagnostics or unapplied payments.",
+  "warnings": [
+    "Pi streaming API arm; compare separately from earlier synthetic nonstreaming runs.",
+    "Tool file operations are path-restricted; test and CLI children have empty environments. This is a trusted fixture workflow, not an operating-system sandbox."
+  ]
+}

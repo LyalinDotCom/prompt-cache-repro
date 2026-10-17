@@ -1,0 +1,800 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-17T20:27:48.865Z",
+  "trialRoot": "/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-14-48.100Z/12-openai-paid__gpt-6.1-sol-5s-t3",
+  "provider": "openai",
+  "requestedModel": "gpt-6.1-sol",
+  "reportStatus": "completed",
+  "stopReason": null,
+  "derivation": "Independent raw SSE/JSON parsing. OpenAI terminal usage only; Gemini latest usageMetadata; Anthropic start/delta counters overwrite cumulative values, never sum. No application imports.",
+  "ratesAsOf": "2026-10-17",
+  "ratesPerMillion": {
+    "ordinary": 2,
+    "read": 0.1,
+    "write": 2.5,
+    "output": 10
+  },
+  "totals": {
+    "capturedTransportAttempts": 6,
+    "validRawUsageAttempts": 6,
+    "unknownUsageAttempts": 0,
+    "usageBasedInputUsd": 0.1157847,
+    "usageBasedOutputUsd": 0.01261,
+    "followupDenominator": 5,
+    "priorInputBelow95Percent": 0,
+    "eligibleFrontierDenominator": 5,
+    "eligibleFrontierFullyReused": 5,
+    "followupActualInputUsd": 0.0710812,
+    "fullPriorInputCounterfactualUsd": 0.07105270000000001,
+    "followupActualVsFullPriorInputCounterfactual": 1.000401110724856,
+    "eligibleFrontierCounterfactualUsd": 0.0710812,
+    "followupActualVsEligibleFrontierCounterfactual": 1,
+    "passChecks": 62,
+    "failChecks": 0,
+    "unknownChecks": 0
+  },
+  "limitations": [
+    "Each record is one captured fetch invocation; logical model-request retries may produce multiple records and must not be collapsed.",
+    "Missing raw usage stays unknown. Interrupted or unreported charges can exceed known usage costs.",
+    "Gemini has no exposed implicit-write frontier; prior-input coverage is descriptive, not documented eligibility.",
+    "A patch and passing tests establish this task result, not general coding quality.",
+    "A functional qualification is unknown until actual baseline/final command outputs and immutable test hashes are supplied."
+  ],
+  "functional": {
+    "baselineExitCode": 1,
+    "finalExitCode": 0,
+    "immutableFileCount": 10,
+    "changedSourceFiles": [
+      "src/csv.mjs",
+      "src/dedupe.mjs",
+      "src/money.mjs"
+    ],
+    "patchFile": "patch.diff",
+    "finalCli": {
+      "exitCode": 0,
+      "verifiedAfterTrial": false,
+      "counts": {
+        "sourceRows": 4,
+        "accepted": 4,
+        "selected": 4,
+        "rejected": 0,
+        "duplicates": 0,
+        "conflicts": 0
+      },
+      "stdoutFile": "final-cli.stdout.json"
+    }
+  },
+  "checks": [
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-0",
+      "verdict": "PASS",
+      "detail": "gpt-6.1-sol"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-0",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 1,
+        "terminal": "response.completed"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-1",
+      "verdict": "PASS",
+      "detail": "gpt-6.1-sol"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-1",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 1,
+        "terminal": "response.completed"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-1",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 17
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-2",
+      "verdict": "PASS",
+      "detail": "gpt-6.1-sol"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-2",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 1,
+        "terminal": "response.completed"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-2",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-3",
+      "verdict": "PASS",
+      "detail": "gpt-6.1-sol"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-3",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 1,
+        "terminal": "response.completed"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "returned-native-signatures-preserved",
+      "id": "request-3",
+      "verdict": "PASS",
+      "detail": {
+        "signatures": 1
+      }
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-3",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 3
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-4",
+      "verdict": "PASS",
+      "detail": "gpt-6.1-sol"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-4",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 1,
+        "terminal": "response.completed"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-4",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-5",
+      "verdict": "PASS",
+      "detail": "gpt-6.1-sol"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-5",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 1,
+        "terminal": "response.completed"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-5",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "actual-baseline-process-failed",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "actual-final-process-passed",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": 0
+    },
+    {
+      "check": "baseline-test-output-shows-failures",
+      "id": "functional",
+      "verdict": "PASS"
+    },
+    {
+      "check": "final-test-output-shows-pass-and-zero-failures",
+      "id": "functional",
+      "verdict": "PASS"
+    },
+    {
+      "check": "immutable-tests-and-inputs-unchanged",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": {
+        "immutableFiles": 10
+      }
+    },
+    {
+      "check": "actual-source-edit-present",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": [
+        "src/csv.mjs",
+        "src/dedupe.mjs",
+        "src/money.mjs"
+      ]
+    },
+    {
+      "check": "actual-source-diff-present",
+      "id": "functional",
+      "verdict": "PASS"
+    },
+    {
+      "check": "current-fixture-files-match-recorded-final-hashes",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": []
+    },
+    {
+      "check": "actual-final-cli-demo-passed",
+      "id": "functional",
+      "verdict": "PASS"
+    }
+  ],
+  "rows": [
+    {
+      "id": "request-0",
+      "index": 0,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "actualRequestModel": "gpt-6.1-sol",
+      "reportedResponseModels": [
+        "gpt-6.1-sol"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:26:27.944Z",
+      "durationMs": 9466.72308399994,
+      "actualIdleGapMs": null,
+      "requestFile": "requests/000-request.json",
+      "responseFile": "requests/000-response.sse",
+      "requestHash": "13e8787b6384a39fa5952aade649e68edd2782f15dba4bc7d893435dd110c26d",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 17882,
+        "input_tokens_details": {
+          "cache_write_tokens": 17879,
+          "cached_tokens": 0
+        },
+        "output_tokens": 481,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 18363
+      },
+      "usageSnapshots": 1,
+      "terminal": "response.completed",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 17882,
+        "read": 0,
+        "write": 17879,
+        "ordinary": 3,
+        "output": 481,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.0447035,
+        "outputUsd": 0.00481
+      },
+      "reuse": null,
+      "capturedError": null,
+      "nativeSignatureValues": 0,
+      "nativeToolCallIds": 17,
+      "exactWireHistoryPrefixPreserved": null
+    },
+    {
+      "id": "request-1",
+      "index": 1,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "actualRequestModel": "gpt-6.1-sol",
+      "reportedResponseModels": [
+        "gpt-6.1-sol"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:26:42.412Z",
+      "durationMs": 1805.43666700006,
+      "actualIdleGapMs": 5000.949625000008,
+      "requestFile": "requests/001-request.json",
+      "responseFile": "requests/001-response.sse",
+      "requestHash": "441f6073761d18559a2f64b8576a3d439f90e042db74d582e79c9355f1d95fe1",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 33605,
+        "input_tokens_details": {
+          "cache_write_tokens": 15723,
+          "cached_tokens": 17879
+        },
+        "output_tokens": 29,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 33634
+      },
+      "usageSnapshots": 1,
+      "terminal": "response.completed",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 33605,
+        "read": 17879,
+        "write": 15723,
+        "ordinary": 3,
+        "output": 29,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.0411014,
+        "outputUsd": 0.00029
+      },
+      "reuse": {
+        "priorInputTokens": 17882,
+        "readOverPriorInput": 0.999832233530925,
+        "priorInputBelow95Percent": false,
+        "strict64WholePriorInputFullHit": true,
+        "priorPublicCacheFrontierTokens": 17879,
+        "eligibleFrontierFullyReused": true,
+        "eligibleFrontierShortfallTokens": 0,
+        "fullPriorInputCounterfactualUsd": 0.0410957,
+        "actualVsFullPriorInputCounterfactual": 1.0001387006426463,
+        "eligibleFrontierCounterfactualUsd": 0.0411014,
+        "actualVsEligibleFrontierCounterfactual": 1
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 0,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": true
+    },
+    {
+      "id": "request-2",
+      "index": 2,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "actualRequestModel": "gpt-6.1-sol",
+      "reportedResponseModels": [
+        "gpt-6.1-sol"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:26:49.222Z",
+      "durationMs": 11163.189624999999,
+      "actualIdleGapMs": 5001.985582999885,
+      "requestFile": "requests/002-request.json",
+      "responseFile": "requests/002-response.sse",
+      "requestHash": "8bfae82217badc5bfea629035a0d76785a8c557ea4683e467f8901dd51e3875c",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 37026,
+        "input_tokens_details": {
+          "cache_write_tokens": 3421,
+          "cached_tokens": 33602
+        },
+        "output_tokens": 470,
+        "output_tokens_details": {
+          "reasoning_tokens": 49
+        },
+        "total_tokens": 37496
+      },
+      "usageSnapshots": 1,
+      "terminal": "response.completed",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 37026,
+        "read": 33602,
+        "write": 3421,
+        "ordinary": 3,
+        "output": 470,
+        "thinking": 49,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.0119187,
+        "outputUsd": 0.0047
+      },
+      "reuse": {
+        "priorInputTokens": 33605,
+        "readOverPriorInput": 0.9999107275703021,
+        "priorInputBelow95Percent": false,
+        "strict64WholePriorInputFullHit": true,
+        "priorPublicCacheFrontierTokens": 33602,
+        "eligibleFrontierFullyReused": true,
+        "eligibleFrontierShortfallTokens": 0,
+        "fullPriorInputCounterfactualUsd": 0.011913,
+        "actualVsFullPriorInputCounterfactual": 1.0004784688995216,
+        "eligibleFrontierCounterfactualUsd": 0.0119187,
+        "actualVsEligibleFrontierCounterfactual": 1
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 1,
+      "nativeToolCallIds": 3,
+      "exactWireHistoryPrefixPreserved": true
+    },
+    {
+      "id": "request-3",
+      "index": 3,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "actualRequestModel": "gpt-6.1-sol",
+      "reportedResponseModels": [
+        "gpt-6.1-sol"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:27:05.389Z",
+      "durationMs": 1920.6400419999845,
+      "actualIdleGapMs": 5001.079458000022,
+      "requestFile": "requests/003-request.json",
+      "responseFile": "requests/003-response.sse",
+      "requestHash": "386c03c00f35871b1485abda210641c64e4f056be3e0ac71603ba6e4055c17a7",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 37565,
+        "input_tokens_details": {
+          "cache_write_tokens": 539,
+          "cached_tokens": 37023
+        },
+        "output_tokens": 29,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 37594
+      },
+      "usageSnapshots": 1,
+      "terminal": "response.completed",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 37565,
+        "read": 37023,
+        "write": 539,
+        "ordinary": 3,
+        "output": 29,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.0050558,
+        "outputUsd": 0.00029
+      },
+      "reuse": {
+        "priorInputTokens": 37026,
+        "readOverPriorInput": 0.9999189758548047,
+        "priorInputBelow95Percent": false,
+        "strict64WholePriorInputFullHit": true,
+        "priorPublicCacheFrontierTokens": 37023,
+        "eligibleFrontierFullyReused": true,
+        "eligibleFrontierShortfallTokens": 0,
+        "fullPriorInputCounterfactualUsd": 0.0050501,
+        "actualVsFullPriorInputCounterfactual": 1.0011286905209797,
+        "eligibleFrontierCounterfactualUsd": 0.0050558,
+        "actualVsEligibleFrontierCounterfactual": 1
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 0,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": true
+    },
+    {
+      "id": "request-4",
+      "index": 4,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "actualRequestModel": "gpt-6.1-sol",
+      "reportedResponseModels": [
+        "gpt-6.1-sol"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:27:12.313Z",
+      "durationMs": 2108.5306669999845,
+      "actualIdleGapMs": 5000.028665999998,
+      "requestFile": "requests/004-request.json",
+      "responseFile": "requests/004-response.sse",
+      "requestHash": "614e7fc91f9a4fa21c8476a19cfda51175e33212598268c7420fcaec891331ff",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 38449,
+        "input_tokens_details": {
+          "cache_write_tokens": 884,
+          "cached_tokens": 37562
+        },
+        "output_tokens": 51,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 38500
+      },
+      "usageSnapshots": 1,
+      "terminal": "response.completed",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 38449,
+        "read": 37562,
+        "write": 884,
+        "ordinary": 3,
+        "output": 51,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.0059722,
+        "outputUsd": 0.00051
+      },
+      "reuse": {
+        "priorInputTokens": 37565,
+        "readOverPriorInput": 0.999920138426727,
+        "priorInputBelow95Percent": false,
+        "strict64WholePriorInputFullHit": true,
+        "priorPublicCacheFrontierTokens": 37562,
+        "eligibleFrontierFullyReused": true,
+        "eligibleFrontierShortfallTokens": 0,
+        "fullPriorInputCounterfactualUsd": 0.0059665,
+        "actualVsFullPriorInputCounterfactual": 1.0009553339478758,
+        "eligibleFrontierCounterfactualUsd": 0.0059722,
+        "actualVsEligibleFrontierCounterfactual": 1
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 0,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": true
+    },
+    {
+      "id": "request-5",
+      "index": 5,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "actualRequestModel": "gpt-6.1-sol",
+      "reportedResponseModels": [
+        "gpt-6.1-sol"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:27:19.427Z",
+      "durationMs": 5735.008792000008,
+      "actualIdleGapMs": 5001.746458000038,
+      "requestFile": "requests/005-request.json",
+      "responseFile": "requests/005-response.sse",
+      "requestHash": "e9ca2d6d6448540c6d2b70d78758912893c515e61cbf219be87a10e9a8470595",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "input_tokens": 39722,
+        "input_tokens_details": {
+          "cache_write_tokens": 1273,
+          "cached_tokens": 38446
+        },
+        "output_tokens": 201,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 39923
+      },
+      "usageSnapshots": 1,
+      "terminal": "response.completed",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 39722,
+        "read": 38446,
+        "write": 1273,
+        "ordinary": 3,
+        "output": 201,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.0070331000000000005,
+        "outputUsd": 0.00201
+      },
+      "reuse": {
+        "priorInputTokens": 38449,
+        "readOverPriorInput": 0.9999219745637078,
+        "priorInputBelow95Percent": false,
+        "strict64WholePriorInputFullHit": true,
+        "priorPublicCacheFrontierTokens": 38446,
+        "eligibleFrontierFullyReused": true,
+        "eligibleFrontierShortfallTokens": 0,
+        "fullPriorInputCounterfactualUsd": 0.0070274,
+        "actualVsFullPriorInputCounterfactual": 1.0008111107948887,
+        "eligibleFrontierCounterfactualUsd": 0.0070331000000000005,
+        "actualVsEligibleFrontierCounterfactual": 1
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 0,
+      "nativeToolCallIds": 0,
+      "exactWireHistoryPrefixPreserved": true
+    }
+  ]
+}

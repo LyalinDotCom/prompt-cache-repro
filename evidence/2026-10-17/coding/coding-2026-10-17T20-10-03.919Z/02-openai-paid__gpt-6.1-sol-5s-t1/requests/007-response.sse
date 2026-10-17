@@ -1,0 +1,132 @@
+event: response.created
+data: {"type":"response.created","response":{"id":"resp_009874c36b45d8b4016ad3d65376bc87d2b55e453a7c0e44a4","object":"response","created_at":1792267859,"status":"in_progress","access_programs":null,"background":false,"completed_at":null,"error":null,"frequency_penalty":0.0,"incomplete_details":null,"instructions":null,"max_output_tokens":4096,"max_tool_calls":null,"model":"gpt-6.1-sol","moderation":null,"output":[],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":"01a14b7c-5ef9-705f-9035-f633ae61bf55","prompt_cache_retention":"24h","reasoning":{"context":"all_turns","effort":"medium","mode":"standard","summary":"detailed"},"safety_identifier":null,"service_tier":"auto","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tool_usage":{"image_gen":{"input_tokens":0,"input_tokens_details":{"image_tokens":0,"text_tokens":0},"output_tokens":0,"output_tokens_details":{"image_tokens":0,"text_tokens":0},"total_tokens":0},"web_search":{"num_requests":0}},"tools":[{"type":"function","description":"Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.","name":"read","output_schema":null,"parameters":{"type":"object","required":["path","offset","limit"],"properties":{"path":{"type":"string","description":"Path to the file to read (relative or absolute)"},"offset":{"anyOf":[{"type":"number","description":"Line number to start reading from (1-indexed)"},{"type":"null"}]},"limit":{"anyOf":[{"type":"number","description":"Maximum number of lines to read"},{"type":"null"}]}},"additionalProperties":false},"strict":true},{"type":"function","description":"Execute a bash command in the current working directory. Returns stdout and stderr. Output is truncated to last 2000 lines or 50KB (whichever is hit first). If truncated, full output is saved to a temp file. Optionally provide a timeout in seconds.","name":"bash","output_schema":null,"parameters":{"type":"object","required":["command","timeout"],"properties":{"command":{"type":"string","description":"Shell command to execute"},"timeout":{"anyOf":[{"type":"number","description":"Timeout in seconds (optional, no default timeout)"},{"type":"null"}]}},"additionalProperties":false},"strict":true},{"type":"function","description":"Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.","name":"edit","output_schema":null,"parameters":{"type":"object","required":["path","edits"],"properties":{"path":{"type":"string","description":"Path to the file to edit (relative or absolute)"},"edits":{"type":"array","items":{"type":"object","required":["oldText","newText"],"properties":{"oldText":{"type":"string","description":"Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."},"newText":{"type":"string","description":"Replacement text for this targeted edit."}},"additionalProperties":false},"description":"One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."}},"additionalProperties":false},"strict":true},{"type":"function","description":"Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.","name":"write","output_schema":null,"parameters":{"type":"object","required":["path","content"],"properties":{"path":{"type":"string","description":"Path to the file to write (relative or absolute)"},"content":{"type":"string","description":"Content to write to the file"}},"additionalProperties":false},"strict":true}],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":null,"user":null,"metadata":{}},"sequence_number":0}
+
+event: response.in_progress
+data: {"type":"response.in_progress","response":{"id":"resp_009874c36b45d8b4016ad3d65376bc87d2b55e453a7c0e44a4","object":"response","created_at":1792267859,"status":"in_progress","access_programs":null,"background":false,"completed_at":null,"error":null,"frequency_penalty":0.0,"incomplete_details":null,"instructions":null,"max_output_tokens":4096,"max_tool_calls":null,"model":"gpt-6.1-sol","moderation":null,"output":[],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":"01a14b7c-5ef9-705f-9035-f633ae61bf55","prompt_cache_retention":"24h","reasoning":{"context":"all_turns","effort":"medium","mode":"standard","summary":"detailed"},"safety_identifier":null,"service_tier":"auto","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tool_usage":{"image_gen":{"input_tokens":0,"input_tokens_details":{"image_tokens":0,"text_tokens":0},"output_tokens":0,"output_tokens_details":{"image_tokens":0,"text_tokens":0},"total_tokens":0},"web_search":{"num_requests":0}},"tools":[{"type":"function","description":"Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.","name":"read","output_schema":null,"parameters":{"type":"object","required":["path","offset","limit"],"properties":{"path":{"type":"string","description":"Path to the file to read (relative or absolute)"},"offset":{"anyOf":[{"type":"number","description":"Line number to start reading from (1-indexed)"},{"type":"null"}]},"limit":{"anyOf":[{"type":"number","description":"Maximum number of lines to read"},{"type":"null"}]}},"additionalProperties":false},"strict":true},{"type":"function","description":"Execute a bash command in the current working directory. Returns stdout and stderr. Output is truncated to last 2000 lines or 50KB (whichever is hit first). If truncated, full output is saved to a temp file. Optionally provide a timeout in seconds.","name":"bash","output_schema":null,"parameters":{"type":"object","required":["command","timeout"],"properties":{"command":{"type":"string","description":"Shell command to execute"},"timeout":{"anyOf":[{"type":"number","description":"Timeout in seconds (optional, no default timeout)"},{"type":"null"}]}},"additionalProperties":false},"strict":true},{"type":"function","description":"Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.","name":"edit","output_schema":null,"parameters":{"type":"object","required":["path","edits"],"properties":{"path":{"type":"string","description":"Path to the file to edit (relative or absolute)"},"edits":{"type":"array","items":{"type":"object","required":["oldText","newText"],"properties":{"oldText":{"type":"string","description":"Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."},"newText":{"type":"string","description":"Replacement text for this targeted edit."}},"additionalProperties":false},"description":"One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."}},"additionalProperties":false},"strict":true},{"type":"function","description":"Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.","name":"write","output_schema":null,"parameters":{"type":"object","required":["path","content"],"properties":{"path":{"type":"string","description":"Path to the file to write (relative or absolute)"},"content":{"type":"string","description":"Content to write to the file"}},"additionalProperties":false},"strict":true}],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":null,"user":null,"metadata":{}},"sequence_number":1}
+
+event: response.output_item.added
+data: {"type":"response.output_item.added","item":{"id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","type":"function_call","status":"in_progress","arguments":"","call_id":"call_auVXS0vI20cuc0xORpKZhJYN","name":"bash"},"output_index":0,"sequence_number":2}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"{\"","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"2UkUe5r5e9lI6S","output_index":0,"sequence_number":3}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"command","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"83uuQLEdr","output_index":0,"sequence_number":4}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"\":\"","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"9PLyFWDL7Spuh","output_index":0,"sequence_number":5}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"node","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"1UrYhMsQXbIN","output_index":0,"sequence_number":6}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" bin","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"jYMJcNejJuhX","output_index":0,"sequence_number":7}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"/","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"HMuc9jKv3vzDALO","output_index":0,"sequence_number":8}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"ledger","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"TKbn6GwU4p","output_index":0,"sequence_number":9}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":".m","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"pDFVJz2P0cngvu","output_index":0,"sequence_number":10}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"js","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"1IbUGlGlw4mSua","output_index":0,"sequence_number":11}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" import","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"OdF3kVED8","output_index":0,"sequence_number":12}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" data","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"GoQupcUDLZt","output_index":0,"sequence_number":13}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"/in","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"sP4HHKitHmSQR","output_index":0,"sequence_number":14}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"voices","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"PMMPagIUkv","output_index":0,"sequence_number":15}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":".csv","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"USyrjvj96MfI","output_index":0,"sequence_number":16}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" --","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"sE9DOyt9V6Z4Z","output_index":0,"sequence_number":17}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"payments","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"vpZKrX3r","output_index":0,"sequence_number":18}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" data","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"yonN3LFB1j7","output_index":0,"sequence_number":19}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"/pay","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"tmKKCCc84QcN","output_index":0,"sequence_number":20}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"ments","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"XZpMyXcz99p","output_index":0,"sequence_number":21}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":".csv","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"xPqj3npLluRE","output_index":0,"sequence_number":22}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" --","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"VkUHO0E39ISVc","output_index":0,"sequence_number":23}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"as","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"LzEptXAnJBxWDM","output_index":0,"sequence_number":24}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"-of","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"slV54f4QtDQ4y","output_index":0,"sequence_number":25}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" ","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"6xz13iFLinj6yfa","output_index":0,"sequence_number":26}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"202","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"efI7A083Q5ME7","output_index":0,"sequence_number":27}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"6","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"MD7r4114mO1IwjS","output_index":0,"sequence_number":28}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"-","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"lGZ7cFWYSTV2OVx","output_index":0,"sequence_number":29}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"03","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"Twf7YHcLFqL81h","output_index":0,"sequence_number":30}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"-","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"VNE2VgMVcMRpsOA","output_index":0,"sequence_number":31}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"01","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"evXVDcpTC0LFoM","output_index":0,"sequence_number":32}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" --","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"yntZ5DapKEEUG","output_index":0,"sequence_number":33}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"format","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"5ciOXndmbr","output_index":0,"sequence_number":34}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":" json","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"OIoiOCU8k15","output_index":0,"sequence_number":35}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"\",\"","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"JvSmn3kjk5Jou","output_index":0,"sequence_number":36}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"timeout","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"WO6AuYHAw","output_index":0,"sequence_number":37}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"\":","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"qTuZhOC68Cjxqu","output_index":0,"sequence_number":38}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"120","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"Hco3AGNr7oZ6V","output_index":0,"sequence_number":39}
+
+event: response.function_call_arguments.delta
+data: {"type":"response.function_call_arguments.delta","delta":"}","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","obfuscation":"Zu4kFCaFUSRozP8","output_index":0,"sequence_number":40}
+
+event: response.function_call_arguments.done
+data: {"type":"response.function_call_arguments.done","arguments":"{\"command\":\"node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json\",\"timeout\":120}","item_id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","output_index":0,"sequence_number":41}
+
+event: response.output_item.done
+data: {"type":"response.output_item.done","item":{"id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","type":"function_call","status":"completed","arguments":"{\"command\":\"node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json\",\"timeout\":120}","call_id":"call_auVXS0vI20cuc0xORpKZhJYN","name":"bash"},"output_index":0,"sequence_number":42}
+
+event: response.completed
+data: {"type":"response.completed","response":{"id":"resp_009874c36b45d8b4016ad3d65376bc87d2b55e453a7c0e44a4","object":"response","created_at":1792267859,"status":"completed","access_programs":null,"background":false,"completed_at":1792267861,"error":null,"frequency_penalty":0.0,"incomplete_details":null,"instructions":null,"max_output_tokens":4096,"max_tool_calls":null,"model":"gpt-6.1-sol","moderation":null,"output":[{"id":"fc_009874c36b45d8b4016ad3d65473c087d2aab819d6e29e901b","type":"function_call","status":"completed","arguments":"{\"command\":\"node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json\",\"timeout\":120}","call_id":"call_auVXS0vI20cuc0xORpKZhJYN","name":"bash"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":"01a14b7c-5ef9-705f-9035-f633ae61bf55","prompt_cache_retention":"24h","reasoning":{"context":"all_turns","effort":"medium","mode":"standard","summary":"detailed"},"safety_identifier":null,"service_tier":"default","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tool_usage":{"image_gen":{"input_tokens":0,"input_tokens_details":{"image_tokens":0,"text_tokens":0},"output_tokens":0,"output_tokens_details":{"image_tokens":0,"text_tokens":0},"total_tokens":0},"web_search":{"num_requests":0}},"tools":[{"type":"function","description":"Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.","name":"read","output_schema":null,"parameters":{"type":"object","required":["path","offset","limit"],"properties":{"path":{"type":"string","description":"Path to the file to read (relative or absolute)"},"offset":{"anyOf":[{"type":"number","description":"Line number to start reading from (1-indexed)"},{"type":"null"}]},"limit":{"anyOf":[{"type":"number","description":"Maximum number of lines to read"},{"type":"null"}]}},"additionalProperties":false},"strict":true},{"type":"function","description":"Execute a bash command in the current working directory. Returns stdout and stderr. Output is truncated to last 2000 lines or 50KB (whichever is hit first). If truncated, full output is saved to a temp file. Optionally provide a timeout in seconds.","name":"bash","output_schema":null,"parameters":{"type":"object","required":["command","timeout"],"properties":{"command":{"type":"string","description":"Shell command to execute"},"timeout":{"anyOf":[{"type":"number","description":"Timeout in seconds (optional, no default timeout)"},{"type":"null"}]}},"additionalProperties":false},"strict":true},{"type":"function","description":"Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.","name":"edit","output_schema":null,"parameters":{"type":"object","required":["path","edits"],"properties":{"path":{"type":"string","description":"Path to the file to edit (relative or absolute)"},"edits":{"type":"array","items":{"type":"object","required":["oldText","newText"],"properties":{"oldText":{"type":"string","description":"Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."},"newText":{"type":"string","description":"Replacement text for this targeted edit."}},"additionalProperties":false},"description":"One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."}},"additionalProperties":false},"strict":true},{"type":"function","description":"Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.","name":"write","output_schema":null,"parameters":{"type":"object","required":["path","content"],"properties":{"path":{"type":"string","description":"Path to the file to write (relative or absolute)"},"content":{"type":"string","description":"Content to write to the file"}},"additionalProperties":false},"strict":true}],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":23481,"input_tokens_details":{"cache_write_tokens":885,"cached_tokens":22593},"output_tokens":51,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":23532},"user":null,"metadata":{}},"sequence_number":43}
+

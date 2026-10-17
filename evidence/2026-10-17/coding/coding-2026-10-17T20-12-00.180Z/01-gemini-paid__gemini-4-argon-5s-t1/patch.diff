@@ -1,0 +1,44 @@
+diff --git a/Users/dmitrylyalin/Source/prompt-cache-repro/fixtures/coding-ledger/src/csv.mjs b/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-12-00.180Z/01-gemini-paid__gemini-4-argon-5s-t1/workspace/src/csv.mjs
+index 39e5768..174f719 100644
+--- a/Users/dmitrylyalin/Source/prompt-cache-repro/fixtures/coding-ledger/src/csv.mjs
++++ b/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-12-00.180Z/01-gemini-paid__gemini-4-argon-5s-t1/workspace/src/csv.mjs
+@@ -76,7 +76,7 @@ export function parseCsv(input, { delimiter = ',', maxRecords = 100_000 } = {})
+     recordStarted = true;
+   }
+   if (state === 'quoted') fail('Unterminated quoted field');
+-  // Records are committed by the record-separator branch above.
++  if (recordStarted) endRecord();
+   return records;
+ }
+ 
+diff --git a/Users/dmitrylyalin/Source/prompt-cache-repro/fixtures/coding-ledger/src/dedupe.mjs b/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-12-00.180Z/01-gemini-paid__gemini-4-argon-5s-t1/workspace/src/dedupe.mjs
+index f6d8928..6130cf3 100644
+--- a/Users/dmitrylyalin/Source/prompt-cache-repro/fixtures/coding-ledger/src/dedupe.mjs
++++ b/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-12-00.180Z/01-gemini-paid__gemini-4-argon-5s-t1/workspace/src/dedupe.mjs
+@@ -7,7 +7,7 @@
+  * first row and issue a diagnostic rather than silently choosing a winner.
+  */
+ export function invoiceKey(invoice) {
+-  return invoice.invoiceId;
++  return JSON.stringify([invoice.vendorId, invoice.invoiceId]);
+ }
+ export function paymentKey(payment) { return JSON.stringify([payment.vendorId, payment.paymentId]); }
+ export function invoiceFingerprint(invoice) {
+diff --git a/Users/dmitrylyalin/Source/prompt-cache-repro/fixtures/coding-ledger/src/money.mjs b/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-12-00.180Z/01-gemini-paid__gemini-4-argon-5s-t1/workspace/src/money.mjs
+index 017e715..9b60aaa 100644
+--- a/Users/dmitrylyalin/Source/prompt-cache-repro/fixtures/coding-ledger/src/money.mjs
++++ b/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-12-00.180Z/01-gemini-paid__gemini-4-argon-5s-t1/workspace/src/money.mjs
+@@ -11,8 +11,11 @@ export class MoneyError extends Error {
+  */
+ export function parseMoney(value) {
+   const text = String(value).trim();
+-  if (!/^[+-]?\d+(?:\.\d{1,4})?$/.test(text)) throw new MoneyError('Expected a decimal amount with at most four fractional digits');
+-  const cents = Math.round(Number(text) * 100);
++  const match = /^([+-]?)(\d+)(?:\.(\d{1,4}))?$/.exec(text);
++  if (!match) throw new MoneyError('Expected a decimal amount with at most four fractional digits');
++  const sign = match[1] === '-' ? -1n : 1n;
++  const scaled = BigInt(match[2]) * 10000n + BigInt((match[3] ?? '').padEnd(4, '0'));
++  const cents = Number(sign * ((scaled + 50n) / 100n));
+   if (!Number.isSafeInteger(cents)) throw new MoneyError('Amount exceeds safe integer range');
+   return Object.is(cents, -0) ? 0 : cents;
+ }

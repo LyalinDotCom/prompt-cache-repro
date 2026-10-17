@@ -1,0 +1,45 @@
+diff --git a/Users/dmitrylyalin/Source/prompt-cache-repro/fixtures/coding-ledger/src/csv.mjs b/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-14-48.100Z/02-openai-paid__gpt-6.1-sol-5s-t1/workspace/src/csv.mjs
+index 39e5768..3edb754 100644
+--- a/Users/dmitrylyalin/Source/prompt-cache-repro/fixtures/coding-ledger/src/csv.mjs
++++ b/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-14-48.100Z/02-openai-paid__gpt-6.1-sol-5s-t1/workspace/src/csv.mjs
+@@ -76,7 +76,8 @@ export function parseCsv(input, { delimiter = ',', maxRecords = 100_000 } = {})
+     recordStarted = true;
+   }
+   if (state === 'quoted') fail('Unterminated quoted field');
+-  // Records are committed by the record-separator branch above.
++  // Commit an unterminated final record, but not a phantom after a newline.
++  if (recordStarted) endRecord();
+   return records;
+ }
+ 
+diff --git a/Users/dmitrylyalin/Source/prompt-cache-repro/fixtures/coding-ledger/src/dedupe.mjs b/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-14-48.100Z/02-openai-paid__gpt-6.1-sol-5s-t1/workspace/src/dedupe.mjs
+index f6d8928..6130cf3 100644
+--- a/Users/dmitrylyalin/Source/prompt-cache-repro/fixtures/coding-ledger/src/dedupe.mjs
++++ b/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-14-48.100Z/02-openai-paid__gpt-6.1-sol-5s-t1/workspace/src/dedupe.mjs
+@@ -7,7 +7,7 @@
+  * first row and issue a diagnostic rather than silently choosing a winner.
+  */
+ export function invoiceKey(invoice) {
+-  return invoice.invoiceId;
++  return JSON.stringify([invoice.vendorId, invoice.invoiceId]);
+ }
+ export function paymentKey(payment) { return JSON.stringify([payment.vendorId, payment.paymentId]); }
+ export function invoiceFingerprint(invoice) {
+diff --git a/Users/dmitrylyalin/Source/prompt-cache-repro/fixtures/coding-ledger/src/money.mjs b/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-14-48.100Z/02-openai-paid__gpt-6.1-sol-5s-t1/workspace/src/money.mjs
+index 017e715..d9d988f 100644
+--- a/Users/dmitrylyalin/Source/prompt-cache-repro/fixtures/coding-ledger/src/money.mjs
++++ b/Users/dmitrylyalin/Source/prompt-cache-repro/runs/coding-2026-10-17T20-14-48.100Z/02-openai-paid__gpt-6.1-sol-5s-t1/workspace/src/money.mjs
+@@ -12,7 +12,12 @@ export class MoneyError extends Error {
+ export function parseMoney(value) {
+   const text = String(value).trim();
+   if (!/^[+-]?\d+(?:\.\d{1,4})?$/.test(text)) throw new MoneyError('Expected a decimal amount with at most four fractional digits');
+-  const cents = Math.round(Number(text) * 100);
++  const negative = text.startsWith('-');
++  const [whole, fraction = ''] = text.replace(/^[+-]/, '').split('.');
++  // Round the exact decimal magnitude before restoring the sign.
++  const units = BigInt(whole) * 10000n + BigInt(fraction.padEnd(4, '0'));
++  const rounded = (units + 50n) / 100n;
++  const cents = Number(negative ? -rounded : rounded);
+   if (!Number.isSafeInteger(cents)) throw new MoneyError('Amount exceeds safe integer range');
+   return Object.is(cents, -0) ? 0 : cents;
+ }

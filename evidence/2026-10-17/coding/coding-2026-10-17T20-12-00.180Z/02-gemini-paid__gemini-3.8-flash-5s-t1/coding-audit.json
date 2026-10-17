@@ -1,0 +1,1107 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-17T20:23:00.024Z",
+  "trialRoot": "/Users/dmitrylyalin/Source/prompt-cache-repro/evidence/2026-10-17/coding/coding-2026-10-17T20-12-00.180Z/02-gemini-paid__gemini-3.8-flash-5s-t1",
+  "provider": "gemini",
+  "requestedModel": "gemini-3.8-flash",
+  "reportStatus": "completed",
+  "stopReason": null,
+  "derivation": "Independent raw SSE/JSON parsing. OpenAI terminal usage only; Gemini latest usageMetadata; Anthropic start/delta counters overwrite cumulative values, never sum. No application imports.",
+  "ratesAsOf": "2026-10-17",
+  "ratesPerMillion": {
+    "ordinary": 0.75,
+    "read": 0.075,
+    "write": 0.75,
+    "output": 3.75
+  },
+  "totals": {
+    "capturedTransportAttempts": 8,
+    "validRawUsageAttempts": 8,
+    "unknownUsageAttempts": 0,
+    "usageBasedInputUsd": 0.044494875,
+    "usageBasedOutputUsd": 0.0049275,
+    "followupDenominator": 7,
+    "priorInputBelow95Percent": 6,
+    "eligibleFrontierDenominator": 0,
+    "eligibleFrontierFullyReused": 0,
+    "followupActualInputUsd": 0.028528125,
+    "fullPriorInputCounterfactualUsd": 0.020222925,
+    "followupActualVsFullPriorInputCounterfactual": 1.4106824309539794,
+    "eligibleFrontierCounterfactualUsd": null,
+    "followupActualVsEligibleFrontierCounterfactual": null,
+    "passChecks": 86,
+    "failChecks": 0,
+    "unknownChecks": 0
+  },
+  "limitations": [
+    "Each record is one captured fetch invocation; logical model-request retries may produce multiple records and must not be collapsed.",
+    "Missing raw usage stays unknown. Interrupted or unreported charges can exceed known usage costs.",
+    "Gemini has no exposed implicit-write frontier; prior-input coverage is descriptive, not documented eligibility.",
+    "A patch and passing tests establish this task result, not general coding quality.",
+    "A functional qualification is unknown until actual baseline/final command outputs and immutable test hashes are supplied."
+  ],
+  "functional": {
+    "baselineExitCode": 1,
+    "finalExitCode": 0,
+    "immutableFileCount": 10,
+    "changedSourceFiles": [
+      "src/csv.mjs",
+      "src/dedupe.mjs",
+      "src/money.mjs"
+    ],
+    "patchFile": "patch.diff",
+    "finalCli": {
+      "exitCode": 0,
+      "verifiedAfterTrial": false,
+      "counts": {
+        "sourceRows": 4,
+        "accepted": 4,
+        "selected": 4,
+        "rejected": 0,
+        "duplicates": 0,
+        "conflicts": 0
+      },
+      "stdoutFile": "final-cli.stdout.json"
+    }
+  },
+  "checks": [
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-0",
+      "verdict": "PASS",
+      "detail": "gemini-3.8-flash"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-0",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 2,
+        "terminal": "STOP"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-0",
+      "verdict": "PASS"
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-1",
+      "verdict": "PASS",
+      "detail": "gemini-3.8-flash"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-1",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 2,
+        "terminal": "STOP"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-1",
+      "verdict": "PASS"
+    },
+    {
+      "check": "returned-native-signatures-preserved",
+      "id": "request-1",
+      "verdict": "PASS",
+      "detail": {
+        "signatures": 1
+      }
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-1",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-2",
+      "verdict": "PASS",
+      "detail": "gemini-3.8-flash"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-2",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 2,
+        "terminal": "STOP"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-2",
+      "verdict": "PASS"
+    },
+    {
+      "check": "returned-native-signatures-preserved",
+      "id": "request-2",
+      "verdict": "PASS",
+      "detail": {
+        "signatures": 1
+      }
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-2",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-3",
+      "verdict": "PASS",
+      "detail": "gemini-3.8-flash"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-3",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 2,
+        "terminal": "STOP"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-3",
+      "verdict": "PASS"
+    },
+    {
+      "check": "returned-native-signatures-preserved",
+      "id": "request-3",
+      "verdict": "PASS",
+      "detail": {
+        "signatures": 1
+      }
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-3",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-4",
+      "verdict": "PASS",
+      "detail": "gemini-3.8-flash"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-4",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 2,
+        "terminal": "STOP"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-4",
+      "verdict": "PASS"
+    },
+    {
+      "check": "returned-native-signatures-preserved",
+      "id": "request-4",
+      "verdict": "PASS",
+      "detail": {
+        "signatures": 1
+      }
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-4",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-5",
+      "verdict": "PASS",
+      "detail": "gemini-3.8-flash"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-5",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 2,
+        "terminal": "STOP"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-5",
+      "verdict": "PASS"
+    },
+    {
+      "check": "returned-native-signatures-preserved",
+      "id": "request-5",
+      "verdict": "PASS",
+      "detail": {
+        "signatures": 1
+      }
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-5",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-6",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-6",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-6",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-6",
+      "verdict": "PASS",
+      "detail": "gemini-3.8-flash"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-6",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 2,
+        "terminal": "STOP"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-6",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-6",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-6",
+      "verdict": "PASS"
+    },
+    {
+      "check": "returned-native-signatures-preserved",
+      "id": "request-6",
+      "verdict": "PASS",
+      "detail": {
+        "signatures": 1
+      }
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-6",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "consecutive-captured-attempt-index",
+      "id": "request-7",
+      "verdict": "PASS"
+    },
+    {
+      "check": "endpoint-excludes-query-and-auth",
+      "id": "request-7",
+      "verdict": "PASS"
+    },
+    {
+      "check": "captured-wire-hash",
+      "id": "request-7",
+      "verdict": "PASS"
+    },
+    {
+      "check": "actual-model-matches-requested",
+      "id": "request-7",
+      "verdict": "PASS",
+      "detail": "gemini-3.8-flash"
+    },
+    {
+      "check": "raw-usage-available",
+      "id": "request-7",
+      "verdict": "PASS",
+      "detail": {
+        "usageSnapshots": 24,
+        "terminal": "STOP"
+      }
+    },
+    {
+      "check": "raw-usage-copy-agrees",
+      "id": "request-7",
+      "verdict": "PASS"
+    },
+    {
+      "check": "reported-normalized-partition-agrees",
+      "id": "request-7",
+      "verdict": "PASS"
+    },
+    {
+      "check": "history-prefix-preserved-excluding-cache-markers",
+      "id": "request-7",
+      "verdict": "PASS"
+    },
+    {
+      "check": "returned-native-signatures-preserved",
+      "id": "request-7",
+      "verdict": "PASS",
+      "detail": {
+        "signatures": 1
+      }
+    },
+    {
+      "check": "real-tool-call-ids-preserved",
+      "id": "request-7",
+      "verdict": "PASS",
+      "detail": {
+        "toolCallIds": 1
+      }
+    },
+    {
+      "check": "actual-baseline-process-failed",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": 1
+    },
+    {
+      "check": "actual-final-process-passed",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": 0
+    },
+    {
+      "check": "baseline-test-output-shows-failures",
+      "id": "functional",
+      "verdict": "PASS"
+    },
+    {
+      "check": "final-test-output-shows-pass-and-zero-failures",
+      "id": "functional",
+      "verdict": "PASS"
+    },
+    {
+      "check": "immutable-tests-and-inputs-unchanged",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": {
+        "immutableFiles": 10
+      }
+    },
+    {
+      "check": "actual-source-edit-present",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": [
+        "src/csv.mjs",
+        "src/dedupe.mjs",
+        "src/money.mjs"
+      ]
+    },
+    {
+      "check": "actual-source-diff-present",
+      "id": "functional",
+      "verdict": "PASS"
+    },
+    {
+      "check": "current-fixture-files-match-recorded-final-hashes",
+      "id": "functional",
+      "verdict": "PASS",
+      "detail": []
+    },
+    {
+      "check": "actual-final-cli-demo-passed",
+      "id": "functional",
+      "verdict": "PASS"
+    }
+  ],
+  "rows": [
+    {
+      "id": "request-0",
+      "index": 0,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "actualRequestModel": "gemini-3.8-flash",
+      "reportedResponseModels": [
+        "gemini-3.8-flash"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:12:58.314Z",
+      "durationMs": 1827.239290999998,
+      "actualIdleGapMs": null,
+      "requestFile": "requests/000-request.json",
+      "responseFile": "requests/000-response.sse",
+      "requestHash": "c75dd80ffb5ec097ca26fab27827a9dfc8fe9499d0100e1a9efa3c13a062f2e5",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "promptTokenCount": 21289,
+        "candidatesTokenCount": 27,
+        "totalTokenCount": 21316,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 21289
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 21340
+      },
+      "usageSnapshots": 2,
+      "terminal": "STOP",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 21289,
+        "read": 0,
+        "write": 0,
+        "ordinary": 21289,
+        "output": 27,
+        "thinking": 0,
+        "zeroDecoded": true
+      },
+      "independentCosts": {
+        "inputUsd": 0.01596675,
+        "outputUsd": 0.00010125
+      },
+      "reuse": null,
+      "capturedError": null,
+      "nativeSignatureValues": 1,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": null
+    },
+    {
+      "id": "request-1",
+      "index": 1,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "actualRequestModel": "gemini-3.8-flash",
+      "reportedResponseModels": [
+        "gemini-3.8-flash"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:13:05.143Z",
+      "durationMs": 2063.0289579999953,
+      "actualIdleGapMs": 5000.719708999997,
+      "requestFile": "requests/001-request.json",
+      "responseFile": "requests/001-response.sse",
+      "requestHash": "c5e254920fa1810f839d1886dabb44f3d386b9a75c1bc1b5aef82a1f6334b3d5",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "promptTokenCount": 25617,
+        "candidatesTokenCount": 112,
+        "totalTokenCount": 25729,
+        "cachedContentTokenCount": 21289,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 25617
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 21289
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 25678
+      },
+      "usageSnapshots": 2,
+      "terminal": "STOP",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 25617,
+        "read": 21289,
+        "write": 0,
+        "ordinary": 4328,
+        "output": 112,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.004842675,
+        "outputUsd": 0.00042
+      },
+      "reuse": {
+        "priorInputTokens": 21289,
+        "readOverPriorInput": 1,
+        "priorInputBelow95Percent": false,
+        "strict64WholePriorInputFullHit": true,
+        "priorPublicCacheFrontierTokens": null,
+        "fullPriorInputCounterfactualUsd": 0.004842675,
+        "actualVsFullPriorInputCounterfactual": 1
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 1,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": true
+    },
+    {
+      "id": "request-2",
+      "index": 2,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "actualRequestModel": "gemini-3.8-flash",
+      "reportedResponseModels": [
+        "gemini-3.8-flash"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:13:12.209Z",
+      "durationMs": 3847.7650830000057,
+      "actualIdleGapMs": 5001.192917000008,
+      "requestFile": "requests/002-request.json",
+      "responseFile": "requests/002-response.sse",
+      "requestHash": "2bcc0195da8064f05f6187a64c0b4934d2685a645698194c17777a7c58ca7b89",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "promptTokenCount": 25756,
+        "candidatesTokenCount": 445,
+        "totalTokenCount": 26201,
+        "cachedContentTokenCount": 23563,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 25756
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 23563
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 25827
+      },
+      "usageSnapshots": 2,
+      "terminal": "STOP",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 25756,
+        "read": 23563,
+        "write": 0,
+        "ordinary": 2193,
+        "output": 445,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.003411975,
+        "outputUsd": 0.00166875
+      },
+      "reuse": {
+        "priorInputTokens": 25617,
+        "readOverPriorInput": 0.9198188702814537,
+        "priorInputBelow95Percent": true,
+        "strict64WholePriorInputFullHit": false,
+        "priorPublicCacheFrontierTokens": null,
+        "fullPriorInputCounterfactualUsd": 0.002025525,
+        "actualVsFullPriorInputCounterfactual": 1.684489206502018
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 1,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": true
+    },
+    {
+      "id": "request-3",
+      "index": 3,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "actualRequestModel": "gemini-3.8-flash",
+      "reportedResponseModels": [
+        "gemini-3.8-flash"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:13:21.060Z",
+      "durationMs": 5034.330459000004,
+      "actualIdleGapMs": 5000.748875000005,
+      "requestFile": "requests/003-request.json",
+      "responseFile": "requests/003-response.sse",
+      "requestHash": "a5c9f34c031ed00f1ac59e4db436ed4a9d7837f04c7f0f2c60408c38cae67857",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "promptTokenCount": 26228,
+        "candidatesTokenCount": 81,
+        "totalTokenCount": 26309,
+        "cachedContentTokenCount": 23703,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 26228
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 23703
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 26309
+      },
+      "usageSnapshots": 2,
+      "terminal": "STOP",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 26228,
+        "read": 23703,
+        "write": 0,
+        "ordinary": 2525,
+        "output": 81,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.003671475,
+        "outputUsd": 0.00030375
+      },
+      "reuse": {
+        "priorInputTokens": 25756,
+        "readOverPriorInput": 0.9202904177667339,
+        "priorInputBelow95Percent": true,
+        "strict64WholePriorInputFullHit": false,
+        "priorPublicCacheFrontierTokens": null,
+        "fullPriorInputCounterfactualUsd": 0.0022857,
+        "actualVsFullPriorInputCounterfactual": 1.6062803517521986
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 1,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": true
+    },
+    {
+      "id": "request-4",
+      "index": 4,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "actualRequestModel": "gemini-3.8-flash",
+      "reportedResponseModels": [
+        "gemini-3.8-flash"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:13:31.098Z",
+      "durationMs": 2033.2992090000043,
+      "actualIdleGapMs": 5000.359916000001,
+      "requestFile": "requests/004-request.json",
+      "responseFile": "requests/004-response.sse",
+      "requestHash": "a3358d3b5bf18186f6902238f12ac3acd5f15dfd1d652bc7a4b47019fba21732",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "promptTokenCount": 26337,
+        "candidatesTokenCount": 27,
+        "totalTokenCount": 26364,
+        "cachedContentTokenCount": 24175,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 26337
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 24175
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 26428
+      },
+      "usageSnapshots": 2,
+      "terminal": "STOP",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 26337,
+        "read": 24175,
+        "write": 0,
+        "ordinary": 2162,
+        "output": 27,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.003434625,
+        "outputUsd": 0.00010125
+      },
+      "reuse": {
+        "priorInputTokens": 26228,
+        "readOverPriorInput": 0.9217248741802654,
+        "priorInputBelow95Percent": true,
+        "strict64WholePriorInputFullHit": false,
+        "priorPublicCacheFrontierTokens": null,
+        "fullPriorInputCounterfactualUsd": 0.00204885,
+        "actualVsFullPriorInputCounterfactual": 1.67636723039754
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 1,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": true
+    },
+    {
+      "id": "request-5",
+      "index": 5,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "actualRequestModel": "gemini-3.8-flash",
+      "reportedResponseModels": [
+        "gemini-3.8-flash"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:13:38.133Z",
+      "durationMs": 1908.6958749999903,
+      "actualIdleGapMs": 5000.981749999992,
+      "requestFile": "requests/005-request.json",
+      "responseFile": "requests/005-response.sse",
+      "requestHash": "cc07f328d4424bf8b621aab06ac29a12c23cf78bce709468e430dcfe92e08ebe",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "promptTokenCount": 27436,
+        "candidatesTokenCount": 57,
+        "totalTokenCount": 27493,
+        "cachedContentTokenCount": 24288,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 27436
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 24288
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 27537
+      },
+      "usageSnapshots": 2,
+      "terminal": "STOP",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 27436,
+        "read": 24288,
+        "write": 0,
+        "ordinary": 3148,
+        "output": 57,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.004182600000000001,
+        "outputUsd": 0.00021375
+      },
+      "reuse": {
+        "priorInputTokens": 26337,
+        "readOverPriorInput": 0.922200706230778,
+        "priorInputBelow95Percent": true,
+        "strict64WholePriorInputFullHit": false,
+        "priorPublicCacheFrontierTokens": null,
+        "fullPriorInputCounterfactualUsd": 0.0027995249999999998,
+        "actualVsFullPriorInputCounterfactual": 1.4940391673587488
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 1,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": true
+    },
+    {
+      "id": "request-6",
+      "index": 6,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "actualRequestModel": "gemini-3.8-flash",
+      "reportedResponseModels": [
+        "gemini-3.8-flash"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:13:45.046Z",
+      "durationMs": 2164.4028749999998,
+      "actualIdleGapMs": 5001.416791000011,
+      "requestFile": "requests/006-request.json",
+      "responseFile": "requests/006-response.sse",
+      "requestHash": "732377bf29aab7cfb5db3101cc260c4ae170396a17e19c3aeb6bfd6e2e169163",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "promptTokenCount": 28996,
+        "candidatesTokenCount": 20,
+        "totalTokenCount": 29016,
+        "cachedContentTokenCount": 25389,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 28996
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 25389
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 29107
+      },
+      "usageSnapshots": 2,
+      "terminal": "STOP",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 28996,
+        "read": 25389,
+        "write": 0,
+        "ordinary": 3607,
+        "output": 20,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.004609425,
+        "outputUsd": 0.000075
+      },
+      "reuse": {
+        "priorInputTokens": 27436,
+        "readOverPriorInput": 0.9253899985420615,
+        "priorInputBelow95Percent": true,
+        "strict64WholePriorInputFullHit": false,
+        "priorPublicCacheFrontierTokens": null,
+        "fullPriorInputCounterfactualUsd": 0.0032277,
+        "actualVsFullPriorInputCounterfactual": 1.4280834650060414
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 1,
+      "nativeToolCallIds": 1,
+      "exactWireHistoryPrefixPreserved": true
+    },
+    {
+      "id": "request-7",
+      "index": 7,
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+      "actualRequestModel": "gemini-3.8-flash",
+      "reportedResponseModels": [
+        "gemini-3.8-flash"
+      ],
+      "httpStatus": 200,
+      "startedAt": "2026-10-17T20:13:52.212Z",
+      "durationMs": 16169.343458999996,
+      "actualIdleGapMs": 4999.126209000009,
+      "requestFile": "requests/007-request.json",
+      "responseFile": "requests/007-response.sse",
+      "requestHash": "812288b5352d4be800ed55214d2be3efe15dffa35fe2dfd332d04856ff3e607d",
+      "recordedTransportAttemptCount": null,
+      "rawUsage": {
+        "promptTokenCount": 30087,
+        "candidatesTokenCount": 545,
+        "totalTokenCount": 30632,
+        "cachedContentTokenCount": 26948,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 30087
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 26948
+          }
+        ],
+        "serviceTier": "standard",
+        "rawPromptTokenCount": 30208
+      },
+      "usageSnapshots": 24,
+      "terminal": "STOP",
+      "malformedFrames": 0,
+      "tokens": {
+        "input": 30087,
+        "read": 26948,
+        "write": 0,
+        "ordinary": 3139,
+        "output": 545,
+        "thinking": 0,
+        "zeroDecoded": false
+      },
+      "independentCosts": {
+        "inputUsd": 0.00437535,
+        "outputUsd": 0.00204375
+      },
+      "reuse": {
+        "priorInputTokens": 28996,
+        "readOverPriorInput": 0.9293695682163057,
+        "priorInputBelow95Percent": true,
+        "strict64WholePriorInputFullHit": false,
+        "priorPublicCacheFrontierTokens": null,
+        "fullPriorInputCounterfactualUsd": 0.00299295,
+        "actualVsFullPriorInputCounterfactual": 1.4618854307622915
+      },
+      "capturedError": null,
+      "nativeSignatureValues": 1,
+      "nativeToolCallIds": 0,
+      "exactWireHistoryPrefixPreserved": true
+    }
+  ]
+}
