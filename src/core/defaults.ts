@@ -16,4 +16,4 @@ export const DEFAULT_MODELS: ModelSpec[] = [
   {id:'gpt-6.1-sol',label:'GPT-6.1 Sol',provider:'openai',model:'gpt-6.1-sol',pricing:openai,cacheMinTokens:1024},
   {id:'claude-opus-5-5',label:'Claude Opus 5.5',provider:'anthropic',model:'claude-opus-5-5',pricing:anthropic,cacheMinTokens:512},
 ];
-export const DEFAULT_CONFIG: BenchmarkConfig = {scenario:'agent',profiles:expandProfiles(DEFAULT_ACCOUNTS,DEFAULT_MODELS),turns:6,trials:1,gapsSeconds:[5],prefixChars:48000,deltaChars:2400,maxOutputTokens:512,toleranceTokens:64,timeoutMs:90000,seed:'cachebench-v1',maxEstimatedUsd:5};
+export const DEFAULT_CONFIG: BenchmarkConfig = {scenario:'replay',profiles:expandProfiles(DEFAULT_ACCOUNTS,DEFAULT_MODELS),turns:6,trials:1,gapsSeconds:[5],prefixChars:48000,deltaChars:2400,maxOutputTokens:512,toleranceTokens:64,timeoutMs:90000,seed:'cachebench-v1',maxEstimatedUsd:5};

@@ -25,7 +25,7 @@ No built-in provider tools, real shell execution, ACP, native agent CLIs, intern
 
 Each profile/gap/trial has a unique prompt nonce. Nonce isolation reduces accidental prefix reuse; it does not prove the backend cache is empty. Providers necessarily serialize the shared semantic workload differently, and live tool arguments/outputs can differ. Preserve actual payloads rather than claiming byte-identical prompts across providers.
 
-Default quick run: 1 trial, 6 turns, 5-second completion-to-next-request gaps, 48,000 reference characters, 2,400 fixture characters per growth step, short generation, one paid account per provider and four model cells (Gemini Flash 3.8, Gemini Argon 4, GPT-6.1 Sol, Claude Opus 5.5). Sizes are characters, not claimed token counts. Actual API input counters establish whether the cache threshold was reached. The original chart's 5/30/120-second gaps and 12×20-turn allocation are configurable, not mandatory defaults.
+Default quick run uses exact replay as the initial control: 1 trial, 6 turns, 5-second completion-to-next-request gaps, 48,000 reference characters, 2,400 fixture characters per growth step, short generation, one paid account per provider and four model cells (Gemini Flash 3.8, Gemini Argon 4, GPT-6.1 Sol, Claude Opus 5.5). Sizes are characters, not claimed token counts. Actual API input counters establish whether the cache threshold was reached. The original chart's 5/30/120-second gaps and 12×20-turn allocation are configurable, not mandatory defaults.
 
 ## Evidence and metrics
 
