@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "test/cli.test.mjs",
+    "test/csv.test.mjs",
+    "test/domain.test.mjs",
+    "test/money.test.mjs",
+    "test/pipeline.test.mjs"
+  ],
+  "exitCode": 1,
+  "stdoutFile": "coding-ledger.baseline.stdout",
+  "stderrFile": "coding-ledger.baseline.stderr",
+  "nodeVersion": "v24.14.1"
+}

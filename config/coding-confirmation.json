@@ -1,0 +1,12 @@
+{
+  "scenario": "agent",
+  "accounts": ["gemini-paid", "openai-paid", "anthropic-paid"],
+  "models": ["gemini-4-argon", "gpt-6.1-sol", "gemini-3.8-flash", "claude-opus-5-5"],
+  "turns": 12,
+  "trials": 3,
+  "gapsSeconds": [5],
+  "maxOutputTokens": 4096,
+  "timeoutMs": 90000,
+  "seed": "coding-confirmation-v1-2026-10-17",
+  "maxEstimatedUsd": 4.25
+}

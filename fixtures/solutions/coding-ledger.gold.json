@@ -1,0 +1,20 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "test/cli.test.mjs",
+    "test/csv.test.mjs",
+    "test/domain.test.mjs",
+    "test/money.test.mjs",
+    "test/pipeline.test.mjs"
+  ],
+  "exitCode": 0,
+  "demoExitCode": 0,
+  "changedFiles": [
+    "src/csv.mjs",
+    "src/dedupe.mjs",
+    "src/money.mjs"
+  ],
+  "stdoutFile": "coding-ledger.gold.stdout",
+  "stderrFile": "coding-ledger.gold.stderr"
+}

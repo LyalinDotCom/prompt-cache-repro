@@ -1,0 +1,38 @@
+--- a/src/csv.mjs
++++ b/src/csv.mjs
+@@ -76,7 +76,8 @@
+     recordStarted = true;
+   }
+   if (state === 'quoted') fail('Unterminated quoted field');
+-  // Records are committed by the record-separator branch above.
++  // EOF commits a pending record without creating one after a final newline.
++  if (recordStarted) endRecord();
+   return records;
+ }
+ 
+--- a/src/dedupe.mjs
++++ b/src/dedupe.mjs
+@@ -7,7 +7,7 @@
+  * first row and issue a diagnostic rather than silently choosing a winner.
+  */
+ export function invoiceKey(invoice) {
+-  return invoice.invoiceId;
++  return JSON.stringify([invoice.vendorId, invoice.invoiceId]);
+ }
+ export function paymentKey(payment) { return JSON.stringify([payment.vendorId, payment.paymentId]); }
+ export function invoiceFingerprint(invoice) {
+--- a/src/money.mjs
++++ b/src/money.mjs
+@@ -12,7 +12,11 @@
+ export function parseMoney(value) {
+   const text = String(value).trim();
+   if (!/^[+-]?\d+(?:\.\d{1,4})?$/.test(text)) throw new MoneyError('Expected a decimal amount with at most four fractional digits');
+-  const cents = Math.round(Number(text) * 100);
++  const sign = text.startsWith('-') ? -1n : 1n;
++  const [whole, fraction = ''] = text.replace(/^[+-]/, '').split('.');
++  let magnitude = BigInt(whole) * 100n + BigInt(fraction.padEnd(2, '0').slice(0, 2));
++  if (fraction.length > 2 && fraction[2] >= '5') magnitude++;
++  const cents = Number(sign * magnitude);
+   if (!Number.isSafeInteger(cents)) throw new MoneyError('Amount exceeds safe integer range');
+   return Object.is(cents, -0) ? 0 : cents;
+ }

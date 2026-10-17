@@ -1,0 +1,158 @@
+{
+  "fixture": "coding-ledger",
+  "version": 1,
+  "bytes": 62386,
+  "createdAt": "2026-10-17T20:09:46.571502+00:00",
+  "baselineExitCode": 1,
+  "goldExitCode": 0,
+  "testCommand": [
+    "node",
+    "--test",
+    "test/cli.test.mjs",
+    "test/csv.test.mjs",
+    "test/domain.test.mjs",
+    "test/money.test.mjs",
+    "test/pipeline.test.mjs"
+  ],
+  "editableDirectories": [
+    "src",
+    "bin"
+  ],
+  "immutableDirectories": [
+    "test",
+    "data"
+  ],
+  "immutableFiles": [
+    "README.md",
+    "TASK.md",
+    "package.json"
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 4128,
+      "sha256": "ee81b900d589810ed8ec5288e3f7bd0d93dcace26806631f6a287e12e55b6fad",
+      "editable": false
+    },
+    {
+      "path": "TASK.md",
+      "bytes": 2183,
+      "sha256": "703e8c56e8461a369226234ca4b9958a8030cacd571372b158ab0386cb843a95",
+      "editable": false
+    },
+    {
+      "path": "bin/ledger.mjs",
+      "bytes": 3422,
+      "sha256": "dc7e0b8fa96d800a8fa367ad3ff5a9fb41ffec778bce7205e0eea4ed6606e2c1",
+      "editable": true
+    },
+    {
+      "path": "data/invoices.csv",
+      "bytes": 371,
+      "sha256": "b9faf4451302cc110ab04f1226aadd67b347d5eddb692e50c2716c05e20ca79a",
+      "editable": false
+    },
+    {
+      "path": "data/payments.csv",
+      "bytes": 176,
+      "sha256": "59a68d89ef20b7b904d86249e9804214b9e6dae7d0cb59824fddbc8a146553a2",
+      "editable": false
+    },
+    {
+      "path": "package.json",
+      "bytes": 338,
+      "sha256": "335e7ebb90b421d3a87320fd260b1792ccced781e3670e1b3099182735354699",
+      "editable": false
+    },
+    {
+      "path": "src/csv.mjs",
+      "bytes": 4296,
+      "sha256": "c5e9943561c116e1bcce137f42a4c37dc33b0f637129b7b6feea45ce499bd7a7",
+      "editable": true
+    },
+    {
+      "path": "src/dates.mjs",
+      "bytes": 2025,
+      "sha256": "cd78d75fa2e2e59d9065434c05bf3a0b025b5a4aa6e6dc92b270def66806506b",
+      "editable": true
+    },
+    {
+      "path": "src/dedupe.mjs",
+      "bytes": 2503,
+      "sha256": "1b7cbef530d1b2b5002d0cbf75c97357b392ea58cc302b8ed1a48a1fa7029123",
+      "editable": true
+    },
+    {
+      "path": "src/ledger.mjs",
+      "bytes": 3593,
+      "sha256": "7863b2996b70ce5483c36450276a395148becbd841cf5d15d75a691c4bb88276",
+      "editable": true
+    },
+    {
+      "path": "src/money.mjs",
+      "bytes": 3695,
+      "sha256": "38971cc0bfa8b90fbdabf577076553118ee273202ed78e5c81cc8a1aa55434d3",
+      "editable": true
+    },
+    {
+      "path": "src/payments.mjs",
+      "bytes": 2804,
+      "sha256": "ff05a4fb391d49814cd4d67a14d87a4cc1d36af0c7193c8c7377fc83df8c607a",
+      "editable": true
+    },
+    {
+      "path": "src/pipeline.mjs",
+      "bytes": 4123,
+      "sha256": "077744a7a329d45b4ded1836a9561e7caa30a8ce25e378d934c657e6b54cd28b",
+      "editable": true
+    },
+    {
+      "path": "src/reports.mjs",
+      "bytes": 3253,
+      "sha256": "891430ad3a9cb89032edac6b243332a59725f0103aae9c2be10ac0c1fb642da6",
+      "editable": true
+    },
+    {
+      "path": "src/schema.mjs",
+      "bytes": 2348,
+      "sha256": "7949c3933ff3a97707de22e8028c3e26674b76c7f8f331b58b1870621a8dbf7d",
+      "editable": true
+    },
+    {
+      "path": "src/validation.mjs",
+      "bytes": 3555,
+      "sha256": "aa1bf2da70abcc1f5b012cce81ccbbb5c3f4ee224c0f195f9106fa05f33886c8",
+      "editable": true
+    },
+    {
+      "path": "test/cli.test.mjs",
+      "bytes": 2331,
+      "sha256": "5b57023fe351bc5cc452fe329799ea3d8df1eb74c89f9d915c38036ac3a40bb8",
+      "editable": false
+    },
+    {
+      "path": "test/csv.test.mjs",
+      "bytes": 2918,
+      "sha256": "0f6676694573906adbb409766c1d85d4c3dfadda1898a73b7418827ef4db5f0d",
+      "editable": false
+    },
+    {
+      "path": "test/domain.test.mjs",
+      "bytes": 5147,
+      "sha256": "cadf1485d2d0751dfcc243af4973f31ebc4921c1a6b8a09419bc3285171fca84",
+      "editable": false
+    },
+    {
+      "path": "test/money.test.mjs",
+      "bytes": 2372,
+      "sha256": "2740cafc3bb280cec603601b6b34bead5b2bc4610f6edf434218f5176e337c8c",
+      "editable": false
+    },
+    {
+      "path": "test/pipeline.test.mjs",
+      "bytes": 6805,
+      "sha256": "4544e213609a92c5df94ddfab4be0c21ff750a03c593d58354c1f85cde08278d",
+      "editable": false
+    }
+  ]
+}

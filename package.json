@@ -8,16 +8,19 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1",
     "bench": "tsx src/cli.ts",
+    "coding": "tsx scripts/run-coding.ts",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.135.0",
+    "@earendil-works/pi-ai": "1.3.0",
+    "@earendil-works/pi-coding-agent": "1.3.0",
     "@google/genai": "2.30.0",
+    "lucide-react": "1.59.0",
     "openai": "7.36.0",
     "react": "19.3.1",
-    "react-dom": "19.3.1",
-    "lucide-react": "1.59.0"
+    "react-dom": "19.3.1"
   },
   "devDependencies": {
     "@types/node": "26.6.5",

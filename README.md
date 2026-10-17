@@ -46,6 +46,16 @@ Add accounts by environment-variable reference in a config, as shown in [config/
 
 ## Experiments and evidence
 
+The primary validation path is now a **real coding-agent experiment**. Pi works on a disposable invoice-import repository with three genuine bugs and 44 immutable tests. Each trial records the actual patch, failing baseline, independent final tests and CLI output, native tool transcript, and serialized API requests/raw response streams. Installed Codex, Claude Code, and AGY credentials/settings are left unchanged. Read the [coding validation protocol](docs/CODING_VALIDATION_PROTOCOL.md).
+
+```sh
+npm run coding -- --dry-run
+npm run coding
+npm run coding -- --model gemini-4-argon,gemini-3.8-flash
+```
+
+The coding experiment runs on Node using the existing ignored `.env`; its configuration is [config/coding.json](config/coding.json). `turns` is a maximum API request count per coding task, and repository files determine context size. A real task may finish earlier. Evidence is written under `runs/coding-<timestamp>/`. Earlier generic fixture experiments below remain controls and are not a coding-agent reproduction.
+
 - **Exact replay:** identical requests, independent of generated responses.
 - **Text growth:** deterministic append-only conversation fixtures.
 - **Tool loop:** live native function calls with deterministic fixture results; original signatures and reasoning items remain intact.
