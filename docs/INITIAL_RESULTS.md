@@ -13,11 +13,11 @@ One paid Gemini account ran both requested models against identical within-trial
 | Gemini 4 Argon | 5s | 85.94% | 2,049 tokens | 0/1 | 1.127x |
 | Gemini 4 Argon | 30s | 85.94% | 2,049 tokens | 0/1 | 1.127x |
 | Gemini 4 Argon | 120s | 85.94% | 2,049 tokens | 0/1 | 1.127x |
-| Gemini 3.8 Flash | 5s | 85.94% | 2,049 tokens | 0/1 | 1.115x |
-| Gemini 3.8 Flash | 30s | 85.94% | 2,049 tokens | 0/1 | 1.115x |
-| Gemini 3.8 Flash | 120s | 85.94% | 2,049 tokens | 0/1 | 1.115x |
+| Gemini 3.8 Flash | 5s | 85.94% | 2,046 tokens | 0/1 | 1.115x |
+| Gemini 3.8 Flash | 30s | 85.94% | 2,046 tokens | 0/1 | 1.115x |
+| Gemini 3.8 Flash | 120s | 85.94% | 2,046 tokens | 0/1 | 1.115x |
 
-The within-trial wire-payload hashes were identical. Actual completion-to-SDK-send gaps are recorded in the raw observations and were at least the requested gaps. A 2,049-token deficit is an external observation; it does not prove a particular internal checkpoint or eviction mechanism.
+The within-trial wire-payload hashes were identical. Actual completion-to-SDK-send gaps are recorded in the raw observations and were at least the requested gaps. The observed deficits were 2,049 tokens for Argon and 2,046 for Flash. These are external observations; it does not prove a particular internal checkpoint or eviction mechanism.
 
 [Complete timed report and raw requests/responses](../evidence/2026-10-17/58a98334-66b2-4cb4-a071-a3106b8720db/report.json) · [Readable report](../evidence/2026-10-17/58a98334-66b2-4cb4-a071-a3106b8720db/summary.md)
 
