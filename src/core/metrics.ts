@@ -32,6 +32,20 @@ export function idealInputCost(usage: TokenUsage | null, previousInput: number |
   return (reusable * profile.pricing.cachedRead + Math.max(0, usage.inputTokens - reusable) * freshRate) / 1e6;
 }
 
+/** Boundary-aware accounting uses only explicitly reported cache read/write frontiers.
+ * Ordinary input is held fixed, rather than incorrectly treating it as a cache miss.
+ * Gemini does not expose an equivalent write frontier, so this is unknown there.
+ */
+export function eligibleFrontier(previous: TokenUsage | null, current: TokenUsage | null, profile: Profile, scenario: BenchmarkConfig['scenario']): { reusableTokens: number; idealCostUsd: number | null } | null {
+  if (scenario === 'perturb' || profile.provider === 'gemini' || !previous || !current || previous.cachedReadTokens == null || previous.cacheWriteTokens == null || current.cachedReadTokens == null || current.cacheWriteTokens == null || current.uncachedInputTokens == null) return null;
+  const previousBoundary = previous.cachedReadTokens + previous.cacheWriteTokens;
+  const currentBoundary = current.cachedReadTokens + current.cacheWriteTokens;
+  const reusableTokens = Math.min(previousBoundary,currentBoundary);
+  const freshTokens = Math.max(0,currentBoundary-reusableTokens);
+  const p=profile.pricing;
+  return {reusableTokens, idealCostUsd:p ? (current.uncachedInputTokens*p.input + reusableTokens*p.cachedRead + freshTokens*p.cacheWrite)/1e6 : null};
+}
+
 export function wilsonInterval(hits: number, n: number): [number, number] | null {
   if (!n) return null;
   const z = 1.959963984540054, p = hits / n, den = 1 + z * z / n;
@@ -61,6 +75,11 @@ export function summarizeObservations(config: BenchmarkConfig, observations: Obs
     const captureRead = captureKnown.reduce((s, o) => s + o.usage!.cachedReadTokens!, 0);
     const actual = sumKnown(ok.map(o => o.actualInputCostUsd));
     const ideal = sumKnown(ok.map(o => o.idealInputCostUsd));
+    const eligibleIdeal = sumKnown(ok.map(o => o.eligibleIdealInputCostUsd ?? null));
+    const eligibleMeasured = followups.filter(o=>o.eligibleFullHit != null);
+    const eligibleHits = eligibleMeasured.filter(o=>o.eligibleFullHit).length;
+    const eligibleExpected = eligibleMeasured.reduce((sum,o)=>sum+(o.eligibleReusableTokens ?? 0),0);
+    const eligibleRead = eligibleMeasured.reduce((sum,o)=>sum+(o.usage?.cachedReadTokens ?? 0),0);
     const output = sumKnown(ok.map(o => o.outputCostUsd));
     const durations = ok.map(o => o.durationMs).sort((a, b) => a - b);
     const mid = Math.floor(durations.length / 2);
@@ -73,6 +92,9 @@ export function summarizeObservations(config: BenchmarkConfig, observations: Obs
       anyHitRate: anyKnown.length ? anyKnown.filter(o => o.anyHit).length / anyKnown.length : null,
       tokenHitRate: totalInput ? totalRead / totalInput : null, reusableCaptureRate: totalExpected ? Math.min(1, captureRead / totalExpected) : null,
       actualInputCostUsd: actual, idealInputCostUsd: ideal, inputCostMultiplier: ratio(actual, ideal),
+      theoreticalIdealInputCostUsd: ideal, theoreticalInputCostMultiplier: ratio(actual,ideal),
+      eligibleMeasuredTurns: eligibleMeasured.length, eligibleFullHits: eligibleHits, eligibleFullHitRate: eligibleMeasured.length ? eligibleHits/eligibleMeasured.length : null, eligibleCaptureRate: eligibleExpected ? Math.min(1,eligibleRead/eligibleExpected) : null,
+      eligibleIdealInputCostUsd: eligibleIdeal, eligibleInputCostMultiplier: ratio(actual,eligibleIdeal), eligibleFollowupCostMultiplier: ratio(sumKnown(followups.map(o=>o.actualInputCostUsd)),sumKnown(followups.map(o=>o.eligibleIdealInputCostUsd ?? null))),
       followupCostMultiplier: ratio(sumKnown(followups.map(o => o.actualInputCostUsd)), sumKnown(followups.map(o => o.idealInputCostUsd))),
       outputCostUsd: output, totalCostUsd: actual != null && output != null ? actual + output : null,
       p50DurationMs: durations.length ? (durations.length % 2 ? durations[mid] : (durations[mid - 1] + durations[mid]) / 2) : null,

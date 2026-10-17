@@ -10,7 +10,7 @@ import type { BenchmarkConfig, Profile, ProviderResult, SessionFactory, TokenUsa
 const profile: Profile = { id:'test-account::test-model', accountId:'test-account', label:'Test', provider:'openai', model:'gpt-6.1-sol', tier:'test', cacheMinTokens:512, pricing:{input:2,cachedRead:0.1,cacheWrite:2.5,output:10,source:'fixture',asOf:'2026-10-17'} };
 const config = (patch: Partial<BenchmarkConfig> = {}): BenchmarkConfig => ({scenario:'append',profiles:[profile],turns:3,trials:1,gapsSeconds:[0],prefixChars:100,deltaChars:100,maxOutputTokens:16,toleranceTokens:64,timeoutMs:1000,seed:'fixture',maxEstimatedUsd:100,...patch});
 const usage = (turn: number, miss = false): TokenUsage => ({ inputTokens:1000 + turn*100, cachedReadTokens:turn && !miss ? 1000+(turn-1)*100 : 0, cacheWriteTokens:turn && !miss ? 100 : 1000+turn*100, uncachedInputTokens:0, outputTokens:10, thinkingTokens:0 });
-const result = (u:TokenUsage|null): ProviderResult => ({rawResponse:{ok:true},rawUsage:{fixture:true},usage:u,responseId:'fixture',resolvedModel:'gpt-6.1-sol',httpStatus:200,headers:{},warnings:[],continuationValid:true,stopReason:'stop'});
+const result = (u:TokenUsage|null): ProviderResult => ({transportAttemptCount:1,rawResponse:{ok:true},rawUsage:{fixture:true},usage:u,responseId:'fixture',resolvedModel:'gpt-6.1-sol',httpStatus:200,headers:{},warnings:[],continuationValid:true,stopReason:'stop'});
 function factory(make: (turn:number)=>ProviderResult = turn => result(usage(turn))): SessionFactory {
   return options => ({buildRequest:turn=>({prefix:options.prefix,turn}),send:async request=>make(request.turn as number),advance:()=>{}});
 }
@@ -27,6 +27,24 @@ describe('cache benchmark metrics and execution', () => {
     expect(s.measuredTurns).toBe(2); expect(s.fullHitRate).toBe(1); expect(s.inputCostMultiplier).toBeCloseTo(1); expect(s.followupCostMultiplier).toBeCloseTo(1);
     expect(new Set(report.observations.map(o=>o.prefixHash)).size).toBe(1); expect(report.observations[0].fullHit).toBeNull(); expect(report.observations[0].actualInputCostUsd).toBeCloseTo(.0025); expect(report.observations[1].reuseShortfallTokens).toBe(0);
     expect(s.outputCostUsd).toBeCloseTo(.0003);
+  });
+  it('separates ordinary 132-token overhead from explicit eligible cache boundaries', async () => {
+    const withOverhead=(turn:number):TokenUsage=>({...usage(turn),inputTokens:1132+turn*100,uncachedInputTokens:132});
+    const r=await runBenchmark(config(),{}, {sessionFactory:factory(turn=>result(withOverhead(turn)))});
+    expect(r.observations[1].fullHit).toBe(false); expect(r.observations[1].reuseShortfallTokens).toBe(132);
+    expect(r.observations[1].eligibleReusableTokens).toBe(1000); expect(r.observations[1].eligibleFullHit).toBe(true); expect(r.observations[1].eligibleReuseShortfallTokens).toBe(0);
+    expect(r.observations[1].eligibleIdealInputCostUsd).toBeCloseTo((132*2+1000*.1+100*2.5)/1e6);
+    expect(r.summaries[0].eligibleFullHitRate).toBe(1); expect(r.summaries[0].eligibleInputCostMultiplier).toBeCloseTo(1);
+    expect(r.summaries[0].theoreticalInputCostMultiplier).toBeGreaterThan(1); expect(r.observations[1].transportAttemptCount).toBe(1);
+    const partial=await runBenchmark(config({turns:2}),{}, {sessionFactory:factory(turn=>result(turn?{...withOverhead(turn),cachedReadTokens:500,cacheWriteTokens:600}:withOverhead(0)))});
+    expect(partial.observations[1].eligibleFullHit).toBe(false); expect(partial.summaries[0].eligibleInputCostMultiplier).toBeGreaterThan(1);
+  });
+  it('keeps Gemini eligible frontier unknown and persists failed transport attempt count', async () => {
+    const gemini={...profile,provider:'gemini' as const};
+    const r=await runBenchmark(config({profiles:[gemini]}),{}, {sessionFactory:factory()});
+    expect(r.observations[1].eligibleReusableTokens).toBeNull(); expect(r.summaries[0].eligibleInputCostMultiplier).toBeNull();
+    const failed=await runBenchmark(config(),{}, {sessionFactory:factory(()=>{throw Object.assign(new Error('server failed'),{status:500,transportAttemptCount:1});})});
+    expect(failed.observations[0].transportAttemptCount).toBe(1); expect(toCsv(failed)).toContain('transportAttemptCount');
   });
   it('a miss raises actual / ideal input cost', async () => {
     const report=await runBenchmark(config(),{}, {sessionFactory:factory(turn=>result(usage(turn,turn===1)))});
@@ -110,7 +128,7 @@ describe('cache benchmark metrics and execution', () => {
     const seen:{key:string;nonce:string;account?:string;model:string}[]=[];
     const session:SessionFactory=options=>{seen.push({key:options.apiKey,nonce:options.trialNonce,account:options.profile.accountId,model:options.profile.model}); return factory()(options);};
     const r=await runBenchmark(config({profiles,turns:2}),{'project-a':'shared-key-a','project-b':'shared-key-b'}, {sessionFactory:session});
-    expect(r.observations).toHaveLength(8); expect(new Set(seen.map(s=>s.nonce)).size).toBe(4);
+    expect(r.observations).toHaveLength(8); expect(new Set(seen.map(s=>s.nonce)).size).toBe(4); expect(seen.every(s=>/^[a-f0-9]{64}$/.test(s.nonce))).toBe(true);
     expect(seen.filter(s=>s.account==='project-a').map(s=>s.key)).toEqual(['shared-key-a','shared-key-a']);
     expect(seen.filter(s=>s.account==='project-b').map(s=>s.key)).toEqual(['shared-key-b','shared-key-b']);
     expect(new Set(r.observations.filter(o=>o.turn===0).map(o=>o.prefixHash)).size).toBe(4);

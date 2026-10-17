@@ -31,6 +31,7 @@ export interface SessionOptions {
   deltaChars: number; maxOutputTokens: number; timeoutMs: number; trialNonce: string;
 }
 export interface ProviderResult {
+  transportAttemptCount?: number;
   wireRequest?: Record<string, unknown>;
   rawResponse: unknown; rawUsage: Record<string, unknown> | null;
   usage: TokenUsage | null; responseId: string | null; resolvedModel: string | null;
@@ -44,6 +45,9 @@ export interface ProviderSession {
 }
 export type SessionFactory = (options: SessionOptions) => ProviderSession;
 export interface Observation {
+  transportAttemptCount?: number;
+  eligibleReusableTokens?: number | null; eligibleFullHit?: boolean | null; eligibleReuseShortfallTokens?: number | null;
+  eligibleIdealInputCostUsd?: number | null; theoreticalIdealInputCostUsd?: number | null;
   continuationValid?: boolean; stopReason?: string | null;
   wireRequest?: Record<string, unknown>;
   runId: string; cellId: string; trialId: string; profileId: string; accountId: string;
@@ -60,6 +64,9 @@ export interface Observation {
   outputCostUsd: number | null; warnings: string[];
 }
 export interface CellSummary {
+  eligibleMeasuredTurns?: number; eligibleFullHits?: number; eligibleFullHitRate?: number | null; eligibleCaptureRate?: number | null;
+  eligibleIdealInputCostUsd?: number | null; eligibleInputCostMultiplier?: number | null; eligibleFollowupCostMultiplier?: number | null;
+  theoreticalIdealInputCostUsd?: number | null; theoreticalInputCostMultiplier?: number | null;
   cellId: string; profile: Profile; scenario: Scenario; gapSeconds: number;
   attempts: number; successes: number; errors: number; measuredTurns: number;
   anyHitMeasuredTurns?: number; tokenMeasuredTurns?: number;

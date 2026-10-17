@@ -65,10 +65,11 @@ describe('usage normalization against provider-native fixtures', () => {
     const noWrite = normalizeOpenAIUsage({ input_tokens: 2000, output_tokens: 30, input_tokens_details: { cached_tokens: 1500 } });
     expect(noWrite.usage).toMatchObject({ cachedReadTokens: 1500, cacheWriteTokens: null, uncachedInputTokens: null });
   });
-  it('marks the Gemini omitted scalar zero assumption explicitly', () => {
+  it('decodes the Gemini omitted non-presence scalar using the protocol default-zero contract', () => {
     const missing = normalizeGeminiUsage({ promptTokenCount: 2000, candidatesTokenCount: 10 });
     expect(missing.usage).toMatchObject({ cachedReadTokens: 0, uncachedInputTokens: 2000 });
-    expect(missing.warnings.join(' ')).toContain('assumption');
+    expect(missing.warnings.join(' ')).toContain('default-zero contract');
+    expect(missing.warnings.join(' ')).not.toContain('assumption');
     expect(normalizeGeminiUsage({ promptTokenCount: 2000, candidatesTokenCount: 10, cachedContentTokenCount: null }).usage?.cachedReadTokens).toBeNull();
   });
   it('does not reconstruct an Anthropic total from an incomplete exclusive breakdown', () => {
@@ -93,6 +94,7 @@ describe.each<Provider>(['openai', 'gemini', 'anthropic'])('%s official SDK sess
     session.advance(result, 0);
     expect(session.buildRequest(5)).toEqual(first);
     expect(result.httpStatus).toBe(200);
+    expect(result.transportAttemptCount).toBe(1);
     expect(result.headers).toEqual({ 'content-type': 'application/json', 'x-request-id': 'request_fixture', 'x-goog-request-id': 'google_request_fixture', 'cf-ray': 'ray_fixture' });
     expect(result.wireRequest).toBeDefined();
     expect(JSON.stringify(result)).not.toContain(options(provider).apiKey);
@@ -115,6 +117,9 @@ describe.each<Provider>(['openai', 'gemini', 'anthropic'])('%s official SDK sess
   it('preserves complete native agent output including signed/encrypted thinking', async () => {
     const session = createProviderSession(options(provider), transport(provider));
     const first = session.buildRequest(0);
+    const serialized = JSON.stringify(first);
+    expect(serialized).toContain('This is a read-only benchmark of fictional reference records. Retrieve four fixture chunks using read_fixture. Make exactly one tool call per response with {}. After receiving four tool results, give a one-sentence summary.');
+    expect(serialized).not.toContain('on every subsequent response');
     const result = await session.send(first, signal());
     expect(result.continuationValid).toBe(true);
     session.advance(result, 0);
@@ -185,7 +190,7 @@ describe.each<Provider>(['openai', 'gemini', 'anthropic'])('%s official SDK sess
       await session.send(session.buildRequest(0), signal());
       throw new Error('Expected rejection');
     } catch (error) {
-      expect(error).toMatchObject({ status: 500, name: 'ProviderError' });
+      expect(error).toMatchObject({ status: 500, name: 'ProviderError', transportAttemptCount: 1 });
       expect(String(error)).not.toContain(options(provider).apiKey);
       expect(JSON.stringify(error)).not.toContain(options(provider).apiKey);
       expect(JSON.stringify(error)).not.toContain('should-never-be-exported');
@@ -229,6 +234,7 @@ it('excludes multi-hop SDK observations from normalized cache/cost metrics', asy
   (request.config as Record<string, unknown>).automaticContinuation = true;
   const result = await session.send(request, signal());
   expect(fetcher).toHaveBeenCalledTimes(2);
+  expect(result.transportAttemptCount).toBe(2);
   expect(result.usage).toBeNull();
   expect(result.rawUsage).not.toBeNull();
   expect(result.continuationValid).toBe(false);

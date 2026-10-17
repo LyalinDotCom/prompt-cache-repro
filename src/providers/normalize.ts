@@ -47,10 +47,11 @@ export function normalizeGeminiUsage(value: unknown): NormalizedUsage {
   const thinking = raw.thoughtsTokenCount === undefined ? 0 : counter(raw, 'thoughtsTokenCount', warnings);
   let read: number | null;
   if (!Object.hasOwn(raw, 'cachedContentTokenCount') && input !== null) {
-    // UsageMetadata is a protobuf JSON object. Zero-valued scalar counters may be omitted.
-    // Keep the inference visible: absence of the entire usage object is NEVER a zero hit.
+    // Public v1beta proto: cached_content_token_count is a plain int32 with no explicit presence.
+    // ProtoJSON omits default-valued non-presence fields. Decode that omission as zero,
+    // while absence of the entire usage object is NEVER a zero hit.
     read = 0;
-    warnings.push('Gemini omitted cachedContentTokenCount; interpreted as protobuf scalar zero (assumption). Raw usage is preserved.');
+    warnings.push('Gemini omitted cachedContentTokenCount; decoded as zero under the proto3 non-presence int32 / ProtoJSON default-zero contract. Raw usage is preserved.');
   } else read = counter(raw, 'cachedContentTokenCount', warnings);
   if (input === null || candidates === null || thinking === null) return { usage: null, warnings };
   if (read !== null && read > input) {

@@ -1,7 +1,7 @@
 import { SDK_VERSIONS } from './defaults';
-import type { BenchmarkConfig, Observation, ProviderResult, RunReport, RunnerEvent, SessionFactory } from './types';
+import type { BenchmarkConfig, Observation, ProviderResult, RunReport, RunnerEvent, SessionFactory, TokenUsage } from './types';
 import { createProviderSession } from '../providers/index';
-import { actualInputCost, cellId, idealInputCost, normalizeUsage, summarize } from './metrics';
+import { actualInputCost, cellId, eligibleFrontier, idealInputCost, normalizeUsage, summarize } from './metrics';
 import { makePrefix, perturbPrefix, seededRandom, sha256 } from './workload';
 
 export interface RunOptions {
@@ -111,7 +111,7 @@ export async function runBenchmark(config: BenchmarkConfig, secrets: Record<stri
       for (let trial = 0; trial < config.trials; trial++) {
         if (signal.aborted) break cellsLoop;
         const id = cellId(profile.id, gapSeconds), trialId = `${id}/trial-${trial + 1}`;
-        const trialNonce = `${report.runId}:${trialId}`;
+        const trialNonce = await sha256(`${report.runId}:${trialId}`);
         const prefix = `Benchmark trial identity: ${trialNonce}\n${makePrefix(config.prefixChars, `${config.seed}:trial-${trial}`)}`;
         const prefixHash = await sha256(prefix);
         const ownKey = (id: string | undefined) => id && Object.hasOwn(secrets,id) && typeof secrets[id] === 'string' ? secrets[id] : undefined;
@@ -120,6 +120,7 @@ export async function runBenchmark(config: BenchmarkConfig, secrets: Record<stri
         try { session = (options.sessionFactory ?? createProviderSession)({ profile, apiKey: key, scenario: config.scenario, prefix, deltaChars: config.deltaChars, maxOutputTokens: config.maxOutputTokens, timeoutMs: config.timeoutMs, trialNonce }); }
         catch (error) { throw new Error(scrub.text(error instanceof Error ? error.message : String(error))); }
         let previousInput: number | null = null;
+        let previousUsage: TokenUsage | null = null;
         let completedAt: number | null = null;
         for (let turn = 0; turn < config.turns; turn++) {
           if (signal.aborted) break cellsLoop;
@@ -137,7 +138,7 @@ export async function runBenchmark(config: BenchmarkConfig, secrets: Record<stri
           const observation: Observation = { runId: report.runId, cellId: id, trialId, profileId: profile.id, accountId:profile.accountId, provider: profile.provider, model: profile.model, resolvedModel: null, tier: profile.tier, scenario: config.scenario, trial, turn, gapSeconds,
             actualIdleGapMs: null, startedAt: '', durationMs: 0, status: 'ok', error: null, httpStatus: null, responseId: null, headers: {}, requestHash, prefixHash: effectivePrefixHash, request,
             rawResponse: null, rawUsage: null, usage: null, previousInputTokens: previousInput, expectedReusableTokens: turn > 0 && config.scenario !== 'perturb' && previousInput != null && previousInput >= profile.cacheMinTokens ? previousInput : null,
-            fullHit: null, anyHit: null, reuseShortfallTokens: null, actualInputCostUsd: null, idealInputCostUsd: null, outputCostUsd: null, warnings };
+            fullHit: null, anyHit: null, reuseShortfallTokens: null, eligibleReusableTokens:null,eligibleFullHit:null,eligibleReuseShortfallTokens:null,eligibleIdealInputCostUsd:null,theoreticalIdealInputCostUsd:null, actualInputCostUsd: null, idealInputCostUsd: null, outputCostUsd: null, warnings };
           let result: ProviderResult | null = null;
           let started = performance.now();
           const requestController = new AbortController();
@@ -161,6 +162,7 @@ export async function runBenchmark(config: BenchmarkConfig, secrets: Record<stri
             observation.resolvedModel = result.resolvedModel;
             observation.httpStatus = result.httpStatus;
             observation.responseId = result.responseId;
+            observation.transportAttemptCount = result.transportAttemptCount;
             observation.continuationValid = result.continuationValid;
             observation.stopReason = result.stopReason;
             observation.headers = scrub.value(result.headers) as Record<string, string>;
@@ -178,12 +180,20 @@ export async function runBenchmark(config: BenchmarkConfig, secrets: Record<stri
               }
               observation.actualInputCostUsd = actualInputCost(observation.usage, profile);
               observation.idealInputCostUsd = turn > 0 && previousInput == null ? null : idealInputCost(observation.usage, previousInput, profile, config.scenario, observation.actualInputCostUsd);
+              observation.theoreticalIdealInputCostUsd = observation.idealInputCostUsd;
+              const frontier = eligibleFrontier(previousUsage,observation.usage,profile,config.scenario);
+              observation.eligibleIdealInputCostUsd = turn === 0 && profile.provider !== 'gemini' && config.scenario !== 'perturb' ? observation.actualInputCostUsd : frontier?.idealCostUsd ?? null;
+              if (frontier && frontier.reusableTokens >= profile.cacheMinTokens && observation.usage.cachedReadTokens != null) {
+                observation.eligibleReusableTokens=frontier.reusableTokens;
+                observation.eligibleReuseShortfallTokens=Math.max(0,frontier.reusableTokens-observation.usage.cachedReadTokens);
+                observation.eligibleFullHit=observation.usage.cachedReadTokens>0 && observation.usage.cachedReadTokens>=Math.max(0,frontier.reusableTokens-config.toleranceTokens);
+              }
               observation.outputCostUsd = profile.pricing ? observation.usage.outputTokens * profile.pricing.output / 1e6 : null;
               if (observation.actualInputCostUsd == null) warnings.push('Input cost unknown because pricing or a required input partition counter is missing. Observed-spend guard is incomplete.');
               if (turn > 0 && config.scenario !== 'perturb' && observation.idealInputCostUsd == null) warnings.push('Ideal baseline unknown: prior telemetry, cache minimum, pricing, or a supported write policy is unavailable.');
               if (observation.usage.inputTokens > 100000) {
                 warnings.push('Input exceeds supported 100,000-token pricing band; costs unknown and entire run stopped.');
-                observation.actualInputCostUsd = observation.idealInputCostUsd = observation.outputCostUsd = null;
+                observation.actualInputCostUsd = observation.idealInputCostUsd = observation.outputCostUsd = observation.eligibleIdealInputCostUsd = observation.theoreticalIdealInputCostUsd = null;
               }
             }
           } catch (error) {
@@ -193,9 +203,10 @@ export async function runBenchmark(config: BenchmarkConfig, secrets: Record<stri
             observation.status = signal.aborted ? 'cancelled' : 'error';
             observation.error = scrub.text(requestController.signal.aborted && !signal.aborted ? `Request timed out after ${config.timeoutMs}ms.` : error instanceof Error ? error.message : String(error));
             if (error && typeof error === 'object') {
-              const meta = error as { status?: number; headers?: Record<string,string>; rawResponse?: unknown; rawUsage?: Record<string,unknown>; wireRequest?: Record<string,unknown> };
+              const meta = error as { status?: number; headers?: Record<string,string>; rawResponse?: unknown; rawUsage?: Record<string,unknown>; wireRequest?: Record<string,unknown>; transportAttemptCount?: number };
               if (meta.wireRequest) { observation.wireRequest = scrub.value(meta.wireRequest) as Record<string,unknown>; requestHash = await sha256(JSON.stringify(meta.wireRequest)); }
               observation.httpStatus = meta.status ?? null;
+              observation.transportAttemptCount = meta.transportAttemptCount;
               observation.headers = scrub.value(meta.headers ?? {}) as Record<string,string>;
               observation.rawResponse = scrub.value(meta.rawResponse ?? null);
               observation.rawUsage = scrub.value(meta.rawUsage ?? null) as Record<string,unknown> | null;
@@ -220,6 +231,7 @@ export async function runBenchmark(config: BenchmarkConfig, secrets: Record<stri
           if (observedSpend >= config.maxEstimatedUsd) { report.status = 'budget-stopped'; report.warnings.push('Observed known spend reached configured limit. Unknown charges and in-flight billing may exceed this limit.'); break cellsLoop; }
           if (observation.status !== 'ok' || !result?.continuationValid || (observation.usage?.inputTokens ?? 0) > 100000) break;
           previousInput = observation.usage?.inputTokens ?? null;
+          previousUsage = observation.usage;
         }
       }
     }
