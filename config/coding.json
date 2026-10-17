@@ -1,12 +1,22 @@
 {
-  "scenario": "agent",
-  "accounts": ["gemini-paid", "openai-paid", "anthropic-paid"],
-  "models": ["gemini-4-argon", "gpt-6.1-sol", "gemini-3.8-flash", "claude-opus-5-5"],
-  "turns": 24,
+  "accounts": [
+    "gemini-paid",
+    "openai-paid",
+    "anthropic-paid"
+  ],
+  "models": [
+    "gemini-4-argon",
+    "gpt-6.1-sol",
+    "gemini-3.8-flash",
+    "claude-opus-5-5"
+  ],
   "trials": 1,
-  "gapsSeconds": [5],
-  "maxOutputTokens": 4096,
-  "timeoutMs": 90000,
-  "seed": "coding-qualification-v1",
-  "maxEstimatedUsd": 5
+  "gapsSeconds": [
+    5
+  ],
+  "maxOutputTokens": 32768,
+  "timeoutMs": 1200000,
+  "seed": "coding-reviewed-v2",
+  "sessionTimeoutMs": 1200000,
+  "reasoningLevel": "high"
 }

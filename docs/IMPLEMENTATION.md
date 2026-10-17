@@ -1,6 +1,6 @@
 # Cachebench: implementation contract
 
-Status: shipped CLI coding-agent validation and browser controls. This document describes the implemented scope. The original proposals are preserved unchanged in `docs/references/`.
+Status: coding harness and browser controls; clean validation study in preparation. This document describes the implemented scope. The original proposals are preserved unchanged in `docs/references/`.
 
 ## Purpose
 
@@ -10,7 +10,7 @@ Run an outside-in public API experiment and produce enough inspectable evidence 
 
 The primary coding validation runs the real pinned Pi 1.3.0 coding agent on a disposable copy of `fixtures/coding-ledger`. The repository contains three actual defects and 44 immutable acceptance tests. A common initial source/test snapshot provides substantial code context. Native read/edit/write tools are restricted to that repository; source edits are allowed under `src/` and `bin/`. The bash tool runs a disclosed allowlist of real Node test and fixture CLI commands with an empty child environment. It is a trusted fixture workflow, not an operating-system sandbox. Installed native CLI settings and authentication remain untouched.
 
-Each coding task has request, time, and observed-spend guards and ends naturally when Pi completes. The driver independently verifies baseline failure, final test success, unchanged acceptance files, a real source patch, and successful CLI output. It preserves serialized HTTP bodies, raw response streams, native agent/tool events, effective settings, file hashes, patches, and actual subprocess outputs. A standalone auditor reconstructs usage and costs from raw streams without importing app normalizers. `npm run coding` runs this path; `config/coding.json` and the preregistered coding protocols define its allocation. The browser controls below remain a separate diagnostic arm.
+Each coding task finishes naturally or reaches a 20-minute session deadline. There is no spending or request-count cutoff; costs are observations only. The driver independently verifies baseline failure, final test success, unchanged acceptance files, a real source patch, and successful CLI output. It preserves serialized HTTP bodies, raw response streams, native agent/tool events, effective settings, file hashes, patches, and actual subprocess outputs. A standalone auditor reconstructs usage and costs from raw streams without importing app normalizers. `npm run coding` runs this path; `config/coding.json` and the current methodology define its allocation. The browser controls below remain a separate diagnostic arm.
 
 A static web app calls each provider directly from the visitor's browser using its official TypeScript SDK. Visitors enter their own keys, select profiles and a test, run it, inspect turn results, and download JSON, JSONL, CSV, and Markdown reports. Keys live only in page memory and go only to the selected provider. No benchmark proxy, app server, analytics, key storage, or third-party fonts/scripts.
 
@@ -47,7 +47,7 @@ Report separately:
 
 Read/write/input/output rates are dated and editable per profile. Ideal cost retains required initial write charges and new-prefix write charges for models that bill them. It uses the same observed workload and outputs. It is a transparent counterfactual, not verified billing. Unknown rate cards yield unknown costs. V1 limits estimated pricing to short contexts and stops a trajectory beyond 100K observed input tokens.
 
-A configured spend guard uses a conservative preflight estimate plus observed usage; it cannot guarantee a provider bill, especially for interrupted/failed requests. No automatic retry means a failed trial ends and remains visible.
+Cost estimates do not control execution. Interrupted or failed requests can have unknown charges. No automatic retry means a failed trial ends and remains visible.
 
 ## Configuration and reports
 
@@ -59,7 +59,7 @@ Reports include complete public run configuration and rate cards. Every grouping
 
 Before live spending: unit tests for usage normalization, cost baselines, payload determinism, signature-preserving continuation, cancellation, failure denominators, and secret redaction; typecheck/build; inspect real browser flows.
 
-Then run a small paid-key replay and tool-loop test against the three configured model IDs. Add a small timed Gemini comparison if initial calls succeed. Preserve every attempt, including access or SDK compatibility failures. Record sample size and limitations with the first data. Expand repetitions and tiers after this path is sound.
+Qualify the coding workflow, then validate representative context sizes and task diversity under the current methodology. Preserve every attempt, including access and SDK compatibility failures. Record actual context occupancy, sample size, and limitations with each study.
 
 ## Public documentation
 

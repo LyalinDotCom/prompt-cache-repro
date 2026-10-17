@@ -35,9 +35,8 @@ export function validateConfig(config: BenchmarkConfig): void {
     if (typeof value !== 'number' || !Number.isInteger(value) || value < min || value > max) throw new Error(`${key} must be an integer between ${min} and ${max}.`);
   };
   integer('turns', 2, 1000); integer('trials', 1, 1000); integer('prefixChars', 1, 99000);
-  integer('deltaChars', 0, 50000); integer('maxOutputTokens', 1, 32000); integer('toleranceTokens', 0, 100000); integer('timeoutMs', 1, 3600000);
+  integer('deltaChars', 0, 50000); integer('maxOutputTokens', 1, 32768); integer('toleranceTokens', 0, 100000); integer('timeoutMs', 1, 3600000);
   if (!config.seed || typeof config.seed !== 'string') throw new Error('A nonempty seed is required.');
-  if (!Number.isFinite(config.maxEstimatedUsd) || config.maxEstimatedUsd <= 0) throw new Error('maxEstimatedUsd must be positive.');
   if (!config.profiles.length || !config.gapsSeconds.length) throw new Error('Select at least one profile and gap.');
   if (new Set(config.profiles.map(p => p.id)).size !== config.profiles.length) throw new Error('Profile IDs must be unique.');
   if (new Set(config.gapsSeconds).size !== config.gapsSeconds.length || config.gapsSeconds.some(gap => !Number.isFinite(gap) || gap < 0 || gap > 86400)) throw new Error('Gaps must be unique finite seconds between 0 and 86400.');
@@ -91,7 +90,6 @@ function redactor(secrets: Record<string, string>) {
 export async function runBenchmark(config: BenchmarkConfig, secrets: Record<string, string>, options: RunOptions = {}): Promise<RunReport> {
   validateConfig(config);
   const estimate = estimateRun(config);
-  if (estimate.knownCostUsd > config.maxEstimatedUsd) throw new Error(`Conservative estimated cost $${estimate.knownCostUsd.toFixed(3)} exceeds configured limit $${config.maxEstimatedUsd.toFixed(3)}. Increase the limit or reduce the workload. This estimate is not a guaranteed billing cap.`);
   const scrub = redactor(secrets);
   const controller = new AbortController();
   const abort = () => controller.abort();
@@ -99,13 +97,12 @@ export async function runBenchmark(config: BenchmarkConfig, secrets: Record<stri
   if (options.signal?.aborted) controller.abort();
   const signal = controller.signal;
   const report: RunReport = { schemaVersion: 1, runId: crypto.randomUUID(), createdAt: new Date().toISOString(), finishedAt: null, status: 'running', runtime: options.runtime ?? (typeof window === 'undefined' ? 'node' : 'browser'), config: structuredClone(config), observations: [], summaries: [], sdkVersions: SDK_VERSIONS,
-    warnings: ['Sequential requests; no automatic retries. Fresh nonce per trial isolates cache prefixes.', 'Cost guard is an estimate and an observed-spend soft stop, not a guaranteed billing cap. Output cost is reported separately from input-cache multipliers.'] };
-  if (estimate.conservativeCostUsd == null) report.warnings.push('Some pricing is unknown: preflight cost and observed-spend guard cannot cover all requests.');
+    warnings: ['Sequential requests; no automatic retries. Fresh nonce per trial isolates cache prefixes.', 'Costs are estimates, not verified bills. No spending cutoff is applied. Output cost is reported separately from input-cache multipliers.'] };
+  if (estimate.conservativeCostUsd == null) report.warnings.push('Some pricing is unknown: estimates cover only requests with known pricing.');
   const emit = async (event: RunnerEvent) => { await options.onEvent?.(event); };
   const cells = config.profiles.flatMap(profile => config.gapsSeconds.map(gapSeconds => ({ profile, gapSeconds })));
   const random = seededRandom(`${config.seed}:cell-order`);
   for (let i = cells.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [cells[i], cells[j]] = [cells[j], cells[i]]; }
-  let observedSpend = 0;
   try {
     cellsLoop: for (const { profile, gapSeconds } of cells) {
       for (let trial = 0; trial < config.trials; trial++) {
@@ -189,7 +186,7 @@ export async function runBenchmark(config: BenchmarkConfig, secrets: Record<stri
                 observation.eligibleFullHit=observation.usage.cachedReadTokens>0 && observation.usage.cachedReadTokens>=Math.max(0,frontier.reusableTokens-config.toleranceTokens);
               }
               observation.outputCostUsd = profile.pricing ? observation.usage.outputTokens * profile.pricing.output / 1e6 : null;
-              if (observation.actualInputCostUsd == null) warnings.push('Input cost unknown because pricing or a required input partition counter is missing. Observed-spend guard is incomplete.');
+              if (observation.actualInputCostUsd == null) warnings.push('Input cost unknown because pricing or a required input partition counter is missing.');
               if (turn > 0 && config.scenario !== 'perturb' && observation.idealInputCostUsd == null) warnings.push('Ideal baseline unknown: prior telemetry, cache minimum, pricing, or a supported write policy is unavailable.');
               if (observation.usage.inputTokens > 100000) {
                 warnings.push('Input exceeds supported 100,000-token pricing band; costs unknown and entire run stopped.');
@@ -224,11 +221,9 @@ export async function runBenchmark(config: BenchmarkConfig, secrets: Record<stri
           }
           report.observations.push(observation);
           report.summaries = summarize(report);
-          observedSpend += (observation.actualInputCostUsd ?? 0) + (observation.outputCostUsd ?? 0);
           await emit({ type: 'observation', observation, report });
           await emit({ type: 'status', message: `${profile.label}: ${observation.status}`, completed: report.observations.length, total: estimate.requests });
-          if ((observation.usage?.inputTokens ?? 0) > 100000) { report.status = 'incomplete'; report.warnings.push('Stopped entire run: observed input exceeds supported 100,000-token pricing band. Cost totals are partial and the spend guard cannot cover this request.'); break cellsLoop; }
-          if (observedSpend >= config.maxEstimatedUsd) { report.status = 'budget-stopped'; report.warnings.push('Observed known spend reached configured limit. Unknown charges and in-flight billing may exceed this limit.'); break cellsLoop; }
+          if ((observation.usage?.inputTokens ?? 0) > 100000) { report.status = 'incomplete'; report.warnings.push('Stopped entire run: observed input exceeds supported 100,000-token pricing band. Cost totals are partial.'); break cellsLoop; }
           if (observation.status !== 'ok' || !result?.continuationValid || (observation.usage?.inputTokens ?? 0) > 100000) break;
           previousInput = observation.usage?.inputTokens ?? null;
           previousUsage = observation.usage;

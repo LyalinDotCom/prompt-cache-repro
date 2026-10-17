@@ -1,9 +1,0 @@
-{
-  "name": "coding-ledger-fixture",
-  "version": "1.0.0",
-  "private": true,
-  "type": "module",
-  "description": "A dependency-free invoice import and reconciliation utility",
-  "scripts": { "test": "node --test test/*.test.mjs", "demo": "node bin/ledger.mjs import data/invoices.csv --format json" },
-  "engines": { "node": ">=22" }
-}

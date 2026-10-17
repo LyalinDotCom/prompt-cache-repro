@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { createRestrictedCodingTools, runCodingTrial } from '../src/coding/pi-runner';
 import { DEFAULT_CONFIG } from '../src/core/defaults';
+import { resolveCodingConfig } from '../src/coding/config';
 import type { ToolDefinition } from '@earendil-works/pi-coding-agent';
 
 const paths: string[] = [];
@@ -17,6 +18,67 @@ function fixture() {
 afterEach(() => { for (const path of paths.splice(0)) rmSync(path, { recursive: true, force: true }); delete process.env.CACHEBENCH_FAKE_TEST_KEY; });
 
 describe('representative Pi coding arm offline', () => {
+  it('uses a 20-minute session deadline and rejects obsolete coding cutoffs', () => {
+    const config = resolveCodingConfig({});
+    expect(config.sessionTimeoutMs).toBe(1_200_000);
+    expect(config.timeoutMs).toBe(1_200_000);
+    expect(config).not.toHaveProperty('turns');
+    expect(config).not.toHaveProperty('maxEstimatedUsd');
+    expect(() => resolveCodingConfig({ turns: 12 })).toThrow(/no turns or spending cutoff/);
+    expect(() => resolveCodingConfig({ maxEstimatedUsd: 5 })).toThrow(/no turns or spending cutoff/);
+  });
+
+  it('stops an unfinished request at the session deadline and retains partial evidence', async () => {
+    const cwd = fixture(), outDir = fixture();
+    const profile = DEFAULT_CONFIG.profiles.find(profile => profile.provider === 'openai')!;
+    const transport: typeof fetch = async (_input, init) => new Promise<Response>((_done, fail) => {
+      const abort = () => fail(new DOMException('Deadline observed', 'AbortError'));
+      if (init?.signal?.aborted) abort();
+      else init?.signal?.addEventListener('abort', abort, { once: true });
+    });
+    const report = await runCodingTrial({ profile, apiKey: 'fake-key', cwd, outDir, prompt: 'Complete the task.', gapSeconds: 0, timeoutMs: 100, transport });
+    expect(report.status).toBe('stopped');
+    expect(report.stopReason).toBe('Trial deadline');
+    expect(report.requests).toHaveLength(1);
+    expect(report.requests[0].error).toBeTruthy();
+    expect(JSON.parse(readFileSync(join(outDir, 'coding-report.json'), 'utf8')).status).toBe('stopped');
+  });
+
+  it('ends a stalled SSE body at the session deadline even if the transport ignores abort', async () => {
+    const cwd = fixture(), outDir = fixture();
+    const profile = DEFAULT_CONFIG.profiles.find(profile => profile.provider === 'openai')!;
+    const transport: typeof fetch = async () => new Response(new ReadableStream<Uint8Array>({ start() {} }), { headers: { 'content-type': 'text/event-stream' } });
+    const report = await runCodingTrial({ profile, apiKey: 'fake-key', cwd, outDir, prompt: 'Complete the task.', gapSeconds: 0, timeoutMs: 100, transport });
+    expect(report.status).toBe('stopped');
+    expect(report.stopReason).toBe('Trial deadline');
+    expect(report.requests).toHaveLength(1);
+    expect(report.requests[0].httpStatus).toBe(200);
+    expect(report.requests[0].usage).toBeNull();
+  });
+
+  it('allows a natural coding loop beyond the former 12-request cutoff', async () => {
+    const cwd = fixture(), outDir = fixture();
+    const profile = DEFAULT_CONFIG.profiles.find(profile => profile.provider === 'openai')!;
+    let calls = 0;
+    const transport: typeof fetch = async () => {
+      calls++;
+      const item = calls < 14
+        ? { type: 'function_call', id: `fc_${calls}`, call_id: `call_${calls}`, name: 'read', arguments: JSON.stringify({ path: 'src/value.mjs' }), status: 'completed' }
+        : { type: 'message', id: 'msg_done', role: 'assistant', status: 'completed', content: [{ type: 'output_text', text: 'Done.', annotations: [] }] };
+      const events = [
+        { type: 'response.created', response: { id: `resp_${calls}`, status: 'in_progress', output: [] } },
+        { type: 'response.output_item.added', output_index: 0, item: item.type === 'function_call' ? { ...item, arguments: '' } : { ...item, content: [] } },
+        { type: 'response.output_item.done', output_index: 0, item },
+        { type: 'response.completed', response: { id: `resp_${calls}`, model: profile.model, status: 'completed', output: [item], usage: { input_tokens: 1000 + calls, input_tokens_details: { cached_tokens: 900, cache_write_tokens: 100 }, output_tokens: 2, total_tokens: 1002 + calls } } },
+      ];
+      return new Response(events.map(event => `event: ${event.type}\ndata: ${JSON.stringify(event)}\n\n`).join(''), { headers: { 'content-type': 'text/event-stream' } });
+    };
+    const report = await runCodingTrial({ profile, apiKey: 'fake-key', cwd, outDir, prompt: 'Complete the task.', gapSeconds: 0, timeoutMs: 10_000, transport });
+    expect(report.status, report.stopReason ?? '').toBe('completed');
+    expect(calls).toBe(14);
+    expect(report.requests).toHaveLength(14);
+    expect(report.settings).not.toHaveProperty('maxRequests');
+  });
   it('uses native file edits while blocking paths outside src/bin and strips test environment', async () => {
     const cwd = fixture(), outside = fixture();
     symlinkSync(outside, join(cwd, 'src', 'outside'));

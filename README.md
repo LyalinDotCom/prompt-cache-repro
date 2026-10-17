@@ -1,12 +1,10 @@
 # Cachebench
 
-**An unofficial community project.** Not affiliated with or endorsed by Google, OpenAI, Anthropic, or Theo. Results are experimental and are not guaranteed to be accurate. Feedback and methodology corrections are welcome through [GitHub issues](https://github.com/LyalinDotCom/prompt-cache-repro/issues); **pull requests are not accepted**. The repository is private for now.
+**An unofficial community project.** Not affiliated with or endorsed by Google, OpenAI, Anthropic, or Theo. Experimental results are not guaranteed to be accurate. Feedback and methodology corrections are welcome through [GitHub issues](https://github.com/LyalinDotCom/prompt-cache-repro/issues); **pull requests are not accepted**. The repository is private for now. Licensed under [Apache 2.0](LICENSE).
 
-Licensed under [Apache 2.0](LICENSE). See [feedback guidelines](CONTRIBUTING.md).
+Our goal is credible outside-in evidence about prompt-cache reuse during real coding-agent work. The coding harness runs Pi against public provider APIs, retains serialized requests and raw responses, and independently checks patches and tests. The browser contains separate diagnostic controls.
 
-A small outside-in prompt-cache benchmark for public Gemini, OpenAI, and Anthropic APIs. Run it in a browser or from the CLI; both share the same workloads, official SDK adapters, accounting, and report generator.
-
-The question is whether Theo's reported cache behavior appears under reproducible public API conditions. A report preserves the requests and usage counters behind every result. It does not claim a short smoke test proves a provider-wide rate or identifies an internal cause.
+**No benchmark results are currently published in this checkout.** Previous experimental artifacts and reports were removed to start a clean study. Their deletion is tracked in Git history. Read the [current methodology](docs/METHODOLOGY.md) before running or interpreting experiments.
 
 ## Run locally
 
@@ -17,11 +15,11 @@ npm ci
 npm run dev
 ```
 
-Open the printed local URL. Add keys under **API keys** and select models separately. Keys stay in tab memory and requests go directly to the chosen provider. Download a report before reloading or closing the tab. Long unattended tests are better suited to the CLI because browsers can suspend background tabs.
+The browser calls providers directly using official SDKs. Enter keys in the tab; they stay in memory. Browser controls do not run a real coding agent.
 
-## CLI and credentials
+## Coding runs
 
-Put keys in the ignored `.env` file at the project root:
+Put keys in the ignored project-root `.env`:
 
 ```dotenv
 GEMINI_API_KEY="..."
@@ -29,24 +27,7 @@ ANTHROPIC_API_KEY="..."
 CODEX_API_KEY="..."
 ```
 
-`CODEX_API_KEY` is a name for the OpenAI public API key, not a Codex subscription login. Never prefix these names with `VITE_`.
-
-```sh
-npm run bench -- profiles
-npm run bench -- run --config config/smoke.json --dry-run
-npm run bench -- run --config config/smoke.json
-npm run bench -- run --config config/agent-smoke.json
-npm run bench -- run --config config/timing-smoke.json
-npm run bench -- report runs/<run-id>/report.json
-```
-
-Accounts own credentials and declared tiers. Models own their model ID and price card. One Gemini key runs both `gemini-3.8-flash` and `gemini-4-argon`; two Gemini keys run both models twice, producing four separate account/model cells per workload and gap. Current comparison models are `gpt-6.1-sol` and `claude-opus-5-5`.
-
-Add accounts by environment-variable reference in a config, as shown in [config/two-gemini-accounts.json](config/two-gemini-accounts.json). There is one supported config format: separate `accounts` and `models`. See [configuration and commands](config/README.md).
-
-## Experiments and evidence
-
-The primary validation path is now a **real coding-agent experiment**. Pi works on a disposable invoice-import repository with three genuine bugs and 44 immutable tests. Each trial records the actual patch, failing baseline, independent final tests and CLI output, native tool transcript, and serialized API requests/raw response streams. Installed Codex, Claude Code, and AGY credentials/settings are left unchanged. Read the [coding validation protocol](docs/CODING_VALIDATION_PROTOCOL.md).
+`CODEX_API_KEY` means an OpenAI public API key. Never use `VITE_` for credentials. Installed native CLI authentication and settings remain untouched.
 
 ```sh
 npm run coding -- --dry-run
@@ -54,35 +35,32 @@ npm run coding
 npm run coding -- --model gemini-4-argon,gemini-3.8-flash
 ```
 
-The coding experiment runs on Node using the existing ignored `.env`; its configuration is [config/coding.json](config/coding.json). `turns` is a maximum API request count per coding task, and repository files determine context size. A real task may finish earlier. The current quick-run cap is 24; the registered confirmation study retains its original 12-request cap. Evidence, independent per-task audits, Markdown reports, and model/trial CSVs are written under `runs/coding-<timestamp>/`. Incomplete or unqualified tasks return a nonzero exit while preserving their reports. Earlier generic fixture experiments below remain controls and are not a coding-agent reproduction.
+Accounts own keys and declared tier labels. Each account runs every selected model for its provider: two Gemini keys and two Gemini models produce four sessions per trial/gap. See [configuration](config/README.md).
 
-- **Exact replay:** identical requests, independent of generated responses.
-- **Text growth:** deterministic append-only conversation fixtures.
-- **Tool loop:** live native function calls with deterministic fixture results; original signatures and reasoning items remain intact.
-- **Prefix change:** a deliberate early-prefix mutation as a negative control.
+Sessions finish naturally or stop at a **20-minute session deadline**. There is no spending or request-count cutoff. Cost estimates are observations only. The dependency-free ledger fixture is a small qualification task, **not a 250K-token experiment**. Context occupancy must be established by actual API input counters, separately from the model's advertised window capacity.
 
-Reports include per-attempt request/response JSON, serialized wire JSON, raw usage, hashes, model/account identity, requested and measured gaps, errors, and dated prices. The CLI writes partial results after every observation to `runs/<id>/report.json`, `turns.jsonl`, `summary.md`, and `summary.csv`. The web UI imports complete JSON reports and exports JSON, JSONL, CSV, and Markdown without further API calls.
+New run artifacts, independent audits, Markdown reports, and CSV summaries are written under ignored `runs/`. Failed and interrupted attempts remain visible in each fresh study; they do not become cache misses or disappear from its accounting. Results are experimental until the workload, raw evidence, and conclusions have been reviewed.
 
-Full-hit classification compares cached reads to the previous request's input count within a configurable tolerance. Providers' hidden overhead and cache boundaries can make this stricter than actual eligible-prefix reuse. Always inspect token coverage and shortfall alongside the full-hit fraction. Warm-ups and failed requests are excluded from hit denominators; missing telemetry stays unknown. Cost ratios compare input charges with a transparent theoretical previous-prefix baseline, retain required writes, and show output charges separately. These are estimates, not verified bills.
+## Diagnostic controls
 
-The small default configurations establish behavior and telemetry. The optional `retention.json` sweep is much longer; inspect its request count, duration, and conservative cost estimate with `--dry-run` first. Spend guards cannot enforce provider-side billing limits.
+```sh
+npm run bench -- profiles
+npm run bench -- run --config config/smoke.json --dry-run
+npm run bench -- run --config config/smoke.json
+npm run bench -- report runs/<id>/report.json
+```
 
-## First measured data
-
-[Real coding-agent validation results](docs/VALIDATED_RESULTS.md) are the primary evidence for coding workloads. They include actual fixes, independent test results, and raw API usage.
-
-[Initial results and limitations](docs/INITIAL_RESULTS.md) include 50 real public API attempts, with complete raw evidence retained for all six runs.
+Replay, text-growth, deterministic tool-loop, and prefix-change controls help investigate API behavior. They do not establish performance in real coding sessions. Both browser and CLI controls use the same official SDK adapters and analysis. Costs are estimates, not provider invoices.
 
 ## Project documents
 
+- [Current methodology](docs/METHODOLOGY.md)
 - [Implementation contract](docs/IMPLEMENTATION.md)
-- [Review of the two proposed specs](docs/spec-review.md)
-- [Verified provider behavior and adapter decisions](docs/provider-notes.md)
-- [Original proposed HTTP harness](docs/references/proposed-http-harness.txt)
-- [Original proposed layered benchmark](docs/references/proposed-layered-benchmark.txt)
-- [Source post](https://x.com/theo/status/2111370893561909423)
-
-Original chart: Sonnet 5.5 and GPT-6.1 Sol had 228/228 reported full hits; Gemini 4 Argon had 167/228. Gemini's reported cost multipliers were 1.20×, 1.34×, and 1.48× at 5/30/120-second gaps. Our requested Anthropic comparison uses Opus 5.5, so it is not an exact recreation of that model lineup. The original prompts and complete method are unavailable.
+- [Review of the supplied specs](docs/spec-review.md)
+- [Provider API/accounting notes](docs/provider-notes.md)
+- [Original HTTP-harness proposal](docs/references/proposed-http-harness.txt)
+- [Original layered-benchmark proposal](docs/references/proposed-layered-benchmark.txt)
+- [Source criticism](https://x.com/theo/status/2111370893561909423)
 
 ```sh
 npm test

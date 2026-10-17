@@ -23,6 +23,5 @@
   "maxOutputTokens": 128,
   "toleranceTokens": 64,
   "timeoutMs": 120000,
-  "seed": "cachebench-retention-v1",
-  "maxEstimatedUsd": 50
+  "seed": "cachebench-retention-v1"
 }

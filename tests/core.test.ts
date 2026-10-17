@@ -8,7 +8,7 @@ import { toCsv, toJsonl, toMarkdown, toSummaryCsv } from '../src/core/report';
 import type { BenchmarkConfig, Profile, ProviderResult, SessionFactory, TokenUsage } from '../src/core/types';
 
 const profile: Profile = { id:'test-account::test-model', accountId:'test-account', label:'Test', provider:'openai', model:'gpt-6.1-sol', tier:'test', cacheMinTokens:512, pricing:{input:2,cachedRead:0.1,cacheWrite:2.5,output:10,source:'fixture',asOf:'2026-10-17'} };
-const config = (patch: Partial<BenchmarkConfig> = {}): BenchmarkConfig => ({scenario:'append',profiles:[profile],turns:3,trials:1,gapsSeconds:[0],prefixChars:100,deltaChars:100,maxOutputTokens:16,toleranceTokens:64,timeoutMs:1000,seed:'fixture',maxEstimatedUsd:100,...patch});
+const config = (patch: Partial<BenchmarkConfig> = {}): BenchmarkConfig => ({scenario:'append',profiles:[profile],turns:3,trials:1,gapsSeconds:[0],prefixChars:100,deltaChars:100,maxOutputTokens:16,toleranceTokens:64,timeoutMs:1000,seed:'fixture',...patch});
 const usage = (turn: number, miss = false): TokenUsage => ({ inputTokens:1000 + turn*100, cachedReadTokens:turn && !miss ? 1000+(turn-1)*100 : 0, cacheWriteTokens:turn && !miss ? 100 : 1000+turn*100, uncachedInputTokens:0, outputTokens:10, thinkingTokens:0 });
 const result = (u:TokenUsage|null): ProviderResult => ({transportAttemptCount:1,rawResponse:{ok:true},rawUsage:{fixture:true},usage:u,responseId:'fixture',resolvedModel:'gpt-6.1-sol',httpStatus:200,headers:{},warnings:[],continuationValid:true,stopReason:'stop'});
 function factory(make: (turn:number)=>ProviderResult = turn => result(usage(turn))): SessionFactory {
@@ -143,13 +143,13 @@ describe('cache benchmark metrics and execution', () => {
     expect(()=>expandProfiles([DEFAULT_ACCOUNTS[0],DEFAULT_ACCOUNTS[0]],DEFAULT_MODELS)).toThrow('Account IDs');
     expect(()=>expandProfiles(DEFAULT_ACCOUNTS,[DEFAULT_MODELS[0],DEFAULT_MODELS[0]])).toThrow('Model IDs');
   });
-  it('guards conservative estimated spend before transport', async () => {
+  it('reports conservative cost estimates without using them as a cutoff', async () => {
     expect(estimateRun(config()).requests).toBe(3);
-    const mixed=config({profiles:[{...profile,id:'unknown',pricing:null},profile],maxEstimatedUsd:.000001});
+    const mixed=config({profiles:[{...profile,id:'unknown',pricing:null},profile]});
     expect(estimateRun(mixed).conservativeCostUsd).toBeNull(); expect(estimateRun(mixed).knownCostUsd).toBeGreaterThan(0); expect(estimateRun(mixed).hasUnknownPricing).toBe(true);
-    await expect(runBenchmark(mixed,{}, {sessionFactory:factory()})).rejects.toThrow('estimated cost');
+    expect((await runBenchmark(mixed,{}, {sessionFactory:factory()})).status).toBe('completed');
     expect(()=>validateConfig(config({trials:0}))).toThrow();
     expect(()=>validateConfig(config({profiles:[profile,{...profile,id:'other',provider:'gemini'}]}))).toThrow('sharing an account ID');
-    await expect(runBenchmark(config({maxEstimatedUsd:.000001}),{}, {sessionFactory:factory()})).rejects.toThrow('estimated cost');
+    expect((await runBenchmark(config(),{}, {sessionFactory:factory()})).status).toBe('completed');
   });
 });

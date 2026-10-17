@@ -4,15 +4,15 @@ import { createHash, randomUUID } from 'node:crypto';
 import { join, relative, resolve } from 'node:path';
 import { parseArgs } from 'node:util';
 import dotenv from 'dotenv';
-import { resolveConfig } from '../src/cli';
+import { resolveCodingConfig } from '../src/coding/config';
 import { runCodingTrial } from '../src/coding/pi-runner';
 import { seededRandom } from '../src/core/workload';
 
 const { values } = parseArgs({ options: { config: { type: 'string', default: 'config/coding.json' }, model: { type: 'string' }, shuffle: { type: 'boolean' }, 'dry-run': { type: 'boolean' } } });
 const raw = JSON.parse(readFileSync(resolve(values.config!), 'utf8'));
-const config = resolveConfig(raw, values.model ? { modelIds: values.model.split(',') } : {});
-const modelOrder = ['gemini-4-argon', 'gpt-6.1-sol', 'gemini-3.8-flash', 'claude-opus-5-5'];
-config.profiles.sort((a, b) => modelOrder.indexOf(a.model) - modelOrder.indexOf(b.model));
+if (values.model) raw.models = values.model.split(',');
+const config = resolveCodingConfig(raw);
+config.profiles.sort((a, b) => a.model.localeCompare(b.model) || a.accountId.localeCompare(b.accountId));
 const fixture = resolve('fixtures/coding-ledger');
 function files(root: string, directory = root): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap(entry => entry.isDirectory() ? files(root, join(directory, entry.name)) : [relative(root, join(directory, entry.name))]).sort();
@@ -21,14 +21,13 @@ const hash = (text: string | Buffer) => createHash('sha256').update(text).digest
 const sourceFiles = files(fixture);
 const hashes = (root: string) => Object.fromEntries(files(root).map(path => [path, hash(readFileSync(join(root, path)))]));
 const snapshot = sourceFiles.map(path => `\n<file path="${path}">\n${readFileSync(join(fixture, path), 'utf8')}\n</file>\n`).join('');
-if (snapshot.length > 160000) throw new Error('Fixture exceeds the registered context limit.');
 const dispatchOrder = Array.from({ length: config.trials }, (_, trial) => {
   const cells = config.profiles.flatMap(profile => config.gapsSeconds.map(gap => ({ profile, gap, trial })));
   const random = seededRandom(`${config.seed}:trial-${trial}:order`);
   if (values.shuffle) for (let i = cells.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [cells[i], cells[j]] = [cells[j], cells[i]]; }
   return cells;
 }).flat();
-const plan = { protocol: values.shuffle ? 'docs/CODING_CONFIRMATION_PROTOCOL.md' : 'docs/CODING_VALIDATION_PROTOCOL.md', models: config.profiles.map(p => p.model), accounts: [...new Set(config.profiles.map(p => p.accountId))], trials: config.trials, gapsSeconds: config.gapsSeconds, seed: config.seed, shuffled: Boolean(values.shuffle), dispatchOrder: dispatchOrder.map(({ profile, gap, trial }) => ({ model: profile.model, accountId: profile.accountId, gap, trial })), sourceFiles: sourceFiles.length, contextCharacters: snapshot.length, maxRequestsPerTask: config.turns, maxOutputTokens: config.maxOutputTokens, maxObservedUsd: config.maxEstimatedUsd };
+const plan = { protocol: 'docs/METHODOLOGY.md', models: config.profiles.map(p => p.model), accounts: [...new Set(config.profiles.map(p => p.accountId))], trials: config.trials, gapsSeconds: config.gapsSeconds, seed: config.seed, shuffled: Boolean(values.shuffle), dispatchOrder: dispatchOrder.map(({ profile, gap, trial }, index) => ({ trialName: `${String(index + 1).padStart(2, '0')}-${profile.id.replaceAll(':', '_')}-${gap}s-t${trial + 1}`, model: profile.model, accountId: profile.accountId, gap, trial })), sourceFiles: sourceFiles.length, contextCharacters: snapshot.length, sessionTimeoutMs: config.sessionTimeoutMs, reasoningLevel: config.reasoningLevel, maxOutputTokens: config.maxOutputTokens, termination: 'natural completion or 20-minute session deadline; no spending or request-count cutoff' };
 if (values['dry-run']) { console.log(JSON.stringify(plan, null, 2)); process.exit(0); }
 
 dotenv.config({ quiet: true });
@@ -37,15 +36,20 @@ const keys = Object.fromEntries(config.profiles.map(profile => {
   if (!value) throw new Error(`Missing credential for ${profile.accountId}; no calls started.`);
   return [profile.accountId, value];
 }));
+const gitCommit = spawnSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).stdout?.trim() ?? null;
+const gitDirty = Boolean(spawnSync('git', ['status', '--porcelain'], { encoding: 'utf8' }).stdout?.trim());
+const harnessFiles = [...files(resolve('src')).map(p => join('src', p)), ...files(resolve('scripts')).map(p => join('scripts', p)), 'package.json', 'package-lock.json', 'docs/METHODOLOGY.md', values.config!];
+const sourceHashes = Object.fromEntries(harnessFiles.map(path => [path, hash(readFileSync(resolve(path)))]));
+Object.assign(plan, { gitCommit, gitDirty, nodeVersion: process.version, fixtureSha256: hash(snapshot), sourceHashes });
 const outputRoot = resolve('runs', `coding-${new Date().toISOString().replaceAll(':', '-')}`);
 mkdirSync(outputRoot, { recursive: true, mode: 0o700 });
+for (const path of harnessFiles) { const destination = join(outputRoot, 'harness-source', path.replaceAll('..', '_')); mkdirSync(resolve(destination, '..'), { recursive: true }); cpSync(resolve(path), destination); }
 const controller = new AbortController();
 let knownSpendUsd = 0;
 let stopReason: string | null = null;
 const completed: Record<string, unknown>[] = [];
 const manifest = () => writeFileSync(join(outputRoot, 'batch.json'), JSON.stringify({ ...plan, startedAt, updatedAt: new Date().toISOString(), knownSpendUsd, stopReason, completed }, null, 2) + '\n', { mode: 0o600 });
 const startedAt = new Date().toISOString();
-const timer = setTimeout(() => { stopReason = '30-minute deadline'; controller.abort(); }, 30 * 60 * 1000);
 const interrupt = () => { stopReason = 'SIGINT'; controller.abort(); };
 process.on('SIGINT', interrupt);
 function tests(cwd: string, label: string, outDir: string) {
@@ -61,7 +65,7 @@ console.log(`Coding evidence: ${outputRoot}`);
 try {
   for (const { trial, gap, profile } of dispatchOrder) {
     if (controller.signal.aborted) break;
-    const trialName = `${String(completed.length + 1).padStart(2, '0')}-${profile.id.replaceAll(':', '_')}-${gap}s-t${trial + 1}`;
+    const trialName = plan.dispatchOrder[completed.length].trialName;
     const outDir = join(outputRoot, trialName), cwd = join(outDir, 'workspace');
     mkdirSync(outDir, { recursive: true, mode: 0o700 });
     cpSync(fixture, cwd, { recursive: true });
@@ -71,13 +75,12 @@ try {
     const nonce = hash(randomUUID());
     const prompt = `Coding experiment identity: ${nonce}\n${readFileSync(join(cwd, 'TASK.md'), 'utf8')}\n\nThe following snapshot is the real initial repository. Work on files in your current directory. Run the actual tests before and after your fix; preserve tests and fixture data.\n${snapshot}`;
     console.log(`START ${profile.model} gap=${gap}s trial=${trial + 1}; context=${prompt.length} characters`);
-    const report = await runCodingTrial({ profile, apiKey: keys[profile.accountId], cwd, prompt, outDir, maxRequests: config.turns, maxOutputTokens: config.maxOutputTokens, timeoutMs: 480000, requestTimeoutMs: config.timeoutMs, gapSeconds: gap, signal: controller.signal,
+    const report = await runCodingTrial({ profile, apiKey: keys[profile.accountId], cwd, prompt, outDir, maxOutputTokens: config.maxOutputTokens, reasoningLevel: config.reasoningLevel, timeoutMs: config.sessionTimeoutMs, requestTimeoutMs: config.timeoutMs, gapSeconds: gap, signal: controller.signal,
       onRequest: (_report, request) => {
         const usage = request.usage, p = profile.pricing;
         if (usage && p && usage.uncachedInputTokens != null && usage.cachedReadTokens != null && usage.cacheWriteTokens != null) knownSpendUsd += (usage.uncachedInputTokens * p.input + usage.cachedReadTokens * p.cachedRead + usage.cacheWriteTokens * p.cacheWrite + usage.outputTokens * p.output) / 1e6;
         manifest();
         console.log(JSON.stringify({ model: profile.model, input: usage?.inputTokens, read: usage?.cachedReadTokens, write: usage?.cacheWriteTokens, output: usage?.outputTokens, knownBatchUsd: +knownSpendUsd.toFixed(6) }));
-        if (knownSpendUsd >= config.maxEstimatedUsd) { stopReason = 'Known observed-spend soft stop'; controller.abort(); }
       },
     });
     const final = tests(cwd, 'final', outDir);
@@ -95,7 +98,9 @@ try {
     const audit = spawnSync(process.execPath, ['--import', 'tsx', resolve('scripts/audit-coding.ts'), outDir], { cwd: resolve('.'), env: {}, encoding: 'utf8', timeout: 30000, maxBuffer: 1_000_000 });
     writeFileSync(join(outDir, 'audit-command.stdout.txt'), audit.stdout ?? '');
     writeFileSync(join(outDir, 'audit-command.stderr.txt'), audit.stderr ?? '');
-    completed.push({ trialName, model: profile.model, accountId: profile.accountId, gapSeconds: gap, trial, status: report.status, requests: report.requests.length, qualified: functional.qualified, finalTestExitCode: final.exitCode, auditExitCode: audit.status });
+    const auditResult = existsSync(join(outDir, 'coding-audit.json')) ? JSON.parse(readFileSync(join(outDir, 'coding-audit.json'), 'utf8')) : null;
+    const auditPassed = audit.status === 0 && auditResult?.checks?.length > 0 && auditResult.checks.every((check: { verdict: string }) => check.verdict === 'PASS');
+    completed.push({ auditPassed, trialName, model: profile.model, accountId: profile.accountId, gapSeconds: gap, trial, status: report.status, requests: report.requests.length, qualified: functional.qualified, finalTestExitCode: final.exitCode, auditExitCode: audit.status });
     manifest();
     console.log(`FINISH ${profile.model}: qualified=${functional.qualified}; requests=${report.requests.length}`);
   }
@@ -105,12 +110,12 @@ try {
   console.error(error instanceof Error && !Object.values(keys).some(key => error.message.includes(key)) ? error.message : stopReason);
   process.exitCode = 1;
 } finally {
-  clearTimeout(timer); process.off('SIGINT', interrupt); manifest();
+  process.off('SIGINT', interrupt); manifest();
 }
 const summary = spawnSync(process.execPath, ['--import', 'tsx', resolve('scripts/summarize-coding.ts'), outputRoot, ...(completed.length === dispatchOrder.length ? ['--final'] : [])], { cwd: resolve('.'), env: {}, encoding: 'utf8', timeout: 30000, maxBuffer: 1_000_000 });
 writeFileSync(join(outputRoot, 'summary-command.stdout.txt'), summary.stdout ?? '');
 writeFileSync(join(outputRoot, 'summary-command.stderr.txt'), summary.stderr ?? '');
 if (summary.status !== 0) { console.error('Offline batch summary needs attention; retained raw evidence is available.'); process.exitCode = 1; }
-if (completed.length !== dispatchOrder.length || completed.some(task => !task.qualified)) process.exitCode = stopReason === 'SIGINT' ? 130 : 1;
+if (completed.length !== dispatchOrder.length || completed.some(task => !task.qualified || !task.auditPassed)) process.exitCode = stopReason === 'SIGINT' ? 130 : 1;
 console.log(JSON.stringify({ outputRoot, knownSpendUsd, stopReason, completed }));
 console.log(`Read the report: ${join(outputRoot, 'coding-summary.md')}`);

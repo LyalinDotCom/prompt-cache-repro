@@ -1,12 +1,18 @@
 /** Offline audit: standard-library only, derives usage from captured raw public-API response files. */
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join, resolve, relative } from 'node:path';
 import { isDeepStrictEqual as equal } from 'node:util';
 type J = Record<string, any>;
 const input = resolve(process.argv[2] ?? (() => { throw new Error('Usage: npx tsx scripts/audit-coding.ts <trial-directory-or-coding-report.json>'); })());
 const root = input.endsWith('.json') ? dirname(input) : input;
-const report = JSON.parse(readFileSync(input.endsWith('.json') ? input : join(root, 'coding-report.json'), 'utf8')) as J;
+const sourceArtifactHashes: Record<string, string> = {};
+function readEvidence(path: string): string {
+  const contents = readFileSync(path, 'utf8');
+  sourceArtifactHashes[relative(root, path)] = createHash('sha256').update(contents).digest('hex');
+  return contents;
+}
+const report = JSON.parse(readEvidence(input.endsWith('.json') ? input : join(root, 'coding-report.json'))) as J;
 const digest = (v: string): string => createHash('sha256').update(v).digest('hex');
 const integer = (v: unknown): v is number => typeof v === 'number' && Number.isSafeInteger(v) && v >= 0;
 const obj = (v: unknown): v is J => v !== null && typeof v === 'object' && !Array.isArray(v);
@@ -123,14 +129,16 @@ for (const [position, request] of report.requests.entries()) {
   const id = `request-${request.index}`;
   check('consecutive-captured-attempt-index', id, request.index === position);
   check('endpoint-excludes-query-and-auth', id, typeof request.endpoint === 'string' && !request.endpoint.includes('?') && !request.endpoint.includes('@'));
-  let wire: J | null = null, body: string | null = null;
-  try { wire = JSON.parse(readFileSync(safeArtifact(request.requestFile), 'utf8')); } catch { /* Unknown evidence remains unknown. */ }
-  try { body = readFileSync(safeArtifact(request.responseFile), 'utf8'); } catch { /* Partial capture remains unknown. */ }
-  check('captured-wire-hash', id, wire ? digest(JSON.stringify(wire)) === request.requestHash : null);
+  let wire: J | null = null, wireText: string | null = null, body: string | null = null;
+  try { wireText = readEvidence(safeArtifact(request.requestFile)); wire = JSON.parse(wireText); } catch { /* Unknown evidence remains unknown. */ }
+  try { body = readEvidence(safeArtifact(request.responseFile)); } catch { /* Partial capture remains unknown. */ }
+  check('captured-wire-hash', id, wire && wireText !== null ? digest(wireText) === request.requestHash : null);
   const endpointModel = provider === 'gemini' ? /\/models\/([^/:]+):/.exec(request.endpoint)?.[1] ?? null : wire?.model ?? null;
   check('actual-model-matches-requested', id, endpointModel === null ? null : endpointModel === requestedModel, endpointModel);
   const parsed = body === null ? { objects: [], malformedFrames: 0 } : events(body);
   const native = rawUsage(provider, parsed.objects), tokens = partition(provider, native.usage);
+  check('raw-stream-frames-well-formed', id, parsed.malformedFrames === 0);
+  check('terminal-response-available', id, native.terminal ? true : null);
   const continuation = continuationEvidence(parsed.objects);
   check('raw-usage-available', id, native.usage ? tokens !== null : null, { usageSnapshots: native.snapshots, terminal: native.terminal });
   check('raw-usage-copy-agrees', id, native.usage && request.completedAt ? equal(native.usage, request.rawUsage) : null);
@@ -141,6 +149,8 @@ for (const [position, request] of report.requests.entries()) {
   let exactWireHistoryPrefixPreserved: boolean | null = null;
   if (previous && wire) {
     const currentJson = JSON.stringify(wire), priorHistory = history(previous._wire), currentHistory = history(wire);
+    const staticFields = (value: J) => withoutCacheMarkers(Object.fromEntries(Object.entries(value).filter(([key]) => !['contents', 'input', 'messages'].includes(key))));
+    check('non-history-wire-settings-preserved', id, equal(staticFields(previous._wire), staticFields(wire)));
     if (priorHistory && currentHistory) {
       exactWireHistoryPrefixPreserved = equal(currentHistory.slice(0, priorHistory.length), priorHistory);
       check('history-prefix-preserved-excluding-cache-markers', id, equal(withoutCacheMarkers(currentHistory.slice(0, priorHistory.length)), withoutCacheMarkers(priorHistory)));
@@ -150,6 +160,8 @@ for (const [position, request] of report.requests.entries()) {
   }
   const reuse: J | null = tokens && previousTokens ? {
     priorInputTokens: previousTokens.input, readOverPriorInput: tokens.read / previousTokens.input,
+    priorInputDeficitTokens: previousTokens.input - tokens.read,
+    readModulo1024: tokens.read % 1024, readModulo2048: tokens.read % 2048,
     priorInputBelow95Percent: tokens.read < .95 * previousTokens.input,
     strict64WholePriorInputFullHit: tokens.read > 0 && tokens.read >= previousTokens.input - 64,
     priorPublicCacheFrontierTokens: provider === 'gemini' ? null : previousTokens.read + previousTokens.write,
@@ -182,8 +194,8 @@ for (const [position, request] of report.requests.entries()) {
 let functional: J | null = null;
 const functionalFile = join(root, 'functional-qualification.json');
 if (existsSync(functionalFile)) {
-  const f = JSON.parse(readFileSync(functionalFile, 'utf8')) as J;
-  const readOutput = (r: J, key: string): string | null => { try { return readFileSync(safeArtifact(r[key]), 'utf8'); } catch { return null; } };
+  const f = JSON.parse(readEvidence(functionalFile)) as J;
+  const readOutput = (r: J, key: string): string | null => { try { return readEvidence(safeArtifact(r[key])); } catch { return null; } };
   const before: J = f.beforeHashes ?? {}, after: J = f.afterHashes ?? {};
   const immutable = Object.keys(before).filter(p => /^(test\/|data\/|TASK\.md$|README\.md$|package\.json$)/.test(p));
   const changedSource = Object.keys(after).filter(p => /^(src\/|bin\/)/.test(p) && before[p] !== after[p]);
@@ -195,12 +207,12 @@ if (existsSync(functionalFile)) {
   check('immutable-tests-and-inputs-unchanged', 'functional', immutable.length ? immutable.every(p => before[p] === after[p]) : null, { immutableFiles: immutable.length });
   check('actual-source-edit-present', 'functional', Object.keys(before).length ? changedSource.length > 0 : null, changedSource);
   let patch: string | null = null;
-  try { patch = readFileSync(safeArtifact(f.patchFile), 'utf8'); } catch { /* Unknown, not inferred from model text. */ }
+  try { patch = readEvidence(safeArtifact(f.patchFile)); } catch { /* Unknown, not inferred from model text. */ }
   check('actual-source-diff-present', 'functional', patch === null ? null : /^diff --git [^\n]*\/(?:src|bin)\/[^\n]+$/m.test(patch) && /^@@/m.test(patch));
   const actualAfterMismatches: string[] = [];
   for (const [path, expected] of Object.entries(after)) {
     if (!/^(src\/|bin\/|test\/|data\/|TASK\.md$|README\.md$|package\.json$)/.test(path) || path.includes('..')) continue;
-    try { if (digest(readFileSync(join(report.cwd, path), 'utf8')) !== expected) actualAfterMismatches.push(path); }
+    try { if (digest(readEvidence(join(report.cwd, path))) !== expected) actualAfterMismatches.push(path); }
     catch { actualAfterMismatches.push(path); }
   }
   check('current-fixture-files-match-recorded-final-hashes', 'functional', Object.keys(after).length ? actualAfterMismatches.length === 0 : null, actualAfterMismatches);
@@ -234,7 +246,7 @@ const audit = { schemaVersion: 1, generatedAt: new Date().toISOString(), trialRo
     followupActualVsEligibleFrontierCounterfactual: eligibleInputUsd > 0 ? frontierRows.reduce((sum, x) => sum + x.independentCosts.inputUsd, 0) / eligibleInputUsd : null,
     passChecks: checks.length - failures.length - unknowns.length, failChecks: failures.length, unknownChecks: unknowns.length },
   limitations: ['Each record is one captured fetch invocation; logical model-request retries may produce multiple records and must not be collapsed.', 'Missing raw usage stays unknown. Interrupted or unreported charges can exceed known usage costs.', 'Gemini has no exposed implicit-write frontier; prior-input coverage is descriptive, not documented eligibility.', 'A patch and passing tests establish this task result, not general coding quality.', 'A functional qualification is unknown until actual baseline/final command outputs and immutable test hashes are supplied.'],
-  functional, checks, rows: rows.map(({ _wire, _continuation, ...row }) => row) };
+  sourceArtifactHashes, functional, checks, rows: rows.map(({ _wire, _continuation, ...row }) => row) };
 writeFileSync(join(root, 'coding-audit.json'), JSON.stringify(audit, null, 2) + '\n', { mode: 0o600 });
 const text = [`# Independent coding audit`, '', `Model: ${requestedModel}. Captured transport attempts: ${rows.length}; valid raw usage: ${validRows.length}; unknown usage: ${audit.totals.unknownUsageAttempts}.`, '',
   `Checks: ${audit.totals.passChecks} PASS, ${failures.length} FAIL, ${unknowns.length} UNKNOWN. Model final text is never used as proof of a patch or passing tests.`, '',

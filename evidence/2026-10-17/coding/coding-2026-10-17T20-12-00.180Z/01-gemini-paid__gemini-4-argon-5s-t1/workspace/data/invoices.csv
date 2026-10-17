@@ -1,5 +1,0 @@
-vendor_id,invoice_id,issued_on,due_on,currency,amount,status,description
-vendor-a,INV-100,2026-01-01,2026-01-31,USD,1.005,open,Small office purchase
-vendor-b,INV-100,2026-01-01,2026-01-31,USD,10.075,open,Shipping adjustment
-vendor-a,CREDIT-1,2026-01-01,2026-01-31,USD,-1.005,open,Returned office item
-vendor-c,LAST,2026-01-01,2026-01-31,USD,2.00,open,Final vendor invoice

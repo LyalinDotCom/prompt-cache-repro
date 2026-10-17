@@ -12,7 +12,7 @@ import type { BenchmarkConfig, RunReport, Scenario } from './core/types';
 
 const CONFIG_FIELDS = new Set([
   'scenario', 'accounts', 'models', 'turns', 'trials', 'gapsSeconds', 'prefixChars', 'deltaChars',
-  'maxOutputTokens', 'toleranceTokens', 'timeoutMs', 'seed', 'maxEstimatedUsd',
+  'maxOutputTokens', 'toleranceTokens', 'timeoutMs', 'seed',
 ]);
 const SCENARIOS = new Set<Scenario>(['replay', 'append', 'agent', 'perturb']);
 
@@ -69,18 +69,15 @@ export function resolveConfig(input: unknown = {}, filters: { accountIds?: strin
   if (!Array.isArray(candidate.gapsSeconds) || !candidate.gapsSeconds.length) throw new Error('gapsSeconds must be a nonempty array.');
   const gapsSeconds = candidate.gapsSeconds.map(gap => numeric(gap, 'Idle gap', 0, 86_400, false));
   if (new Set(gapsSeconds).size !== gapsSeconds.length) throw new Error('Idle gaps must be unique.');
-  const maxEstimatedUsd = numeric(candidate.maxEstimatedUsd, 'Budget', 0, 1_000_000, false);
-  if (maxEstimatedUsd <= 0) throw new Error('Budget must be positive.');
   return {
     scenario: candidate.scenario as Scenario, profiles,
     turns: numeric(candidate.turns, 'Turns', 2, 1000), trials: numeric(candidate.trials, 'Trials', 1, 1000),
     gapsSeconds, prefixChars: numeric(candidate.prefixChars, 'Prefix characters', 1, 99_000),
     deltaChars: numeric(candidate.deltaChars, 'Delta characters', 0, 50_000),
-    maxOutputTokens: numeric(candidate.maxOutputTokens, 'Maximum output tokens', 1, 32_000),
+    maxOutputTokens: numeric(candidate.maxOutputTokens, 'Maximum output tokens', 1, 32_768),
     toleranceTokens: numeric(candidate.toleranceTokens, 'Token tolerance', 0, 100_000),
     timeoutMs: numeric(candidate.timeoutMs, 'Timeout milliseconds', 1, 3_600_000),
     seed: textField(candidate.seed, 'Seed'),
-    maxEstimatedUsd,
   };
 }
 
@@ -126,7 +123,6 @@ Options:
   --model id[,id]      Filter model catalog IDs (repeatable)
   --scenario name      replay | append | agent | perturb
   --turns N --trials N --gaps 0,5,30 --prefix-chars N --delta-chars N
-  --budget USD         Estimated spend guard; provider billing remains authoritative
   --out directory      Output parent directory (default: runs)
   --env path           dotenv path relative to cwd (default: .env; shell values win)
   --dry-run            Validate and print plan; no provider request
@@ -136,7 +132,7 @@ Config accounts own keyEnv references; models own pricing. Matching provider pai
 expand into cells. No literal keys or endpoints belong in config files.
 Exit codes: 0 all observations succeeded (or dry run/report); 1 configuration or
 runtime failure, incomplete trajectory, no successes, or any failed observation;
-2 budget stopped; 130 SIGINT.
+130 SIGINT.
 `;
 
 export function readJsonFile(file: string): unknown {
@@ -152,7 +148,7 @@ export async function main(args = process.argv.slice(2)): Promise<number> {
       scenario: { type: 'string' },
       account: { type: 'string', multiple: true }, model: { type: 'string', multiple: true },
       turns: { type: 'string' }, trials: { type: 'string' }, gaps: { type: 'string' },
-      'prefix-chars': { type: 'string' }, 'delta-chars': { type: 'string' }, budget: { type: 'string' },
+      'prefix-chars': { type: 'string' }, 'delta-chars': { type: 'string' },
       out: { type: 'string' }, 'dry-run': { type: 'boolean' },
     } });
   } catch { throw new Error('Invalid command line. Run with --help for supported flags.'); }
@@ -169,7 +165,7 @@ export async function main(args = process.argv.slice(2)): Promise<number> {
   if (!['run', 'profiles'].includes(command) || parsed.positionals.length > 1) throw new Error('Command must be run, profiles, or report.');
   const raw = values.config ? object(readJsonFile(resolve(String(values.config))), 'Config') : {};
   const override: Record<string, unknown> = { ...raw };
-  for (const [flag, field] of [['turns', 'turns'], ['trials', 'trials'], ['prefix-chars', 'prefixChars'], ['delta-chars', 'deltaChars'], ['budget', 'maxEstimatedUsd']]) {
+  for (const [flag, field] of [['turns', 'turns'], ['trials', 'trials'], ['prefix-chars', 'prefixChars'], ['delta-chars', 'deltaChars']]) {
     if (values[flag] !== undefined) override[field] = Number(values[flag]);
   }
   if (values.scenario !== undefined) override.scenario = values.scenario;
@@ -193,12 +189,8 @@ export async function main(args = process.argv.slice(2)): Promise<number> {
   if (values['dry-run']) {
     const estimate = estimateRun(config);
     console.log(JSON.stringify({ dryRun: true, config, profiles: available, estimate,
-      budgetUsd: config.maxEstimatedUsd, note: 'Character counts are not token counts. No API requests or charges; token costs are estimates until usage is returned.' }, null, 2));
+      note: 'Character counts are not token counts. No API requests or charges; token costs are estimates until usage is returned.' }, null, 2));
     return 0;
-  }
-  const estimate = estimateRun(config);
-  if (estimate.conservativeCostUsd != null && estimate.conservativeCostUsd > config.maxEstimatedUsd) {
-    throw new Error(`Conservative estimated cost $${estimate.conservativeCostUsd.toFixed(3)} exceeds the $${config.maxEstimatedUsd.toFixed(3)} budget. Reduce the workload or set --budget. No provider requests were sent.`);
   }
   if (available.some(profile => !profile.available)) {
     const missing = [...new Set(available.filter(profile => !profile.available).map(profile => profile.keyEnv))].join(', ');
@@ -234,7 +226,6 @@ export async function main(args = process.argv.slice(2)): Promise<number> {
   console.log(toMarkdown(redactArtifacts(latest, secrets)));
   console.log(`Saved results: ${directory}`);
   if (interrupted || latest.status === 'cancelled') return 130;
-  if (latest.status === 'budget-stopped') return 2;
   if (latest.status === 'incomplete') return 1;
   return latest.observations.length > 0 && latest.observations.every(observation => observation.status === 'ok') ? 0 : 1;
 }

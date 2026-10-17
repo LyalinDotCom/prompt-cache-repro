@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { appendFileSync, mkdirSync, readdirSync, renameSync, writeFileSync } from 'node:fs';
+import { appendFileSync, mkdirSync, readdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { access, mkdir, readFile, realpath, writeFile } from 'node:fs/promises';
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { spawn } from 'node:child_process';
@@ -14,7 +14,38 @@ import { redactArtifacts } from '../cli';
 import { extractCapturedUsage } from './transport-usage';
 
 const LEDGER_COMMAND = 'node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json';
+const PI_VERSION = JSON.parse(readFileSync(new URL('../../node_modules/@earendil-works/pi-coding-agent/package.json', import.meta.url), 'utf8')).version as string;
+const PI_AI_VERSION = JSON.parse(readFileSync(new URL('../../node_modules/@earendil-works/pi-ai/package.json', import.meta.url), 'utf8')).version as string;
 const BASH_COMMANDS = ['node --test', 'node --test test/*.test.mjs', 'npm test', LEDGER_COMMAND];
+
+/** Enforce cancellation even for a fetch transport whose response body ignores its signal. */
+function abortableResponse(response: Response, signal: AbortSignal): Response {
+  if (!response.body) return response;
+  const reader = response.body.getReader();
+  let aborted = false;
+  let onAbort = () => {};
+  const body = new ReadableStream<Uint8Array>({
+    start(controller) {
+      onAbort = () => {
+        aborted = true;
+        controller.error(signal.reason ?? new DOMException('Request aborted', 'AbortError'));
+        void reader.cancel(signal.reason).catch(() => {});
+      };
+      if (signal.aborted) onAbort();
+      else signal.addEventListener('abort', onAbort, { once: true });
+    },
+    async pull(controller) {
+      try {
+        const result = await reader.read();
+        if (aborted) return;
+        if (result.done) { signal.removeEventListener('abort', onAbort); controller.close(); }
+        else controller.enqueue(result.value);
+      } catch (error) { if (!aborted) { signal.removeEventListener('abort', onAbort); controller.error(error); } }
+    },
+    cancel(reason) { signal.removeEventListener('abort', onAbort); void reader.cancel(reason).catch(() => {}); },
+  });
+  return new Response(body, { status: response.status, statusText: response.statusText, headers: response.headers });
+}
 
 export interface CodingRequest {
   index: number; endpoint: string; startedAt: string; completedAt: string | null;
@@ -31,7 +62,8 @@ export interface CodingTrialReport {
 }
 export interface CodingTrialOptions {
   profile: Profile; apiKey: string; cwd: string; prompt: string; outDir: string;
-  maxRequests?: number; maxOutputTokens?: number; timeoutMs?: number;
+  maxOutputTokens?: number; timeoutMs?: number;
+  reasoningLevel?: 'low' | 'medium' | 'high';
   requestTimeoutMs?: number; gapSeconds?: number; signal?: AbortSignal;
   onRequest?: (report: CodingTrialReport, request: CodingRequest) => void | Promise<void>;
   /** Offline integration tests only; production defaults to native fetch. */
@@ -107,21 +139,21 @@ export async function runCodingTrial(options: CodingTrialOptions): Promise<Codin
   const outDir = resolve(options.outDir), cwd = await realpath(options.cwd);
   mkdirSync(join(outDir, 'requests'), { recursive: true, mode: 0o700 });
   const scrub = <T>(value: T): T => redactArtifacts(value, [options.apiKey]);
-  const maxRequests = options.maxRequests ?? 12;
-  const maxTokens = options.maxOutputTokens ?? 4096;
+  const maxTokens = options.maxOutputTokens ?? 32768;
+  const timeoutMs = options.timeoutMs ?? 20 * 60 * 1000;
   // Pi's Google adapter rejects a custom per-request fetch. Its SDK uses the
   // native global fetch; capture that boundary only for sequential Gemini trials.
   const previousGlobalFetch = globalThis.fetch;
   const transportFetch = options.transport ?? previousGlobalFetch;
   let globalFetchPatched = false;
-  const requestTimeoutMs = options.requestTimeoutMs ?? 90_000;
+  const requestTimeoutMs = options.requestTimeoutMs ?? timeoutMs;
   const gapMs = (options.gapSeconds ?? 5) * 1000;
   const controller = new AbortController();
   const externalAbort = () => { report.stopReason ||= 'Caller cancellation'; controller.abort(); };
   const settings = { cacheWarming: 'off', compaction: { enabled: false }, retry: { enabled: false, provider: { maxRetries: 0, timeoutMs: requestTimeoutMs } } } as const;
   const report: CodingTrialReport = {
     schemaVersion: 1, profile: structuredClone(options.profile), cwd, startedAt: new Date().toISOString(), finishedAt: null,
-    status: 'running', stopReason: null, settings: { piVersion: '1.3.0', ...settings, maxRequests, maxTokens, gapSeconds: gapMs / 1000, timeoutMs: options.timeoutMs ?? 480_000, tools: ['read', 'edit', 'write', 'bash'], bashCommand: 'node --test', mutablePaths: ['src/', 'bin/'], runtime: 'node', auth: 'explicit paid API key; operator-declared tier' },
+    status: 'running', stopReason: null, settings: { piVersion: PI_VERSION, piAiVersion: PI_AI_VERSION, ...settings, reasoningLevel: options.reasoningLevel ?? 'high', maxTokens, gapSeconds: gapMs / 1000, timeoutMs, termination: 'natural completion or session deadline; no request-count or spending cutoff', tools: ['read', 'edit', 'write', 'bash'], bashCommand: 'node --test', mutablePaths: ['src/', 'bin/'], runtime: 'node', auth: 'explicit paid API key; operator-declared tier' },
     requests: [], finalText: '', warnings: ['Pi streaming API arm; compare separately from earlier synthetic nonstreaming runs.', 'Tool file operations are path-restricted; test and CLI children have empty environments. This is a trusted fixture workflow, not an operating-system sandbox.'],
   };
   report.settings.allowedBashCommands = BASH_COMMANDS;
@@ -135,7 +167,7 @@ export async function runCodingTrial(options: CodingTrialOptions): Promise<Codin
   writeFileSync(join(outDir, 'initial-prompt.txt'), scrub(options.prompt), { mode: 0o600 });
   options.signal?.addEventListener('abort', externalAbort, { once: true });
   if (options.signal?.aborted) externalAbort();
-  const deadline = setTimeout(() => { report.stopReason = 'Trial deadline'; controller.abort(); }, options.timeoutMs ?? 480_000);
+  const deadline = setTimeout(() => { report.stopReason = 'Trial deadline'; controller.abort(); }, timeoutMs);
   let previousCompleted = 0;
   let inferenceHttpRequests = 0;
   let lastCapture: Promise<void> = Promise.resolve();
@@ -149,7 +181,6 @@ export async function runCodingTrial(options: CodingTrialOptions): Promise<Codin
       controller.abort();
       throw new Error(report.stopReason);
     }
-    if (report.requests.length >= maxRequests) { report.stopReason = 'Maximum API request count reached'; controller.abort(); throw new Error(report.stopReason); }
     const url = new URL(input instanceof Request ? input.url : String(input));
     if (url.origin !== permittedOrigin) throw new Error('Pi attempted a nonapproved provider origin.');
     if (previousCompleted) {
@@ -174,7 +205,7 @@ export async function runCodingTrial(options: CodingTrialOptions): Promise<Codin
     const started = performance.now();
     const requestSignal = AbortSignal.any([controller.signal, ...(init?.signal ? [init.signal] : []), AbortSignal.timeout(requestTimeoutMs)]);
     let response: Response;
-    try { response = await transportFetch(input, { ...init, signal: requestSignal }); }
+    try { response = abortableResponse(await transportFetch(input, { ...init, signal: requestSignal }), requestSignal); }
     catch (error) { request.error = scrub(error instanceof Error ? error.message : String(error)); request.completedAt = new Date().toISOString(); request.durationMs = performance.now() - started; previousCompleted = performance.now(); save(); await options.onRequest?.(report, request); throw new Error(request.error); }
     request.httpStatus = response.status;
     const clone = response.clone();
@@ -215,7 +246,7 @@ export async function runCodingTrial(options: CodingTrialOptions): Promise<Codin
       extendResources: () => {}, reload: async () => {},
     };
     const created = await createAgentSession({ cwd, agentDir: join(outDir, 'pi-state'), model, modelRuntime: runtime,
-      thinkingLevel: 'low', resourceLoader, tools: ['read', 'bash', 'edit', 'write'],
+      thinkingLevel: options.reasoningLevel ?? 'high', resourceLoader, tools: ['read', 'bash', 'edit', 'write'],
       customTools: await createRestrictedCodingTools(cwd) as unknown as ToolDefinition[], sessionManager: SessionManager.inMemory(cwd),
       settingsManager: SettingsManager.inMemory(settings),
     });

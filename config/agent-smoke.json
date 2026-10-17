@@ -21,6 +21,5 @@
   "maxOutputTokens": 512,
   "toleranceTokens": 64,
   "timeoutMs": 120000,
-  "seed": "cachebench-agent-smoke-v1",
-  "maxEstimatedUsd": 5
+  "seed": "cachebench-agent-smoke-v1"
 }

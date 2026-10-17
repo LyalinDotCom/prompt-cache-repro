@@ -19,7 +19,7 @@ export interface BenchmarkConfig {
   scenario: Scenario; profiles: Profile[]; turns: number; trials: number;
   gapsSeconds: number[]; prefixChars: number; deltaChars: number;
   maxOutputTokens: number; toleranceTokens: number; timeoutMs: number;
-  seed: string; maxEstimatedUsd: number;
+  seed: string;
 }
 export interface TokenUsage {
   inputTokens: number; cachedReadTokens: number | null;
@@ -79,7 +79,7 @@ export interface CellSummary {
 }
 export interface RunReport {
   schemaVersion: 1; runId: string; createdAt: string; finishedAt: string | null;
-  status: 'running' | 'completed' | 'cancelled' | 'budget-stopped' | 'incomplete';
+  status: 'running' | 'completed' | 'cancelled' | 'incomplete';
   runtime: 'browser' | 'node' | 'test'; config: BenchmarkConfig;
   observations: Observation[]; summaries: CellSummary[];
   warnings: string[]; sdkVersions: Record<string, string>;

@@ -10,4 +10,4 @@
 - No backward-compatibility layers. Maintain one current configuration format: accounts and models. Internal resolved experiment cells may be called profiles.
 - GitHub repository must remain private. Push stable changes directly to `main`; do not create pull requests. Keep the Sites deployment synchronized with stable source.
 - Use GPT-6.1 Sol at high reasoning effort or a stronger model/effort for delegated building, design, review, and testing. Do not optimize down to weaker agents.
-- Before pushing code, run `npm test` and `npm run build`. Exercise affected browser flows. Live tests require valid user-provided keys, conservative spending guards, and explicit sample-size limitations.
+- Before pushing code, run `npm test` and `npm run build`. Exercise affected browser flows. Live tests require valid user-provided keys and explicit sample-size limitations. Coding sessions have no spending or request-count cutoff: allow natural completion with a 20-minute per-session deadline, as explicitly requested by the operator. Record cost estimates as observations only.

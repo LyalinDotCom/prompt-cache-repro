@@ -1,4 +1,0 @@
-payment_id,vendor_id,invoice_id,paid_on,currency,amount
-p-a,vendor-a,INV-100,2026-01-15,USD,0.50
-p-b,vendor-b,INV-100,2026-01-16,USD,5.00
-p-c,vendor-c,LAST,2026-01-17,USD,2.00
