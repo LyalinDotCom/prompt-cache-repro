@@ -49,7 +49,7 @@ A configured spend guard uses a conservative preflight estimate plus observed us
 
 Key environment names initially: `GEMINI_API_KEY`, `ANTHROPIC_API_KEY`, `CODEX_API_KEY` (OpenAI API). Multiple keys for a provider use separate account IDs, labels, `keyEnv` references, and declared tiers, independently of the model catalog. There are no legacy configuration formats. Account billing tier cannot be inferred reliably from a key and is explicitly user declared. Free keys that cannot access a paid-only model record access errors.
 
-Reports include complete public run configuration and rate cards. Every grouping includes profile, provider, model, scenario, and gap so tiers and workloads are not silently pooled. A downloaded/imported run can be reanalyzed offline without keys or more API spending. Results survive CLI interruption; browser results must be downloaded before closing/reloading the page.
+Reports include complete public run configuration and rate cards. Every grouping includes profile, provider, model, scenario, and gap so tiers and workloads are not silently pooled. A downloaded/imported run can be viewed and exported offline without keys or more API spending. Raw evidence is retained for independent reanalysis. Results survive CLI interruption; browser results must be downloaded before closing/reloading the page.
 
 ## Validation and first live data
 
