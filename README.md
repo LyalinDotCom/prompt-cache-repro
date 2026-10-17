@@ -57,6 +57,10 @@ Full-hit classification compares cached reads to the previous request's input co
 
 The small default configurations establish behavior and telemetry. The optional `retention.json` sweep is much longer; inspect its request count, duration, and conservative cost estimate with `--dry-run` first. Spend guards cannot enforce provider-side billing limits.
 
+## First measured data
+
+[Initial results and limitations](docs/INITIAL_RESULTS.md) include 50 real public API attempts, with complete raw evidence retained for all six runs.
+
 ## Project documents
 
 - [Implementation contract](docs/IMPLEMENTATION.md)
