@@ -1,10 +1,10 @@
 # Cachebench
 
-**An unofficial community project.** Not affiliated with or endorsed by Google, OpenAI, Anthropic, or Theo. Experimental results are not guaranteed to be accurate. Feedback and methodology corrections are welcome through [GitHub issues](https://github.com/LyalinDotCom/prompt-cache-repro/issues); **pull requests are not accepted**. The repository is private for now. Licensed under [Apache 2.0](LICENSE).
+**An unofficial community project.** Not affiliated with or endorsed by Google, OpenAI, Anthropic, or Theo. Experimental results are not guaranteed to be accurate. Feedback and methodology corrections are welcome through [GitHub issues](https://github.com/LyalinDotCom/prompt-cache-repro/issues); **pull requests are not accepted**. Licensed under [Apache 2.0](LICENSE).
 
 Our goal is credible outside-in evidence about prompt-cache reuse during real coding-agent work. The coding harness runs Pi against public provider APIs, retains serialized requests and raw responses, and independently checks patches and tests. The browser contains separate diagnostic controls.
 
-**[Read the report: did we reproduce Theo’s criticism?](docs/LATEST_RESULTS.md)** Not yet. Gemini showed roughly 2K-token cache-counter shortfalls and fewer strict matches than the controls, but we have not established the cause or reproduced the reported cost impact. High aggregate token reuse does not settle the claim. The report explains the findings, the limits, and what engineering can investigate. Its [current evidence](results/latest/) contains raw request/response archives, per-turn data, audits, and independently replayed repairs. Previous experimental evidence and excluded calibration are retained only in private Git history.
+**[Read the report: did we reproduce Theo’s criticism?](docs/LATEST_RESULTS.md)** Not yet. Gemini showed roughly 2K-token cache-counter shortfalls and fewer strict matches than the controls, but we have not established the cause or reproduced the reported cost impact. High aggregate token reuse does not settle the claim. The report explains the findings, the limits, and what engineering can investigate. Its [current evidence](results/latest/) contains raw request/response archives, per-turn data, audits, and independently replayed repairs. Previous experimental evidence and excluded calibration are retained only in Git history.
 
 ## Run locally
 

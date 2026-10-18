@@ -60,7 +60,7 @@ However, most of that large context was loaded at the start as repository files.
 
 The confirmation itself completed 7 of its 8 planned repairs; the separate replacement completed the remaining pair. Both cohorts used clean source commit [`fda0dec`](https://github.com/LyalinDotCom/prompt-cache-repro/tree/fda0decb803e08b7f65366ea5ace8a2b13422c9e). The complete responses all passed their frozen independent audits. The only unknown telemetry belongs to the initial connection failure. No measured response was excluded for an integrity failure.
 
-Earlier qualification/calibration attempts are **not pooled** here. Five-second calibration exposed Flash quota errors and Pi’s 272K catalog capacity reducing GPT’s output allowance. Before this confirmation, pacing was set to 30 seconds for all models and GPT’s in-memory capacity was set to its documented 1,050,000-token public API window. Calibration was checkpointed in [private Git history](https://github.com/LyalinDotCom/prompt-cache-repro/tree/ec4fba4/results/excluded-calibration) and removed from the checkout.
+Earlier qualification/calibration attempts are **not pooled** here. Five-second calibration exposed Flash quota errors and Pi’s 272K catalog capacity reducing GPT’s output allowance. Before this confirmation, pacing was set to 30 seconds for all models and GPT’s in-memory capacity was set to its documented 1,050,000-token public API window. Calibration was checkpointed in [Git history](https://github.com/LyalinDotCom/prompt-cache-repro/tree/ec4fba4/results/excluded-calibration) and removed from the checkout.
 
 ## Evidence and reproducibility
 
