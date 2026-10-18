@@ -12,11 +12,11 @@ import { InMemoryCredentialStore } from '@earendil-works/pi-ai';
 import type { Profile, TokenUsage } from '../core/types';
 import { redactArtifacts } from '../cli';
 import { extractCapturedUsage } from './transport-usage';
+import { LEDGER_FIXTURE, type CodingFixtureSpec } from './fixture';
 
-const LEDGER_COMMAND = 'node bin/ledger.mjs import data/invoices.csv --payments data/payments.csv --as-of 2026-03-01 --format json';
 const PI_VERSION = JSON.parse(readFileSync(new URL('../../node_modules/@earendil-works/pi-coding-agent/package.json', import.meta.url), 'utf8')).version as string;
 const PI_AI_VERSION = JSON.parse(readFileSync(new URL('../../node_modules/@earendil-works/pi-ai/package.json', import.meta.url), 'utf8')).version as string;
-const BASH_COMMANDS = ['node --test', 'node --test test/*.test.mjs', 'npm test', LEDGER_COMMAND];
+
 
 /** Enforce cancellation even for a fetch transport whose response body ignores its signal. */
 function abortableResponse(response: Response, signal: AbortSignal): Response {
@@ -64,6 +64,7 @@ export interface CodingTrialOptions {
   profile: Profile; apiKey: string; cwd: string; prompt: string; outDir: string;
   maxOutputTokens?: number; timeoutMs?: number;
   reasoningLevel?: 'low' | 'medium' | 'high';
+  fixture?: CodingFixtureSpec;
   requestTimeoutMs?: number; gapSeconds?: number; signal?: AbortSignal;
   onRequest?: (report: CodingTrialReport, request: CodingRequest) => void | Promise<void>;
   /** Offline integration tests only; production defaults to native fetch. */
@@ -76,7 +77,9 @@ function inside(root: string, target: string): boolean {
 }
 
 /** Native Pi file operations, constrained to the disposable fixture and its source files. */
-export async function createRestrictedCodingTools(cwd: string) {
+export async function createRestrictedCodingTools(cwd: string, fixture: CodingFixtureSpec = LEDGER_FIXTURE) {
+  const cliCommand = `node ${fixture.cliArgs.join(' ')}`;
+  const bashCommands = ['node --test', 'node --test test/*.test.mjs', 'npm test', cliCommand];
   const root = await realpath(cwd);
   async function checked(path: string, mutable = false): Promise<string> {
     const absolute = resolve(root, path);
@@ -108,11 +111,11 @@ export async function createRestrictedCodingTools(cwd: string) {
       spawnHook: context => ({ ...context, cwd: root, env: {} }),
       operations: {
         exec: async (command, _cwd, options) => {
-          if (!BASH_COMMANDS.includes(command.trim())) throw new Error(`Allowed commands are exactly: ${BASH_COMMANDS.join(' | ')}. Use read/edit/write for file operations; shell combinations are not permitted.`);
+          if (!bashCommands.includes(command.trim())) throw new Error(`Allowed commands are exactly: ${bashCommands.join(' | ')}. Use read/edit/write for file operations; shell combinations are not permitted.`);
           // Both accepted spellings execute the dependency-free fixture suite directly.
           return new Promise<{ exitCode: number }>((resolveRun, reject) => {
-            const files = command.trim() === 'node --test test/*.test.mjs' ? readdirSync(join(root, 'test')).filter(name => name.endsWith('.test.mjs')).sort().map(name => join('test', name)) : [];
-            const args = command.trim() === LEDGER_COMMAND ? LEDGER_COMMAND.split(' ').slice(1) : ['--test', ...files];
+            const files = readdirSync(join(root, 'test')).filter(name => name.endsWith('.test.mjs')).sort().map(name => join('test', name));
+            const args = command.trim() === cliCommand ? fixture.cliArgs : ['--test', ...files];
             const child = spawn(process.execPath, args, { cwd: root, env: {}, stdio: ['ignore', 'pipe', 'pipe'] });
             let bytes = 0;
             const data = (chunk: Buffer) => { if (bytes < 1_000_000) options.onData(chunk.subarray(0, 1_000_000 - bytes)); bytes += chunk.length; };
@@ -128,8 +131,8 @@ export async function createRestrictedCodingTools(cwd: string) {
     }),
   ];
   const bash = tools.find(tool => tool.name === 'bash')!;
-  bash.description = `Run the actual test suite or ledger CLI inside this repository. Only these exact commands are allowed: ${BASH_COMMANDS.map(command => `\`${command}\``).join('; ')}. No compound commands, shell operators, network, or package installation. Use read/edit/write for inspection and source changes. npm test is an alias for the same direct Node test suite. Each process has a clean environment and a 30-second limit.`;
-  bash.promptSnippet = 'Run the fixed repository test suite and ledger CLI commands';
+  bash.description = `Run the actual test suite or fixture CLI inside this repository. Only these exact commands are allowed: ${bashCommands.map(command => `\`${command}\``).join('; ')}. No compound commands, shell operators, network, or package installation. Use read/edit/write for inspection and source changes. npm test is an alias for the same direct Node test suite. Each process has a clean environment and a 30-second limit.`;
+  bash.promptSnippet = 'Run the fixed repository test suite and fixture CLI commands';
   bash.promptGuidelines = ['Use only the exact commands listed in the bash tool description. Use read for file inspection.'];
   return tools;
 }
@@ -156,7 +159,8 @@ export async function runCodingTrial(options: CodingTrialOptions): Promise<Codin
     status: 'running', stopReason: null, settings: { piVersion: PI_VERSION, piAiVersion: PI_AI_VERSION, ...settings, reasoningLevel: options.reasoningLevel ?? 'high', maxTokens, gapSeconds: gapMs / 1000, timeoutMs, termination: 'natural completion or session deadline; no request-count or spending cutoff', tools: ['read', 'edit', 'write', 'bash'], bashCommand: 'node --test', mutablePaths: ['src/', 'bin/'], runtime: 'node', auth: 'explicit paid API key; operator-declared tier' },
     requests: [], finalText: '', warnings: ['Pi streaming API arm; compare separately from earlier synthetic nonstreaming runs.', 'Tool file operations are path-restricted; test and CLI children have empty environments. This is a trusted fixture workflow, not an operating-system sandbox.'],
   };
-  report.settings.allowedBashCommands = BASH_COMMANDS;
+  report.settings.fixture = options.fixture ?? LEDGER_FIXTURE;
+  report.settings.allowedBashCommands = ['node --test', 'node --test test/*.test.mjs', 'npm test', `node ${(options.fixture ?? LEDGER_FIXTURE).cliArgs.join(' ')}`];
   const save = () => {
     const target = join(outDir, 'coding-report.json');
     writeFileSync(`${target}.tmp`, JSON.stringify(scrub(report), null, 2) + '\n', { mode: 0o600 });
@@ -183,11 +187,11 @@ export async function runCodingTrial(options: CodingTrialOptions): Promise<Codin
     }
     const url = new URL(input instanceof Request ? input.url : String(input));
     if (url.origin !== permittedOrigin) throw new Error('Pi attempted a nonapproved provider origin.');
-    if (previousCompleted) {
+    while (previousCompleted && performance.now() < previousCompleted + gapMs) {
       const remaining = Math.max(0, previousCompleted + gapMs - performance.now());
       if (remaining) await new Promise<void>((done, fail) => {
         const abort = () => { clearTimeout(timer); fail(new DOMException('Coding trial stopped.', 'AbortError')); };
-        const timer = setTimeout(() => { controller.signal.removeEventListener('abort', abort); done(); }, remaining);
+        const timer = setTimeout(() => { controller.signal.removeEventListener('abort', abort); done(); }, Math.ceil(remaining));
         controller.signal.addEventListener('abort', abort, { once: true });
       });
     }
@@ -247,7 +251,7 @@ export async function runCodingTrial(options: CodingTrialOptions): Promise<Codin
     };
     const created = await createAgentSession({ cwd, agentDir: join(outDir, 'pi-state'), model, modelRuntime: runtime,
       thinkingLevel: options.reasoningLevel ?? 'high', resourceLoader, tools: ['read', 'bash', 'edit', 'write'],
-      customTools: await createRestrictedCodingTools(cwd) as unknown as ToolDefinition[], sessionManager: SessionManager.inMemory(cwd),
+      customTools: await createRestrictedCodingTools(cwd, options.fixture) as unknown as ToolDefinition[], sessionManager: SessionManager.inMemory(cwd),
       settingsManager: SettingsManager.inMemory(settings),
     });
     session = created.session;
@@ -280,7 +284,7 @@ export async function runCodingTrial(options: CodingTrialOptions): Promise<Codin
     await Promise.allSettled(captures);
     report.finalText = session.getLastAssistantText() ?? '';
     const last = session.messages.filter(message => message.role === 'assistant').at(-1);
-    if (last && 'stopReason' in last && ['error', 'aborted'].includes(String(last.stopReason))) report.stopReason ||= `Pi assistant ${last.stopReason}`;
+    if (last && 'stopReason' in last && ['error', 'aborted', 'length'].includes(String(last.stopReason))) report.stopReason ||= `Pi assistant ${last.stopReason}`;
     report.status = controller.signal.aborted || report.stopReason ? 'stopped' : 'completed';
     writeFileSync(join(outDir, 'messages.json'), JSON.stringify(scrub(session.messages), null, 2) + '\n', { mode: 0o600 });
   } catch (error) { report.status = controller.signal.aborted ? 'stopped' : 'error'; report.stopReason ||= scrub(error instanceof Error ? error.message : String(error)); }

@@ -123,7 +123,7 @@ const rateCards: Record<string, [number, number, number, number]> = {
   'gemini-4-argon': [2, .1, 2, 10], 'gemini-3.8-flash': [.75, .075, .75, 3.75],
   'gpt-6.1-sol': [2, .1, 2.5, 10], 'claude-opus-5-5': [4, .2, 5, 20], 'claude-sonnet-5-5': [2, .1, 2.5, 10],
 };
-const provider = report.profile.provider, requestedModel = report.profile.model, rate = rateCards[requestedModel];
+const provider = report.profile.provider, requestedModel = report.profile.model, baseRate = rateCards[requestedModel];
 const rows: J[] = [];
 for (const [position, request] of report.requests.entries()) {
   const id = `request-${request.index}`;
@@ -144,6 +144,8 @@ for (const [position, request] of report.requests.entries()) {
   check('raw-usage-copy-agrees', id, native.usage && request.completedAt ? equal(native.usage, request.rawUsage) : null);
   const declared = request.usage;
   if (tokens) check('reported-normalized-partition-agrees', id, request.completedAt ? !!declared && declared.inputTokens === tokens.input && declared.cachedReadTokens === tokens.read && declared.cacheWriteTokens === tokens.write && declared.uncachedInputTokens === tokens.ordinary && declared.outputTokens === tokens.output : null);
+  const longContext = requestedModel === 'gpt-6.1-sol' && tokens && tokens.input > 272000;
+  const rate = baseRate ? baseRate.map((value: number, index: number) => value * (longContext ? index === 3 ? 1.5 : 2 : 1)) : null;
   const costs = tokens && rate ? { inputUsd: (tokens.ordinary * rate[0] + tokens.read * rate[1] + tokens.write * rate[2]) / 1e6, outputUsd: tokens.output * rate[3] / 1e6 } : null;
   const previous = rows.at(-1), previousTokens = previous?.tokens;
   let exactWireHistoryPrefixPreserved: boolean | null = null;
@@ -184,6 +186,7 @@ for (const [position, request] of report.requests.entries()) {
     httpStatus: request.httpStatus, startedAt: request.startedAt, durationMs: request.durationMs, actualIdleGapMs: request.actualIdleGapMs,
     requestFile: request.requestFile, responseFile: request.responseFile, requestHash: request.requestHash,
     recordedTransportAttemptCount: request.transportAttemptCount ?? null,
+    appliedRatesPerMillion: rate ? { ordinary: rate[0], read: rate[1], write: rate[2], output: rate[3] } : null, pricingContext: longContext ? 'long' : 'standard',
     rawUsage: native.usage, usageSnapshots: native.snapshots, terminal: native.terminal, malformedFrames: parsed.malformedFrames,
     tokens, independentCosts: costs, reuse, capturedError: request.error ?? null,
     nativeSignatureValues: continuation.signatures.length, nativeToolCallIds: continuation.toolCallIds.length,
@@ -197,7 +200,7 @@ if (existsSync(functionalFile)) {
   const f = JSON.parse(readEvidence(functionalFile)) as J;
   const readOutput = (r: J, key: string): string | null => { try { return readEvidence(safeArtifact(r[key])); } catch { return null; } };
   const before: J = f.beforeHashes ?? {}, after: J = f.afterHashes ?? {};
-  const immutable = Object.keys(before).filter(p => /^(test\/|data\/|TASK\.md$|README\.md$|package\.json$)/.test(p));
+  const immutable = Object.keys(before).filter(p => !/^(src|bin)\//.test(p));
   const changedSource = Object.keys(after).filter(p => /^(src\/|bin\/)/.test(p) && before[p] !== after[p]);
   check('actual-baseline-process-failed', 'functional', integer(f.baseline?.exitCode) ? f.baseline.exitCode !== 0 : null, f.baseline?.exitCode);
   check('actual-final-process-passed', 'functional', integer(f.final?.exitCode) ? f.final.exitCode === 0 : null, f.final?.exitCode);
@@ -211,7 +214,7 @@ if (existsSync(functionalFile)) {
   check('actual-source-diff-present', 'functional', patch === null ? null : /^diff --git [^\n]*\/(?:src|bin)\/[^\n]+$/m.test(patch) && /^@@/m.test(patch));
   const actualAfterMismatches: string[] = [];
   for (const [path, expected] of Object.entries(after)) {
-    if (!/^(src\/|bin\/|test\/|data\/|TASK\.md$|README\.md$|package\.json$)/.test(path) || path.includes('..')) continue;
+    if (path.includes('..') || path.startsWith('/')) { actualAfterMismatches.push(path); continue; }
     try { if (digest(readEvidence(join(report.cwd, path))) !== expected) actualAfterMismatches.push(path); }
     catch { actualAfterMismatches.push(path); }
   }
@@ -221,7 +224,10 @@ if (existsSync(functionalFile)) {
     let result: J | null = null;
     const output = readOutput(f.finalCli, 'stdoutFile');
     try { result = output === null ? null : JSON.parse(output); } catch { /* Unknown JSON output. */ }
-    check('actual-final-cli-demo-passed', 'functional', result ? f.finalCli.exitCode === 0 && result.counts?.sourceRows === 4 && result.counts?.accepted === 4 && (!Array.isArray(result.errors) || result.errors.length === 0) : null);
+    const specFile = join(root, 'fixture-spec.json');
+    const spec = existsSync(specFile) ? JSON.parse(readEvidence(specFile)) : { id: 'coding-ledger', expectedCli: { counts: { sourceRows: 4, accepted: 4, rejected: 0, conflicts: 0 } } };
+    const matches = (actual: any, expected: any): boolean => expected === null || typeof expected !== 'object' ? actual === expected : actual !== null && typeof actual === 'object' && Object.entries(expected).every(([key, value]) => matches(actual[key], value));
+    check('actual-final-cli-demo-passed', 'functional', result ? f.finalCli.exitCode === 0 && matches(result, spec.expectedCli) : null);
     finalCli = { exitCode: f.finalCli.exitCode ?? null, verifiedAfterTrial: f.finalCli.verifiedAfterTrial === true, counts: result?.counts ?? null, stdoutFile: f.finalCli.stdoutFile };
   }
   functional = { baselineExitCode: f.baseline?.exitCode ?? null, finalExitCode: f.final?.exitCode ?? null, immutableFileCount: immutable.length, changedSourceFiles: changedSource, patchFile: f.patchFile ?? null, finalCli };
@@ -235,14 +241,15 @@ const theoreticalInputUsd = followups.reduce((sum, x) => sum + (x.reuse.fullPrio
 const eligibleInputUsd = frontierRows.reduce((sum, x) => sum + (x.reuse.eligibleFrontierCounterfactualUsd ?? 0), 0);
 const audit = { schemaVersion: 1, generatedAt: new Date().toISOString(), trialRoot: root, provider, requestedModel, reportStatus: report.status, stopReason: report.stopReason,
   derivation: 'Independent raw SSE/JSON parsing. OpenAI terminal usage only; Gemini latest usageMetadata; Anthropic start/delta counters overwrite cumulative values, never sum. No application imports.',
-  ratesAsOf: '2026-10-17', ratesPerMillion: rate ? { ordinary: rate[0], read: rate[1], write: rate[2], output: rate[3] } : null,
+  auditorSourceSha256: digest(readFileSync(new URL(import.meta.url), 'utf8')),
+  ratesAsOf: '2026-10-17', standardRatesPerMillion: baseRate ? { ordinary: baseRate[0], read: baseRate[1], write: baseRate[2], output: baseRate[3] } : null, appliedRatesPerRequest: true,
   totals: { capturedTransportAttempts: rows.length, validRawUsageAttempts: validRows.length, unknownUsageAttempts: rows.filter(x => !x.tokens).length,
     usageBasedInputUsd: validRows.reduce((sum, x) => sum + (x.independentCosts?.inputUsd ?? 0), 0), usageBasedOutputUsd: validRows.reduce((sum, x) => sum + (x.independentCosts?.outputUsd ?? 0), 0),
     followupDenominator: followups.length, priorInputBelow95Percent: followups.filter(x => x.reuse.priorInputBelow95Percent).length,
     eligibleFrontierDenominator: frontierRows.length, eligibleFrontierFullyReused: frontierRows.filter(x => x.reuse.eligibleFrontierFullyReused).length,
-    followupActualInputUsd, fullPriorInputCounterfactualUsd: followups.length && rate ? theoreticalInputUsd : null,
+    followupActualInputUsd, fullPriorInputCounterfactualUsd: followups.length && baseRate ? theoreticalInputUsd : null,
     followupActualVsFullPriorInputCounterfactual: theoreticalInputUsd > 0 ? followupActualInputUsd / theoreticalInputUsd : null,
-    eligibleFrontierCounterfactualUsd: frontierRows.length && rate ? eligibleInputUsd : null,
+    eligibleFrontierCounterfactualUsd: frontierRows.length && baseRate ? eligibleInputUsd : null,
     followupActualVsEligibleFrontierCounterfactual: eligibleInputUsd > 0 ? frontierRows.reduce((sum, x) => sum + x.independentCosts.inputUsd, 0) / eligibleInputUsd : null,
     passChecks: checks.length - failures.length - unknowns.length, failChecks: failures.length, unknownChecks: unknowns.length },
   limitations: ['Each record is one captured fetch invocation; logical model-request retries may produce multiple records and must not be collapsed.', 'Missing raw usage stays unknown. Interrupted or unreported charges can exceed known usage costs.', 'Gemini has no exposed implicit-write frontier; prior-input coverage is descriptive, not documented eligibility.', 'A patch and passing tests establish this task result, not general coding quality.', 'A functional qualification is unknown until actual baseline/final command outputs and immutable test hashes are supplied.'],

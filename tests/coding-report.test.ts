@@ -38,3 +38,14 @@ it('rejects undeclared sessions and stops stale audits from contributing telemet
   mkdirSync(join(root, 'stray')); writeFileSync(join(root, 'stray', 'coding-report.json'), '{}');
   expect(() => summarize(root)).toThrow();
 });
+
+it('retains valid cache observations when a repair fails functional acceptance', () => {
+  const root = study(), path = join(root, 'paid', 'coding-audit.json');
+  const audit = JSON.parse(readFileSync(path, 'utf8'));
+  audit.checks.push({ id: 'functional', verdict: 'FAIL', check: 'actual-final-process-passed' });
+  writeFileSync(path, JSON.stringify(audit));
+  const result = summarize(root);
+  expect(result.models[0].followups).toBe(1);
+  expect(result.models[0].verifiedRepairs).toBe(0);
+  expect(result.trials[0].auditFailures).toBe(1);
+});

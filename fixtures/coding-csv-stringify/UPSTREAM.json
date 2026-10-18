@@ -1,0 +1,1803 @@
+{
+  "repository": "https://github.com/adaltas/node-csv",
+  "commit": "f12e6862a41f4324a06a26c87a3e28031d4faa7f",
+  "selection": "All unique .js/.ts/.md source, tests, examples and docs excluding generated dist, declaration duplicates, browser samples and www; no repeated files or random padding. lib code is executable under src/upstream; other upstream material is immutable reference.",
+  "files": {
+    "reference/upstream/.github/ISSUE_TEMPLATE/bug_report.md": {
+      "upstreamPath": ".github/ISSUE_TEMPLATE/bug_report.md",
+      "sha256": "91798286c7b1730ce31671ff7756e689c1992d378cc446197fe16c74ce6a976d"
+    },
+    "reference/upstream/.github/ISSUE_TEMPLATE/feature_request.md": {
+      "upstreamPath": ".github/ISSUE_TEMPLATE/feature_request.md",
+      "sha256": "4b5234a7dafa4b1553eecabdb3bd98a5352775395bf64ee09c38b20fb554a085"
+    },
+    "reference/upstream/CODE_OF_CONDUCT.md": {
+      "upstreamPath": "CODE_OF_CONDUCT.md",
+      "sha256": "c0dd5809cd63ab4d444a606c4e32045aab69c78ea9426e50e5af411c47fa69a2"
+    },
+    "reference/upstream/CONTRIBUTING.md": {
+      "upstreamPath": "CONTRIBUTING.md",
+      "sha256": "3a031177ec7b1f3df39995940e28dbec8f2347db87cfcbf898bdfc1450ab2470"
+    },
+    "reference/upstream/README.md": {
+      "upstreamPath": "README.md",
+      "sha256": "f45918ec7c957efb7f0f3e80ff8d1e50dcbf861e1bf4e0d06613c61b47e7ab64"
+    },
+    "reference/upstream/commitlint.config.js": {
+      "upstreamPath": "commitlint.config.js",
+      "sha256": "722093942b1047cc55354bd41daac85c7f193292108855a5529f5c8e244cb934"
+    },
+    "reference/upstream/demo/browser/CHANGELOG.md": {
+      "upstreamPath": "demo/browser/CHANGELOG.md",
+      "sha256": "0626652f2d74f9559857b01cac754ede0772ec90b162899e2bc8f2e7866e3b5b"
+    },
+    "reference/upstream/demo/browser/README.md": {
+      "upstreamPath": "demo/browser/README.md",
+      "sha256": "b36edeb398ac1f6d465ca1fc27caab4899e1c67dcaa6afc733cca5721d64047f"
+    },
+    "reference/upstream/demo/browser/server.js": {
+      "upstreamPath": "demo/browser/server.js",
+      "sha256": "e1fc8f64d1879fc453b58b24d061a4fb1c154139bd45665fd97fbbb7c78ea6ab"
+    },
+    "reference/upstream/demo/cjs/CHANGELOG.md": {
+      "upstreamPath": "demo/cjs/CHANGELOG.md",
+      "sha256": "20846197a9ac3c51941a695790d69a421ffe3b1d1a86d2627eaa4fc527684241"
+    },
+    "reference/upstream/demo/cjs/README.md": {
+      "upstreamPath": "demo/cjs/README.md",
+      "sha256": "9d42a83dc99a4f64766c7e0ae69de267c023cd6928df00bdb9d9f47e972cedb1"
+    },
+    "reference/upstream/demo/cjs/lib/csv.js": {
+      "upstreamPath": "demo/cjs/lib/csv.js",
+      "sha256": "78a906f68d905c6d7ed847b00eaa5c900f0d1c590c331f3e2aceef9abafa653f"
+    },
+    "reference/upstream/demo/cjs/lib/csv.ts": {
+      "upstreamPath": "demo/cjs/lib/csv.ts",
+      "sha256": "c84cc7cac7bd22a359d2e92b152bf6932afd5463091fb441db29570e1beb76ff"
+    },
+    "reference/upstream/demo/cjs/lib/csv_sync.js": {
+      "upstreamPath": "demo/cjs/lib/csv_sync.js",
+      "sha256": "aa96e80574da61fe364be363210f54c77b8256aeef7eaa6f5a6def98cd03d9ba"
+    },
+    "reference/upstream/demo/cjs/lib/csv_sync.ts": {
+      "upstreamPath": "demo/cjs/lib/csv_sync.ts",
+      "sha256": "5709023710960b260eb02178a05d874b1818136a050aa52aa1382b71fec745dd"
+    },
+    "reference/upstream/demo/cjs/lib/parse.js": {
+      "upstreamPath": "demo/cjs/lib/parse.js",
+      "sha256": "23faa6b00a725f0e6c48a87effb98bfd453911cbd1df3ee4a3a40e4c3d0699a1"
+    },
+    "reference/upstream/demo/cjs/lib/parse.ts": {
+      "upstreamPath": "demo/cjs/lib/parse.ts",
+      "sha256": "db38267bcf248a8091de1b56869c6da7c5232b914b6e62d102e422f3042f0310"
+    },
+    "reference/upstream/demo/cjs/lib/parse_stream.js": {
+      "upstreamPath": "demo/cjs/lib/parse_stream.js",
+      "sha256": "d529fb634a6599f4fca1262c6388571d62edb0a9f71abac2d0491d576aa22c59"
+    },
+    "reference/upstream/demo/cjs/lib/parse_stream.ts": {
+      "upstreamPath": "demo/cjs/lib/parse_stream.ts",
+      "sha256": "6639613e9d69ad5762a3c1ebece357a88b3f82b76eeb57300dfc9703494c5926"
+    },
+    "reference/upstream/demo/cjs/lib/parse_sync.js": {
+      "upstreamPath": "demo/cjs/lib/parse_sync.js",
+      "sha256": "ed8cb2f156c9c67c18d0632da48c8bd7cc7f984a139ebf32b89af890906b8210"
+    },
+    "reference/upstream/demo/cjs/lib/parse_sync.ts": {
+      "upstreamPath": "demo/cjs/lib/parse_sync.ts",
+      "sha256": "5b2145e3b9a2ab311b77a18751ba5ee83dfdd9c20aeb49918a99e00eef2cef03"
+    },
+    "reference/upstream/demo/cjs/lib/stringify.ts": {
+      "upstreamPath": "demo/cjs/lib/stringify.ts",
+      "sha256": "73820ed7a8e069ce4f9b9f4d246e4446a9d395c99dce8f3f7292b2d212cc800b"
+    },
+    "reference/upstream/demo/cjs/test/samples.js": {
+      "upstreamPath": "demo/cjs/test/samples.js",
+      "sha256": "2d41f87a8bcda96e2c923aa533bd5797e641fe83ef61bf65ba659fd50fd1e8e3"
+    },
+    "reference/upstream/demo/esm/CHANGELOG.md": {
+      "upstreamPath": "demo/esm/CHANGELOG.md",
+      "sha256": "2369180aa76c6e7a56e057853d87356aac5dac1655911d76e867ab5ae9c69ffc"
+    },
+    "reference/upstream/demo/esm/README.md": {
+      "upstreamPath": "demo/esm/README.md",
+      "sha256": "292f33cdb82d524f840de880064d0f3554425847ad48cfbf313d9cabaa280ecd"
+    },
+    "reference/upstream/demo/esm/lib/csv.js": {
+      "upstreamPath": "demo/esm/lib/csv.js",
+      "sha256": "2373266609cc5c163b7e229d823fb94c8dbadee56cdfe90d20231678b2910af9"
+    },
+    "reference/upstream/demo/esm/lib/csv.ts": {
+      "upstreamPath": "demo/esm/lib/csv.ts",
+      "sha256": "c84cc7cac7bd22a359d2e92b152bf6932afd5463091fb441db29570e1beb76ff"
+    },
+    "reference/upstream/demo/esm/lib/csv_sync.js": {
+      "upstreamPath": "demo/esm/lib/csv_sync.js",
+      "sha256": "b0cb2461e0f829b8401c948b5f922486d42f115c5836354f7a57ae58c27442fa"
+    },
+    "reference/upstream/demo/esm/lib/csv_sync.ts": {
+      "upstreamPath": "demo/esm/lib/csv_sync.ts",
+      "sha256": "b279d895ebffe3a53dec8f049bc875acfa439bbdee3bf87e0a49f2814162484e"
+    },
+    "reference/upstream/demo/esm/lib/parse.js": {
+      "upstreamPath": "demo/esm/lib/parse.js",
+      "sha256": "c397358ff29c247fe7e09edb7316d726ef6d21d664d9b041e2aa53cae152ea8f"
+    },
+    "reference/upstream/demo/esm/lib/parse.ts": {
+      "upstreamPath": "demo/esm/lib/parse.ts",
+      "sha256": "51b5941abfe56e6bfd2cdbfd3ee5475c58d8c72151360b34b66a0b33de4843aa"
+    },
+    "reference/upstream/demo/esm/lib/parse_sync.js": {
+      "upstreamPath": "demo/esm/lib/parse_sync.js",
+      "sha256": "6ef5573023847306e0a8c3728fb517b70fdc760669a572d22e5ea57b10049624"
+    },
+    "reference/upstream/demo/esm/lib/parse_sync.ts": {
+      "upstreamPath": "demo/esm/lib/parse_sync.ts",
+      "sha256": "d1876a7a062e9b3f10a6beb03132b03d12fa43e8a0341a44d5eaf1ca1f1cab0f"
+    },
+    "reference/upstream/demo/esm/test/samples.js": {
+      "upstreamPath": "demo/esm/test/samples.js",
+      "sha256": "3936b300eee7fcb8a15f678261ef29498c20e14bb389ef71bef5d2d29feb532d"
+    },
+    "reference/upstream/demo/issues-cjs/CHANGELOG.md": {
+      "upstreamPath": "demo/issues-cjs/CHANGELOG.md",
+      "sha256": "dfae6bc3b172f1b1948bb9adffee174960632f024dde027cb831f5f599c1394d"
+    },
+    "reference/upstream/demo/issues-cjs/lib/265.1.js": {
+      "upstreamPath": "demo/issues-cjs/lib/265.1.js",
+      "sha256": "6b163e80930e892e3cc7e3266529c2b6bdc0115585f635973f5d0445e7d8c3cb"
+    },
+    "reference/upstream/demo/issues-cjs/lib/296.js": {
+      "upstreamPath": "demo/issues-cjs/lib/296.js",
+      "sha256": "efc8e8a0164648560f69892620c6a94ac0ce25ee5393168a3e1e2eeee3449a29"
+    },
+    "reference/upstream/demo/issues-cjs/lib/300.js": {
+      "upstreamPath": "demo/issues-cjs/lib/300.js",
+      "sha256": "2ab8af027bb8fd67ea09ea96793f7b775a3baca18bd7c72dbd7e0073ad560534"
+    },
+    "reference/upstream/demo/issues-cjs/lib/303.js": {
+      "upstreamPath": "demo/issues-cjs/lib/303.js",
+      "sha256": "61ebeff9e20823eabde85d71370f5f2bbb4afab1d2cd37ea1a14873c88a01f6c"
+    },
+    "reference/upstream/demo/issues-cjs/lib/327.js": {
+      "upstreamPath": "demo/issues-cjs/lib/327.js",
+      "sha256": "b5004c4efccb65e8ade9b0f7fe62bdbf09c46562f9afd05d9834c76e3514c448"
+    },
+    "reference/upstream/demo/issues-cjs/lib/330.1.js": {
+      "upstreamPath": "demo/issues-cjs/lib/330.1.js",
+      "sha256": "8efba329678b03cb230e5dcbb67da0876408df767a090d138056e065b71ecfa2"
+    },
+    "reference/upstream/demo/issues-cjs/lib/352.js": {
+      "upstreamPath": "demo/issues-cjs/lib/352.js",
+      "sha256": "f9f763f55a9f50bd79da9c025268c2550351773ba0a40205eb64baf4a8cd005b"
+    },
+    "reference/upstream/demo/issues-cjs/lib/399.js": {
+      "upstreamPath": "demo/issues-cjs/lib/399.js",
+      "sha256": "3cf50ff7e968c9d09892c3543e584cb8aedc123328b58643463ff6b49b89c53e"
+    },
+    "reference/upstream/demo/issues-cjs/test/samples.js": {
+      "upstreamPath": "demo/issues-cjs/test/samples.js",
+      "sha256": "2d41f87a8bcda96e2c923aa533bd5797e641fe83ef61bf65ba659fd50fd1e8e3"
+    },
+    "reference/upstream/demo/issues-esm/CHANGELOG.md": {
+      "upstreamPath": "demo/issues-esm/CHANGELOG.md",
+      "sha256": "381c73cf66a04dd0420ec188b2b4eceac2b8c99ddb9f6d35aa9dc288e8e9763b"
+    },
+    "reference/upstream/demo/issues-esm/labo/361-transform.js": {
+      "upstreamPath": "demo/issues-esm/labo/361-transform.js",
+      "sha256": "98062a475d457c3c935385eb5cd2f19edc68df598e1a3017bb9d08f729bf41b4"
+    },
+    "reference/upstream/demo/issues-esm/lib/298.1.js": {
+      "upstreamPath": "demo/issues-esm/lib/298.1.js",
+      "sha256": "8628cf0da59e2fbca2a13a0b81a16718641284a89f1a3b86edd6f4fd3fedb5d4"
+    },
+    "reference/upstream/demo/issues-esm/lib/298.2.js": {
+      "upstreamPath": "demo/issues-esm/lib/298.2.js",
+      "sha256": "73acce526e8d3ed9063fd7652bd734c1969d81f17cc757a2fcf4a701dcdcad05"
+    },
+    "reference/upstream/demo/issues-esm/lib/347.js": {
+      "upstreamPath": "demo/issues-esm/lib/347.js",
+      "sha256": "67d3107c58d26a885721ea3d8b1d2a43483a613e5907ad5c4ea18217ceb4bfd9"
+    },
+    "reference/upstream/demo/issues-esm/lib/365.js": {
+      "upstreamPath": "demo/issues-esm/lib/365.js",
+      "sha256": "33c1f4a52eeed75cdc0418f9053637068f03c5322a845a4fdb6da43818b586de"
+    },
+    "reference/upstream/demo/issues-esm/lib/366.1.js": {
+      "upstreamPath": "demo/issues-esm/lib/366.1.js",
+      "sha256": "686cb2a1caa0c15f78111946bc6f007fab5a589db673029b611e014fd857a4d3"
+    },
+    "reference/upstream/demo/issues-esm/lib/378.js": {
+      "upstreamPath": "demo/issues-esm/lib/378.js",
+      "sha256": "4623b9bbcf2306a728669144fda02b6c1b9cb71ba81e067577f05e57c16ab923"
+    },
+    "reference/upstream/demo/issues-esm/lib/381.js": {
+      "upstreamPath": "demo/issues-esm/lib/381.js",
+      "sha256": "372310c3cfe8733616cacf8c4a80079127e40f5bdcfbd79bbb08cdf2b8671f12"
+    },
+    "reference/upstream/demo/issues-esm/lib/391.ts": {
+      "upstreamPath": "demo/issues-esm/lib/391.ts",
+      "sha256": "6e8d0fa053e52219923b400c15d49f6f0ed301591a7046e141225747024cbf44"
+    },
+    "reference/upstream/demo/issues-esm/lib/411.js": {
+      "upstreamPath": "demo/issues-esm/lib/411.js",
+      "sha256": "990b2d839bbd26ae89599538e843efea1855e87f67c7a6bfb22236cd311297c3"
+    },
+    "reference/upstream/demo/issues-esm/lib/415.js": {
+      "upstreamPath": "demo/issues-esm/lib/415.js",
+      "sha256": "16b32c82e2fa4f7dd2fc6f18bd91014f783ef4e3eaa22ee20a280d83ba1630df"
+    },
+    "reference/upstream/demo/issues-esm/lib/423.js": {
+      "upstreamPath": "demo/issues-esm/lib/423.js",
+      "sha256": "9d5a04eb87f8168764d9fbb3eb6fca94e05a8833026f8900ba43ce9f77b750f2"
+    },
+    "reference/upstream/demo/issues-esm/lib/436.js": {
+      "upstreamPath": "demo/issues-esm/lib/436.js",
+      "sha256": "f4c0a7a9bd0becefadb436761e91799d760d3a8fe3ee3f072ac1142adbee2a49"
+    },
+    "reference/upstream/demo/issues-esm/lib/437-async-await.js": {
+      "upstreamPath": "demo/issues-esm/lib/437-async-await.js",
+      "sha256": "e3d68451eccb55817ede22f8e0ea986d76f2954b0b904b54509cc87978ba1a47"
+    },
+    "reference/upstream/demo/issues-esm/lib/437-memory.js": {
+      "upstreamPath": "demo/issues-esm/lib/437-memory.js",
+      "sha256": "de5dfbf857f9dea647412e86fa43573e6bf1a12b340bad256a298b22faf6ebdd"
+    },
+    "reference/upstream/demo/issues-esm/lib/437-pipe-stop.js": {
+      "upstreamPath": "demo/issues-esm/lib/437-pipe-stop.js",
+      "sha256": "0781aab460a480fb865da19f9f9824edb2414c41a41ac04a6ef7178232788a8b"
+    },
+    "reference/upstream/demo/issues-esm/lib/441.js": {
+      "upstreamPath": "demo/issues-esm/lib/441.js",
+      "sha256": "b6e18cbb23351e9d73dad9c60617367318cb4a746930acd8e1b8d79fb8802a24"
+    },
+    "reference/upstream/demo/issues-esm/test/samples.js": {
+      "upstreamPath": "demo/issues-esm/test/samples.js",
+      "sha256": "3936b300eee7fcb8a15f678261ef29498c20e14bb389ef71bef5d2d29feb532d"
+    },
+    "reference/upstream/demo/ts-cjs-node16/CHANGELOG.md": {
+      "upstreamPath": "demo/ts-cjs-node16/CHANGELOG.md",
+      "sha256": "33ac66e950f7b9831a6d95fd3ca014c239d6c3c4336068a753ba1293e614dfa3"
+    },
+    "reference/upstream/demo/ts-cjs-node16/README.md": {
+      "upstreamPath": "demo/ts-cjs-node16/README.md",
+      "sha256": "404c757e97747fd8db0e0a84deb0552d049fcec891166cb8c34346532160fd86"
+    },
+    "reference/upstream/demo/ts-cjs-node16/lib/index.ts": {
+      "upstreamPath": "demo/ts-cjs-node16/lib/index.ts",
+      "sha256": "bcdf55420361de94867fbe632ecde4bb772d074ad371ecb822d5e5771a729919"
+    },
+    "reference/upstream/demo/ts-esm-node16/CHANGELOG.md": {
+      "upstreamPath": "demo/ts-esm-node16/CHANGELOG.md",
+      "sha256": "f5703168fb58c7ac7edd9c631e9f0f0c255931ec983b98250c7e68f7d9faec54"
+    },
+    "reference/upstream/demo/ts-esm-node16/lib/stringify-import.ts": {
+      "upstreamPath": "demo/ts-esm-node16/lib/stringify-import.ts",
+      "sha256": "d718be7ba73fe0cb747a4249b83739c9c7901e4b76b899a45c989a3998b82b86"
+    },
+    "reference/upstream/demo/ts-esm-node16/lib/stringify.ts": {
+      "upstreamPath": "demo/ts-esm-node16/lib/stringify.ts",
+      "sha256": "039e8bd37908c0621f29d856b9990f0723a1ede04e2f57ccb2dfa10af4db77ca"
+    },
+    "reference/upstream/demo/ts-esm-node16/test/samples.js": {
+      "upstreamPath": "demo/ts-esm-node16/test/samples.js",
+      "sha256": "3936b300eee7fcb8a15f678261ef29498c20e14bb389ef71bef5d2d29feb532d"
+    },
+    "reference/upstream/demo/webpack/CHANGELOG.md": {
+      "upstreamPath": "demo/webpack/CHANGELOG.md",
+      "sha256": "1a12a70fe6af7b212a122f107d569fe94b45433a69e37c91556ace501e8ac59e"
+    },
+    "reference/upstream/demo/webpack/README.md": {
+      "upstreamPath": "demo/webpack/README.md",
+      "sha256": "0585edffd6d02dd30f3bcfc8ad9d7050e42684a86d522d6df49567dab2392f13"
+    },
+    "reference/upstream/demo/webpack/src/csv.js": {
+      "upstreamPath": "demo/webpack/src/csv.js",
+      "sha256": "26532ccce54c86235dbef7312faf6632eea778103f2e9f80383d15d0d2a20551"
+    },
+    "reference/upstream/demo/webpack/src/csv_sync.js": {
+      "upstreamPath": "demo/webpack/src/csv_sync.js",
+      "sha256": "f4e2c13973c2f59161c842c44116d9ef8077ddad9e4ca15838a092a48a21a1a5"
+    },
+    "reference/upstream/demo/webpack/src/generate.js": {
+      "upstreamPath": "demo/webpack/src/generate.js",
+      "sha256": "cedf49590b79c91006121ec76cff592bdbbc62ade069a9ec6d62293976a6ad20"
+    },
+    "reference/upstream/demo/webpack/src/generate_sync.js": {
+      "upstreamPath": "demo/webpack/src/generate_sync.js",
+      "sha256": "21f230586d3e1a8abebc7446744b0ffa76fdfc2c94cdccc6c7c16d6d84937955"
+    },
+    "reference/upstream/demo/webpack/src/parse.js": {
+      "upstreamPath": "demo/webpack/src/parse.js",
+      "sha256": "8a170249ce2e8ccd0d42f6b0a23066751f992f99ee3ca6c6719f0b10b7f14725"
+    },
+    "reference/upstream/demo/webpack/src/parse_sync.js": {
+      "upstreamPath": "demo/webpack/src/parse_sync.js",
+      "sha256": "173c56b375bd4a5738b121b99bb1630d1260d5f9bceb49ba8ea530d6380b4ded"
+    },
+    "reference/upstream/demo/webpack/src/stringify.js": {
+      "upstreamPath": "demo/webpack/src/stringify.js",
+      "sha256": "a2faac30faa6039008a0fc8469349ae4540f29afc0a990c5786d69142c0aa538"
+    },
+    "reference/upstream/demo/webpack/src/stringify_sync.js": {
+      "upstreamPath": "demo/webpack/src/stringify_sync.js",
+      "sha256": "c7981361c5688e205bfe1e55e2f7bc69ecc94b12709dc379a0b43ea6549066c5"
+    },
+    "reference/upstream/demo/webpack/src/transform.js": {
+      "upstreamPath": "demo/webpack/src/transform.js",
+      "sha256": "204ceea0f1626182b3bb9764636e12540c9db2d4314a0d2f9e7f1be346ef2484"
+    },
+    "reference/upstream/demo/webpack/src/transform_sync.js": {
+      "upstreamPath": "demo/webpack/src/transform_sync.js",
+      "sha256": "9d3e97dbf6e6f06ece73985f08e7dd8f1263a70c50f440f26e8a1a6fc2fbaa03"
+    },
+    "reference/upstream/demo/webpack/webpack.config.js": {
+      "upstreamPath": "demo/webpack/webpack.config.js",
+      "sha256": "c6c16a1f8b5338c83bd531fd64d5bee6c8d2ad1eeb6702780d612f7627cf9ed6"
+    },
+    "reference/upstream/demo/webpack-ts/CHANGELOG.md": {
+      "upstreamPath": "demo/webpack-ts/CHANGELOG.md",
+      "sha256": "6d47bfa652fabcbc25ea2cfe15f4e87ac7692d5c13884748d15592b834d2b039"
+    },
+    "reference/upstream/demo/webpack-ts/README.md": {
+      "upstreamPath": "demo/webpack-ts/README.md",
+      "sha256": "e24ac3b8eb914c902ff3a70074a7d6daf76f0ec10e3422281f89601fc5f38116"
+    },
+    "reference/upstream/demo/webpack-ts/src/generate.ts": {
+      "upstreamPath": "demo/webpack-ts/src/generate.ts",
+      "sha256": "364ba34725c7d0d3da1ed424951a2cf64ff5425cdc0233d6910120f489ac084e"
+    },
+    "reference/upstream/demo/webpack-ts/src/parse.ts": {
+      "upstreamPath": "demo/webpack-ts/src/parse.ts",
+      "sha256": "8de69071a74b115b2d5b6954c502bd0db7dc606d175f2a47fbf10283ece68d0c"
+    },
+    "reference/upstream/demo/webpack-ts/src/stringify.ts": {
+      "upstreamPath": "demo/webpack-ts/src/stringify.ts",
+      "sha256": "f26762e95e9a671b755e91d0414d7d0d8cf43f90a79ea79317c8641ad41a2093"
+    },
+    "reference/upstream/demo/webpack-ts/src/transform.ts": {
+      "upstreamPath": "demo/webpack-ts/src/transform.ts",
+      "sha256": "6a09ba74449a06cc04c3c4bba0c2da79146a9197150a0b16b6ec673e3a777fd6"
+    },
+    "reference/upstream/demo/webpack-ts/webpack.config.js": {
+      "upstreamPath": "demo/webpack-ts/webpack.config.js",
+      "sha256": "cf51bf8080675e9828c0dad62d9b967990b48924facfb191e51def0187768e76"
+    },
+    "reference/upstream/eslint.config.js": {
+      "upstreamPath": "eslint.config.js",
+      "sha256": "697d6771953235b1d329ec70daaa7cf53e95fcb3e92d6851c6b4e6d8bf33421c"
+    },
+    "reference/upstream/packages/csv/CHANGELOG.md": {
+      "upstreamPath": "packages/csv/CHANGELOG.md",
+      "sha256": "e613316a7b42a63f8a333cca0fd451f12532c15e497c1e0fe6fff7a1892b801c"
+    },
+    "reference/upstream/packages/csv/README.md": {
+      "upstreamPath": "packages/csv/README.md",
+      "sha256": "ff0df414fc2ad1de196a137d1dc90a14dbdf4962d846f7a5355743535c0b8b70"
+    },
+    "src/upstream/packages/csv/lib/index.js": {
+      "upstreamPath": "packages/csv/lib/index.js",
+      "sha256": "c29a104ecc497426813a7044f3ae00c2f39a5b884110a5b86f96f0dac1c91f73"
+    },
+    "src/upstream/packages/csv/lib/sync.js": {
+      "upstreamPath": "packages/csv/lib/sync.js",
+      "sha256": "dea0571e412ae9cddd10d305e1672420d69aec1c5fa7081ac5d5e4803a056587"
+    },
+    "reference/upstream/packages/csv/rollup.config.js": {
+      "upstreamPath": "packages/csv/rollup.config.js",
+      "sha256": "eb10c18cee38235b11e129e89e77c8002a3a22e700fcda6887cb7eec1d4adf2e"
+    },
+    "reference/upstream/packages/csv/samples/callback.js": {
+      "upstreamPath": "packages/csv/samples/callback.js",
+      "sha256": "6675f9c1909f2db85e166d6a22989d4d8c087c1caf5628c04651efe385533cc2"
+    },
+    "reference/upstream/packages/csv/samples/example.fs.js": {
+      "upstreamPath": "packages/csv/samples/example.fs.js",
+      "sha256": "3c3a9dadb9be15fcd283679196685832570e3ed2db4c621bc0bad4e8731465a0"
+    },
+    "reference/upstream/packages/csv/samples/pipe.js": {
+      "upstreamPath": "packages/csv/samples/pipe.js",
+      "sha256": "e6acd89481d1b2a855a7bc516559e65fbfd844fc17c970a285db2bcb958923f7"
+    },
+    "reference/upstream/packages/csv/samples/stream.js": {
+      "upstreamPath": "packages/csv/samples/stream.js",
+      "sha256": "d2656746b1123a1afff380acddb0e76632844a18157053eb5bc182bd9f648d43"
+    },
+    "reference/upstream/packages/csv/samples/sync.js": {
+      "upstreamPath": "packages/csv/samples/sync.js",
+      "sha256": "8ffc265d09bb945269cb66882be1b3e30728bd1be678c9f5906a9437c4b88b7e"
+    },
+    "reference/upstream/packages/csv/test/api.js": {
+      "upstreamPath": "packages/csv/test/api.js",
+      "sha256": "9556caa666d402bf9c80cefa91c54bce4382a0e597d6c323e17b89b6fad38655"
+    },
+    "reference/upstream/packages/csv/test/api.types.sync.ts": {
+      "upstreamPath": "packages/csv/test/api.types.sync.ts",
+      "sha256": "fedf0eb96a19b1461b20769bb55790e45dda5561c2acc68803ec02b51e69f09a"
+    },
+    "reference/upstream/packages/csv/test/api.types.ts": {
+      "upstreamPath": "packages/csv/test/api.types.ts",
+      "sha256": "5032b5c3d64b0f2dd31e89a444b8a10a99060e9acdfffe7d238b0ed950e66f80"
+    },
+    "reference/upstream/packages/csv/test/samples.js": {
+      "upstreamPath": "packages/csv/test/samples.js",
+      "sha256": "6827958866911233486c63b7932f7d3f0cd2f4817f3b8bf2bc8e4ff107798151"
+    },
+    "reference/upstream/packages/csv/test/sync.js": {
+      "upstreamPath": "packages/csv/test/sync.js",
+      "sha256": "5aebf7e5688eed5b769483594f30f4095d0150bdfd8c688e6d9f172cb6a87235"
+    },
+    "reference/upstream/packages/csv-generate/CHANGELOG.md": {
+      "upstreamPath": "packages/csv-generate/CHANGELOG.md",
+      "sha256": "826f507eb679fe79b24f03e4bd087d12b349525e76b4d164a272f7b6795ad723"
+    },
+    "reference/upstream/packages/csv-generate/README.md": {
+      "upstreamPath": "packages/csv-generate/README.md",
+      "sha256": "b8b0e8da3f69b7570b6d91bd79cb64040ba20ca81642be65cd12e32f504407f0"
+    },
+    "reference/upstream/packages/csv-generate/ROADMAP.md": {
+      "upstreamPath": "packages/csv-generate/ROADMAP.md",
+      "sha256": "00843b217092b0917beecb3340fc48d2fdbef3332aa5097d2c3503b994f8548b"
+    },
+    "src/upstream/packages/csv-generate/lib/api/index.js": {
+      "upstreamPath": "packages/csv-generate/lib/api/index.js",
+      "sha256": "db268e1dfecf38325c09c419bf3c394d2b54b6a6d2a6b38804d3e28ee0e383f3"
+    },
+    "src/upstream/packages/csv-generate/lib/api/init_state.js": {
+      "upstreamPath": "packages/csv-generate/lib/api/init_state.js",
+      "sha256": "e45704c3bf2361e3528343f9d6f5c1c27568e69d014ce987bb0428eee8d8ed84"
+    },
+    "src/upstream/packages/csv-generate/lib/api/normalize_options.js": {
+      "upstreamPath": "packages/csv-generate/lib/api/normalize_options.js",
+      "sha256": "46d1c4004871282c9f49b75ef386bae126cae1b2efde2731c814667a639c83a6"
+    },
+    "src/upstream/packages/csv-generate/lib/api/random.js": {
+      "upstreamPath": "packages/csv-generate/lib/api/random.js",
+      "sha256": "6cf6bfab17475c26404593dd3dc7f6d9af32730c6f1338bce93a2af66bb0ebc9"
+    },
+    "src/upstream/packages/csv-generate/lib/api/read.js": {
+      "upstreamPath": "packages/csv-generate/lib/api/read.js",
+      "sha256": "f10278b63df85ec9f4bc7c0e528fbd8eadc22c8555848a10c5d206cf04eb1b85"
+    },
+    "src/upstream/packages/csv-generate/lib/api/types.js": {
+      "upstreamPath": "packages/csv-generate/lib/api/types.js",
+      "sha256": "6b30a6c53044e6663cddde9de7094ee4558c77c620755b4d090bb09785bc5685"
+    },
+    "src/upstream/packages/csv-generate/lib/index.js": {
+      "upstreamPath": "packages/csv-generate/lib/index.js",
+      "sha256": "d2797e45b50b2bc5aca41fbdc5b86a5ad075ab5ccb3f4d5383709ed920936951"
+    },
+    "src/upstream/packages/csv-generate/lib/stream.js": {
+      "upstreamPath": "packages/csv-generate/lib/stream.js",
+      "sha256": "bf68782969d488d13da59fbcb8c14d3b23ca910d4eaad255633f56382d5ac5f3"
+    },
+    "src/upstream/packages/csv-generate/lib/sync.js": {
+      "upstreamPath": "packages/csv-generate/lib/sync.js",
+      "sha256": "1e854eb0cef338b5a81280f03c350abf7d09ede55ad73c60dd3c35db893162eb"
+    },
+    "reference/upstream/packages/csv-generate/rollup.config.js": {
+      "upstreamPath": "packages/csv-generate/rollup.config.js",
+      "sha256": "f35b191b5126759fa869b9dfea8a48b1171fe784b459fabe5a3371eab28913bf"
+    },
+    "reference/upstream/packages/csv-generate/samples/api.callback.js": {
+      "upstreamPath": "packages/csv-generate/samples/api.callback.js",
+      "sha256": "7e74531f06786c2e4e3a64179d24e7fec016a440d71f227950cc5620088d27d6"
+    },
+    "reference/upstream/packages/csv-generate/samples/api.stream.js": {
+      "upstreamPath": "packages/csv-generate/samples/api.stream.js",
+      "sha256": "60f61d919a998a0fe61ed0e23d2d3fac51d7ddc632a00ef03e3d7d6d5928bacc"
+    },
+    "reference/upstream/packages/csv-generate/samples/api.sync.js": {
+      "upstreamPath": "packages/csv-generate/samples/api.sync.js",
+      "sha256": "bc7d984c693fd9accf52de923b586f66c1759e01684ae546cdd07ded4796032d"
+    },
+    "reference/upstream/packages/csv-generate/samples/options.objectmode.callback.js": {
+      "upstreamPath": "packages/csv-generate/samples/options.objectmode.callback.js",
+      "sha256": "7e74531f06786c2e4e3a64179d24e7fec016a440d71f227950cc5620088d27d6"
+    },
+    "reference/upstream/packages/csv-generate/samples/options.objectmode.stream.js": {
+      "upstreamPath": "packages/csv-generate/samples/options.objectmode.stream.js",
+      "sha256": "54a813cbe43268640affd1f1efcfbcc0d5a6ad005cd704bc44a82d73ac7b17ab"
+    },
+    "reference/upstream/packages/csv-generate/samples/pipe.js": {
+      "upstreamPath": "packages/csv-generate/samples/pipe.js",
+      "sha256": "27e1c072e09c04bd2bac2b9904c40b020679586c22d67e363115a91f002a709d"
+    },
+    "reference/upstream/packages/csv-generate/test/api.callback.js": {
+      "upstreamPath": "packages/csv-generate/test/api.callback.js",
+      "sha256": "2b3d5eec2354774df2b6ca01970822edc9e6827e30d68b6a9d067e87ec392a3f"
+    },
+    "reference/upstream/packages/csv-generate/test/api.end.js": {
+      "upstreamPath": "packages/csv-generate/test/api.end.js",
+      "sha256": "f16fdfb7da6fb1dafb64988dc2a577778795df9bb6382f0df2e10096a756248e"
+    },
+    "reference/upstream/packages/csv-generate/test/api.highWaterMark.js": {
+      "upstreamPath": "packages/csv-generate/test/api.highWaterMark.js",
+      "sha256": "94723e0c22cc8c2649ad6719b140ac5dc23f1c8ab117b5f2343cc1cd44c56744"
+    },
+    "reference/upstream/packages/csv-generate/test/api.pipe.js": {
+      "upstreamPath": "packages/csv-generate/test/api.pipe.js",
+      "sha256": "00d84beca82f06bc41e7e4e4dfd8e4adf2b2e945485ed4c446a9aacdc2db6f54"
+    },
+    "reference/upstream/packages/csv-generate/test/api.read.js": {
+      "upstreamPath": "packages/csv-generate/test/api.read.js",
+      "sha256": "eb95959278e15e377e763bea4d2f97d6d7e618f9e307ab2008cf757c5a7c20e9"
+    },
+    "reference/upstream/packages/csv-generate/test/api.sync.js": {
+      "upstreamPath": "packages/csv-generate/test/api.sync.js",
+      "sha256": "399db7c30f4fc10ab426bc914420e5236cdac9c7779e4ac8c66fe185e17f72ed"
+    },
+    "reference/upstream/packages/csv-generate/test/api.types.sync.ts": {
+      "upstreamPath": "packages/csv-generate/test/api.types.sync.ts",
+      "sha256": "993882cbdd19010b10ec046e4851b49ba3286aca673e4df74479b53ffc300e69"
+    },
+    "reference/upstream/packages/csv-generate/test/api.types.ts": {
+      "upstreamPath": "packages/csv-generate/test/api.types.ts",
+      "sha256": "2e80e7ceaf0b07fd6d39f845c9eb460c85efcb01adc2daafa9937874cacde486"
+    },
+    "reference/upstream/packages/csv-generate/test/api.web_stream.js": {
+      "upstreamPath": "packages/csv-generate/test/api.web_stream.js",
+      "sha256": "886d1e4db6926b7d05add50aa8f2b67333e25c64d78a8df7b16b4e1b9b184a2b"
+    },
+    "reference/upstream/packages/csv-generate/test/event.end.js": {
+      "upstreamPath": "packages/csv-generate/test/event.end.js",
+      "sha256": "ed8e9caee91254c2049da97dbf09d2b5901ffef1392ecfc1dc309854c28588ef"
+    },
+    "reference/upstream/packages/csv-generate/test/options.columns.js": {
+      "upstreamPath": "packages/csv-generate/test/options.columns.js",
+      "sha256": "4a534a4b1da66b60a1ca8327ed06b7d86619feefb79d74e756dd79f83e57db0b"
+    },
+    "reference/upstream/packages/csv-generate/test/options.delimiter.js": {
+      "upstreamPath": "packages/csv-generate/test/options.delimiter.js",
+      "sha256": "cf1c33955f478e687bc2c1ea14aacc09cb44d9ffb0f71715fa5834307b9c1dfb"
+    },
+    "reference/upstream/packages/csv-generate/test/options.duration.js": {
+      "upstreamPath": "packages/csv-generate/test/options.duration.js",
+      "sha256": "6448744f83bca19243b2f48433c72152a5cf9705de8d2eac205a06d71eb49b22"
+    },
+    "reference/upstream/packages/csv-generate/test/options.encoding.js": {
+      "upstreamPath": "packages/csv-generate/test/options.encoding.js",
+      "sha256": "16f91ac5468d3d8e5fae61479e9a61ac8ae0707a5451db40f941d5f44bba02df"
+    },
+    "reference/upstream/packages/csv-generate/test/options.end.js": {
+      "upstreamPath": "packages/csv-generate/test/options.end.js",
+      "sha256": "5fc0853d7e4c4a314afefdca871bd2d1783e35e4aaec4d04288a62eb784979fe"
+    },
+    "reference/upstream/packages/csv-generate/test/options.eof.js": {
+      "upstreamPath": "packages/csv-generate/test/options.eof.js",
+      "sha256": "e14be763720d532e110a1fcfce7d308b90611052a9ba832e5f092d97368e9ee1"
+    },
+    "reference/upstream/packages/csv-generate/test/options.fixed_size.js": {
+      "upstreamPath": "packages/csv-generate/test/options.fixed_size.js",
+      "sha256": "638e24d532248adfe718bc9673d941ea90a971ae411c4d8ff4d651b5f1237bb9"
+    },
+    "reference/upstream/packages/csv-generate/test/options.high_water_mark.js": {
+      "upstreamPath": "packages/csv-generate/test/options.high_water_mark.js",
+      "sha256": "dcfea5ecafa2119aab956241e462ecd55e2d05d31da55383557262fe4f49b5e1"
+    },
+    "reference/upstream/packages/csv-generate/test/options.js": {
+      "upstreamPath": "packages/csv-generate/test/options.js",
+      "sha256": "f7b2ee2a5e713c798b91bcb43fb7ec0a95312342d214ca56cf49b59c9927ae59"
+    },
+    "reference/upstream/packages/csv-generate/test/options.length.js": {
+      "upstreamPath": "packages/csv-generate/test/options.length.js",
+      "sha256": "18e3acb5c1ac622562f8130e5258001acb483ee52bac7b7f5c82b1e619e97c90"
+    },
+    "reference/upstream/packages/csv-generate/test/options.max_word_length.js": {
+      "upstreamPath": "packages/csv-generate/test/options.max_word_length.js",
+      "sha256": "0ea8c676fc0b6fe267b0f7c1e62f1963fd88c536d9e1d480bff31aa88428597f"
+    },
+    "reference/upstream/packages/csv-generate/test/options.object_mode.js": {
+      "upstreamPath": "packages/csv-generate/test/options.object_mode.js",
+      "sha256": "227fca2c00ca42fc7a53fa544a19a1990be2bf053503443673ccea0c7213a55f"
+    },
+    "reference/upstream/packages/csv-generate/test/options.row_delimiter.js": {
+      "upstreamPath": "packages/csv-generate/test/options.row_delimiter.js",
+      "sha256": "777aa07a27aee1e0faf9d305c7f285c6a496c54ef2fc13552e38148811d8ad60"
+    },
+    "reference/upstream/packages/csv-generate/test/options.seed.js": {
+      "upstreamPath": "packages/csv-generate/test/options.seed.js",
+      "sha256": "714f9d74e4c16cdcf4bb9998b64e36d460e0cddbfc07f4dca1dd778946b991e0"
+    },
+    "reference/upstream/packages/csv-generate/test/options.sleep.js": {
+      "upstreamPath": "packages/csv-generate/test/options.sleep.js",
+      "sha256": "e936547a5c372909227a5f6a90c188d40a039621a3c9a33761196984470f5c52"
+    },
+    "reference/upstream/packages/csv-generate/test/samples.js": {
+      "upstreamPath": "packages/csv-generate/test/samples.js",
+      "sha256": "6827958866911233486c63b7932f7d3f0cd2f4817f3b8bf2bc8e4ff107798151"
+    },
+    "reference/upstream/packages/csv-parse/CHANGELOG.md": {
+      "upstreamPath": "packages/csv-parse/CHANGELOG.md",
+      "sha256": "eb96442917a04a51df69b0419917ea574eb7496e0e2bc6a266c815346497118f"
+    },
+    "reference/upstream/packages/csv-parse/README.md": {
+      "upstreamPath": "packages/csv-parse/README.md",
+      "sha256": "5298f505709284925523b47770c39ab533ca5a95ee321e858c039251819e6171"
+    },
+    "reference/upstream/packages/csv-parse/ROADMAP.md": {
+      "upstreamPath": "packages/csv-parse/ROADMAP.md",
+      "sha256": "4c8aa4c2a6f79f61ac2aa314122e88f6ac8ca809e6aa7e15cb4bece3caeb5f79"
+    },
+    "reference/upstream/packages/csv-parse/bench/async.iterator.js": {
+      "upstreamPath": "packages/csv-parse/bench/async.iterator.js",
+      "sha256": "17fc525f042fb5e1cbf93d414335a48435bd05378a9dad692708b212ae446b8f"
+    },
+    "src/upstream/packages/csv-parse/lib/api/CsvError.js": {
+      "upstreamPath": "packages/csv-parse/lib/api/CsvError.js",
+      "sha256": "75c91323d96fbe1357e944850eea090f8a1a2fee5cc1336a311de56d1cf13fcb"
+    },
+    "src/upstream/packages/csv-parse/lib/api/index.js": {
+      "upstreamPath": "packages/csv-parse/lib/api/index.js",
+      "sha256": "c5a1e0d5be33eeb75b650fc46270537d8ebff190cc6e9511a260e1b3a64d1866"
+    },
+    "src/upstream/packages/csv-parse/lib/api/init_state.js": {
+      "upstreamPath": "packages/csv-parse/lib/api/init_state.js",
+      "sha256": "e2b37718e99061da3926a2a0840b4fd4202082fd69595c6d304aeeaf424eaeca"
+    },
+    "src/upstream/packages/csv-parse/lib/api/normalize_columns_array.js": {
+      "upstreamPath": "packages/csv-parse/lib/api/normalize_columns_array.js",
+      "sha256": "8ee28e9345c33fd1f435f1219c5579b30cc18d26b4a5c845a846befb48dedb22"
+    },
+    "src/upstream/packages/csv-parse/lib/api/normalize_options.js": {
+      "upstreamPath": "packages/csv-parse/lib/api/normalize_options.js",
+      "sha256": "9e00a9f68a5c0fdbd758246903cb78e942c526ea0ada06350e45f432fe0c3877"
+    },
+    "src/upstream/packages/csv-parse/lib/index.js": {
+      "upstreamPath": "packages/csv-parse/lib/index.js",
+      "sha256": "3f74f27a1b266ec1d53dcd34be0bd0eb14c764a4b88357a2c689024cd4abe232"
+    },
+    "src/upstream/packages/csv-parse/lib/stream.js": {
+      "upstreamPath": "packages/csv-parse/lib/stream.js",
+      "sha256": "b37f87f8526077847a8e1e4bfbca973459bd0b91688c147d76cecaad54a13009"
+    },
+    "src/upstream/packages/csv-parse/lib/sync.js": {
+      "upstreamPath": "packages/csv-parse/lib/sync.js",
+      "sha256": "d9a8c27459718118662ae70e9fe417ab44a7a5da488ac588320b30683b3d2d79"
+    },
+    "src/upstream/packages/csv-parse/lib/utils/ResizeableBuffer.js": {
+      "upstreamPath": "packages/csv-parse/lib/utils/ResizeableBuffer.js",
+      "sha256": "d8b659345b881d4f9748c5933fc07af00e6dc4f2921a00832d2b9b236c3b7f55"
+    },
+    "src/upstream/packages/csv-parse/lib/utils/delimiter_discover.js": {
+      "upstreamPath": "packages/csv-parse/lib/utils/delimiter_discover.js",
+      "sha256": "da3dd414af1765151bfe85cba34688be9f162b2ed65ee168fe5e612229fbc46b"
+    },
+    "src/upstream/packages/csv-parse/lib/utils/is_object.js": {
+      "upstreamPath": "packages/csv-parse/lib/utils/is_object.js",
+      "sha256": "c2376181876ada65c71f2a19fb0b4a4c495e242c1f68f560df22e9d224c9761b"
+    },
+    "src/upstream/packages/csv-parse/lib/utils/underscore.js": {
+      "upstreamPath": "packages/csv-parse/lib/utils/underscore.js",
+      "sha256": "015f642c76345ad144f9846e36008de6a7c430d1c7fde239c2919cd0b5ec8058"
+    },
+    "reference/upstream/packages/csv-parse/rollup.config.js": {
+      "upstreamPath": "packages/csv-parse/rollup.config.js",
+      "sha256": "5864d49791445e3a204a8458f0e85f680178c5e2885eb5bbca3657ec30cafbdc"
+    },
+    "reference/upstream/packages/csv-parse/samples/api.callback.js": {
+      "upstreamPath": "packages/csv-parse/samples/api.callback.js",
+      "sha256": "17aa48f4cb5967e465a1d07ba4125d4f2f0dfbc6651dc8e57bff81cabc9e63de"
+    },
+    "reference/upstream/packages/csv-parse/samples/api.info.callback.js": {
+      "upstreamPath": "packages/csv-parse/samples/api.info.callback.js",
+      "sha256": "52f19aa0ce91f1d9e20398e9b21a63560cbe1c234c657cb6272d036996fb5b29"
+    },
+    "reference/upstream/packages/csv-parse/samples/api.info.internal.js": {
+      "upstreamPath": "packages/csv-parse/samples/api.info.internal.js",
+      "sha256": "88adf7671e937ebad673844824aebc9e1885da3b2a25bdf61fadc8949f9fc401"
+    },
+    "reference/upstream/packages/csv-parse/samples/api.stream.js": {
+      "upstreamPath": "packages/csv-parse/samples/api.stream.js",
+      "sha256": "19bafab024c86e991f3eb118ead8c40e171e3ed2293f426a38e83897eb7b3ea1"
+    },
+    "reference/upstream/packages/csv-parse/samples/api.sync.js": {
+      "upstreamPath": "packages/csv-parse/samples/api.sync.js",
+      "sha256": "3f5bbc7743c1fb412973dc15156ecb7dc69333aba50f91a7417f52b582564130"
+    },
+    "reference/upstream/packages/csv-parse/samples/async.iterator.js": {
+      "upstreamPath": "packages/csv-parse/samples/async.iterator.js",
+      "sha256": "9012109fe193795cb2be0b0ae26a17937a760acbd4b4f51f96f86d075f8956ba"
+    },
+    "reference/upstream/packages/csv-parse/samples/columns-discovery.js": {
+      "upstreamPath": "packages/csv-parse/samples/columns-discovery.js",
+      "sha256": "544ab6cc1b55a2f5e162d767600602a31d36a49b9979938585652190645d0ded"
+    },
+    "reference/upstream/packages/csv-parse/samples/comment.js": {
+      "upstreamPath": "packages/csv-parse/samples/comment.js",
+      "sha256": "a46a585438e8b4d8e669d081174ebe912c012159df436a5f24a5d1319989ae4a"
+    },
+    "reference/upstream/packages/csv-parse/samples/fs_read.js": {
+      "upstreamPath": "packages/csv-parse/samples/fs_read.js",
+      "sha256": "aa1eda29f16a40b08a3b98018760dcf6c997ef12cb35c9d465a22ea71c35fe60"
+    },
+    "reference/upstream/packages/csv-parse/samples/mixed.input_stream.js": {
+      "upstreamPath": "packages/csv-parse/samples/mixed.input_stream.js",
+      "sha256": "6d25551d213766edf7098896c767c1ca62ee11e8e02f5b12e2d3296b054e2828"
+    },
+    "reference/upstream/packages/csv-parse/samples/mixed.output_stream.js": {
+      "upstreamPath": "packages/csv-parse/samples/mixed.output_stream.js",
+      "sha256": "d9c9562256d84a50ce955f818e87bff15c35ba8dc8fb2ecfa2577c4bcfebe21c"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.bom.hidden.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.bom.hidden.js",
+      "sha256": "6d83411a4cfe9307d9f83479730c963a377939cd74a2cd7095f4af7aa942afbb"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.bom.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.bom.js",
+      "sha256": "294d3452f6dee45b20f02e5dcdb585e637c900409df8f36dbe214595d45b92b3"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.cast.context.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.cast.context.js",
+      "sha256": "dc209c14fb72806ab466f00291c9bfa8bf3a134d2520e816d593cd4cabb3d29a"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.cast.header.column.fn.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.cast.header.column.fn.js",
+      "sha256": "2fe173e1a7039ed74c45483108be7c4d4d5112401359ed129e8579de60286e56"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.cast.header.columns.true.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.cast.header.columns.true.js",
+      "sha256": "8f62cdf63b796a2fea744a78f0d89b1e14b1d27eec70efe8833fad2e25c8cf96"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.cast.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.cast.js",
+      "sha256": "8f06acc62ccdc8b79763c30c56c55093db904dd98f6726c0fa8ee50258439f60"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.cast_date.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.cast_date.js",
+      "sha256": "63bea1be9c4439542da33a2af7784f87ff2b983a39689796ebffcf84842681c2"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.columns.array.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.columns.array.js",
+      "sha256": "9c7d8e31c72a8408229db27de5cfa370e6da946387820d59da1b6dcc32c708f3"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.columns.function.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.columns.function.js",
+      "sha256": "bd04bf4e8fd993cfe79b0d83a57f3afc0479c163af31b54f2ecc36b577269064"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.columns.true.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.columns.true.js",
+      "sha256": "d51b1156e25228e36a31def4cbb0571e01dc99521f605b24b4c0b7b853e0591a"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.comment.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.comment.js",
+      "sha256": "f890822b52fad4501c75fe80a6963497d2b048c39e9a63049152b5a74f7dcdcb"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.comment_no_infix.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.comment_no_infix.js",
+      "sha256": "89890a85e447d43ff3938707eae3ce6cad651d8d648d5b5e31ce95f296a0b2b3"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.delimiter.array.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.delimiter.array.js",
+      "sha256": "088bc60bf01b5fb74f74d3c1600d5a2b4ddc2263d9407c9f7807f5bd381a373f"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.delimiter.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.delimiter.js",
+      "sha256": "7224c53cf3c4bc1a47f45a81eb47c163ca473992704d8f8e3207c565a1688333"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.delimiter_auto.ts": {
+      "upstreamPath": "packages/csv-parse/samples/option.delimiter_auto.ts",
+      "sha256": "ad7451b73ffb66a23271d2a8e0ffe73a1b2d30e12e683c9b3c1cc1045ba266ff"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.encoding.buffer.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.encoding.buffer.js",
+      "sha256": "76a2b1c82baedaa3a320be356e2a87412b05c09cc960fe5d01ef6b976408189b"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.encoding.detection.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.encoding.detection.js",
+      "sha256": "5ccb40e75aa9d307624f2eaf14d1bfb55d5a75d7dc0cf12f47da48204b93097a"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.encoding.options.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.encoding.options.js",
+      "sha256": "efabd432c6ffc124e01a0f92826f3a891a7df8f86c7b6f3fb751fef2ea6739ce"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.escape.custom.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.escape.custom.js",
+      "sha256": "25ba00adc9b86b3d4ced74fb9d1d3b692fc465fe39aa19e9a1c015479800014b"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.escape.default.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.escape.default.js",
+      "sha256": "8d181a7afbfdba393db452fb317af587eff45e873f4baaa928aa67355fce1963"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.from.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.from.js",
+      "sha256": "12e4143a13e0acb0ee412d70ed22f60da7836b1cba8c181adc826ece2e828838"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.from_line.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.from_line.js",
+      "sha256": "b79ddbbce521e044001c734b630458ddde5e2e9fb7158416d581f570c2992222"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.group_columns_by_name.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.group_columns_by_name.js",
+      "sha256": "8f1d7c6c390cd542beb508c63c8c6870b996c7ea59f4b0add8bc8d00182e3532"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.ignore_last_delimiters.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.ignore_last_delimiters.js",
+      "sha256": "f7150f144cb4d1842db95e06488c526ada06abe8023aa3b8ca0794967713d96b"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.info.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.info.js",
+      "sha256": "fed6ffb588c69a1b940d3079faa155a1acf6aa3df2666ba889db7b9bbc2c7f4a"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.ltrim.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.ltrim.js",
+      "sha256": "3c8863fc0e1522e2d38e6f5dbeb733ab46e4d0943de56fd42e0eeb65983e82d1"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.max_record_size.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.max_record_size.js",
+      "sha256": "906f7ea96d62d9300e6179342c8d84eb3cf04b8234e27832d0cce974be4c8e9b"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.objname.column.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.objname.column.js",
+      "sha256": "ab4d7ee900648485a70a790c76ba12c8a52f3581f45d28f37985d46c0a857e4d"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.objname.index.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.objname.index.js",
+      "sha256": "a3aa14f219ee239c79baf5be140891c18fcb8ca5ebe98cf6df423c262e7583e7"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.on_record.alter.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.on_record.alter.js",
+      "sha256": "00afda83c06c867e4a683afeff1b8991dcc55a8a8640a7aa6ffa86f237957b7d"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.on_record.filter.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.on_record.filter.js",
+      "sha256": "0858c1d2a37af949ec2e955f7f6501a6f1038867d24fd9a7c933aafb8d7137be"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.on_skip.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.on_skip.js",
+      "sha256": "6d2a6090d91fccbdcc1cb62b03f56e0e7757447517d859f0ba10032730042c31"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.quote.default.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.quote.default.js",
+      "sha256": "af82c4827f77f73b82c09a29d7e5e61858e60146ea6867ba2e1ac1f4308f0bc7"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.quote.escape.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.quote.escape.js",
+      "sha256": "0bef5c18498b0e88862cc4b19cd2e5c490a57bc87d80794c51c17cd592002b2f"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.raw.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.raw.js",
+      "sha256": "720f58cb8da2f0f5391263b7586d11dbde8d8edfc9cf765869bfc023a0cdc007"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.record_delimiter.array.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.record_delimiter.array.js",
+      "sha256": "180848b431a9c7290d33ce326fe19b0b190473c16761c337e51860bcd6875f10"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.record_delimiter.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.record_delimiter.js",
+      "sha256": "b60a4616bb6a64cfb4a6547cc55c749d99c41b9ee725383725e80df60c085898"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.relax_column_count.columns.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.relax_column_count.columns.js",
+      "sha256": "54a12105af67771d6217b1f2e114b4aa1bcaaec945483383a6b4e9de52fcc43f"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.relax_column_count.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.relax_column_count.js",
+      "sha256": "b682a124a9fef3efe428ee4873de28b273550086dfda48a4ca49ead10add7c6c"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.relax_column_count.record_inconsistent_columns.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.relax_column_count.record_inconsistent_columns.js",
+      "sha256": "f0102f3d9b37073b23225240394b3120965ba2e3353a42575a935dcd247d094e"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.relax_column_count.record_inconsistent_length.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.relax_column_count.record_inconsistent_length.js",
+      "sha256": "08a740d9d06e7cfecf228f135a9ad6e0785c07d169fe24e536ec957a7918ffc6"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.relax_column_count_less.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.relax_column_count_less.js",
+      "sha256": "93e17f3a8a76704cec8c8bbc6fde4be80fb0221320863a43b452af949c4d3329"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.relax_column_count_more.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.relax_column_count_more.js",
+      "sha256": "80d0ea090761b1404ab66742b60ab7c0e1f2652602cd1db2dec51dd9adb0a592"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.relax_quotes.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.relax_quotes.js",
+      "sha256": "b9129c41028c06725fba3ae8794d1349e35d488904119b06e815d50e5ef81930"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.rtrim.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.rtrim.js",
+      "sha256": "c8e1b7b7be1e5d6b92b91d109cd60208a174502191e9e3f9609f56efdc869323"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.skip_empty_lines.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.skip_empty_lines.js",
+      "sha256": "cb0b1a27577ec23131183bd1b80c5b51a4ceb8623c3438de84f8d42681f0890b"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.skip_empty_lines.trim.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.skip_empty_lines.trim.js",
+      "sha256": "efe7b99378f046c48f95a031912283abdd6c759c36586aed8180bd0731a4e036"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.skip_records_with_empty_values.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.skip_records_with_empty_values.js",
+      "sha256": "093101c06528d61b014056be70fbe82ccdc7e181cd148641ae08e6e165d979c3"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.skip_records_with_error.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.skip_records_with_error.js",
+      "sha256": "d6a0bfe2c692f0ff97e092f386f47039a4374fb213ed1e75a91d206243274d9b"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.to.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.to.js",
+      "sha256": "641801d924545bfee484e489c14642f4b4cb606f6aea1123c49255741ba65f50"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.to_line.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.to_line.js",
+      "sha256": "a379e337fdfce90323ca302f9be551834bc5387039f20cd026da7b883ce3240e"
+    },
+    "reference/upstream/packages/csv-parse/samples/option.trim.js": {
+      "upstreamPath": "packages/csv-parse/samples/option.trim.js",
+      "sha256": "d685b16735fb34f67deb04bf062755bfe8db1cd284ab99bf7fee93ca30541c6e"
+    },
+    "reference/upstream/packages/csv-parse/samples/recipe.async.iterator.js": {
+      "upstreamPath": "packages/csv-parse/samples/recipe.async.iterator.js",
+      "sha256": "07154276e744a2bab279724b6b85f5097b4e2ced37a5075770b3fc78720d5b86"
+    },
+    "reference/upstream/packages/csv-parse/samples/recipe.file.js": {
+      "upstreamPath": "packages/csv-parse/samples/recipe.file.js",
+      "sha256": "0480c70a9ef709c0283f89acbc846849ad1960d74687b6d8b7555115786f4094"
+    },
+    "reference/upstream/packages/csv-parse/samples/recipe.file.utf16le.js": {
+      "upstreamPath": "packages/csv-parse/samples/recipe.file.utf16le.js",
+      "sha256": "d4bb0c9b8355d0863eb2b694fc8abd6afdd7c373a2ab2c577b1a7e653f88dc5d"
+    },
+    "reference/upstream/packages/csv-parse/samples/recipe.pipe.js": {
+      "upstreamPath": "packages/csv-parse/samples/recipe.pipe.js",
+      "sha256": "a512e9edb700d684b3e3359b84d8451ff8c1970f847ccdb6f898cc1623db8185"
+    },
+    "reference/upstream/packages/csv-parse/samples/recipe.promises.js": {
+      "upstreamPath": "packages/csv-parse/samples/recipe.promises.js",
+      "sha256": "55bfef980ef9c3bd09d2d90f5c94d2c8ae58ea2416dea7b437085bb5156a57b2"
+    },
+    "reference/upstream/packages/csv-parse/samples/tsv.js": {
+      "upstreamPath": "packages/csv-parse/samples/tsv.js",
+      "sha256": "7f0c0052fb94695c80d6ec2eb3824a5076d730cefa52e04ba5c6e83cc613b48c"
+    },
+    "reference/upstream/packages/csv-parse/test/api.arguments.js": {
+      "upstreamPath": "packages/csv-parse/test/api.arguments.js",
+      "sha256": "1337cc7435bbaf4d3173c543464de44d0a82600b9a254ff518b94df91f259f41"
+    },
+    "reference/upstream/packages/csv-parse/test/api.arguments.ts": {
+      "upstreamPath": "packages/csv-parse/test/api.arguments.ts",
+      "sha256": "a80bbb33fcc7bc67f22a5ed9d26b557ff3f2855011bd9caa01d8823508825e4a"
+    },
+    "reference/upstream/packages/csv-parse/test/api.assert_error.ts": {
+      "upstreamPath": "packages/csv-parse/test/api.assert_error.ts",
+      "sha256": "e35c0b253cab275865c3a4170aab57a0ebbd57d0e6398d24954cdc6687745b3c"
+    },
+    "reference/upstream/packages/csv-parse/test/api.error.ts": {
+      "upstreamPath": "packages/csv-parse/test/api.error.ts",
+      "sha256": "eeb412bf53174469a0c4212ca52408f774865b75e4f8ec5c0a070d8023124764"
+    },
+    "reference/upstream/packages/csv-parse/test/api.info.ts": {
+      "upstreamPath": "packages/csv-parse/test/api.info.ts",
+      "sha256": "21e45e6e980921344012f2eb3bd6ef4833f91e499262d1f5f60ac7a6d8055770"
+    },
+    "reference/upstream/packages/csv-parse/test/api.stream.destroy.ts": {
+      "upstreamPath": "packages/csv-parse/test/api.stream.destroy.ts",
+      "sha256": "43efd8acc0e2dcbeaf13391eb9269fbb130f8db5be857c5dead8497428761771"
+    },
+    "reference/upstream/packages/csv-parse/test/api.stream.events.ts": {
+      "upstreamPath": "packages/csv-parse/test/api.stream.events.ts",
+      "sha256": "5ec2048eb5158f65a7dc1d3beac0494d6e9779067e04ec908161fc45a581a763"
+    },
+    "reference/upstream/packages/csv-parse/test/api.stream.finished.ts": {
+      "upstreamPath": "packages/csv-parse/test/api.stream.finished.ts",
+      "sha256": "f13d30f043f6218cbc65ba614d54081f1bd76973fb8fcf2d2e2ab1e5c76c4120"
+    },
+    "reference/upstream/packages/csv-parse/test/api.stream.iterator.ts": {
+      "upstreamPath": "packages/csv-parse/test/api.stream.iterator.ts",
+      "sha256": "a0ca9afe3ec6f8f42158cf40cbb1764e9bbe8fa8c80b56313fd64b878c9df23e"
+    },
+    "reference/upstream/packages/csv-parse/test/api.stream.pipe.ts": {
+      "upstreamPath": "packages/csv-parse/test/api.stream.pipe.ts",
+      "sha256": "eccebbb6481d5365af71b051a69f2c33a4d966cac75a0f63a54a69a64d38dd52"
+    },
+    "reference/upstream/packages/csv-parse/test/api.stream.write.ts": {
+      "upstreamPath": "packages/csv-parse/test/api.stream.write.ts",
+      "sha256": "09f3b7b002025400f8a949f2f15e03dabdc028e44dead58d6f93fd7b025f35c7"
+    },
+    "reference/upstream/packages/csv-parse/test/api.sync.ts": {
+      "upstreamPath": "packages/csv-parse/test/api.sync.ts",
+      "sha256": "653e8ceae59250684bda13209cf0a9f0524742226a2c5e40bf35d987308a4bc1"
+    },
+    "reference/upstream/packages/csv-parse/test/api.types.sync.ts": {
+      "upstreamPath": "packages/csv-parse/test/api.types.sync.ts",
+      "sha256": "69635a3f757d2694c72dcab14295cbc3f469731953b299d8631f8b5ed8f1b69c"
+    },
+    "reference/upstream/packages/csv-parse/test/api.types.ts": {
+      "upstreamPath": "packages/csv-parse/test/api.types.ts",
+      "sha256": "6aeeb28874897fb2d9e015109c36b14c5dd81a720b4e84b07480f10ff20f78d3"
+    },
+    "reference/upstream/packages/csv-parse/test/api.web_stream.js": {
+      "upstreamPath": "packages/csv-parse/test/api.web_stream.js",
+      "sha256": "cc6b180938b78bc58ad7a78c203826946e318d7938a245326b7d85b9be41467d"
+    },
+    "reference/upstream/packages/csv-parse/test/api.web_stream.ts": {
+      "upstreamPath": "packages/csv-parse/test/api.web_stream.ts",
+      "sha256": "0ca192fb1c25a4237dad405474167b178627ea1337d0a97c0dc4ca05c360988b"
+    },
+    "reference/upstream/packages/csv-parse/test/info.bytes.ts": {
+      "upstreamPath": "packages/csv-parse/test/info.bytes.ts",
+      "sha256": "6f5d4dd9838f1924360de6f6c324cfd3e16e36cfa7c693df832baea6751b899d"
+    },
+    "reference/upstream/packages/csv-parse/test/info.bytes_records.ts": {
+      "upstreamPath": "packages/csv-parse/test/info.bytes_records.ts",
+      "sha256": "e284a69801e37ee29c4d549c13bde767768918cd1cbaa08e607622b6ebcfae95"
+    },
+    "reference/upstream/packages/csv-parse/test/info.comment_lines.js": {
+      "upstreamPath": "packages/csv-parse/test/info.comment_lines.js",
+      "sha256": "24f1473ed01fd6d4a5d7a5e2f40a2da5233c24c7a6188b7ac698367b7c0187be"
+    },
+    "reference/upstream/packages/csv-parse/test/info.empty_lines.js": {
+      "upstreamPath": "packages/csv-parse/test/info.empty_lines.js",
+      "sha256": "6ec6607a2dbe583557282cc0b59052783e01d89858bee2be8ceba058127e8bb5"
+    },
+    "reference/upstream/packages/csv-parse/test/info.invalid_field_length.js": {
+      "upstreamPath": "packages/csv-parse/test/info.invalid_field_length.js",
+      "sha256": "8d7fa6be2eb18228251551d02461419be83b1841c69db3541a10015f04664a7e"
+    },
+    "reference/upstream/packages/csv-parse/test/info.lines.ts": {
+      "upstreamPath": "packages/csv-parse/test/info.lines.ts",
+      "sha256": "d8c92b13821858673b4cde6c408e7951742475784ff715069db457d815ca20da"
+    },
+    "reference/upstream/packages/csv-parse/test/info.records.js": {
+      "upstreamPath": "packages/csv-parse/test/info.records.js",
+      "sha256": "b2abb52b8c43f63d7fa78b1af14a5139cb08bfa28b416093408f020df5d36fe3"
+    },
+    "reference/upstream/packages/csv-parse/test/option.bom.js": {
+      "upstreamPath": "packages/csv-parse/test/option.bom.js",
+      "sha256": "14a0ee9662acdf01a9856e5a423befb340bd8ce3cf9895bea5b0d7de1733859f"
+    },
+    "reference/upstream/packages/csv-parse/test/option.bom.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.bom.ts",
+      "sha256": "659c76eddd5dc291b36c2098ab7643ad1941821b6e66eb820259694d7284659a"
+    },
+    "reference/upstream/packages/csv-parse/test/option.cast.js": {
+      "upstreamPath": "packages/csv-parse/test/option.cast.js",
+      "sha256": "b459ba780dba501ae03edca559fc99766713103f01a9aaa59b480fdcafe3a5de"
+    },
+    "reference/upstream/packages/csv-parse/test/option.cast.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.cast.ts",
+      "sha256": "3a3e40fc13473e072cb8c1460c2e2ea7622bd41fc49a9fa6a2955502234b856e"
+    },
+    "reference/upstream/packages/csv-parse/test/option.cast_date.js": {
+      "upstreamPath": "packages/csv-parse/test/option.cast_date.js",
+      "sha256": "16b57020b213baea97f6fd3c9f001279e01fa78d9c5f1869b5d1ce6ce685f676"
+    },
+    "reference/upstream/packages/csv-parse/test/option.cast_date.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.cast_date.ts",
+      "sha256": "e09bfd6139c23bb021e931a6c87d6ff7c8a2e398ce7a71e42c2fede03b5488b7"
+    },
+    "reference/upstream/packages/csv-parse/test/option.columns.js": {
+      "upstreamPath": "packages/csv-parse/test/option.columns.js",
+      "sha256": "7f97c51774b73c3bf8c8a846aff95a256e72ae11a03d3fee2f168eab3a5626fa"
+    },
+    "reference/upstream/packages/csv-parse/test/option.columns.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.columns.ts",
+      "sha256": "153c51732fb72fe14fe1060f4ae186b5ed060968eebaa912d80d1352e1906633"
+    },
+    "reference/upstream/packages/csv-parse/test/option.comment.js": {
+      "upstreamPath": "packages/csv-parse/test/option.comment.js",
+      "sha256": "42f0f859792bc9389a0bed609a755bd17a8777bf24d73881a482646b6f978dd6"
+    },
+    "reference/upstream/packages/csv-parse/test/option.comment.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.comment.ts",
+      "sha256": "0d4d17112e0001d69b52da7262308e92b0c6ed445770de7d97840d33baaeea5e"
+    },
+    "reference/upstream/packages/csv-parse/test/option.comment_no_infix.js": {
+      "upstreamPath": "packages/csv-parse/test/option.comment_no_infix.js",
+      "sha256": "93a2bf07ee80e304d9bfacb2e91114a9042bd35ffea81c8a8a9bad82fd512628"
+    },
+    "reference/upstream/packages/csv-parse/test/option.comment_no_infix.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.comment_no_infix.ts",
+      "sha256": "60d19faecfc99b54cadb2eeb6afe7ba81748d3c843727eac233c1c95b894efc2"
+    },
+    "reference/upstream/packages/csv-parse/test/option.delimiter.js": {
+      "upstreamPath": "packages/csv-parse/test/option.delimiter.js",
+      "sha256": "279c5f8a7437a0ba6c570aa714f68415bd3f293c6050ba4de5091d69fdb465d9"
+    },
+    "reference/upstream/packages/csv-parse/test/option.delimiter.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.delimiter.ts",
+      "sha256": "1006907d6bae6cc28d8fa90a2960376b7fd29782f8b8c15d61dee14fd0d96d40"
+    },
+    "reference/upstream/packages/csv-parse/test/option.delimiter_auto.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.delimiter_auto.ts",
+      "sha256": "302d4b3cff756af5e803259dd60595e7b9e83d690de3b5e2348fdcdc7c82b109"
+    },
+    "reference/upstream/packages/csv-parse/test/option.encoding.js": {
+      "upstreamPath": "packages/csv-parse/test/option.encoding.js",
+      "sha256": "18b747bd2ccb3fa4115cd6b0f6a96d13712088dce9b12337baaf9756e5afba2c"
+    },
+    "reference/upstream/packages/csv-parse/test/option.encoding.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.encoding.ts",
+      "sha256": "22eab743e44254d6f2a4af761610f463ae1ed23ec744930c1e1fd78d33f25027"
+    },
+    "reference/upstream/packages/csv-parse/test/option.escape.js": {
+      "upstreamPath": "packages/csv-parse/test/option.escape.js",
+      "sha256": "fe79877cdfb949821d1b44d34c5d77e025ad38da0cbd8d6d3458555ba272587e"
+    },
+    "reference/upstream/packages/csv-parse/test/option.escape.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.escape.ts",
+      "sha256": "1d5cb8fdb698c3e0688756023c020b9e4aa33d5bff82769f3625be0a75a164e8"
+    },
+    "reference/upstream/packages/csv-parse/test/option.from.js": {
+      "upstreamPath": "packages/csv-parse/test/option.from.js",
+      "sha256": "5b8e293ef1d6ae02b6851df8b163a1fb281be5428ee0aee71bc94cfbc2dadccb"
+    },
+    "reference/upstream/packages/csv-parse/test/option.from.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.from.ts",
+      "sha256": "07cbf7ad5b70d637821ce04d873b5443f08449f4fa36c68a2a5cfb7262f6cf12"
+    },
+    "reference/upstream/packages/csv-parse/test/option.from_line.js": {
+      "upstreamPath": "packages/csv-parse/test/option.from_line.js",
+      "sha256": "f9f623b9b45e53561965da54a2e9987b3d1582a12430a32ac424df9eac82668a"
+    },
+    "reference/upstream/packages/csv-parse/test/option.from_line.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.from_line.ts",
+      "sha256": "a2247dbec5c639578960983907fda9a0e2d9c31137da9ef62b5db766af01af6b"
+    },
+    "reference/upstream/packages/csv-parse/test/option.group_columns_by_name.js": {
+      "upstreamPath": "packages/csv-parse/test/option.group_columns_by_name.js",
+      "sha256": "7adbc4acfc11b039a9d3923c1d26933dadffe82f6a02a0de109c945759c0ee18"
+    },
+    "reference/upstream/packages/csv-parse/test/option.group_columns_by_name.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.group_columns_by_name.ts",
+      "sha256": "3b45bab1b48c013d04222f93d993d38a4f444bf326ec06c8bf4c543a99203107"
+    },
+    "reference/upstream/packages/csv-parse/test/option.ignore_last_delimiters.js": {
+      "upstreamPath": "packages/csv-parse/test/option.ignore_last_delimiters.js",
+      "sha256": "703d5f990b4f8946ff9617a5602d1b5f4fe144a8690f1a47ca7417728798621a"
+    },
+    "reference/upstream/packages/csv-parse/test/option.ignore_last_delimiters.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.ignore_last_delimiters.ts",
+      "sha256": "18e90a4ea957462caf120a7696a9a282193c4207a7db63c240f1fc559ddfb903"
+    },
+    "reference/upstream/packages/csv-parse/test/option.info.js": {
+      "upstreamPath": "packages/csv-parse/test/option.info.js",
+      "sha256": "9b565eabf3ba53c0569e87aa03a5a290db6c729bae82f8c963346afec195ed7e"
+    },
+    "reference/upstream/packages/csv-parse/test/option.info.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.info.ts",
+      "sha256": "df56113353bd872609f8c21384502f9d0b7d00a19fb8a291a1d7a5151151f912"
+    },
+    "reference/upstream/packages/csv-parse/test/option.ltrim.js": {
+      "upstreamPath": "packages/csv-parse/test/option.ltrim.js",
+      "sha256": "e38bc51abe3161197ea8d8a82e657b390cac51b137602df929e85c58e313b246"
+    },
+    "reference/upstream/packages/csv-parse/test/option.ltrim.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.ltrim.ts",
+      "sha256": "b8f78debcd02c52747bd121811dedd059ceb9d1b0f10717727f2ec78b40303f9"
+    },
+    "reference/upstream/packages/csv-parse/test/option.max_record_size.js": {
+      "upstreamPath": "packages/csv-parse/test/option.max_record_size.js",
+      "sha256": "65e17550eff12c20c6c730f10b7e0b22a5063bcb3cee7a0cb8cbf0077140fe74"
+    },
+    "reference/upstream/packages/csv-parse/test/option.max_record_size.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.max_record_size.ts",
+      "sha256": "1d8452cd700480fb18c389756d981f61bbb958d96c8d9980afd7475ad7eec631"
+    },
+    "reference/upstream/packages/csv-parse/test/option.objname.js": {
+      "upstreamPath": "packages/csv-parse/test/option.objname.js",
+      "sha256": "739f5660e0e76cb65c8a422cbbbc646747f673b99ab5c745bfed1d06fbb88bc5"
+    },
+    "reference/upstream/packages/csv-parse/test/option.objname.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.objname.ts",
+      "sha256": "45e5d2fba8dfcce0b34e5161ca7845e941d259c9f28ed2203f0a314ef4ca5d6d"
+    },
+    "reference/upstream/packages/csv-parse/test/option.on_record.js": {
+      "upstreamPath": "packages/csv-parse/test/option.on_record.js",
+      "sha256": "72cdd55e1be47692cb026738e5d079325b9b68d31d61e3bb4c1667eaabfe4789"
+    },
+    "reference/upstream/packages/csv-parse/test/option.on_record.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.on_record.ts",
+      "sha256": "fd528dc2445382d2e6c13b5000abe0d2626493cf10d002dd8315af0748ca8b8a"
+    },
+    "reference/upstream/packages/csv-parse/test/option.on_skip.js": {
+      "upstreamPath": "packages/csv-parse/test/option.on_skip.js",
+      "sha256": "c43de489244e6297b2d90b8c00dcf9c53356f5c99229a0c1966f44d2535075d4"
+    },
+    "reference/upstream/packages/csv-parse/test/option.on_skip.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.on_skip.ts",
+      "sha256": "df5ae855e86fb3bdc0d2b17062ddc280daa502e3fc04f72b70c310e81d09b175"
+    },
+    "reference/upstream/packages/csv-parse/test/option.quote.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.quote.ts",
+      "sha256": "b653dec5181d64fd74be18abbcc7870d14e1ffe7ce68bb6f74025e573d6927c7"
+    },
+    "reference/upstream/packages/csv-parse/test/option.raw.js": {
+      "upstreamPath": "packages/csv-parse/test/option.raw.js",
+      "sha256": "79c46da850b504e8b93781fabdf290dbad97f74b19ba6c3ed370e5b01550735e"
+    },
+    "reference/upstream/packages/csv-parse/test/option.raw.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.raw.ts",
+      "sha256": "0e3c80aa74eae464e8530d1ef8313d8d492cb83b9fe7228d50d1009a527d820b"
+    },
+    "reference/upstream/packages/csv-parse/test/option.record_delimiter.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.record_delimiter.ts",
+      "sha256": "3d984cf371c0b9f15bf4632f6c8fb4c12d063d1f440e49f1ca1dea5e385c69fd"
+    },
+    "reference/upstream/packages/csv-parse/test/option.relax_column_count.js": {
+      "upstreamPath": "packages/csv-parse/test/option.relax_column_count.js",
+      "sha256": "69ff911f33962a4894f6fd07d6d53d27d972f55b43043954e90b30f7aa25fce8"
+    },
+    "reference/upstream/packages/csv-parse/test/option.relax_column_count.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.relax_column_count.ts",
+      "sha256": "d1d2e0d54dad440410a9930de4c2b8436f648c4555ea35fb36a802f5998650c3"
+    },
+    "reference/upstream/packages/csv-parse/test/option.relax_quotes.js": {
+      "upstreamPath": "packages/csv-parse/test/option.relax_quotes.js",
+      "sha256": "1bd6251c79ab0acf35abc7299358b11a9f1a70c024b79f8961c10ddfd3e23d3b"
+    },
+    "reference/upstream/packages/csv-parse/test/option.relax_quotes.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.relax_quotes.ts",
+      "sha256": "a587d1b872af0f0375d96c6a6f989021f509fc1936474b5f4915b796bdede5ce"
+    },
+    "reference/upstream/packages/csv-parse/test/option.rtrim.js": {
+      "upstreamPath": "packages/csv-parse/test/option.rtrim.js",
+      "sha256": "746d3be0144f6c74315be2cc1b3d4aed9dd774e7095263bacb86e4d6f19cdde5"
+    },
+    "reference/upstream/packages/csv-parse/test/option.rtrim.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.rtrim.ts",
+      "sha256": "0729e4766e80492327744046dfa30106f3d4eecc2390f6c3c74edf15bce40f07"
+    },
+    "reference/upstream/packages/csv-parse/test/option.skip_empty_lines.js": {
+      "upstreamPath": "packages/csv-parse/test/option.skip_empty_lines.js",
+      "sha256": "62846398a8c1a13ce448859aeab5c434d62f5480647391628672b3b9952e86e4"
+    },
+    "reference/upstream/packages/csv-parse/test/option.skip_empty_lines.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.skip_empty_lines.ts",
+      "sha256": "2e20c02a396f61766e110dc9c256211fbbec34a14651d6d3be306e8e248d7080"
+    },
+    "reference/upstream/packages/csv-parse/test/option.skip_records_with_empty_values.js": {
+      "upstreamPath": "packages/csv-parse/test/option.skip_records_with_empty_values.js",
+      "sha256": "5d21bdf6b86bf101ed22fe29f728ae8551689cf3b3494ec03304f5c6392f09d2"
+    },
+    "reference/upstream/packages/csv-parse/test/option.skip_records_with_empty_values.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.skip_records_with_empty_values.ts",
+      "sha256": "ccc269c580708c3c5149d90ca8a6fad0d157938f11114385e70dd6073bc95eea"
+    },
+    "reference/upstream/packages/csv-parse/test/option.skip_records_with_error.js": {
+      "upstreamPath": "packages/csv-parse/test/option.skip_records_with_error.js",
+      "sha256": "95e0a8c20fa7fca13bc9a82d2f6174569aaa0944e890a1be2456a3dd33d51114"
+    },
+    "reference/upstream/packages/csv-parse/test/option.skip_records_with_error.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.skip_records_with_error.ts",
+      "sha256": "e06d22310f76ee5557a53cbda8268efb470c44927e0b7ad12a7cc30fb1d9b72e"
+    },
+    "reference/upstream/packages/csv-parse/test/option.to.js": {
+      "upstreamPath": "packages/csv-parse/test/option.to.js",
+      "sha256": "b1ea5bed3bfdeed98ce0548d54652c2320705426b81962c4e813b5c31ba37db9"
+    },
+    "reference/upstream/packages/csv-parse/test/option.to.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.to.ts",
+      "sha256": "373de9b174dc853080aa2afcec1b905b1f521f0ae216919433297d3325e8d941"
+    },
+    "reference/upstream/packages/csv-parse/test/option.to_line.js": {
+      "upstreamPath": "packages/csv-parse/test/option.to_line.js",
+      "sha256": "db68b14b4f3b82d94deb3804485fe4fac5e903394cf5154d9638518aee4cc101"
+    },
+    "reference/upstream/packages/csv-parse/test/option.to_line.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.to_line.ts",
+      "sha256": "1a693bd7552dac6e05736062594e98b00c83445ab08f9abab9143944c19b07f9"
+    },
+    "reference/upstream/packages/csv-parse/test/option.trim.js": {
+      "upstreamPath": "packages/csv-parse/test/option.trim.js",
+      "sha256": "ae12e92f514c1018477564ce221a9933f3b3a51300ec08f03f7a7170923ea279"
+    },
+    "reference/upstream/packages/csv-parse/test/option.trim.ts": {
+      "upstreamPath": "packages/csv-parse/test/option.trim.ts",
+      "sha256": "a63c6d1565f00cdb6948a28c9573d4ff1794011dea92e4d18c65795608536ae4"
+    },
+    "reference/upstream/packages/csv-parse/test/options.js": {
+      "upstreamPath": "packages/csv-parse/test/options.js",
+      "sha256": "6af06c95ef36e665339554db024d5453a5ed73e2828e57ec24ec7ed70eb91848"
+    },
+    "reference/upstream/packages/csv-parse/test/options.ts": {
+      "upstreamPath": "packages/csv-parse/test/options.ts",
+      "sha256": "df79506cd0257af9de52e4453f1c3781d55c8bb96ed4261c4b94b110cb3f319f"
+    },
+    "reference/upstream/packages/csv-parse/test/samples.js": {
+      "upstreamPath": "packages/csv-parse/test/samples.js",
+      "sha256": "d1b145af355a249e8479e586b13d5c1690f8797e880c263c1be0c18f3151cb2c"
+    },
+    "reference/upstream/packages/csv-parse/test/spectrum.js": {
+      "upstreamPath": "packages/csv-parse/test/spectrum.js",
+      "sha256": "ed5569e8fc3e948a9fecaff1a0ef4f92ea482a9f9de9d0b6c7f55b2c538ccc97"
+    },
+    "reference/upstream/packages/csv-parse/test/utils.ResizableBuffer.js": {
+      "upstreamPath": "packages/csv-parse/test/utils.ResizableBuffer.js",
+      "sha256": "b862ea1c2e845477411b4fdcb301ffa577250b19efa6d2b7fe0818e3244464cb"
+    },
+    "reference/upstream/packages/csv-parse/test/utils.delimiter_discover.js": {
+      "upstreamPath": "packages/csv-parse/test/utils.delimiter_discover.js",
+      "sha256": "5f12a1aca68692d403775e76dfe914bd523378fc3f10ec7342605d0690a6785d"
+    },
+    "reference/upstream/packages/csv-stringify/CHANGELOG.md": {
+      "upstreamPath": "packages/csv-stringify/CHANGELOG.md",
+      "sha256": "610dc0f2333de3bec3f0f36b704a3618b91f159106b6a78d90d8b3297df795f6"
+    },
+    "reference/upstream/packages/csv-stringify/README.md": {
+      "upstreamPath": "packages/csv-stringify/README.md",
+      "sha256": "63891372cdc0160a5c00658d670d4c6627455258adf07defa96bb2f7309d8d9a"
+    },
+    "src/upstream/packages/csv-stringify/lib/api/CsvError.js": {
+      "upstreamPath": "packages/csv-stringify/lib/api/CsvError.js",
+      "sha256": "7feec6b28812faf36f60fc0d025337b6784273950a2aebb559d797203099fdb7"
+    },
+    "src/upstream/packages/csv-stringify/lib/api/index.js": {
+      "upstreamPath": "packages/csv-stringify/lib/api/index.js",
+      "sha256": "eae7d8a207696cec1981c522dfd58e98bd298c897b96427ecebc26f022c1fb23"
+    },
+    "src/upstream/packages/csv-stringify/lib/api/normalize_columns.js": {
+      "upstreamPath": "packages/csv-stringify/lib/api/normalize_columns.js",
+      "sha256": "46e403ab3b002d9500bd38f57dfd5c552d3e7ebd9f21452ffb5847c39dcfa573"
+    },
+    "src/upstream/packages/csv-stringify/lib/api/normalize_options.js": {
+      "upstreamPath": "packages/csv-stringify/lib/api/normalize_options.js",
+      "sha256": "b78f3e64576f9d4aa57cc651bb1242fe8e9e2aad7cbf1e0dbd414ff6f06b1d06"
+    },
+    "src/upstream/packages/csv-stringify/lib/index.js": {
+      "upstreamPath": "packages/csv-stringify/lib/index.js",
+      "sha256": "a97b722f7e1802d3610daea390461680f49497caafd12d1b779da83352b0da04"
+    },
+    "src/upstream/packages/csv-stringify/lib/sync.js": {
+      "upstreamPath": "packages/csv-stringify/lib/sync.js",
+      "sha256": "1481970717496dc5b53c30ed8d4e62596086c767db861dd3892f0b727467801f"
+    },
+    "src/upstream/packages/csv-stringify/lib/utils/get.js": {
+      "upstreamPath": "packages/csv-stringify/lib/utils/get.js",
+      "sha256": "ffd0e7e631cb5e2ed4c46eca3af70e6c4d6646e1403e3e5260a5b9fe359b928a"
+    },
+    "src/upstream/packages/csv-stringify/lib/utils/is_object.js": {
+      "upstreamPath": "packages/csv-stringify/lib/utils/is_object.js",
+      "sha256": "c2376181876ada65c71f2a19fb0b4a4c495e242c1f68f560df22e9d224c9761b"
+    },
+    "src/upstream/packages/csv-stringify/lib/utils/underscore.js": {
+      "upstreamPath": "packages/csv-stringify/lib/utils/underscore.js",
+      "sha256": "015f642c76345ad144f9846e36008de6a7c430d1c7fde239c2919cd0b5ec8058"
+    },
+    "reference/upstream/packages/csv-stringify/rollup.config.js": {
+      "upstreamPath": "packages/csv-stringify/rollup.config.js",
+      "sha256": "c9b7e55e35d9e7384a90258c3714bb8ee54efa354f3d48299f836cd307241ebb"
+    },
+    "reference/upstream/packages/csv-stringify/samples/api.async.iterator.js": {
+      "upstreamPath": "packages/csv-stringify/samples/api.async.iterator.js",
+      "sha256": "376d4e8a818b3dde9becb1da7be23237db38df99254045529e3818d8e624a672"
+    },
+    "reference/upstream/packages/csv-stringify/samples/api.callback.js": {
+      "upstreamPath": "packages/csv-stringify/samples/api.callback.js",
+      "sha256": "6890c8b9f6504fb8e50d7267e67d1a814bad8e76e9f847a6520209173f498090"
+    },
+    "reference/upstream/packages/csv-stringify/samples/api.pipe.js": {
+      "upstreamPath": "packages/csv-stringify/samples/api.pipe.js",
+      "sha256": "5e09d91c0b8328d4a59db49fac1ce5d2d69bbcc91f31cebd1c5c922bf605df28"
+    },
+    "reference/upstream/packages/csv-stringify/samples/api.stream.js": {
+      "upstreamPath": "packages/csv-stringify/samples/api.stream.js",
+      "sha256": "912c9c40e7df007b64e6ddb54ef714fc8f932f36acfa251dc9932ca3ce61b0fe"
+    },
+    "reference/upstream/packages/csv-stringify/samples/api.sync.js": {
+      "upstreamPath": "packages/csv-stringify/samples/api.sync.js",
+      "sha256": "7fde098a849be825764b9223274dafe0e1da820b9ac1dd65a4c78174a1854d17"
+    },
+    "reference/upstream/packages/csv-stringify/samples/api.sync.memory.js": {
+      "upstreamPath": "packages/csv-stringify/samples/api.sync.memory.js",
+      "sha256": "ace4a0c5e20a128203309597634400b42e821250e03445d1192dc38880a6ba52"
+    },
+    "reference/upstream/packages/csv-stringify/samples/mixed.input_stream.js": {
+      "upstreamPath": "packages/csv-stringify/samples/mixed.input_stream.js",
+      "sha256": "9e34e331c22c4d108fd4b49da77eab910304cd26acef135f86074098fecbef88"
+    },
+    "reference/upstream/packages/csv-stringify/samples/mixed.output_stream.js": {
+      "upstreamPath": "packages/csv-stringify/samples/mixed.output_stream.js",
+      "sha256": "6c2f8a7f5481030717d2ac10539d56238703f77f84caecb44a903be970cb462f"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.bom.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.bom.js",
+      "sha256": "f4c4ef11bbca04e90cdfefdbdb039f38f0f7ef0bab0e5d73e0381e792763ed54"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.cast.date.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.cast.date.js",
+      "sha256": "8e210e622fe7624d3ff08ac80457e0458f46b7b3e7d9e785514c16067737b8d7"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.cast.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.cast.js",
+      "sha256": "62657819522de3e74e396c259ed2f0e1348b8476884ec40d453bab278e0c295b"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.columns_array_with_objects.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.columns_array_with_objects.js",
+      "sha256": "73cf382114422c7a0856e3554f678e427259ffba423ecf38ca4366cf3b94b39b"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.columns_array_with_strings.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.columns_array_with_strings.js",
+      "sha256": "dc51dc36d909bdcd886f86260ebfe0f4516e8f84b80713abc47085fe417b3914"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.columns_nested.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.columns_nested.js",
+      "sha256": "586c2a646f24058aff579e2dedcb2d3889ff5db933a0ac1e2d38cd4ef1f45088"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.columns_undefined.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.columns_undefined.js",
+      "sha256": "e24da21501f4413435d3befa8ad73c2dd437ec1c0fbb7cded3c37b7404da681a"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.delimiter_multiple.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.delimiter_multiple.js",
+      "sha256": "ed8030a45e274314d0194e052fad28d238f39f93bc29e55ca4713b2c8d023822"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.delimiter_single.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.delimiter_single.js",
+      "sha256": "a6938d9b9ba8f591bfac2edc379818e264c1b236d832a45600aea27cf6d59b87"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.eof_false.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.eof_false.js",
+      "sha256": "50eb8c03223781b07da42c5f1a524f4298bb2d9fe70e1f8c7eef2812d83c2e30"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.eof_true.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.eof_true.js",
+      "sha256": "443fceda0318e6ca4016537bf94a68d57c5c1e71e3dade76d1cfb61a80b5e86b"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.escape.custom.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.escape.custom.js",
+      "sha256": "eaf7afa55c064e490056d59c05f23245713ae8b87d929244144a01774afe698c"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.escape.default.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.escape.default.js",
+      "sha256": "6ce89319e763881812c9781e3a629b06351a9af67040bf6b0bdd4d0316099189"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.escape_formulas.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.escape_formulas.js",
+      "sha256": "4b35e863404a34aaa24017e08ee80b3306ceec70392e477c72697ef0bfa4b799"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.header.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.header.js",
+      "sha256": "0f58d52e66cac81fe067ff082093f32e687067052ea9fce70a6282de34a954ab"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.header.with_columns_array_strings.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.header.with_columns_array_strings.js",
+      "sha256": "a335a93fe319d24cd7de34e38b86631754a4db32e2de09b9bfa3bac1c87ca1d8"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.header.with_columns_object.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.header.with_columns_object.js",
+      "sha256": "74cd794bce350004f7405c0a5bbc8afee60bb930193389b748bd5ed78f158178"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.header_as_comment.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.header_as_comment.js",
+      "sha256": "84ca8ca028fd6920d0c52a009672d9a73ce39e7375355e0c3174756fb4745faa"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.quote.custom.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.quote.custom.js",
+      "sha256": "fe5fae8e41b86b86b8cca60697b84f83cd8712941fa714a1a46635203d871682"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.quote_record_delimiter_default.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.quote_record_delimiter_default.js",
+      "sha256": "3c53000f2aeeb12090db150e078307c2f6a4d18699f7b2d440c9616c08f7d3ff"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.quote_record_delimiter_disabled.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.quote_record_delimiter_disabled.js",
+      "sha256": "8165a412d92037d528db203e1e46034208602b3ef37240caa6f6c1c08816f6b6"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.quote_record_delimiter_record_delimiter.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.quote_record_delimiter_record_delimiter.js",
+      "sha256": "a826737b5779bcf1e203e1e9627e7eded23d140ddb4db3779c500b221193c7e3"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.quoted.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.quoted.js",
+      "sha256": "ce13a2d13768ae58ebd3d40ae4c86134cf370a26f62a73401e707fefaa9417a0"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.quoted_empty.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.quoted_empty.js",
+      "sha256": "2a9699790654ff7f011848822271e239dbc9f8e823bf9123c3ed4d24b75045fc"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.quoted_match_regexp.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.quoted_match_regexp.js",
+      "sha256": "304a4089e5394836772ad731bd0ae3e06184930061f7e3d2098bd55816e63ee3"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.quoted_match_string.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.quoted_match_string.js",
+      "sha256": "146696bffc52c8eafa374a79067b427eeee459c4b8c76104abf78446f9ef664f"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.quoted_string.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.quoted_string.js",
+      "sha256": "297d9a77b5cfaa217eb0f9f25a13eca401cfb7dc71c60dc9e551caacfa39d5e5"
+    },
+    "reference/upstream/packages/csv-stringify/samples/option.record_delimiter.js": {
+      "upstreamPath": "packages/csv-stringify/samples/option.record_delimiter.js",
+      "sha256": "0a2329e5c05d5688854181ebae818b681ea1c4fce0eafce58ddea6e4bf218503"
+    },
+    "reference/upstream/packages/csv-stringify/test/api.callback.js": {
+      "upstreamPath": "packages/csv-stringify/test/api.callback.js",
+      "sha256": "d503c78dab36416aab728ecc292502b999d9bb6c1a256d215c145a2197561f58"
+    },
+    "reference/upstream/packages/csv-stringify/test/api.js": {
+      "upstreamPath": "packages/csv-stringify/test/api.js",
+      "sha256": "1975f626b55a93f87b8092aff2a02b73d228c27561e5789c56f8565b9116e330"
+    },
+    "reference/upstream/packages/csv-stringify/test/api.pipe.js": {
+      "upstreamPath": "packages/csv-stringify/test/api.pipe.js",
+      "sha256": "3f72883bfdcab710edbb32b0e9247f0dea0e9137ebe658721e3e0f834c8f784d"
+    },
+    "reference/upstream/packages/csv-stringify/test/api.sync.js": {
+      "upstreamPath": "packages/csv-stringify/test/api.sync.js",
+      "sha256": "f89e5f587bce7d75a36b53635c05b17a0c9075d2fa6ee0861613b08db9bbffbc"
+    },
+    "reference/upstream/packages/csv-stringify/test/api.types.sync.ts": {
+      "upstreamPath": "packages/csv-stringify/test/api.types.sync.ts",
+      "sha256": "c99464c8264569499e456be53465fd0052e0ab1e0fce4f264c5652ac064500c3"
+    },
+    "reference/upstream/packages/csv-stringify/test/api.types.ts": {
+      "upstreamPath": "packages/csv-stringify/test/api.types.ts",
+      "sha256": "987e3dcab6c73f500eb8528d011098e266dd4fc304f083de67c48e6e1b512a3d"
+    },
+    "reference/upstream/packages/csv-stringify/test/api.web_stream.js": {
+      "upstreamPath": "packages/csv-stringify/test/api.web_stream.js",
+      "sha256": "cb3336803e020d14e8292bb95e56cf6f4e347e1177d02807ed902e5946b1f75c"
+    },
+    "reference/upstream/packages/csv-stringify/test/api.write.js": {
+      "upstreamPath": "packages/csv-stringify/test/api.write.js",
+      "sha256": "5378eacdc75b99d80a51bf186937569408db340a2b8d51c445f42d6453bbaa38"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.bom.js": {
+      "upstreamPath": "packages/csv-stringify/test/option.bom.js",
+      "sha256": "5505abbcb3d09baa959b891757ca65fdbc3b10857896e05ebfdc2512ddc86946"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.bom.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.bom.ts",
+      "sha256": "76e0d7a5aa7005edc4c5b3f3eb2c5ede6ccc2e396364ab0aa31aac6736c7d613"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.cast.js": {
+      "upstreamPath": "packages/csv-stringify/test/option.cast.js",
+      "sha256": "0f61f3261b284a1c194e556eba7f35cfec7e23679e71826a25c4a431bfbf814f"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.cast.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.cast.ts",
+      "sha256": "1d6a563fbdec10ca43fd0e3a3f2d50a4062ecd0ee6bd96e1c0466f96bc50be10"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.cast.types.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.cast.types.ts",
+      "sha256": "3dabffc4fe9c873fe3e9c881b260c6bdbd3aa0d0e7bff6d21b4717eaec676297"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.columns.js": {
+      "upstreamPath": "packages/csv-stringify/test/option.columns.js",
+      "sha256": "29821f57842c89e5a7707c91a0a0f9ba9352b3f4322f4efa38845b330963c0e4"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.columns.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.columns.ts",
+      "sha256": "feff05978201cca0c65c52607235a0b448654a2bc62b01dd906702ef73aac7b5"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.delimiter.js": {
+      "upstreamPath": "packages/csv-stringify/test/option.delimiter.js",
+      "sha256": "3c3bdbc341553ddf82a73a1804cb862e3e8f97f4295e9edf626f9b3836378123"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.delimiter.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.delimiter.ts",
+      "sha256": "5b206ccaed3b1c1fe250890c253fc8686ac624aa5e2d747a15b3cb24b22c9749"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.eof.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.eof.ts",
+      "sha256": "c3b68e8b674c45f0ced3b9f26be82960e746962708bdf0709ad92dbb5835254e"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.escape.js": {
+      "upstreamPath": "packages/csv-stringify/test/option.escape.js",
+      "sha256": "a1127aa2e17b1336309f87ae02151dfec91d2d16b634db441eeb5559de2b64df"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.escape.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.escape.ts",
+      "sha256": "ec64fa78f7b1b96c341c17a5588473d2fbdd5a0d76149ce723ea6ba38b1cc1d0"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.escape_formulas.js": {
+      "upstreamPath": "packages/csv-stringify/test/option.escape_formulas.js",
+      "sha256": "760b2a7ef0e2cc84253c011950ef400fc1dcf9af74ab990054ec658588a923f2"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.escape_formulas.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.escape_formulas.ts",
+      "sha256": "dd9bd352af0f4062c4ba38b0d14ea8b8a7681f179e5189a87ee149e85587495b"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.header.js": {
+      "upstreamPath": "packages/csv-stringify/test/option.header.js",
+      "sha256": "1a8ea014791de223a500c7b6ead36a91126f22d5c1657b87a27d4667eb5e5001"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.header.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.header.ts",
+      "sha256": "3a5a0777e9a73bb51c5c03c6445d92575a4663fd99dd9e680bc65525d7bc5cc1"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.header_as_comment.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.header_as_comment.ts",
+      "sha256": "510779104dc43305a6be655a8e4d553e13d34b06da9248f8f57bff1393913145"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.quote.js": {
+      "upstreamPath": "packages/csv-stringify/test/option.quote.js",
+      "sha256": "431e432a92183de9042a914f8a75eb1169237a905b064e8c480d1f8f21364e81"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.quote.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.quote.ts",
+      "sha256": "d4663d9a6dc979cedb7303997d516cb41d1c82acc4746f2f6c7e006ffc731c2a"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.quote_record_delimiter.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.quote_record_delimiter.ts",
+      "sha256": "bc7397a6ac8c00eaa91139cc8ab5e1c986dd6ba8f74bb2e667521495328344ca"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.quoted.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.quoted.ts",
+      "sha256": "165cdfaf0fc2d6175c2a5ced9b8eb2e5c6efffde04c58c4913bc9fe1a1c39767"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.quoted_empty.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.quoted_empty.ts",
+      "sha256": "99b76d43a651ac7d17f1813ffc147411aa05bd385263499f29a1a803d5dda28d"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.quoted_match.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.quoted_match.ts",
+      "sha256": "ee99aeb697759f901f7db460ffaec1e867b339df5de5b0b15fe0fcd042991f16"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.quoted_string.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.quoted_string.ts",
+      "sha256": "01b152ff47ea39c3c165c5f767d6af3f0b3dd94e53151bcfdd228a3a1a174cbc"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.record_delimiter.js": {
+      "upstreamPath": "packages/csv-stringify/test/option.record_delimiter.js",
+      "sha256": "cbfe002176750fa9adc996ef4dae9a9ac579e340cb48362d11fcd5a16db3a30a"
+    },
+    "reference/upstream/packages/csv-stringify/test/option.record_delimiter.ts": {
+      "upstreamPath": "packages/csv-stringify/test/option.record_delimiter.ts",
+      "sha256": "2a439b221a970d9337e2e8d9b9885292ebdabf488e131d5089f460f091696c8a"
+    },
+    "reference/upstream/packages/csv-stringify/test/options.js": {
+      "upstreamPath": "packages/csv-stringify/test/options.js",
+      "sha256": "1bde5a80534b9256727cf5590be025af3ef4e912eafcdcdc54b922d5c9ded400"
+    },
+    "reference/upstream/packages/csv-stringify/test/samples.js": {
+      "upstreamPath": "packages/csv-stringify/test/samples.js",
+      "sha256": "6827958866911233486c63b7932f7d3f0cd2f4817f3b8bf2bc8e4ff107798151"
+    },
+    "reference/upstream/packages/csv-stringify/test/types.js": {
+      "upstreamPath": "packages/csv-stringify/test/types.js",
+      "sha256": "fe6c2fe37298e5f1a46fcbe71ca227df4e345b76c96bf65757459f505084fbae"
+    },
+    "reference/upstream/packages/stream-transform/CHANGELOG.md": {
+      "upstreamPath": "packages/stream-transform/CHANGELOG.md",
+      "sha256": "4c4e25d2b1b56297daec032ed97f9d9bc31e49140be3b6db688fbc7e5744f1eb"
+    },
+    "reference/upstream/packages/stream-transform/README.md": {
+      "upstreamPath": "packages/stream-transform/README.md",
+      "sha256": "d18266f579c034253c6a26fa8d680b231d30404ce662bb21f80d1ce887937eba"
+    },
+    "src/upstream/packages/stream-transform/lib/index.js": {
+      "upstreamPath": "packages/stream-transform/lib/index.js",
+      "sha256": "8182fe4ceb4eda7ec4305efaeae17f9ba60688a1f3a36c0d6e6facc7ffb178c7"
+    },
+    "src/upstream/packages/stream-transform/lib/sync.js": {
+      "upstreamPath": "packages/stream-transform/lib/sync.js",
+      "sha256": "e1ceca8429b033fb5fdbcd43ab65449c47177289c49de665c601bfe20a45f2d1"
+    },
+    "reference/upstream/packages/stream-transform/rollup.config.js": {
+      "upstreamPath": "packages/stream-transform/rollup.config.js",
+      "sha256": "f4787447c3830592775573e51f3ed89342a094a61d2810eaaa1d1c9b3db63f2c"
+    },
+    "reference/upstream/packages/stream-transform/samples/api.callback.js": {
+      "upstreamPath": "packages/stream-transform/samples/api.callback.js",
+      "sha256": "d26d85f5d13f78fc44655146dcfacdd14dd3d4db18a4f8c047d6577e83c1ebdc"
+    },
+    "reference/upstream/packages/stream-transform/samples/api.mixed.input.stream.js": {
+      "upstreamPath": "packages/stream-transform/samples/api.mixed.input.stream.js",
+      "sha256": "949cc181a0d56ab984cc486d54d9140df3a400e7db288bea72dd653796bb2814"
+    },
+    "reference/upstream/packages/stream-transform/samples/api.mixed.output.stream.js": {
+      "upstreamPath": "packages/stream-transform/samples/api.mixed.output.stream.js",
+      "sha256": "3917f0e21f21b9678849dfb2274a39bc32a75b9dd09ef50cc75b6e514ecacae4"
+    },
+    "reference/upstream/packages/stream-transform/samples/api.stream.js": {
+      "upstreamPath": "packages/stream-transform/samples/api.stream.js",
+      "sha256": "345d62968bb5e0c7d91879f09bef141f21303e32c9766b85e0936ea4dcb4a0da"
+    },
+    "reference/upstream/packages/stream-transform/samples/api.sync.js": {
+      "upstreamPath": "packages/stream-transform/samples/api.sync.js",
+      "sha256": "b20b8928b118b4e4976477e73bf36fd5e7106f90ad853b0cf982ef8ecb8adbec"
+    },
+    "reference/upstream/packages/stream-transform/samples/mode.callback.js": {
+      "upstreamPath": "packages/stream-transform/samples/mode.callback.js",
+      "sha256": "09e9b52d6e0017fda8a55ce7c7919aeb2d7484e8f074723e7bba21ab9c9dbda5"
+    },
+    "reference/upstream/packages/stream-transform/samples/mode.promise.js": {
+      "upstreamPath": "packages/stream-transform/samples/mode.promise.js",
+      "sha256": "93af5ecfde056841e10bf68268310c6201a1797b294a2ec78d4d4f8d26c57f4c"
+    },
+    "reference/upstream/packages/stream-transform/samples/mode.sync.js": {
+      "upstreamPath": "packages/stream-transform/samples/mode.sync.js",
+      "sha256": "7b1c821c095f7fbcfe461b186307342b0c805e5d5189a1ad81e765c00f9d1e46"
+    },
+    "reference/upstream/packages/stream-transform/samples/option.parallel.sequential.js": {
+      "upstreamPath": "packages/stream-transform/samples/option.parallel.sequential.js",
+      "sha256": "95ceacbf26bc3d6db3cea3cd02a5b9ab1585a7f27abef26fc5fd9c4471d2f106"
+    },
+    "reference/upstream/packages/stream-transform/samples/state.handler.js": {
+      "upstreamPath": "packages/stream-transform/samples/state.handler.js",
+      "sha256": "497900d2fecdde0e88d1df12a4effbdf353916b7bd06492aa7ca3247a58be08d"
+    },
+    "reference/upstream/packages/stream-transform/samples/state.instance.js": {
+      "upstreamPath": "packages/stream-transform/samples/state.instance.js",
+      "sha256": "21af110af281e3cbbfbc2b121ed62b8b7493409b66bd0d62704b798a294d41af"
+    },
+    "reference/upstream/packages/stream-transform/test/api.callback.js": {
+      "upstreamPath": "packages/stream-transform/test/api.callback.js",
+      "sha256": "3d232ab57adfa8b66780e6704b355ebc101caef800db7c151818560695343365"
+    },
+    "reference/upstream/packages/stream-transform/test/api.pipe.js": {
+      "upstreamPath": "packages/stream-transform/test/api.pipe.js",
+      "sha256": "c61def145c355ebdbfdeee8dc1fc4e10924297d0e77f2f393b952095611730b5"
+    },
+    "reference/upstream/packages/stream-transform/test/api.sync.js": {
+      "upstreamPath": "packages/stream-transform/test/api.sync.js",
+      "sha256": "90dda2bf217be168e63ca767ceb8b7b979dd51ac37cd07fd15731d20888e79f7"
+    },
+    "reference/upstream/packages/stream-transform/test/api.types.sync.ts": {
+      "upstreamPath": "packages/stream-transform/test/api.types.sync.ts",
+      "sha256": "652e7f1f12cc503b6b4c69c0cd6d392c8c3994dc96047c7e0caba190e5850ff1"
+    },
+    "reference/upstream/packages/stream-transform/test/api.types.ts": {
+      "upstreamPath": "packages/stream-transform/test/api.types.ts",
+      "sha256": "9562fbe67a928b222607d21ef8f60c11fb34e01bf11382d26bcc2f8917c42aa4"
+    },
+    "reference/upstream/packages/stream-transform/test/handler.async.js": {
+      "upstreamPath": "packages/stream-transform/test/handler.async.js",
+      "sha256": "a2444ca5d1dc55cc708f5f25af53e3bf5bd1306532734978070ca5118b8c1a2b"
+    },
+    "reference/upstream/packages/stream-transform/test/handler.js": {
+      "upstreamPath": "packages/stream-transform/test/handler.js",
+      "sha256": "fc9530eb5813253349b8ef4f638c41989f515bdd3338741811046da08241689d"
+    },
+    "reference/upstream/packages/stream-transform/test/handler.mode.callback.error.js": {
+      "upstreamPath": "packages/stream-transform/test/handler.mode.callback.error.js",
+      "sha256": "dc6c9ffa11cc4945bba6677520ea12713c4e848dd83c167292f7e3ebdbe6fcd3"
+    },
+    "reference/upstream/packages/stream-transform/test/handler.mode.callback.js": {
+      "upstreamPath": "packages/stream-transform/test/handler.mode.callback.js",
+      "sha256": "f9c1b43da424274cab32e7e446e09fcad2e6f1499e3d678ca1895b79416898c9"
+    },
+    "reference/upstream/packages/stream-transform/test/handler.mode.sync.error.js": {
+      "upstreamPath": "packages/stream-transform/test/handler.mode.sync.error.js",
+      "sha256": "91d5c118e774d3ca9eeff416157a752a040c0794eb81c8491bedae03e6e92499"
+    },
+    "reference/upstream/packages/stream-transform/test/handler.mode.sync.js": {
+      "upstreamPath": "packages/stream-transform/test/handler.mode.sync.js",
+      "sha256": "16ce0b636556614d559128e4512473103070ed65e953155642ae66e0e11c3bf4"
+    },
+    "reference/upstream/packages/stream-transform/test/handler.promise.error.js": {
+      "upstreamPath": "packages/stream-transform/test/handler.promise.error.js",
+      "sha256": "4ec564aab254bfca07f7114015aa61de692c3a62fa5b8fa113c405c3424eeac7"
+    },
+    "reference/upstream/packages/stream-transform/test/handler.promise.js": {
+      "upstreamPath": "packages/stream-transform/test/handler.promise.js",
+      "sha256": "011d0061b6d8927979c813c9204163f842754135fae54413badfa11d60c9fd69"
+    },
+    "reference/upstream/packages/stream-transform/test/handler.types.js": {
+      "upstreamPath": "packages/stream-transform/test/handler.types.js",
+      "sha256": "efc6e257841753e57bc6314d03e4dfd6d8b9cce5a42053379605cf7382a8082f"
+    },
+    "reference/upstream/packages/stream-transform/test/option.consume.js": {
+      "upstreamPath": "packages/stream-transform/test/option.consume.js",
+      "sha256": "5bc801b449730909a9d3e9aa85e00cfabb3ae3fb1f68567f266eff942f75ef1c"
+    },
+    "reference/upstream/packages/stream-transform/test/option.parallel.js": {
+      "upstreamPath": "packages/stream-transform/test/option.parallel.js",
+      "sha256": "108f9f6eee9a2af31b14591faac9233de46838a67415f3def4a30a34b0c881f7"
+    },
+    "reference/upstream/packages/stream-transform/test/option.params.js": {
+      "upstreamPath": "packages/stream-transform/test/option.params.js",
+      "sha256": "2f081d5e30e5aa13481e63736673799f21bfdadd6b426d3650c2308a19320ca1"
+    },
+    "reference/upstream/packages/stream-transform/test/samples.js": {
+      "upstreamPath": "packages/stream-transform/test/samples.js",
+      "sha256": "6827958866911233486c63b7932f7d3f0cd2f4817f3b8bf2bc8e4ff107798151"
+    },
+    "reference/upstream/packages/stream-transform/test/state.finished.js": {
+      "upstreamPath": "packages/stream-transform/test/state.finished.js",
+      "sha256": "845a88011babfc5ed6265d30ddede635bc46be6ed9e0072bb679d0cb63515a17"
+    },
+    "reference/upstream/packages/stream-transform/test/state.running.js": {
+      "upstreamPath": "packages/stream-transform/test/state.running.js",
+      "sha256": "1d430aaefd1f85f4544dabbb801bd7fdec35366b2776d6a350b02fe45176b393"
+    },
+    "reference/upstream/packages/stream-transform/test/state.started.js": {
+      "upstreamPath": "packages/stream-transform/test/state.started.js",
+      "sha256": "cf735e43d0efa435bce444663b795e60f23e37339326f872593da3bca17d6cb7"
+    }
+  }
+}

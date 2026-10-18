@@ -1,0 +1,17 @@
+{
+  "id": "coding-csv-stringify",
+  "cliArgs": [
+    "bin/check.mjs"
+  ],
+  "expectedCli": {
+    "ok": true,
+    "records": 4
+  },
+  "upstream": {
+    "url": "https://github.com/adaltas/node-csv",
+    "commit": "f12e6862a41f4324a06a26c87a3e28031d4faa7f",
+    "license": "MIT"
+  },
+  "contextMode": "whole-selected-public-source-preload",
+  "targetInputMin": 250000
+}

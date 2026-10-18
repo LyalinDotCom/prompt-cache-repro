@@ -21,7 +21,7 @@ Advertised window capacity and actual input occupancy are different measurements
 
 Use pinned public source and relevant tasks, preserving licenses and hashes. Avoid repeated filler, random padding, or an unrelated code dump solely to inflate context. Multiple tasks/repositories are required before generalizing. A large source preload is a controlled context-load arm; a session that accumulates file reads, tool results, edits, and reasoning is a separate arm. Do not pool them.
 
-The current small fixture has not been extended into a validated long-context workload. Until that arm is implemented and measured, there is no 250K result and no long-context verdict.
+The [250K+ code-context pilot](LONG_CONTEXT_PROTOCOL.md) uses two seeded regressions in pinned public CSV-library source, with independent executable acceptance checks. Its allocation is registered separately. Actual generation-response input counters, task outcomes, and audits determine whether it qualifies; planning counts alone are not results.
 
 ## Analysis
 

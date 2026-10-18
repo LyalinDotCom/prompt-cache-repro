@@ -1,0 +1,12 @@
+{
+  "accounts": ["gemini-paid", "openai-paid", "anthropic-paid"],
+  "models": ["gemini-4-argon", "gemini-3.8-flash", "gpt-6.1-sol", "claude-opus-5-5"],
+  "fixtures": ["coding-csv-parse", "coding-csv-stringify"],
+  "trials": 1,
+  "gapsSeconds": [5],
+  "maxOutputTokens": 32768,
+  "timeoutMs": 1200000,
+  "sessionTimeoutMs": 1200000,
+  "reasoningLevel": "high",
+  "seed": "csv-long-context-pilot-2026-10-17-v1"
+}
