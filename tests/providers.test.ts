@@ -33,7 +33,7 @@ const fixtures = {
 function options(provider: Provider, scenario: Scenario = 'agent'): SessionOptions {
   return { profile: { id: provider, accountId: 'fixture-account', provider, model: { gemini: 'gemini-4-argon', openai: 'gpt-6.1-sol', anthropic: 'claude-sonnet-5-5' }[provider], tier: 'Paid · user declared', label: provider, pricing: null, cacheMinTokens: 1024 },
     apiKey: 'offline-credential-never-export', scenario, prefix: 'TRIAL-NONCE\nStable reference fixture', deltaChars: 180,
-    maxOutputTokens: 512, timeoutMs: 1000, trialNonce: 'trial-nonce' };
+    turns: 4, maxOutputTokens: 512, timeoutMs: 1000, trialNonce: 'trial-nonce' };
 }
 function transport(provider: Provider, response: unknown = fixtures[provider], status = 200) {
   return vi.fn<typeof fetch>(async () => new Response(JSON.stringify(response), {
@@ -97,6 +97,10 @@ describe.each<Provider>(['openai', 'gemini', 'anthropic'])('%s official SDK sess
     expect(result.transportAttemptCount).toBe(1);
     expect(result.headers).toEqual({ 'content-type': 'application/json', 'x-request-id': 'request_fixture', 'x-goog-request-id': 'google_request_fixture', 'cf-ray': 'ray_fixture' });
     expect(result.wireRequest).toBeDefined();
+    expect(JSON.parse(result.wireRequestText!)).toEqual(result.wireRequest);
+    expect(result.wireResponseText).toBe(JSON.stringify(fixtures[provider]));
+    const repeated = await session.send(session.buildRequest(1), signal());
+    expect(repeated.wireRequestText).toBe(result.wireRequestText);
     expect(JSON.stringify(result)).not.toContain(options(provider).apiKey);
     expect(JSON.stringify(result)).not.toContain('secret-cookie');
   });
@@ -118,7 +122,7 @@ describe.each<Provider>(['openai', 'gemini', 'anthropic'])('%s official SDK sess
     const session = createProviderSession(options(provider), transport(provider));
     const first = session.buildRequest(0);
     const serialized = JSON.stringify(first);
-    expect(serialized).toContain('This is a read-only benchmark of fictional reference records. Retrieve four fixture chunks using read_fixture. Make exactly one tool call per response with {}. After receiving four tool results, give a one-sentence summary.');
+    expect(serialized).toContain('This is a read-only benchmark of fictional reference records. Retrieve 4 fixture chunks using read_fixture. Make exactly one tool call per response with {}. After receiving 4 tool results, give a one-sentence summary.');
     expect(serialized).not.toContain('on every subsequent response');
     const result = await session.send(first, signal());
     expect(result.continuationValid).toBe(true);
@@ -268,4 +272,10 @@ it('redacts provider-masked credential fragments from error messages and raw err
     expect(JSON.stringify(error)).not.toContain('********');
     expect(String(error)).toContain('You can find your API key at the dashboard.');
   }
+});
+
+ it('declares the planned tool count instead of stopping an eight-turn trajectory after four chunks', () => {
+  const session = createProviderSession({ ...options('gemini'), turns: 8 }, transport('gemini'));
+  expect(JSON.stringify(session.buildRequest(0))).toContain('Retrieve 8 fixture chunks');
+  expect(JSON.stringify(session.buildRequest(0))).not.toContain('Retrieve 4 fixture chunks');
 });

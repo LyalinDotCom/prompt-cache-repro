@@ -72,7 +72,7 @@ export function resolveConfig(input: unknown = {}, filters: { accountIds?: strin
   return {
     scenario: candidate.scenario as Scenario, profiles,
     turns: numeric(candidate.turns, 'Turns', 2, 1000), trials: numeric(candidate.trials, 'Trials', 1, 1000),
-    gapsSeconds, prefixChars: numeric(candidate.prefixChars, 'Prefix characters', 1, 99_000),
+    gapsSeconds, prefixChars: numeric(candidate.prefixChars, 'Prefix characters', 1, 200_000),
     deltaChars: numeric(candidate.deltaChars, 'Delta characters', 0, 50_000),
     maxOutputTokens: numeric(candidate.maxOutputTokens, 'Maximum output tokens', 1, 32_768),
     toleranceTokens: numeric(candidate.toleranceTokens, 'Token tolerance', 0, 100_000),

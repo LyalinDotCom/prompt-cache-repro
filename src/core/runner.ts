@@ -34,7 +34,7 @@ export function validateConfig(config: BenchmarkConfig): void {
     const value = config[key];
     if (typeof value !== 'number' || !Number.isInteger(value) || value < min || value > max) throw new Error(`${key} must be an integer between ${min} and ${max}.`);
   };
-  integer('turns', 2, 1000); integer('trials', 1, 1000); integer('prefixChars', 1, 99000);
+  integer('turns', 2, 1000); integer('trials', 1, 1000); integer('prefixChars', 1, 200000);
   integer('deltaChars', 0, 50000); integer('maxOutputTokens', 1, 32768); integer('toleranceTokens', 0, 100000); integer('timeoutMs', 1, 3600000);
   if (!config.seed || typeof config.seed !== 'string') throw new Error('A nonempty seed is required.');
   if (!config.profiles.length || !config.gapsSeconds.length) throw new Error('Select at least one profile and gap.');
@@ -114,7 +114,7 @@ export async function runBenchmark(config: BenchmarkConfig, secrets: Record<stri
         const ownKey = (id: string | undefined) => id && Object.hasOwn(secrets,id) && typeof secrets[id] === 'string' ? secrets[id] : undefined;
         const key = ownKey(profile.accountId) ?? '';
         let session;
-        try { session = (options.sessionFactory ?? createProviderSession)({ profile, apiKey: key, scenario: config.scenario, prefix, deltaChars: config.deltaChars, maxOutputTokens: config.maxOutputTokens, timeoutMs: config.timeoutMs, trialNonce }); }
+        try { session = (options.sessionFactory ?? createProviderSession)({ profile, apiKey: key, scenario: config.scenario, prefix, deltaChars: config.deltaChars, turns: config.turns, maxOutputTokens: config.maxOutputTokens, timeoutMs: config.timeoutMs, trialNonce }); }
         catch (error) { throw new Error(scrub.text(error instanceof Error ? error.message : String(error))); }
         let previousInput: number | null = null;
         let previousUsage: TokenUsage | null = null;
@@ -160,6 +160,8 @@ export async function runBenchmark(config: BenchmarkConfig, secrets: Record<stri
             observation.httpStatus = result.httpStatus;
             observation.responseId = result.responseId;
             observation.transportAttemptCount = result.transportAttemptCount;
+            observation.wireRequestText = result.wireRequestText === undefined ? undefined : scrub.text(result.wireRequestText);
+            observation.wireResponseText = result.wireResponseText === undefined ? undefined : scrub.text(result.wireResponseText);
             observation.continuationValid = result.continuationValid;
             observation.stopReason = result.stopReason;
             observation.headers = scrub.value(result.headers) as Record<string, string>;
@@ -200,10 +202,12 @@ export async function runBenchmark(config: BenchmarkConfig, secrets: Record<stri
             observation.status = signal.aborted ? 'cancelled' : 'error';
             observation.error = scrub.text(requestController.signal.aborted && !signal.aborted ? `Request timed out after ${config.timeoutMs}ms.` : error instanceof Error ? error.message : String(error));
             if (error && typeof error === 'object') {
-              const meta = error as { status?: number; headers?: Record<string,string>; rawResponse?: unknown; rawUsage?: Record<string,unknown>; wireRequest?: Record<string,unknown>; transportAttemptCount?: number };
+              const meta = error as { status?: number; headers?: Record<string,string>; rawResponse?: unknown; rawUsage?: Record<string,unknown>; wireRequest?: Record<string,unknown>; transportAttemptCount?: number; wireRequestText?: string; wireResponseText?: string };
               if (meta.wireRequest) { observation.wireRequest = scrub.value(meta.wireRequest) as Record<string,unknown>; requestHash = await sha256(JSON.stringify(meta.wireRequest)); }
               observation.httpStatus = meta.status ?? null;
               observation.transportAttemptCount = meta.transportAttemptCount;
+              observation.wireRequestText = meta.wireRequestText === undefined ? undefined : scrub.text(meta.wireRequestText);
+              observation.wireResponseText = meta.wireResponseText === undefined ? undefined : scrub.text(meta.wireResponseText);
               observation.headers = scrub.value(meta.headers ?? {}) as Record<string,string>;
               observation.rawResponse = scrub.value(meta.rawResponse ?? null);
               observation.rawUsage = scrub.value(meta.rawUsage ?? null) as Record<string,unknown> | null;

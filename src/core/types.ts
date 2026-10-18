@@ -28,11 +28,12 @@ export interface TokenUsage {
 }
 export interface SessionOptions {
   profile: Profile; apiKey: string; scenario: Scenario; prefix: string;
-  deltaChars: number; maxOutputTokens: number; timeoutMs: number; trialNonce: string;
+  deltaChars: number; turns: number; maxOutputTokens: number; timeoutMs: number; trialNonce: string;
 }
 export interface ProviderResult {
   transportAttemptCount?: number;
   wireRequest?: Record<string, unknown>;
+  wireRequestText?: string; wireResponseText?: string;
   rawResponse: unknown; rawUsage: Record<string, unknown> | null;
   usage: TokenUsage | null; responseId: string | null; resolvedModel: string | null;
   httpStatus: number | null; headers: Record<string, string>;
@@ -50,6 +51,7 @@ export interface Observation {
   eligibleIdealInputCostUsd?: number | null; theoreticalIdealInputCostUsd?: number | null;
   continuationValid?: boolean; stopReason?: string | null;
   wireRequest?: Record<string, unknown>;
+  wireRequestText?: string; wireResponseText?: string;
   runId: string; cellId: string; trialId: string; profileId: string; accountId: string;
   provider: Provider; model: string; resolvedModel: string | null; tier: string;
   scenario: Scenario; trial: number; turn: number; gapSeconds: number;
