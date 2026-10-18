@@ -1,0 +1,25 @@
+{
+  "scenario": "replay",
+  "accounts": [
+    "gemini-paid",
+    "openai-paid",
+    "anthropic-paid"
+  ],
+  "models": [
+    "gemini-4-argon",
+    "gemini-3.8-flash",
+    "gpt-6.1-sol",
+    "claude-opus-5-5"
+  ],
+  "turns": 2,
+  "trials": 1,
+  "gapsSeconds": [
+    5
+  ],
+  "prefixChars": 32000,
+  "deltaChars": 0,
+  "maxOutputTokens": 128,
+  "toleranceTokens": 64,
+  "timeoutMs": 120000,
+  "seed": "theo-regime-qualification-2026-10-18"
+}

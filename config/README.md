@@ -33,3 +33,23 @@ Exit codes: `0` means every planned observation succeeded (or the report/dry-run
 `npm run coding` defaults to `config/coding-long.json`: two pinned CSV-library repairs on the four selected models, targeting at least 250K actual input tokens. Cell order is always shuffled reproducibly using the configured seed. Select accounts/models, fixtures, trials, gaps, output allowance, transport timeout, and `sessionTimeoutMs` (default and maximum 1,200,000 milliseconds). There is no `turns` or budget field for coding sessions. They finish naturally or reach their session deadline.
 
 `npm run coding -- --config config/coding-qualification.json` selects the small ledger qualification instead. It is not a long-context benchmark. `--dry-run` previews either allocation without credentials or API requests. Coding reports are generated automatically when the allocation finishes; `node --import tsx scripts/summarize-coding.ts runs/<coding-batch> --final` rebuilds one offline.
+
+## Focused small-context study
+
+The focused allocation replaces the proposed large factorial grid with 134 planned requests plus eight qualification requests. Read [the registered protocol](../docs/SMALL_CONTEXT_PROTOCOL.md) for the hypotheses and limits. It tests short-gap replay, growing messages, native tool loops, and context/delta contrasts; it does not measure 120/300-second retention.
+
+```sh
+npm run bench -- run --config config/theo-qualification.json --dry-run
+npm run bench -- run --config config/theo-qualification.json --out runs/theo-qualification
+node --import tsx scripts/run-theo-regime.ts --calibration runs/theo-qualification/<run-id>/report.json --dry-run
+node --import tsx scripts/run-theo-regime.ts --calibration runs/theo-qualification/<run-id>/report.json
+```
+
+The orchestrator uses the ordinary `bench run` CLI for each arm, retains generated configs and process exits, and serializes trajectories sharing a key. A failed or refused trajectory is retained without automatic replacement. The qualification provides observed characters/token for allocation; actual per-turn input is reported rather than inferred from character counts. A plain `npm run bench -- run --config config/theo-regime.json` runs only the base arm, not the entire allocation.
+
+Offline analysis uses only Python's standard library:
+
+```sh
+python3 scripts/analyze-theo-regime.py runs/<study-directory> --out runs/<study-directory>/analysis
+python3 scripts/test-theo-analysis.py runs/<study-directory>
+```

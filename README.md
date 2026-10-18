@@ -4,7 +4,7 @@
 
 Our goal is credible outside-in evidence about prompt-cache reuse during real coding-agent work. The coding harness runs Pi against public provider APIs, retains serialized requests and raw responses, and independently checks patches and tests. The browser contains separate diagnostic controls.
 
-**[Read the report: did we reproduce Theo’s criticism?](docs/LATEST_RESULTS.md)** Not yet. Gemini showed roughly 2K-token cache-counter shortfalls and fewer strict matches than the controls, but we have not established the cause or reproduced the reported cost impact. High aggregate token reuse does not settle the claim. The report explains the findings, the limits, and what engineering can investigate. Its [current evidence](results/latest/) contains raw request/response archives, per-turn data, audits, and independently replayed repairs. Previous experimental evidence and excluded calibration are retained only in Git history.
+**[Read the findings and engineering FYI](docs/LATEST_RESULTS.md).** The small-context follow-up reproduced a specific Flash pattern: growing histories reported zero cache reads while identical 8K replay prompts reused the cache; reuse appeared after the preceding request crossed 16,384 tokens. Argon showed a roughly 2K-token shortfall on small additions. The focused study and qualification made 105 HTTP attempts for about $1.07 estimated from usage. Five Argon quota errors and six Opus refusals are retained and clearly separated. This is a narrow API screening result, not a replication of Theo's exact benchmark. See [small-context evidence](results/small-context/) and [verified large-context coding evidence](results/latest/).
 
 ## Run locally
 

@@ -1,91 +1,134 @@
-# Report: did we reproduce Theo’s Gemini caching criticism?
+# Gemini prompt cache findings
 
-**Not yet. We found a measurable difference in Gemini’s reported cache counters, but we have not established that it is the problem Theo reported, reproduced its cost impact, or disproved his criticism. The original validation goal remains incomplete.**
+**We reproduced a specific small-context caching problem in Flash 3.8:** growing conversations had no cache reads below the proposed 16K boundary, while identical prompts around 8K reused the cache. In the sampled growing trajectories, reads appeared only after the preceding request exceeded 16,384 tokens. Argon showed a different pattern: roughly 2K-token read shortfalls on small additions, with full prior-input reads on larger additions. These are observed public API behaviors; they do not establish an internal routing or eviction cause.
 
-These are fresh measurements from 17 October 2026. This report separates the evidence we have from the conclusion we still cannot draw.
+The 18 October focused study and qualification made **105 HTTP attempts**. Estimated cost from reported usage was **$1.07** ($0.9059 focused study + $0.1679 qualification), including refused responses. This is a rate-card estimate, not an invoice; the five quota-error responses supplied no billable usage. The large proposed grid was not run.
 
-## What this says about Theo’s claims
+## What engineering should know
 
-**18 October follow-up:** A [review of Theo’s public GitHub projects](THEO_GITHUB_REVIEW.md) found useful accounting and session-recording code, but did not locate the benchmark or full-hit definition behind his post. It does not change this report’s verdict.
+> In a controlled direct-API test, Flash 3.8 reported zero cached tokens on 18/18 growing-history follow-ups whose preceding input was below 16,384 tokens, and cache reads on 3/3 above it. Identical approximately 8K replay requests had cache reads on 14/14 follow-ups across two trials. The first request crossing 16K still missed; reuse appeared on the following request. These samples are consistent with the proposed 16,384-token boundary, but do not pinpoint its exact location. Native history and identical replay bodies were checked against captured HTTP JSON. Argon had a consistent 2,049-token shortfall on six successful small-growth follow-ups, versus reads one token above preceding input on four large-growth follow-ups. There are 29 zero-read Gemini follow-up response IDs in the evidence for investigation. This is a small screening study, with five Argon quota errors and no usable Opus control.
 
-The [reference supplied with this project](references/proposed-layered-benchmark.txt) describes [Theo’s post](https://x.com/theo/status/2111370893561909423) as reporting fewer full cache hits for Gemini in an API test simulating agent work, and discusses a possible material cost penalty. That reference is a secondary account. We do not have his complete executable test or verified full-hit definition; the X page also returned HTTP 403 when rechecked for this report. **This is a related experiment, not an exact reproduction of his benchmark.**
+## How this relates to Theo
 
-| Question | What our data says | Verdict |
-| --- | --- | --- |
-| Does Gemini show a cache-counter difference versus the controls during coding work? | Yes. Gemini often reported about 2,000 fewer cached tokens than the preceding request’s input. GPT and Opus had differences of only 2–4 tokens. | A difference worth investigating. Its cause is unknown. |
-| Does Gemini get fewer nearly complete cache matches? | Yes under **our** rule: Flash 6/23, Argon 5/9, GPT 13/13, Opus 5/5 follow-ups matched within 64 tokens. | Same general direction as the supplied criticism, but a different workload and an unverified match definition. These rates cannot be compared directly to Theo’s. |
-| Did Gemini repeatedly lose large portions of the preceding input? | We did not observe that in these sessions. Aggregate cached reads were about 99.6–99.7% of preceding input. | This test does not demonstrate large cache loss. It also does not establish that all eligible tokens were cached. |
-| Did we reproduce the reported cost penalty? | No. We have not established a controlled cost comparison that reproduces it. | Unanswered. |
-| Is Theo wrong, or is the problem fixed? | This small, different experiment cannot answer either question. | **Neither conclusion is supported.** |
+The data now supports **a concrete, reproducible caching criticism for growing small-context Flash conversations**. The earlier 250K+ coding pilot could not expose this range. High token reuse at 320K did not establish that small coding conversations would behave similarly.
 
-## Why “99.7%” did not answer your question
+We have **not reproduced Theo’s exact benchmark, full-hit definition, failure frequency, or total-session cost headline**. His executable methodology was not located in the [public GitHub review](THEO_GITHUB_REVIEW.md). “Theo/AA regime” below names the supplied hypothesis, not a claim of independently matching either organization’s protocol. A universal claim that Gemini never caches below 16K is also too broad: Flash’s identical 8K replay requests did get cache reads, and Argon reused input in its successful small-growth arm.
 
-A **full-hit rate** counts how many requests meet a near-total match rule. A **token ratio** measures how much input was reported as cached. They answer different questions.
+## Cost impact in this study
 
-For example, in our actual Flash data, a follow-up reported **320,561 cached tokens** after a request with **322,548 input tokens**. That is **99.38%** of the preceding input, but a **1,987-token shortfall**: it fails our strict match rule. So high token ratios and frequent strict-match failures can both be true. Leading with “99.7% cached” made our results sound more reassuring than the evidence supports.
+The multiplier compares **follow-up input cost** with a hypothetical baseline in which all preceding input is reusable. It excludes the initial request and output cost, and does not prove every prior token was eligible for caching. It is not a multiplier for a complete coding bill.
 
-We also cannot tell from these public counters whether those roughly 2,000 tokens were eligible for reuse, why the difference occurs, or whether it reflects an internal cache defect. Some follow-ups report *more* cached tokens than the preceding input, because the conversation grows; those observations remain in the aggregates. These ratios are observations, not a direct measurement of the provider’s eligible-cache hit probability.
+| Completed arm | Follow-up input multiplier | Interpretation |
+| --- | ---: | --- |
+| Flash, 8K identical replay, two trials | 3.30× | Reused most input, with a 2,042-token shortfall on every follow-up. |
+| Flash, 8K start, growing messages near 1.5K per turn, two trials | 4.41× | Most follow-ups had zero reads before the threshold was crossed. |
+| Argon, 8K start, small tool-result additions near 600 tokens | 2.84× | Four follow-ups had a 2,049-token shortfall. |
+| Argon, 8K start, additions near 3K tokens | 1.00× | All four follow-ups read the preceding input in full. |
 
-## What we actually tested—and the important gap
+The supplied estimate of a 1.15–1.25× small-delta penalty did **not** hold for this input-only baseline. A 25% uncached token share is not merely 25% extra input cost: Gemini’s cached tokens are priced at a large discount. For identical replay, the ratio is `1 + uncached_share × (ordinary_rate / cached_rate − 1)`. Actual output and fresh-content costs change the multiplier for a full session. Prices and definitions were held fixed across arms.
 
-Four models each repaired two deliberately introduced bugs in real CSV-library code. **All eight repairs passed all 41 acceptance tests, the pipeline CLI, and a clean replay of just the library edits.** Actual API-reported input ranged from **255,147 to 386,757 tokens**. The agents really read, edited, and tested code.
+## Checks against the supplied predictions
 
-However, most of that large context was loaded at the start as repository files. It was **not** 250K tokens of accumulated coding conversation, edits, and tool results. There were only two tasks from one repository, one paid key per provider, and a fixed 30-second pause between requests. Those choices limit how well this represents everyday coding sessions. Passing the repairs validates the coding workload; it does not validate a conclusion about Theo’s cache problem.
+| Prediction | Result |
+| --- | --- |
+| Flash growing history behaves differently from identical 8K replay, around a 16,384-token threshold. | **Supported in the sampled trajectories, with a correction:** reuse tracked the preceding request’s size. All three first-crossing requests still had zero reads. The repeated append arm and the native tool-loop arm both showed this distinction. |
+| Gemini has a practical floor around 6K. | **Unresolved.** Both models had zero reads on two replay follow-ups around 4,053–4,055 input tokens. Those inputs are below the configured documented 4,096 minimum, so this does not establish a separate 6K floor. |
+| Argon small additions fail strict64 but pass strict2100; large additions pass strict64. | **Supported where measured.** Six successful small-growth follow-ups had a deficit of 2,049; four large-growth follow-ups had a deficit of −1. Quota failures prevented complete Argon growing-history replication. The proposed small cost penalty was not supported. |
+| A larger starting prefix reduces the cost multiplier. | **Observed in a matched first-two-follow-up comparison:** Argon 2.90× at 8K versus 1.87× at 32K, for the 600-token target. Flash fell from 6.25× to 1.48×, but that comparison mixes threshold behavior with the residual shortfall and does not isolate a fixed-tail cause. |
+| Misses increase at 120/300-second gaps. | **Not tested.** Every focused cell used a five-second gap. No eviction or TTL conclusion follows. |
 
-**The next useful experiment is a repeated, controlled agent-style API replay with growing coding/tool history and recorded per-turn cache counters and cost assumptions.** It should exercise the history growth and timing relevant to the criticism, rather than achieve a large token count mainly through a starting preload. We also need Theo’s exact full-hit definition before claiming a numerical replication. Native CLI testing is a separate follow-up if we want conclusions about particular coding products.
+## Attempt accounting and controls
 
-## A factual FYI for engineering
+The focused allocation planned 134 requests across 18 arms. **97 were attempted: 92 complete HTTP responses and five HTTP 429 quota errors.** Thirty-seven planned requests were never sent after trajectories stopped on a refusal or error; there was no retry or replacement. Four arms were incomplete: Argon’s 1.5K tool loop, growing-message and replay arms, plus Opus’s tool loop. Fourteen arms reached their planned request counts; that includes the all-refused Opus replay arm, which is not a successful task control. All planned independent trials were attempted.
 
-> In a small outside-in coding pilot, Gemini Flash and Argon often reported cached-token counts about 2K below the previous request’s input; GPT and Opus differed by only 2–4 tokens. All eight coding repairs passed independent checks at 255K–387K input. Gemini therefore showed fewer strict matches, despite high aggregate token reuse. We have not established cache eligibility or cause, reproduced Theo’s cost penalty, or replicated his benchmark. Please treat this as a counter discrepancy to investigate, not proof of a Gemini cache bug or evidence that the reported problem is fixed.
+Opus refused all four focused requests and both qualification requests. These six refusals remain in evidence and estimated costs, but are excluded from comparable hit and multiplier statistics. We have not diagnosed why it refused this synthetic workload.
 
-## Measured results and technical details
+GPT’s growing-history strict64 score was 0/7 because 132 ordinary input tokens lay outside its reported read/write frontier. Its boundary-aware comparison matched on **7/7** follow-ups with a **1.000×** input multiplier. Its replay matched within 64 tokens on **2/2** follow-ups. This illustrates why a strict prior-input count mismatch alone does not prove cache loss. Gemini does not expose the equivalent cache-write frontier, so that comparison remains unknown there.
 
-| Model | Verified repairs | ≥250K follow-ups | Cached reads / preceding input | Largest positive shortfall |
-| --- | ---: | ---: | ---: | ---: |
-| Gemini 3.8 Flash | 2/2 | 23 | 99.6284% | 2,100 tokens |
-| Gemini 4 Argon | 2/2 | 9 | 99.7189% | 2,049 tokens |
-| GPT-6.1 Sol | 2/2 | 13 | 99.9988% | 3 tokens |
-| Claude Opus 5.5 | 2/2 | 5 | 99.9993% | 4 tokens |
+All five 429s belong to Argon: one in the tool loop, two in growing messages, and two in replay. They are **errors, not zero-cache observations**. The study exited nonzero because those trajectories and the Opus tool loop were incomplete. The eight qualification calls are retained separately and never pooled into the focused cell rates.
 
-**Metric:** sum of cached-read tokens on valid follow-ups divided by sum of their immediately preceding input tokens. Both inputs must be ≥250K. Reads can include newly added history and exceed preceding input; negative shortfalls are retained, not clamped. Follow-ups within a session are correlated. Our strict rule counts a match when cached reads are no more than 64 tokens below preceding input; it is not verified as Theo’s rule. No valid follow-up was below 95% of preceding input.
+## What the large-context coding pilot established
 
-## What ran
+The earlier study remains useful: all eight repairs passed 41 immutable acceptance tests, the pipeline CLI, and a clean library-only replay, with 255K–387K actual input tokens. In Argon’s nine follow-ups, all five reported input increases of at least 2,050 tokens had a deficit of −1; all four smaller increases had a deficit of exactly 2,049. The new small/large-delta arms reproduce that counter pattern at much smaller context sizes. It does **not** establish which tokens were eligible, that a particular tail is always re-prefilled internally, or the exact cache floor. [Coding evidence and reproduction instructions](../results/latest/README.md).
 
-- Two seeded, one-line regressions in the real MIT-licensed [node-csv source](https://github.com/adaltas/node-csv/tree/f12e6862a41f4324a06a26c87a3e28031d4faa7f): parser EOF emission and stringifier delimiter quoting. These are intentionally introduced bugs, not claims about upstream defects. The selected 449 unique source/test/example/documentation files were preloaded once, without repeated or random padding.
-- Real Pi 1.3.0 read/edit/write and allowlisted Node test/CLI tools. Only library modules were writable; acceptance tests, adapters, CLI verifier, and reference/input material stayed unchanged.
-- One operator-labeled paid key per provider, two sessions per model, **30-second minimum completion-to-next-request spacing**, requested high reasoning, and a fixed **32,768-token response allowance** verified in every captured request. Actual idle gaps were 30.0009–30.0038 seconds.
-- Natural completion or a 20-minute wall-clock deadline per session, including enforced gaps. No spending cutoff, request-count cap, compaction, cache warming, hidden retries, fallback, or native CLI configuration changes. No completed session hit the deadline or output allowance.
+## Evidence and limits
 
-## Complete attempt accounting
+The [registered protocol](SMALL_CONTEXT_PROTOCOL.md) preceded the focused run. The frozen API harness source is [322d962](https://github.com/LyalinDotCom/prompt-cache-repro/tree/322d9624c820ae8430cde091dd21dce837cea4fe); qualification used 645ec07, with the same API adapter/core. Actual installed SDK versions were Google 2.30.0, OpenAI 7.36.0 and Anthropic 0.135.0. These adapters used nonstreaming JSON; raw HTTP bodies and allowlisted response headers are retained, not an SSE stream.
 
-**9 session attempts, 59 captured transport attempts, 58 complete API responses, and 50 qualifying follow-ups.** The first Opus/stringifier attempt failed with `fetch failed` before any HTTP response or usage arrived. It remains in the confirmation archive and is not a cache miss. One explicit, separately recorded replacement used the same key/model/task/settings and completed successfully. It did not overlap another Anthropic session.
+Independent offline checks rederived usage, costs and strict64 classifications from raw responses, verified single HTTP attempts, unchanged prior messages, native signed/encrypted history, replay body identity and minimum gaps. The checker accepted original evidence and rejected altered usage, strict-hit classification, signatures and replay bodies. See the [evidence archive, checksums and offline analysis](../results/small-context/README.md), [per-turn CSV](../results/small-context/turns.csv), [cell CSV](../results/small-context/cells.csv), and [29 hard-miss response IDs](../results/small-context/hard-misses.csv).
 
-The confirmation itself completed 7 of its 8 planned repairs; the separate replacement completed the remaining pair. Both cohorts used clean source commit [`fda0dec`](https://github.com/LyalinDotCom/prompt-cache-repro/tree/fda0decb803e08b7f65366ea5ace8a2b13422c9e). The complete responses all passed their frozen independent audits. The only unknown telemetry belongs to the initial connection failure. No measured response was excluded for an integrity failure.
+These are synthetic reference-record API conversations, not additional coding repairs or long native-agent sessions. There is one supplied paid key per provider, only two independent trials for the primary replay/append arms, and one for the other arms. Turns within a trial are correlated. Quota errors reduce Argon coverage, and Opus provides no usable comparison. The observations support engineering investigation of the specific Flash pattern; they do not establish provider-wide miss rates, an internal routing/eviction mechanism, or total-session cost impact.
 
-Earlier qualification/calibration attempts are **not pooled** here. Five-second calibration exposed Flash quota errors and Pi’s 272K catalog capacity reducing GPT’s output allowance. Before this confirmation, pacing was set to 30 seconds for all models and GPT’s in-memory capacity was set to its documented 1,050,000-token public API window. Calibration was checkpointed in [Git history](https://github.com/LyalinDotCom/prompt-cache-repro/tree/ec4fba4/results/excluded-calibration) and removed from the checkout.
+## Small-context sweep (Theo/AA regime)
 
-## Evidence and reproducibility
+Focused screening allocation: **97/134 planned requests attempted**, 14/18 arms completed. Estimated observed API cost: **$0.9059**, excluding the separately retained eight-call qualification. Audit failures: 0.
 
-Read [per-turn counters](../results/latest/turns.csv), [per-session/model metrics](../results/latest/metrics.json), and the [raw-evidence/reanalysis instructions](../results/latest/README.md). The archives include serialized requests, raw SSE, agent events/messages, exact patches, immutable file hashes, test outputs, clean replay workspaces, audits, and frozen harness/config/lockfiles. A literal-key scan of all 8,672 evidence files found no supplied credentials.
+These are synthetic direct-API cache diagnostics, not additional coding repairs. All cells below use a five-second gap. Sizes/deltas in the labels are targets; the actual input range is measured. Refusal responses remain in evidence and costs but are excluded from comparable rates.
 
-The frozen experiment source and later offline report assembly are identified separately. The [offline assembly script](../results/latest/analysis.py) rechecks artifact hashes, exact test counts, full original replay contents, patch bindings to the recorded final state, actual token targets, timing, output allowance, and high-effort wire settings. These additional checks were completed after peer review and did not change the API workload. Future harness fixes do not rewrite these frozen artifacts.
+| Model | Scenario | Prefix / delta target | Actual input range | Attempts / plan (errors) | Follow-ups / strict n | Input cost multiplier | Strict64 | Strict2100 | Any hit | Weighted cache share | Reusable capture | Hard misses | Refusals |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| gemini-4-argon | agent | 8000 / 3000 | 8086–19984 | 5 / 5 (0) | 4 / 4 | 1.000× | 100.0% | 100.0% | 100.0% | 80.8% | 100.0% | 0 | 0 |
+| gemini-3.8-flash | agent | 8000 / 1500 | 8066–18436 | 8 / 8 (0) | 7 / 7 | 4.420× | 0.0% | 14.3% | 14.3% | 15.2% | 17.0% | 6 | 0 |
+| gemini-4-argon | replay | 4000 / 0 | 4053–4053 | 3 / 3 (0) | 2 / 0 | unknown | unknown | unknown | 0.0% | 0.0% | unknown | 2 | 0 |
+| claude-opus-5-5 | replay | 8000 / 0 | 10409–10409 | 3 / 3 (0) | 0 / 0 | unknown | unknown | unknown | unknown | unknown | unknown | 0 | 3 |
+| gemini-3.8-flash | agent | 32000 / 600 | 32181–33375 | 3 / 3 (0) | 2 / 2 | 1.481× | 0.0% | 100.0% | 100.0% | 92.0% | 93.7% | 0 | 0 |
+| gpt-6.1-sol | agent | 8000 / 1500 | 6888–15826 | 8 / 8 (0) | 7 / 7 | 1.059× | 0.0% | 100.0% | 100.0% | 88.3% | 98.8% | 0 | 0 |
+| gemini-4-argon | agent | 32000 / 600 | 32195–33406 | 3 / 3 (0) | 2 / 2 | 1.873× | 0.0% | 100.0% | 100.0% | 92.0% | 93.7% | 0 | 0 |
+| gemini-3.8-flash | replay | 8000 / 0 | 7990–7999 | 16 / 16 (0) | 14 / 14 | 3.299× | 0.0% | 100.0% | 100.0% | 74.5% | 74.5% | 0 | 0 |
+| gemini-3.8-flash | append | 8000 / 1500 | 7983–18258 | 16 / 16 (0) | 14 / 14 | 4.414× | 0.0% | 14.3% | 14.3% | 15.3% | 17.2% | 12 | 0 |
+| gemini-4-argon | agent | 8000 / 600 | 8083–10512 | 5 / 5 (0) | 4 / 4 | 2.842× | 0.0% | 100.0% | 100.0% | 72.3% | 77.2% | 0 | 0 |
+| gemini-4-argon | agent | 8000 / 1500 | 8068–8068 | 2 / 8 (1) | 0 / 0 | unknown | unknown | unknown | unknown | unknown | unknown | 0 | 0 |
+| gemini-3.8-flash | agent | 8000 / 600 | 8058–10451 | 5 / 5 (0) | 4 / 4 | 6.395× | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 4 | 0 |
+| gemini-3.8-flash | replay | 4000 / 0 | 4055–4055 | 3 / 3 (0) | 2 / 0 | unknown | unknown | unknown | 0.0% | 0.0% | unknown | 2 | 0 |
+| gemini-4-argon | append | 8000 / 1500 | 7971–7990 | 4 / 16 (2) | 0 / 0 | unknown | unknown | unknown | unknown | unknown | unknown | 0 | 0 |
+| gemini-3.8-flash | agent | 8000 / 3000 | 8047–19921 | 5 / 5 (0) | 4 / 4 | 2.762× | 25.0% | 25.0% | 25.0% | 27.4% | 33.9% | 3 | 0 |
+| gpt-6.1-sol | replay | 8000 / 0 | 6743–6743 | 3 / 3 (0) | 2 / 2 | 1.008× | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 0 | 0 |
+| gemini-4-argon | replay | 8000 / 0 | 7989–7989 | 4 / 16 (2) | 1 / 1 | 5.873× | 0.0% | 100.0% | 100.0% | 74.4% | 74.4% | 0 | 0 |
+| claude-opus-5-5 | agent | 8000 / 1500 | 10894–10894 | 1 / 8 (0) | 0 / 0 | unknown | unknown | unknown | unknown | unknown | unknown | 0 | 1 |
 
-Pi’s actual transitive SDKs were `@google/genai 2.21.0`, `openai 7.19.0`, and `@anthropic-ai/sdk 0.129.0`, as pinned in the retained lockfile; the browser uses separate newer SDK installations. GPT high effort is carried in `configuration_update` input items; Pi intentionally keeps envelope `reasoning.effort` at `medium`. Requested and returned model IDs matched in every complete response.
+Multiplier = measured follow-up input cost / theoretical perfect-prior-input-reuse input cost, under frozen rate cards. Initial and output costs are excluded from that ratio. It is not a provider invoice or proof of eligible cache loss. Strict2100 is a separate sensitivity analysis; strict64 remains unchanged.
 
-To run a new comparable study from the current checkout:
+Hard-miss follow-ups: **29**. Full IDs, exact inputs, trial/turn, model, hash and timing are in [hard-misses.csv](../results/small-context/hard-misses.csv).
 
-```sh
-npm ci
-npm run coding -- --dry-run
-npm run coding
+### Hard-miss request lookup list
+
+These are successful follow-up responses with zero reported cached reads, including protocol-default zero decoding where Google omitted the scalar. Initial requests and quota errors are excluded. Full context and timing accompany each ID in the CSV.
+
+**gemini-3.8-flash: 27 IDs**
+
+```text
+zxvVauqUJKKNytMP_qfQ6AM
+1hvVau7NGKGiytMPxvHbyQM
+3RvVatStAqLgytMPsanSwA8
+4xvVaqnCLID7ytMPxcLviAs
+6hvVau6NDOOH1sgPh4vfyQM
+8BvVar74L8GjytMPqKWpmAs
+uBzVavGtE6GiytMPxvHbyQM
+vhzVaq_FJajhytMPu_fluA8
+xRzVaoqyEtCHytMPs_zywQM
+yxzVapqFIt6C1sgPhaGRmQs
+0hzVaoqRC8WKytMPu7-PmAs
+2BzVateJL8_gytMP4YLv2A8
+6BzVaoiQHZfmytMP0Pv4iAs
+7hzVau-aNfuD1sgP4KXV8AM
+9RzVaprFCcG_ytMP0JPTkAs
+_BzVaprtD6f_ytMPgdeDkAs
+Ah3Vau6IOt7hytMP4qidkQs
+CR3VavLAG4ndytMPh9X4iA4
+Wx3Vau_LCcG_ytMP0JPTkAs
+YR3VavHrKcGjytMPqKWpmAs
+aB3Var1zid3K0w-H1fiIDg
+bh3VarGfIcuMytMPvPfM2Qo
+dx3VaqPOC8GjytMPqKWpmAs
+fR3VapP-J9KOytMP1abx6QI
+lh3VarKhAquvytMP49SGkAs
+nR3Var6YC4_hytMP3KX0wAM
+ox3Vat6oKY3ZytMP75_zmAs
 ```
 
-The command now defaults to the long-context allocation and always seed-shuffles. The frozen experiment used `npm run coding -- --config config/coding-long.json --shuffle` at `fda0dec`. The small ledger qualification is explicitly opt-in. Costs in raw batch reports are dated estimates, not invoices.
+**gemini-4-argon: 2 IDs**
 
-## Limits that matter
-
-This preloads a large source snapshot, then runs genuine repairs. It **does not reproduce organically accumulated 250K-token native-agent history**. There are only two seeded tasks from one repository and one session per model/task, with one supplied paid key per provider and fixed 30-second pacing. Tier labels are operator declarations. Tokenizers, tool trajectories, and native cache treatments differ; Anthropic explicit breakpoints and the other API paths are not a provider-only causal comparison. No frequency estimate, statistical confidence claim, cache-eligibility guarantee, or internal eviction/routing diagnosis follows.
-
-Opus 5.5 High and Gemini 4 Argon Medium both independently reviewed the harness and agreed that a limited descriptive pilot can be reported with these caveats. Their supported findings and decisions are recorded in [review notes](REVIEW_NOTES.md). The cancellation edge they identified was reproduced offline; it did not occur in these measured sessions.
-
-For engineering: the reproducible observation is Gemini’s small prior-input/read-counter shortfall with preserved public history and passing repairs. Inspect the retained wire requests and provider eligibility semantics before labeling it a cache bug. Broader validation still needs organically grown histories, more repositories, repeated sessions, additional key tiers, and other pacing regimes.
+```text
+BhzVauTVIfK_uMYP-qyXsQ8
+ERzVaormI43ZytMP75_zmAs
+```
