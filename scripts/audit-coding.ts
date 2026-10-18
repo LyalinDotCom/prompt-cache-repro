@@ -8,9 +8,9 @@ const input = resolve(process.argv[2] ?? (() => { throw new Error('Usage: npx ts
 const root = input.endsWith('.json') ? dirname(input) : input;
 const sourceArtifactHashes: Record<string, string> = {};
 function readEvidence(path: string): string {
-  const contents = readFileSync(path, 'utf8');
+  const contents = readFileSync(path);
   sourceArtifactHashes[relative(root, path)] = createHash('sha256').update(contents).digest('hex');
-  return contents;
+  return contents.toString('utf8');
 }
 const report = JSON.parse(readEvidence(input.endsWith('.json') ? input : join(root, 'coding-report.json'))) as J;
 const digest = (v: string): string => createHash('sha256').update(v).digest('hex');
@@ -125,6 +125,10 @@ const rateCards: Record<string, [number, number, number, number]> = {
 };
 const provider = report.profile.provider, requestedModel = report.profile.model, baseRate = rateCards[requestedModel];
 const rows: J[] = [];
+check('captured-model-request-present', 'transport', report.requests.length > 0);
+const nativeMessagesPath = join(root, 'messages.json');
+const nativeMessages = existsSync(nativeMessagesPath) ? JSON.parse(readEvidence(nativeMessagesPath)) : null;
+check('assistant-turns-match-captured-requests', 'transport', Array.isArray(nativeMessages) ? nativeMessages.filter(message => message.role === 'assistant').length === report.requests.length : null, { captured: report.requests.length, assistantTurns: Array.isArray(nativeMessages) ? nativeMessages.filter(message => message.role === 'assistant').length : null });
 for (const [position, request] of report.requests.entries()) {
   const id = `request-${request.index}`;
   check('consecutive-captured-attempt-index', id, request.index === position);
@@ -137,13 +141,14 @@ for (const [position, request] of report.requests.entries()) {
   check('actual-model-matches-requested', id, endpointModel === null ? null : endpointModel === requestedModel, endpointModel);
   const parsed = body === null ? { objects: [], malformedFrames: 0 } : events(body);
   const native = rawUsage(provider, parsed.objects), tokens = partition(provider, native.usage);
-  check('raw-stream-frames-well-formed', id, parsed.malformedFrames === 0);
+  const responseComplete = Boolean(request.completedAt && !request.error && native.terminal);
+  check('raw-stream-frames-well-formed', id, parsed.malformedFrames === 0 ? true : request.error ? null : false);
   check('terminal-response-available', id, native.terminal ? true : null);
   const continuation = continuationEvidence(parsed.objects);
   check('raw-usage-available', id, native.usage ? tokens !== null : null, { usageSnapshots: native.snapshots, terminal: native.terminal });
-  check('raw-usage-copy-agrees', id, native.usage && request.completedAt ? equal(native.usage, request.rawUsage) : null);
+  check('raw-usage-copy-agrees', id, native.usage && responseComplete ? equal(native.usage, request.rawUsage) : null);
   const declared = request.usage;
-  if (tokens) check('reported-normalized-partition-agrees', id, request.completedAt ? !!declared && declared.inputTokens === tokens.input && declared.cachedReadTokens === tokens.read && declared.cacheWriteTokens === tokens.write && declared.uncachedInputTokens === tokens.ordinary && declared.outputTokens === tokens.output : null);
+  if (tokens) check('reported-normalized-partition-agrees', id, responseComplete ? !!declared && declared.inputTokens === tokens.input && declared.cachedReadTokens === tokens.read && declared.cacheWriteTokens === tokens.write && declared.uncachedInputTokens === tokens.ordinary && declared.outputTokens === tokens.output : null);
   const longContext = requestedModel === 'gpt-6.1-sol' && tokens && tokens.input > 272000;
   const rate = baseRate ? baseRate.map((value: number, index: number) => value * (longContext ? index === 3 ? 1.5 : 2 : 1)) : null;
   const costs = tokens && rate ? { inputUsd: (tokens.ordinary * rate[0] + tokens.read * rate[1] + tokens.write * rate[2]) / 1e6, outputUsd: tokens.output * rate[3] / 1e6 } : null;
@@ -183,7 +188,7 @@ for (const [position, request] of report.requests.entries()) {
   }
   const responseModels = [...new Set(parsed.objects.flatMap(e => [e.modelVersion, e.response?.model, e.message?.model, e.object === 'response' ? e.model : undefined].filter(Boolean)))];
   rows.push({ id, index: request.index, endpoint: request.endpoint, actualRequestModel: endpointModel, reportedResponseModels: responseModels,
-    httpStatus: request.httpStatus, startedAt: request.startedAt, durationMs: request.durationMs, actualIdleGapMs: request.actualIdleGapMs,
+    responseComplete, transportError: request.error ?? null, httpStatus: request.httpStatus, startedAt: request.startedAt, durationMs: request.durationMs, actualIdleGapMs: request.actualIdleGapMs,
     requestFile: request.requestFile, responseFile: request.responseFile, requestHash: request.requestHash,
     recordedTransportAttemptCount: request.transportAttemptCount ?? null,
     appliedRatesPerMillion: rate ? { ordinary: rate[0], read: rate[1], write: rate[2], output: rate[3] } : null, pricingContext: longContext ? 'long' : 'standard',
@@ -200,7 +205,11 @@ if (existsSync(functionalFile)) {
   const f = JSON.parse(readEvidence(functionalFile)) as J;
   const readOutput = (r: J, key: string): string | null => { try { return readEvidence(safeArtifact(r[key])); } catch { return null; } };
   const before: J = f.beforeHashes ?? {}, after: J = f.afterHashes ?? {};
-  const immutable = Object.keys(before).filter(p => !/^(src|bin)\//.test(p));
+  const fixtureSpecPath = join(root, 'fixture-spec.json');
+  const fixtureSpec = existsSync(fixtureSpecPath) ? JSON.parse(readEvidence(fixtureSpecPath)) : { id: 'coding-ledger' };
+  // CSV test adapters and the executable acceptance oracle are not library repair targets.
+  const csvOraclePaths = fixtureSpec.id?.startsWith('coding-csv-') ? ['src/pipeline.mjs', 'bin/check.mjs'] : [];
+  const immutable = Object.keys(before).filter(p => !/^(src|bin)\//.test(p) || csvOraclePaths.includes(p));
   const changedSource = Object.keys(after).filter(p => /^(src\/|bin\/)/.test(p) && before[p] !== after[p]);
   check('actual-baseline-process-failed', 'functional', integer(f.baseline?.exitCode) ? f.baseline.exitCode !== 0 : null, f.baseline?.exitCode);
   check('actual-final-process-passed', 'functional', integer(f.final?.exitCode) ? f.final.exitCode === 0 : null, f.final?.exitCode);
@@ -215,7 +224,7 @@ if (existsSync(functionalFile)) {
   const actualAfterMismatches: string[] = [];
   for (const [path, expected] of Object.entries(after)) {
     if (path.includes('..') || path.startsWith('/')) { actualAfterMismatches.push(path); continue; }
-    try { if (digest(readEvidence(join(report.cwd, path))) !== expected) actualAfterMismatches.push(path); }
+    try { const target = join(root, 'workspace', path); readEvidence(target); if (sourceArtifactHashes[relative(root, target)] !== expected) actualAfterMismatches.push(path); }
     catch { actualAfterMismatches.push(path); }
   }
   check('current-fixture-files-match-recorded-final-hashes', 'functional', Object.keys(after).length ? actualAfterMismatches.length === 0 : null, actualAfterMismatches);
@@ -234,7 +243,7 @@ if (existsSync(functionalFile)) {
 } else check('functional-qualification-artifact-present', 'functional', null);
 
 const failures = checks.filter(x => x.verdict === 'FAIL'), unknowns = checks.filter(x => x.verdict === 'UNKNOWN');
-const validRows = rows.filter(x => x.tokens && x.httpStatus >= 200 && x.httpStatus < 300);
+const validRows = rows.filter(x => x.tokens && x.responseComplete && x.malformedFrames === 0 && x.httpStatus >= 200 && x.httpStatus < 300);
 const followups = validRows.filter(x => x.reuse), frontierRows = followups.filter(x => x.reuse.eligibleFrontierFullyReused !== null && x.reuse.eligibleFrontierFullyReused !== undefined);
 const followupActualInputUsd = followups.reduce((sum, x) => sum + (x.independentCosts?.inputUsd ?? 0), 0);
 const theoreticalInputUsd = followups.reduce((sum, x) => sum + (x.reuse.fullPriorInputCounterfactualUsd ?? 0), 0);

@@ -20,13 +20,13 @@ for variant in ['parse','stringify']:
  shutil.copyfile(source/'LICENSE',root/'UPSTREAM_LICENSE')
  (root/'package.json').write_text(json.dumps({'name':'cachebench-csv-'+variant,'private':True,'type':'module','scripts':{'test':'node --test test/*.test.mjs'}},indent=2)+'\n')
  for name in ['src','test','bin','data']:(root/name).mkdir(exist_ok=True)
- (root/'fixture.json').write_text(json.dumps({'id':'coding-csv-'+variant,'cliArgs':['bin/check.mjs'],'expectedCli':{'ok':True,'records':4},'upstream':{'url':'https://github.com/adaltas/node-csv','commit':commit,'license':'MIT'},'contextMode':'whole-selected-public-source-preload','targetInputMin':250000},indent=2)+'\n')
+ (root/'fixture.json').write_text(json.dumps({'id':'coding-csv-'+variant,'cliArgs':['bin/check.mjs'],'mutablePaths':['src/upstream'],'expectedBaseline':{'tests':41,'pass':29 if variant=='parse' else 36,'fail':12 if variant=='parse' else 5,'cancelled':0,'skipped':0,'todo':0},'expectedCli':{'ok':True,'records':4},'upstream':{'url':'https://github.com/adaltas/node-csv','commit':commit,'license':'MIT'},'contextMode':'whole-selected-public-source-preload','targetInputMin':250000},indent=2)+'\n')
  (root/'UPSTREAM.json').write_text(json.dumps({'repository':'https://github.com/adaltas/node-csv','commit':commit,'selection':'All unique .js/.ts/.md source, tests, examples and docs excluding generated dist, declaration duplicates, browser samples and www; no repeated files or random padding. lib code is executable under src/upstream; other upstream material is immutable reference.','files':origins},indent=2)+'\n')
  (root/'README.md').write_text('''# CSV pipeline regression workspace
 
 This fixture vendors executable library source plus tests/examples/documentation from the pinned public node-csv monorepo. See UPSTREAM.json and UPSTREAM_LICENSE. `src/upstream/packages/*/lib` holds executable modules; `reference/upstream` is immutable upstream context, not the executable acceptance suite. No dependency install is required. Acceptance tests are the Node tests in `test/`.
 
-Repair the reported regression in the library implementation rather than special-casing test inputs or changing expectations. Keep unrelated behavior intact. Only src/ and bin/ may change. Tests, data, manifests and reference material are immutable.
+Repair the reported regression in the library implementation rather than special-casing test inputs or changing expectations. Keep unrelated behavior intact. Only library code under src/upstream/ may change. src/pipeline.mjs, bin/check.mjs, tests, data, manifests and reference material are immutable.
 
 Commands: `node --test test/*.test.mjs` and `node bin/check.mjs`.
 ''')

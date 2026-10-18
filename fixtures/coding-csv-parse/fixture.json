@@ -3,6 +3,17 @@
   "cliArgs": [
     "bin/check.mjs"
   ],
+  "mutablePaths": [
+    "src/upstream"
+  ],
+  "expectedBaseline": {
+    "tests": 41,
+    "pass": 29,
+    "fail": 12,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
   "expectedCli": {
     "ok": true,
     "records": 4

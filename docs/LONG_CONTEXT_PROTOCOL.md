@@ -1,27 +1,33 @@
-# 250K+ code-context pilot
+# 250K+ code-context confirmation
 
 Registered before the first generation request in this arm. This is a controlled large-source coding experiment, separately reported from the small ledger qualification.
 
 ## Allocation and workload
 
-Run two distinct seeded regression tasks on four exact models, using the existing paid account for each provider: **8 coding sessions**. The models are `gemini-4-argon`, `gemini-3.8-flash`, `gpt-6.1-sol`, and `claude-opus-5-5`. One independent session per task/model; this is a pilot, not a provider-wide probability estimate. Use `config/coding-long.json` with its fixed shuffle seed.
+Revision 2: run two distinct seeded regression tasks on four exact models, using the existing paid account for each provider: **8 coding sessions**. The models are `gemini-4-argon`, `gemini-3.8-flash`, `gpt-6.1-sol`, and `claude-opus-5-5`. One independent session per task/model; this is a pilot, not a provider-wide probability estimate. Use `config/coding-long.json` with its fixed shuffle seed.
 
 The public source is the MIT-licensed [Adaltas node-csv monorepo](https://github.com/adaltas/node-csv/tree/f12e6862a41f4324a06a26c87a3e28031d4faa7f), pinned at `f12e6862a41f4324a06a26c87a3e28031d4faa7f`. The executable library modules, upstream tests, examples, and documentation provide coding context. Generated distribution bundles, declaration duplicates, browser samples, and the website are excluded. Source is included once; no random or repeated padding is added. The provenance hash map is retained on disk and excluded from the initial model snapshot.
 
 - `coding-csv-parse`: restore final-record emission at EOF in the real parser implementation. Acceptance covers sync, chunked streaming, quoted/trailing-empty fields, Unicode, and terminators.
 - `coding-csv-stringify`: restore delimiter-aware quoting in the real stringifier implementation. Acceptance covers commas, custom/multibyte delimiters, escaped quotes, and multiline fields.
 
-Both fixtures use the same **41 immutable Node acceptance tests** and an independently executed four-record pipeline CLI. The seeded baselines must fail; restoring the exact pinned upstream source must pass all tests and the CLI. `node tools/verify-csv-fixtures.mjs` verifies this without API calls. Task descriptions, test/data/reference material, and manifests are immutable. Changes are restricted to `src/` and `bin/`.
+Both fixtures use the same **41 immutable Node acceptance tests** and an independently executed four-record pipeline CLI. The seeded baselines must fail; restoring the exact pinned upstream source must pass all tests and the CLI. `node tools/verify-csv-fixtures.mjs` verifies this without API calls. Task descriptions, test/data/reference material, and manifests are immutable. Only `src/upstream/` library code may change; the adapter and CLI verifier are immutable.
 
 This deliberately preloads the selected source. It measures caching during genuine tool-driven repairs with large code context. It does not stand in for organically accumulated 250K-token native-agent history. Both tasks come from one repository and do not establish broad workload representativeness.
 
+## Calibration corrections before this confirmation
+
+An initial calibration exposed Flash HTTP 429 quota failures at five-second spacing and Pi's stale 272K GPT context metadata silently clamping output allowance. Those attempts are calibration evidence, not pooled into this confirmation. This revision uses the same thirty-second spacing for every model and explicitly sets GPT's documented 1,050,000-token public API capacity in the in-memory Pi model metadata. The selected model, endpoint, key, and requested reasoning remain unchanged. No native CLI settings are modified. Serialized requests must confirm a stable 32,768-token output allowance.
+
+Both independent reviewers requested stronger acceptance/capture checks. This revision restricts writes to actual library code, declares exact failing baseline counts, verifies every assistant turn against captured HTTP attempts, and independently replays only library edits in a clean fixture with original acceptance code. Missing telemetry and quota errors remain visible.
+
 ## Settings and stopping
 
-Use Pi's native provider adapters at high reasoning, a 32,768-token response allowance, no compaction or proactive cache warming, no hidden retries or continuations, and the same disclosed file/test tools. Installed native CLI logins and settings remain untouched. Public SDKs/endpoints and explicit API keys are retained.
+Use Pi's native provider adapters with requested high reasoning, a 32,768-token response allowance, no compaction or proactive cache warming, no hidden retries or continuations, and the same disclosed file/test tools. Installed native CLI logins and settings remain untouched. Public SDKs/endpoints and explicit API keys are retained.
 
 Allow natural completion with a **20-minute session deadline**. No request-count cap, spending cutoff, or batch deadline. Keep every attempt, error, timeout, and length-truncated response. A target-size failure does not erase the attempt or turn it into a cache miss.
 
-Target a five-second minimum completion-to-next-request gap; record actual monotonic timing. Do not claim this is natural human/tool pacing. All models receive the same selected source files and task for a given fixture; token counts and generated trajectories may differ.
+Target a thirty-second minimum completion-to-next-request gap; record actual monotonic timing. Do not claim this is natural human/tool pacing. All models receive the same selected source files and task for a given fixture; token counts and generated trajectories may differ.
 
 ## Measurements and decision scope
 

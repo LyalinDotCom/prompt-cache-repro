@@ -84,7 +84,7 @@ export async function createRestrictedCodingTools(cwd: string, fixture: CodingFi
   async function checked(path: string, mutable = false): Promise<string> {
     const absolute = resolve(root, path);
     if (!inside(root, absolute)) throw new Error('Path is outside the coding fixture.');
-    if (mutable && !['src', 'bin'].some(dir => inside(join(root, dir), absolute))) throw new Error('Only src/ and bin/ files may be changed; tests and configuration are immutable.');
+    if (mutable && !fixture.mutablePaths.some(dir => inside(join(root, dir), absolute))) throw new Error(`Only ${fixture.mutablePaths.map(path => path + '/').join(', ')} files may be changed; acceptance material is immutable.`);
     let ancestor = absolute;
     while (true) {
       try {
@@ -156,7 +156,7 @@ export async function runCodingTrial(options: CodingTrialOptions): Promise<Codin
   const settings = { cacheWarming: 'off', compaction: { enabled: false }, retry: { enabled: false, provider: { maxRetries: 0, timeoutMs: requestTimeoutMs } } } as const;
   const report: CodingTrialReport = {
     schemaVersion: 1, profile: structuredClone(options.profile), cwd, startedAt: new Date().toISOString(), finishedAt: null,
-    status: 'running', stopReason: null, settings: { piVersion: PI_VERSION, piAiVersion: PI_AI_VERSION, ...settings, reasoningLevel: options.reasoningLevel ?? 'high', maxTokens, gapSeconds: gapMs / 1000, timeoutMs, termination: 'natural completion or session deadline; no request-count or spending cutoff', tools: ['read', 'edit', 'write', 'bash'], bashCommand: 'node --test', mutablePaths: ['src/', 'bin/'], runtime: 'node', auth: 'explicit paid API key; operator-declared tier' },
+    status: 'running', stopReason: null, settings: { piVersion: PI_VERSION, piAiVersion: PI_AI_VERSION, ...settings, reasoningLevel: options.reasoningLevel ?? 'high', maxTokens, gapSeconds: gapMs / 1000, timeoutMs, termination: 'natural completion or session deadline; no request-count or spending cutoff', tools: ['read', 'edit', 'write', 'bash'], bashCommand: 'node --test', mutablePaths: (options.fixture ?? LEDGER_FIXTURE).mutablePaths, runtime: 'node', auth: 'explicit paid API key; operator-declared tier' },
     requests: [], finalText: '', warnings: ['Pi streaming API arm; compare separately from earlier synthetic nonstreaming runs.', 'Tool file operations are path-restricted; test and CLI children have empty environments. This is a trusted fixture workflow, not an operating-system sandbox.'],
   };
   report.settings.fixture = options.fixture ?? LEDGER_FIXTURE;
@@ -238,7 +238,10 @@ export async function runCodingTrial(options: CodingTrialOptions): Promise<Codin
     const credentials = new InMemoryCredentialStore();
     await credentials.modify(provider, async () => ({ type: 'api_key', key: options.apiKey }));
     const runtime = await ModelRuntime.create({ credentials, modelsPath: null, refreshOnCreate: false, allowModelNetwork: false });
-    const model = runtime.getModel(provider, options.profile.model);
+    const catalogModel = runtime.getModel(provider, options.profile.model);
+    const model = catalogModel ? { ...catalogModel, contextWindow: catalogModel.id === 'gpt-6.1-sol' ? 1_050_000 : catalogModel.contextWindow } : undefined;
+    report.settings.catalogContextWindow = catalogModel?.contextWindow;
+    if (catalogModel?.id === 'gpt-6.1-sol') report.settings.contextWindowSource = 'https://developers.openai.com/api/docs/models/gpt-6.1-sol';
     if (!model || model.id !== options.profile.model) throw new Error('Requested exact model is absent from the pinned Pi catalog; no fallback permitted.');
     report.settings.model = scrub(model);
     const resourceLoader: ResourceLoader = {
@@ -256,6 +259,7 @@ export async function runCodingTrial(options: CodingTrialOptions): Promise<Codin
     });
     session = created.session;
     if (created.modelFallbackMessage || session.model?.id !== options.profile.model) throw new Error('Pi selected a different model; no fallback permitted.');
+    if (session.model?.contextWindow !== model.contextWindow) throw new Error('Pi changed the declared context capacity; no calls started.');
     session.agent.transport = 'sse';
     const originalStream = session.agent.streamFunction;
     session.agent.streamFunction = (requested, context, streamOptions) => {

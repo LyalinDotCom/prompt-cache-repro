@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 import { resolveCodingConfig } from '../src/coding/config';
 import { runCodingTrial } from '../src/coding/pi-runner';
 import { seededRandom } from '../src/core/workload';
-import { loadCodingFixture, matchesExpected } from '../src/coding/fixture';
+import { loadCodingFixture, matchesExpected, parseTestCounts } from '../src/coding/fixture';
 import { codingRequestCost } from '../src/coding/cost';
 
 const { values } = parseArgs({ options: { config: { type: 'string', default: 'config/coding.json' }, model: { type: 'string' }, shuffle: { type: 'boolean' }, 'dry-run': { type: 'boolean' } } });
@@ -17,7 +17,7 @@ const config = resolveCodingConfig(raw);
 config.profiles.sort((a, b) => a.model.localeCompare(b.model) || a.accountId.localeCompare(b.accountId));
 
 function files(root: string, directory = root): string[] {
-  return readdirSync(directory, { withFileTypes: true }).flatMap(entry => entry.isDirectory() ? files(root, join(directory, entry.name)) : [relative(root, join(directory, entry.name))]).sort();
+  return readdirSync(directory, { withFileTypes: true }).filter(entry => entry.name !== '.DS_Store').flatMap(entry => entry.isDirectory() ? files(root, join(directory, entry.name)) : [relative(root, join(directory, entry.name))]).sort();
 }
 const hash = (text: string | Buffer) => createHash('sha256').update(text).digest('hex');
 const hashes = (root: string) => Object.fromEntries(files(root).map(path => [path, hash(readFileSync(join(root, path)))]));
@@ -45,7 +45,7 @@ const keys = Object.fromEntries(config.profiles.map(profile => {
 }));
 const gitCommit = spawnSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).stdout?.trim() ?? null;
 const gitDirty = Boolean(spawnSync('git', ['status', '--porcelain'], { encoding: 'utf8' }).stdout?.trim());
-const harnessFiles = [...files(resolve('src')).map(p => join('src', p)), ...files(resolve('scripts')).map(p => join('scripts', p)), 'package.json', 'package-lock.json', 'docs/METHODOLOGY.md', plan.protocol, 'tools/prepare-csv-fixtures.py', 'tools/verify-csv-fixtures.mjs', values.config!];
+const harnessFiles = [...files(resolve('src')).map(p => join('src', p)), ...files(resolve('scripts')).map(p => join('scripts', p)), 'package.json', 'package-lock.json', 'docs/METHODOLOGY.md', plan.protocol, ...files(resolve('tools')).map(path => join('tools', path)), values.config!];
 const sourceHashes = Object.fromEntries(harnessFiles.map(path => [path, hash(readFileSync(resolve(path)))]));
 Object.assign(plan, { gitCommit, gitDirty, nodeVersion: process.version, fixtureHashes: Object.fromEntries(fixtures.map(f => [f.spec.id, hash(f.snapshot)])), sourceHashes });
 const outputRoot = resolve('runs', `coding-${new Date().toISOString().replaceAll(':', '-')}`);
@@ -80,7 +80,9 @@ try {
     writeFileSync(join(outDir, 'fixture-spec.json'), JSON.stringify(spec, null, 2) + '\n');
     const beforeHashes = hashes(cwd);
     const baseline = tests(cwd, 'baseline', outDir, sourceFiles);
-    if (baseline.exitCode === 0 || baseline.exitCode == null) throw new Error('Fixture baseline did not demonstrate the expected failing tests.');
+    const baselineText = readFileSync(join(outDir, baseline.stdoutFile), 'utf8');
+    const baselineCounts = parseTestCounts(baselineText);
+    if (baseline.exitCode === 0 || baseline.exitCode == null || !matchesExpected(baselineCounts, spec.expectedBaseline)) throw new Error('Fixture baseline differs from its declared failing tests; no calls started for this task.');
     const nonce = hash(randomUUID());
     const prompt = `Coding experiment identity: ${nonce}\n${readFileSync(join(cwd, 'TASK.md'), 'utf8')}\n\nThe following snapshot is the real initial repository. Work on files in your current directory. Run the actual tests before and after your fix; preserve tests and fixture data.\n${snapshot}`;
     console.log(`START ${profile.model} fixture=${spec.id} gap=${gap}s trial=${trial + 1}; context=${prompt.length} characters`);
@@ -93,18 +95,20 @@ try {
       },
     });
     const final = tests(cwd, 'final', outDir, sourceFiles);
+    const finalCounts = parseTestCounts(readFileSync(join(outDir, final.stdoutFile), 'utf8'));
+    const finalCountsPassed = matchesExpected(finalCounts, { tests: spec.expectedBaseline.tests, pass: spec.expectedBaseline.tests, fail: 0, cancelled: 0, skipped: 0, todo: 0 });
     const cli = spawnSync(process.execPath, spec.cliArgs, { cwd, env: {}, encoding: 'utf8', timeout: 30000, maxBuffer: 1_000_000 });
     writeFileSync(join(outDir, 'final-cli.stdout.json'), cli.stdout ?? '');
     writeFileSync(join(outDir, 'final-cli.stderr.txt'), cli.stderr ?? '');
     const afterHashes = hashes(cwd);
     const changed = [...new Set([...Object.keys(beforeHashes), ...Object.keys(afterHashes)])].filter(path => beforeHashes[path] !== afterHashes[path]);
-    const immutableUnchanged = Object.keys(beforeHashes).filter(path => !path.startsWith('src/') && !path.startsWith('bin/')).every(path => beforeHashes[path] === afterHashes[path]);
+    const immutableUnchanged = Object.keys(beforeHashes).filter(path => !spec.mutablePaths.some(prefix => path.startsWith(prefix + '/'))).every(path => beforeHashes[path] === afterHashes[path]);
     const patch = spawnSync('git', ['diff', '--no-index', '--', fixture, cwd], { encoding: 'utf8', env: {}, maxBuffer: 5_000_000 });
     writeFileSync(join(outDir, 'patch.diff'), patch.stdout ?? '');
     let cliResult: unknown = null; try { cliResult = JSON.parse(cli.stdout ?? ''); } catch { /* Invalid CLI JSON fails qualification. */ }
     const cliPassed = cli.status === 0 && matchesExpected(cliResult, spec.expectedCli);
     const finalCli = { expected: spec.expectedCli, passed: cliPassed, exitCode: cli.status, stdoutFile: 'final-cli.stdout.json', stderrFile: 'final-cli.stderr.txt' };
-    const functional = { fixtureId: spec.id, baseline, final, finalCli, beforeHashes, afterHashes, patchFile: 'patch.diff', changedFiles: changed, immutableUnchanged, qualified: report.status === 'completed' && final.exitCode === 0 && cliPassed && immutableUnchanged && changed.some(path => path.startsWith('src/') || path.startsWith('bin/')) };
+    const functional = { fixtureId: spec.id, baseline, final, finalCli, beforeHashes, afterHashes, patchFile: 'patch.diff', changedFiles: changed, immutableUnchanged, qualified: report.status === 'completed' && final.exitCode === 0 && finalCountsPassed && cliPassed && immutableUnchanged && changed.some(path => path.startsWith('src/') || path.startsWith('bin/')) };
     writeFileSync(join(outDir, 'functional-qualification.json'), JSON.stringify(functional, null, 2) + '\n');
     const audit = spawnSync(process.execPath, ['--import', 'tsx', resolve('scripts/audit-coding.ts'), outDir], { cwd: resolve('.'), env: {}, encoding: 'utf8', timeout: 30000, maxBuffer: 1_000_000 });
     writeFileSync(join(outDir, 'audit-command.stdout.txt'), audit.stdout ?? '');
