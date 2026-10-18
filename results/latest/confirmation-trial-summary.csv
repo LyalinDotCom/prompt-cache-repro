@@ -1,0 +1,9 @@
+name,fixtureId,targetInputMin,targetFollowups,model,accountId,status,stopReason,repairVerified,naturalCompletion,captured,audited,auditFailures,auditUnknowns,inputMin,inputMax,followups,maxPriorDeficit,inputEstimateUsd,outputEstimateUsd,finishReasons
+01-anthropic-paid__claude-opus-5-5-coding-csv-stringify-30s-t1,coding-csv-stringify,250000,0,claude-opus-5-5,anthropic-paid,stopped,Pi assistant error,false,false,1,false,4,4,,,0,,,,"{""unknown"":1}"
+02-gemini-paid__gemini-3.8-flash-coding-csv-stringify-30s-t1,coding-csv-stringify,250000,12,gemini-3.8-flash,gemini-paid,completed,,true,true,13,true,0,0,317324,340128,12,2084,0.56348295,0.034773750000000006,"{""STOP"":13}"
+03-openai-paid__gpt-6.1-sol-coding-csv-stringify-30s-t1,coding-csv-stringify,250000,6,gpt-6.1-sol,openai-paid,completed,,true,true,7,true,0,0,255147,264323,6,3,0.8169121,0.00526,"{""response.completed"":7}"
+04-anthropic-paid__claude-opus-5-5-coding-csv-parse-30s-t1,coding-csv-parse,250000,3,claude-opus-5-5,anthropic-paid,completed,,true,true,4,true,0,0,377271,386757,3,4,2.156701,0.020919999999999998,"{""tool_use"":3,""end_turn"":1}"
+05-openai-paid__gpt-6.1-sol-coding-csv-parse-30s-t1,coding-csv-parse,250000,7,gpt-6.1-sol,openai-paid,completed,,true,true,8,true,0,0,255152,265763,7,3,0.8473999999999999,0.00606,"{""response.completed"":8}"
+06-gemini-paid__gemini-3.8-flash-coding-csv-parse-30s-t1,coding-csv-parse,250000,11,gemini-3.8-flash,gemini-paid,completed,,true,true,12,true,0,0,317329,347266,11,2100,0.5464389749999999,0.05397375,"{""STOP"":12}"
+07-gemini-paid__gemini-4-argon-coding-csv-parse-30s-t1,coding-csv-parse,250000,5,gemini-4-argon,gemini-paid,completed,,true,true,6,true,0,0,315488,333128,5,2049,0.8367709,0.012240000000000001,"{""STOP"":6}"
+08-gemini-paid__gemini-4-argon-coding-csv-stringify-30s-t1,coding-csv-stringify,250000,4,gemini-4-argon,gemini-paid,completed,,true,true,5,true,0,0,315484,326756,4,2049,0.7899164,0.01534,"{""STOP"":5}"

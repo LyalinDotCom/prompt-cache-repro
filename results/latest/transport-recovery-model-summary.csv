@@ -1,0 +1,2 @@
+accountId,model,present,planned,verifiedRepairs,naturalCompletions,audited,minInput,maxInput,followups,weightedPriorCapture,targetFollowups,targetWeightedPriorCapture
+anthropic-paid,claude-opus-5-5,1,1,1,1,1,377261,385295,2,0.9999921119265042,2,0.9999921119265042

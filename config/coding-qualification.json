@@ -11,6 +11,7 @@
     "claude-opus-5-5"
   ],
   "trials": 1,
+  "fixtures": ["coding-ledger"],
   "gapsSeconds": [
     5
   ],

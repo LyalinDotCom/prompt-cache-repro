@@ -10,7 +10,7 @@ import { seededRandom } from '../src/core/workload';
 import { loadCodingFixture, matchesExpected, parseTestCounts } from '../src/coding/fixture';
 import { codingRequestCost } from '../src/coding/cost';
 
-const { values } = parseArgs({ options: { config: { type: 'string', default: 'config/coding.json' }, model: { type: 'string' }, shuffle: { type: 'boolean' }, 'dry-run': { type: 'boolean' } } });
+const { values } = parseArgs({ options: { config: { type: 'string', default: 'config/coding-long.json' }, model: { type: 'string' }, 'dry-run': { type: 'boolean' } } });
 const raw = JSON.parse(readFileSync(resolve(values.config!), 'utf8'));
 if (values.model) raw.models = values.model.split(',');
 const config = resolveCodingConfig(raw);
@@ -31,10 +31,10 @@ const fixtures = config.fixtures.map(id => {
 const dispatchOrder = Array.from({ length: config.trials }, (_, trial) => {
   const cells = config.profiles.flatMap(profile => fixtures.flatMap(fixture => config.gapsSeconds.map(gap => ({ profile, fixture, gap, trial }))));
   const random = seededRandom(`${config.seed}:trial-${trial}:order`);
-  if (values.shuffle) for (let i = cells.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [cells[i], cells[j]] = [cells[j], cells[i]]; }
+  for (let i = cells.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [cells[i], cells[j]] = [cells[j], cells[i]]; }
   return cells;
 }).flat();
-const plan = { protocol: config.fixtures.some(id => id.startsWith('coding-csv-')) ? 'docs/LONG_CONTEXT_PROTOCOL.md' : 'docs/METHODOLOGY.md', models: config.profiles.map(p => p.model), accounts: [...new Set(config.profiles.map(p => p.accountId))], trials: config.trials, gapsSeconds: config.gapsSeconds, seed: config.seed, shuffled: Boolean(values.shuffle), dispatchOrder: dispatchOrder.map(({ profile, fixture, gap, trial }, index) => ({ trialName: `${String(index + 1).padStart(2, '0')}-${profile.id.replaceAll(':', '_')}-${fixture.spec.id}-${gap}s-t${trial + 1}`, fixtureId: fixture.spec.id, model: profile.model, accountId: profile.accountId, gap, trial })), fixtures: fixtures.map(f => ({ ...f.spec, files: f.sourceFiles.length, contextCharacters: f.snapshot.length, snapshotSha256: hash(f.snapshot) })), sessionTimeoutMs: config.sessionTimeoutMs, reasoningLevel: config.reasoningLevel, maxOutputTokens: config.maxOutputTokens, termination: 'natural completion or 20-minute session deadline; no spending or request-count cutoff' };
+const plan = { protocol: config.fixtures.some(id => id.startsWith('coding-csv-')) ? 'docs/LONG_CONTEXT_PROTOCOL.md' : 'docs/METHODOLOGY.md', models: config.profiles.map(p => p.model), accounts: [...new Set(config.profiles.map(p => p.accountId))], trials: config.trials, gapsSeconds: config.gapsSeconds, seed: config.seed, shuffled: true, dispatchOrder: dispatchOrder.map(({ profile, fixture, gap, trial }, index) => ({ trialName: `${String(index + 1).padStart(2, '0')}-${profile.id.replaceAll(':', '_')}-${fixture.spec.id}-${gap}s-t${trial + 1}`, fixtureId: fixture.spec.id, model: profile.model, accountId: profile.accountId, gap, trial })), fixtures: fixtures.map(f => ({ ...f.spec, files: f.sourceFiles.length, contextCharacters: f.snapshot.length, snapshotSha256: hash(f.snapshot) })), sessionTimeoutMs: config.sessionTimeoutMs, reasoningLevel: config.reasoningLevel, maxOutputTokens: config.maxOutputTokens, termination: 'natural completion or 20-minute session deadline; no spending or request-count cutoff' };
 if (values['dry-run']) { console.log(JSON.stringify(plan, null, 2)); process.exit(0); }
 
 dotenv.config({ quiet: true });
@@ -102,7 +102,7 @@ try {
     writeFileSync(join(outDir, 'final-cli.stderr.txt'), cli.stderr ?? '');
     const afterHashes = hashes(cwd);
     const changed = [...new Set([...Object.keys(beforeHashes), ...Object.keys(afterHashes)])].filter(path => beforeHashes[path] !== afterHashes[path]);
-    const immutableUnchanged = Object.keys(beforeHashes).filter(path => !spec.mutablePaths.some(prefix => path.startsWith(prefix + '/'))).every(path => beforeHashes[path] === afterHashes[path]);
+    const immutableUnchanged = [...new Set([...Object.keys(beforeHashes), ...Object.keys(afterHashes)])].filter(path => !spec.mutablePaths.some(prefix => path.startsWith(prefix + '/'))).every(path => beforeHashes[path] === afterHashes[path]);
     const patch = spawnSync('git', ['diff', '--no-index', '--', fixture, cwd], { encoding: 'utf8', env: {}, maxBuffer: 5_000_000 });
     writeFileSync(join(outDir, 'patch.diff'), patch.stdout ?? '');
     let cliResult: unknown = null; try { cliResult = JSON.parse(cli.stdout ?? ''); } catch { /* Invalid CLI JSON fails qualification. */ }
@@ -126,6 +126,19 @@ try {
   process.exitCode = 1;
 } finally {
   process.off('SIGINT', interrupt); manifest();
+}
+if (fixtures.some(f => f.spec.id.startsWith('coding-csv-'))) {
+  const replay = spawnSync(process.execPath, ['--import', 'tsx', resolve('tools/verify-coding-repairs.ts'), outputRoot], { cwd: resolve('.'), env: {}, encoding: 'utf8', maxBuffer: 1_000_000 });
+  writeFileSync(join(outputRoot, 'replay-command.stdout.txt'), replay.stdout ?? '');
+  writeFileSync(join(outputRoot, 'replay-command.stderr.txt'), replay.stderr ?? '');
+  for (const cell of completed.filter(cell => String(cell.fixtureId).startsWith('coding-csv-'))) {
+    let verified = false;
+    try { verified = JSON.parse(readFileSync(join(outputRoot, String(cell.trialName), 'library-only-verification.json'), 'utf8')).verified === true; } catch { /* Missing replay cannot qualify. */ }
+    cell.libraryReplayVerified = verified;
+    cell.qualified = Boolean(cell.qualified && verified);
+  }
+  if (replay.status !== 0) process.exitCode = 1;
+  manifest();
 }
 const summary = spawnSync(process.execPath, ['--import', 'tsx', resolve('scripts/summarize-coding.ts'), outputRoot, ...(completed.length === dispatchOrder.length ? ['--final'] : [])], { cwd: resolve('.'), env: {}, encoding: 'utf8', timeout: 30000, maxBuffer: 1_000_000 });
 writeFileSync(join(outputRoot, 'summary-command.stdout.txt'), summary.stdout ?? '');

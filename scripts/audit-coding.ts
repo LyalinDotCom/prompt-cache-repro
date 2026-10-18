@@ -128,7 +128,16 @@ const rows: J[] = [];
 check('captured-model-request-present', 'transport', report.requests.length > 0);
 const nativeMessagesPath = join(root, 'messages.json');
 const nativeMessages = existsSync(nativeMessagesPath) ? JSON.parse(readEvidence(nativeMessagesPath)) : null;
-check('assistant-turns-match-captured-requests', 'transport', Array.isArray(nativeMessages) ? nativeMessages.filter(message => message.role === 'assistant').length === report.requests.length : null, { captured: report.requests.length, assistantTurns: Array.isArray(nativeMessages) ? nativeMessages.filter(message => message.role === 'assistant').length : null });
+const assistants = Array.isArray(nativeMessages) ? nativeMessages.filter(message => message.role === 'assistant') : null;
+const interrupted = ['stopped', 'error'].includes(report.status);
+// A final aborted inference may never dispatch HTTP (for example, cancellation in the idle gap).
+// Conversely a failed fetch can exist without a committed assistant message. Neither proves a
+// missing successful capture. Preserve uncertainty for that last turn and retain earlier rows.
+const trailingAbortUncertain = assistants && interrupted && (
+  (assistants.length === report.requests.length + 1 && ['aborted', 'error'].includes(assistants.at(-1)?.stopReason)) ||
+  (assistants.length === report.requests.length - 1 && Boolean(report.requests.at(-1)?.error))
+);
+check('assistant-turns-match-captured-requests', 'transport', !assistants ? null : assistants.length === report.requests.length ? true : trailingAbortUncertain ? null : false, { captured: report.requests.length, assistantTurns: assistants?.length ?? null, trailingAbortUncertain: Boolean(trailingAbortUncertain) });
 for (const [position, request] of report.requests.entries()) {
   const id = `request-${request.index}`;
   check('consecutive-captured-attempt-index', id, request.index === position);
@@ -139,6 +148,8 @@ for (const [position, request] of report.requests.entries()) {
   check('captured-wire-hash', id, wire && wireText !== null ? digest(wireText) === request.requestHash : null);
   const endpointModel = provider === 'gemini' ? /\/models\/([^/:]+):/.exec(request.endpoint)?.[1] ?? null : wire?.model ?? null;
   check('actual-model-matches-requested', id, endpointModel === null ? null : endpointModel === requestedModel, endpointModel);
+  const allowance = provider === 'gemini' ? wire?.generationConfig?.maxOutputTokens : provider === 'anthropic' ? wire?.max_tokens : wire?.max_output_tokens;
+  check('declared-output-allowance-on-wire', id, integer(allowance) && integer(report.settings?.maxTokens) ? allowance === report.settings.maxTokens : null, allowance);
   const parsed = body === null ? { objects: [], malformedFrames: 0 } : events(body);
   const native = rawUsage(provider, parsed.objects), tokens = partition(provider, native.usage);
   const responseComplete = Boolean(request.completedAt && !request.error && native.terminal);
@@ -154,7 +165,7 @@ for (const [position, request] of report.requests.entries()) {
   const costs = tokens && rate ? { inputUsd: (tokens.ordinary * rate[0] + tokens.read * rate[1] + tokens.write * rate[2]) / 1e6, outputUsd: tokens.output * rate[3] / 1e6 } : null;
   const previous = rows.at(-1), previousTokens = previous?.tokens;
   let exactWireHistoryPrefixPreserved: boolean | null = null;
-  if (previous && wire) {
+  if (previous?._wire && wire) {
     const currentJson = JSON.stringify(wire), priorHistory = history(previous._wire), currentHistory = history(wire);
     const staticFields = (value: J) => withoutCacheMarkers(Object.fromEntries(Object.entries(value).filter(([key]) => !['contents', 'input', 'messages'].includes(key))));
     check('non-history-wire-settings-preserved', id, equal(staticFields(previous._wire), staticFields(wire)));
@@ -165,7 +176,8 @@ for (const [position, request] of report.requests.entries()) {
     if (previous._continuation.signatures.length) check('returned-native-signatures-preserved', id, previous._continuation.signatures.every((value: string) => currentJson.includes(JSON.stringify(value).slice(1, -1))), { signatures: previous._continuation.signatures.length });
     if (previous._continuation.toolCallIds.length) check('real-tool-call-ids-preserved', id, previous._continuation.toolCallIds.every((value: string) => currentJson.includes(JSON.stringify(value))), { toolCallIds: previous._continuation.toolCallIds.length });
   }
-  const reuse: J | null = tokens && previousTokens ? {
+  const previousValid = previous?.responseComplete && previous.malformedFrames === 0 && previous.httpStatus >= 200 && previous.httpStatus < 300 && previousTokens?.input > 0;
+  const reuse: J | null = responseComplete && parsed.malformedFrames === 0 && request.httpStatus >= 200 && request.httpStatus < 300 && tokens && previousValid ? {
     priorInputTokens: previousTokens.input, readOverPriorInput: tokens.read / previousTokens.input,
     priorInputDeficitTokens: previousTokens.input - tokens.read,
     readModulo1024: tokens.read % 1024, readModulo2048: tokens.read % 2048,
@@ -206,16 +218,23 @@ if (existsSync(functionalFile)) {
   const readOutput = (r: J, key: string): string | null => { try { return readEvidence(safeArtifact(r[key])); } catch { return null; } };
   const before: J = f.beforeHashes ?? {}, after: J = f.afterHashes ?? {};
   const fixtureSpecPath = join(root, 'fixture-spec.json');
-  const fixtureSpec = existsSync(fixtureSpecPath) ? JSON.parse(readEvidence(fixtureSpecPath)) : { id: 'coding-ledger' };
-  // CSV test adapters and the executable acceptance oracle are not library repair targets.
-  const csvOraclePaths = fixtureSpec.id?.startsWith('coding-csv-') ? ['src/pipeline.mjs', 'bin/check.mjs'] : [];
-  const immutable = Object.keys(before).filter(p => !/^(src|bin)\//.test(p) || csvOraclePaths.includes(p));
-  const changedSource = Object.keys(after).filter(p => /^(src\/|bin\/)/.test(p) && before[p] !== after[p]);
+  if (!existsSync(fixtureSpecPath)) throw new Error('fixture-spec.json is required for functional auditing.');
+  const fixtureSpec = JSON.parse(readEvidence(fixtureSpecPath));
+  const mutablePaths: string[] = Array.isArray(fixtureSpec.mutablePaths) ? fixtureSpec.mutablePaths : [];
+  const allPaths = [...new Set([...Object.keys(before), ...Object.keys(after)])];
+  const mutable = (path: string) => mutablePaths.some(prefix => path.startsWith(prefix + '/'));
+  const immutable = allPaths.filter(p => !mutable(p));
+  const changedSource = allPaths.filter(p => mutable(p) && before[p] !== after[p]);
+  check('declared-mutable-paths-present', 'functional', mutablePaths.length ? true : null);
   check('actual-baseline-process-failed', 'functional', integer(f.baseline?.exitCode) ? f.baseline.exitCode !== 0 : null, f.baseline?.exitCode);
   check('actual-final-process-passed', 'functional', integer(f.final?.exitCode) ? f.final.exitCode === 0 : null, f.final?.exitCode);
   const baselineOut = f.baseline ? readOutput(f.baseline, 'stdoutFile') : null, finalOut = f.final ? readOutput(f.final, 'stdoutFile') : null;
   check('baseline-test-output-shows-failures', 'functional', baselineOut === null ? null : /(?:#|ℹ)\s+fail [1-9]\d*/.test(baselineOut));
   check('final-test-output-shows-pass-and-zero-failures', 'functional', finalOut === null ? null : /(?:#|ℹ)\s+fail 0\b/.test(finalOut) && /(?:#|ℹ)\s+pass [1-9]\d*/.test(finalOut));
+  const count = (output: string, field: string) => { const m = [...output.matchAll(new RegExp(`^(?:#|ℹ)\\s+${field}\\s+(\\d+)\\b`, 'gm'))].at(-1); return m ? Number(m[1]) : null; };
+  const fields = ['tests', 'pass', 'fail', 'cancelled', 'skipped', 'todo'];
+  check('exact-declared-baseline-counts', 'functional', baselineOut && fixtureSpec.expectedBaseline ? fields.every(field => count(baselineOut, field) === fixtureSpec.expectedBaseline[field]) : null);
+  check('entire-final-suite-passed-without-skips', 'functional', finalOut && fixtureSpec.expectedBaseline ? count(finalOut, 'tests') === fixtureSpec.expectedBaseline.tests && count(finalOut, 'pass') === fixtureSpec.expectedBaseline.tests && ['fail', 'cancelled', 'skipped', 'todo'].every(field => count(finalOut, field) === 0) : null);
   check('immutable-tests-and-inputs-unchanged', 'functional', immutable.length ? immutable.every(p => before[p] === after[p]) : null, { immutableFiles: immutable.length });
   check('actual-source-edit-present', 'functional', Object.keys(before).length ? changedSource.length > 0 : null, changedSource);
   let patch: string | null = null;

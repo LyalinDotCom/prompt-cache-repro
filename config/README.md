@@ -30,4 +30,6 @@ Exit codes: `0` means every planned observation succeeded (or the report/dry-run
 
 ## Real coding sessions
 
-`npm run coding` reads `config/coding.json`. Select accounts/models, trials, gaps, seed, output allowance, transport timeout, and `sessionTimeoutMs` (default and maximum 1,200,000 milliseconds). There is no `turns` or budget field for coding sessions. They finish naturally or reach their session deadline. The current fixture is a small qualification task, not a long-context benchmark.
+`npm run coding` defaults to `config/coding-long.json`: two pinned CSV-library repairs on the four selected models, targeting at least 250K actual input tokens. Cell order is always shuffled reproducibly using the configured seed. Select accounts/models, fixtures, trials, gaps, output allowance, transport timeout, and `sessionTimeoutMs` (default and maximum 1,200,000 milliseconds). There is no `turns` or budget field for coding sessions. They finish naturally or reach their session deadline.
+
+`npm run coding -- --config config/coding-qualification.json` selects the small ledger qualification instead. It is not a long-context benchmark. `--dry-run` previews either allocation without credentials or API requests. Coding reports are generated automatically when the allocation finishes; `node --import tsx scripts/summarize-coding.ts runs/<coding-batch> --final` rebuilds one offline.

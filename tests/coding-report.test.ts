@@ -4,6 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
+import { LEDGER_FIXTURE } from '../src/coding/fixture';
 
 const roots: string[] = [];
 afterEach(() => { roots.splice(0).forEach(root => rmSync(root, { recursive: true, force: true })); });
@@ -14,6 +15,7 @@ function study() {
   writeFileSync(join(root, 'batch.json'), JSON.stringify({ dispatchOrder, completed: dispatchOrder }));
   for (const [i, cell] of dispatchOrder.entries()) {
     const path = join(root, cell.trialName); mkdirSync(join(path, 'requests'), { recursive: true });
+    writeFileSync(join(path, 'fixture-spec.json'), JSON.stringify(LEDGER_FIXTURE));
     const report = JSON.stringify({ profile: cell, status: 'stopped', stopReason: 'Trial deadline', requests: [{}, {}, { error: 'Trial deadline' }] });
     writeFileSync(join(path, 'coding-report.json'), report);
     for (let n = 0; n < 3; n++) writeFileSync(join(path, 'requests', `${n}-request.json`), '{}');

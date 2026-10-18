@@ -1,6 +1,6 @@
 # Cachebench: implementation contract
 
-Status: coding harness and browser controls; clean validation study in preparation. This document describes the implemented scope. The original proposals are preserved unchanged in `docs/references/`.
+Status: primary coding study and separate browser diagnostic controls. This document describes the implemented scope. The original proposals are preserved unchanged in `docs/references/`.
 
 ## Purpose
 
@@ -8,9 +8,11 @@ Run an outside-in public API experiment and produce enough inspectable evidence 
 
 ## Product
 
-The primary coding validation runs the real pinned Pi 1.3.0 coding agent on a disposable copy of `fixtures/coding-ledger`. The repository contains three actual defects and 44 immutable acceptance tests. A common initial source/test snapshot provides substantial code context. Native read/edit/write tools are restricted to that repository; source edits are allowed under `src/` and `bin/`. The bash tool runs a disclosed allowlist of real Node test and fixture CLI commands with an empty child environment. It is a trusted fixture workflow, not an operating-system sandbox. Installed native CLI settings and authentication remain untouched.
+The primary validation runs the real pinned Pi 1.3.0 coding agent on two seeded regressions in pinned, MIT-licensed `node-csv` source: `fixtures/coding-csv-parse` and `fixtures/coding-csv-stringify`. The selected source, tests, examples, and documentation are preloaded once, targeting at least 250K actual reported input tokens. Native read/edit/write tools operate on a disposable workspace; only `src/upstream/` library modules may change. The 41 acceptance tests, test adapter, CLI verifier, and input/reference material are immutable. This is a controlled source-preload arm, not organically accumulated native-agent history. The small ledger fixture remains an explicitly selected qualification task.
 
-Each coding task finishes naturally or reaches a 20-minute session deadline. There is no spending or request-count cutoff; costs are observations only. The driver independently verifies baseline failure, final test success, unchanged acceptance files, a real source patch, and successful CLI output. It preserves serialized HTTP bodies, raw response streams, native agent/tool events, effective settings, file hashes, patches, and actual subprocess outputs. A standalone auditor reconstructs usage and costs from raw streams without importing app normalizers. `npm run coding` runs this path; `config/coding.json` and the current methodology define its allocation. The browser controls below remain a separate diagnostic arm.
+The bash tool runs a disclosed allowlist of real Node test and fixture CLI commands with an empty child environment. It is a trusted fixture workflow, not an operating-system sandbox. Installed native CLI settings and authentication remain untouched.
+
+Each coding task finishes naturally or reaches a 20-minute session deadline. There is no spending or request-count cutoff; costs are observations only. The driver independently verifies exact failing baseline counts, all final tests passing without skips, unchanged acceptance files, a real source patch, and successful CLI output. A separate verifier replays only library edits in a clean fixture with original acceptance code. It preserves serialized HTTP bodies, raw response streams, native agent/tool events, effective settings, file hashes, patches, and actual subprocess outputs. A standalone auditor reconstructs usage and costs from raw streams without importing app normalizers. `npm run coding` defaults to `config/coding-long.json`; allocation order is always shuffled using its recorded seed. The browser controls below remain a separate diagnostic arm.
 
 A static web app calls each provider directly from the visitor's browser using its official TypeScript SDK. Visitors enter their own keys, select profiles and a test, run it, inspect turn results, and download JSON, JSONL, CSV, and Markdown reports. Keys live only in page memory and go only to the selected provider. No benchmark proxy, app server, analytics, key storage, or third-party fonts/scripts.
 
@@ -25,15 +27,15 @@ Browser access uses the SDK's explicit browser opt-in where required. CORS/auth/
 - `agent`: live model function calls with a fixed local fixture tool. Preserve full native assistant response items, thought signatures, and tool-call IDs. Tool results use the same fixture text across providers. Stop a trial when a valid tool continuation is not produced; do not manufacture a trajectory.
 - `perturb`: deliberately change early prefix content after warm-up. Negative control; excluded from previous-prefix full-hit and ideal-reuse comparisons.
 
-No built-in provider tools, real shell execution, ACP, native agent CLIs, internal endpoints, Vertex, hidden retries, provider fallback, model fallback, explicit Gemini cache objects, or cache repair in v1.
+The browser/synthetic controls do not execute a shell. Neither path uses built-in provider tools, ACP, native agent CLI execution, internal endpoints, Vertex, hidden retries, provider/model fallback, explicit Gemini cache objects, or cache repair. The coding path executes the allowlisted local Node commands described above.
 
 Each profile/gap/trial has a unique prompt nonce. Nonce isolation reduces accidental prefix reuse; it does not prove the backend cache is empty. Providers necessarily serialize the shared semantic workload differently, and live tool arguments/outputs can differ. Preserve actual payloads rather than claiming byte-identical prompts across providers.
 
-Default quick run uses exact replay as the initial control: 1 trial, 6 turns, 5-second completion-to-next-request gaps, 48,000 reference characters, 2,400 fixture characters per growth step, short generation, one paid account per provider and four model cells (Gemini Flash 3.8, Gemini Argon 4, GPT-6.1 Sol, Claude Opus 5.5). Sizes are characters, not claimed token counts. Actual API input counters establish whether the cache threshold was reached. The original chart's 5/30/120-second gaps and 12×20-turn allocation are configurable, not mandatory defaults.
+The quick synthetic control uses exact replay: 1 trial, 6 turns, 5-second completion-to-next-request gaps, 48,000 reference characters, 2,400 fixture characters per growth step, short generation, one paid account per provider and four model cells (Gemini Flash 3.8, Gemini Argon 4, GPT-6.1 Sol, Claude Opus 5.5). Sizes are characters, not claimed token counts. Actual API input counters establish whether the cache threshold was reached. The original chart's 5/30/120-second gaps and 12×20-turn allocation are configurable controls, separate from the default coding study.
 
 ## Evidence and metrics
 
-Each actual model request yields an observation with cell/profile/trial/turn identity, declared tier, exact configured model and returned model, UTC start, requested/actual gap, duration, status, response ID, exposed trace headers, SHA-256 payload/prefix hashes, SDK payload, serialized wire payload, response, raw usage, normalized counters, and warnings. Redact credentials from error paths and exports. SDK retries and automatic continuations are disabled.
+Each actual model request retains identity, declared tier, configured/returned model, timing, status, request hashes, serialized wire payload, response, raw usage, normalized counters, and warnings. The coding path retains raw SSE and matches assistant turns to captured HTTP attempts; it does not currently retain response headers. Diagnostic adapters additionally retain SDK payloads and exposed trace headers. Redact credentials from error paths and exports. SDK retries and automatic continuations are disabled.
 
 Normalize input as `total = uncached + cached reads + cache writes`. Anthropic's `input_tokens` is already exclusive of reads and writes. OpenAI Responses and Gemini report inclusive input counts. OpenAI GPT-6.1 Sol has a distinct cache-write counter. Preserve unknown telemetry as unknown rather than inventing a hit/miss.
 
@@ -45,7 +47,7 @@ Report separately:
 - Actual usage-based input cost, theoretical ideal input cost, their multiplier including and excluding warm-up, and output/total estimated cost separately.
 - Errors and unclassifiable turns, kept out of cache denominators. Initial turns are warm-up. Missing/unusable usage, below-threshold prefixes, invalid continuations, and negative-control changes get explicit caveats.
 
-Read/write/input/output rates are dated and editable per profile. Ideal cost retains required initial write charges and new-prefix write charges for models that bill them. It uses the same observed workload and outputs. It is a transparent counterfactual, not verified billing. Unknown rate cards yield unknown costs. V1 limits estimated pricing to short contexts and stops a trajectory beyond 100K observed input tokens.
+Read/write/input/output rates are dated and editable per profile. Ideal cost retains required initial write charges and new-prefix write charges for models that bill them. It uses the same observed workload and outputs. It is a transparent counterfactual, not verified billing. Unknown rate cards yield unknown costs. The synthetic diagnostic runner currently stops beyond its supported 100K pricing band. The primary coding runner supports the registered 250K+ contexts and applies GPT's whole-request surcharge above 272K; it has no context-size or spending stop below the selected model's API capacity.
 
 Cost estimates do not control execution. Interrupted or failed requests can have unknown charges. No automatic retry means a failed trial ends and remains visible.
 

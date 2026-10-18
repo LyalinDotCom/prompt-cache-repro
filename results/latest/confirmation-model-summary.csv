@@ -1,0 +1,5 @@
+accountId,model,present,planned,verifiedRepairs,naturalCompletions,audited,minInput,maxInput,followups,weightedPriorCapture,targetFollowups,targetWeightedPriorCapture
+anthropic-paid,claude-opus-5-5,2,2,1,1,1,377271,386757,3,0.999993027070655,3,0.999993027070655
+gemini-paid,gemini-3.8-flash,2,2,2,2,2,317324,347266,23,0.9962841804541241,23,0.9962841804541241
+openai-paid,gpt-6.1-sol,2,2,2,2,2,255147,265763,13,0.9999884964574989,13,0.9999884964574989
+gemini-paid,gemini-4-argon,2,2,2,2,2,315484,333128,9,0.997188666526632,9,0.997188666526632

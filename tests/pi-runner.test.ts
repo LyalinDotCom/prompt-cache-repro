@@ -1,10 +1,12 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
+import { execFileSync } from 'node:child_process';
 import { createRestrictedCodingTools, runCodingTrial } from '../src/coding/pi-runner';
 import { DEFAULT_CONFIG } from '../src/core/defaults';
 import { resolveCodingConfig } from '../src/coding/config';
+import { LEDGER_FIXTURE } from '../src/coding/fixture';
 import type { ToolDefinition } from '@earendil-works/pi-coding-agent';
 
 const paths: string[] = [];
@@ -54,6 +56,46 @@ describe('representative Pi coding arm offline', () => {
     expect(report.requests).toHaveLength(1);
     expect(report.requests[0].httpStatus).toBe(200);
     expect(report.requests[0].usage).toBeNull();
+  });
+
+  it('retains earlier audited cache usage when cancellation aborts an inference before HTTP dispatch', async () => {
+    const cwd = fixture(), root = fixture(), outDir = join(root, 'paid');
+    const profile = DEFAULT_CONFIG.profiles.find(profile => profile.provider === 'openai')!;
+    const controller = new AbortController(); let calls = 0;
+    const transport: typeof fetch = async () => {
+      calls++;
+      const item = { type: 'function_call', id: `fc_${calls}`, call_id: `call_${calls}`, name: 'read', arguments: JSON.stringify({ path: 'src/value.mjs' }), status: 'completed' };
+      const events = [
+        { type: 'response.created', response: { id: `resp_${calls}`, status: 'in_progress', output: [] } },
+        { type: 'response.output_item.added', output_index: 0, item: { ...item, arguments: '' } },
+        { type: 'response.output_item.done', output_index: 0, item },
+        { type: 'response.completed', response: { id: `resp_${calls}`, model: profile.model, status: 'completed', output: [item], usage: { input_tokens: 1000 + calls, input_tokens_details: { cached_tokens: 900, cache_write_tokens: 100 }, output_tokens: 2, total_tokens: 1002 + calls } } },
+      ];
+      return new Response(events.map(event => `event: ${event.type}\ndata: ${JSON.stringify(event)}\n\n`).join(''), { headers: { 'content-type': 'text/event-stream' } });
+    };
+    const report = await runCodingTrial({ profile, apiKey: 'fake-key', cwd, outDir, prompt: 'Read src/value.mjs repeatedly.', gapSeconds: .05, timeoutMs: 5000, signal: controller.signal, transport,
+      onRequest: () => { if (calls === 2) setTimeout(() => controller.abort(), 20); },
+    });
+    const messagesPath = join(outDir, 'messages.json'), messages = JSON.parse(readFileSync(messagesPath, 'utf8'));
+    expect(report.requests).toHaveLength(2);
+    expect(messages.filter((m: any) => m.role === 'assistant')).toHaveLength(3);
+    const cell = { trialName: 'paid', model: profile.model, accountId: profile.accountId };
+    writeFileSync(join(outDir, 'fixture-spec.json'), JSON.stringify(LEDGER_FIXTURE));
+    writeFileSync(join(root, 'batch.json'), JSON.stringify({ dispatchOrder: [cell], completed: [cell] }));
+    const analyze = () => {
+      execFileSync(process.execPath, ['--import', 'tsx', resolve('scripts/audit-coding.ts'), outDir], { env: {}, stdio: 'pipe' });
+      execFileSync(process.execPath, ['--import', 'tsx', resolve('scripts/summarize-coding.ts'), root], { env: {}, stdio: 'pipe' });
+      return { audit: JSON.parse(readFileSync(join(outDir, 'coding-audit.json'), 'utf8')), summary: JSON.parse(readFileSync(join(root, 'coding-summary.json'), 'utf8')) };
+    };
+    const actual = analyze();
+    expect(actual.audit.checks.find((c: any) => c.check === 'assistant-turns-match-captured-requests').verdict).toBe('UNKNOWN');
+    expect(actual.summary.models[0].followups).toBe(1);
+    // An unexplained extra successful assistant turn remains a capture-integrity failure.
+    messages.filter((m: any) => m.role === 'assistant').at(-1).stopReason = 'stop';
+    writeFileSync(messagesPath, JSON.stringify(messages));
+    const unexplained = analyze();
+    expect(unexplained.audit.checks.find((c: any) => c.check === 'assistant-turns-match-captured-requests').verdict).toBe('FAIL');
+    expect(unexplained.summary.models[0].followups).toBe(0);
   });
 
   it('allows a natural coding loop beyond the former 12-request cutoff', async () => {

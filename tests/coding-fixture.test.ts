@@ -3,6 +3,17 @@ import { DEFAULT_CONFIG } from '../src/core/defaults';
 import { resolveCodingConfig } from '../src/coding/config';
 import { loadCodingFixture, matchesExpected, parseTestCounts } from '../src/coding/fixture';
 import { codingRequestCost } from '../src/coding/cost';
+import { execFileSync } from 'node:child_process';
+import { resolve } from 'node:path';
+
+it('defaults the coding command to the registered long-context workload without making API calls', () => {
+  const plan = JSON.parse(execFileSync(process.execPath, ['--import', 'tsx', resolve('scripts/run-coding.ts'), '--dry-run'], { encoding: 'utf8', env: { PATH: process.env.PATH } }));
+  expect(plan.fixtures.map((f: any) => [f.id, f.targetInputMin])).toEqual([['coding-csv-parse', 250000], ['coding-csv-stringify', 250000]]);
+  expect(plan.dispatchOrder).toHaveLength(8);
+  expect(new Set(plan.dispatchOrder.map((c: any) => c.trialName)).size).toBe(8);
+  expect(plan.shuffled).toBe(true);
+  expect(plan.gapsSeconds).toEqual([30]);
+});
 
 it('selects pinned executable CSV tasks and checks their declared CLI result', () => {
   const { spec } = loadCodingFixture('coding-csv-parse');

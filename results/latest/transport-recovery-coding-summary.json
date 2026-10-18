@@ -1,0 +1,102 @@
+{
+  "analysisSourceSha256": "d618cc2ce476e08c2b16baf8f522490f670c90ff94266ab0a8a115a3c48725dc",
+  "generatedAt": "2026-10-18T00:30:48.840Z",
+  "final": true,
+  "complete": true,
+  "planned": 1,
+  "source": {
+    "gitCommit": "fda0decb803e08b7f65366ea5ace8a2b13422c9e",
+    "gitDirty": false,
+    "nodeVersion": "v24.14.1",
+    "fixtureHashes": {
+      "coding-csv-stringify": "a445da6c580a1997e3f58091f26dd88ce0984b02701324cb2636ba3d5e33b506"
+    },
+    "sourceHashes": {
+      "src/cli.ts": "4ea179bd7ee7345ed0dbc3229a8920dfbca60cb80c7cae05e7a960e160065cd8",
+      "src/coding/config.ts": "2c191e6a200ed45ce0667831518c1d3348ebba2edc6be82f7630d49b517d50ed",
+      "src/coding/cost.ts": "f2fd297ff623b33b38fa1d0ecd931ac8b66cf3eb0ea06dbe21901562c27c47ca",
+      "src/coding/fixture.ts": "d0e465266dbfa68b7aa61a69b33917db579b573610e1697d2f0f735dc629f46a",
+      "src/coding/pi-runner.ts": "d54c6f503362aea95b23d5b60f6594f669f139ebccf8edc6b345e0b9b3a0219f",
+      "src/coding/transport-usage.ts": "1cc639626a62b422b274e0b69a45cea3a72c932bf44e13411cbe2e3c354beb7a",
+      "src/core/catalog.ts": "658aca7c2616598b0cad869a0ff8f18e60bb3211f64725aaef017a82b56eed0f",
+      "src/core/defaults.ts": "743445351c2cc7f094cc86a77d94c2571caae30d72a383ce5cc9abc434d2b7fc",
+      "src/core/metrics.ts": "62a9ac9a59758bd7bf130c5f2721ddf5daf07a5653333ff4cf9052be834d7d30",
+      "src/core/report.ts": "88e66b970cbd5cabf85223f3ca518b81b7044bd47abc043c43a9dfc903eb9386",
+      "src/core/runner.ts": "52b032ca4527d3f0fc757e7ed1b3e24d1c431e7ef7842b0b6a000d319c48e012",
+      "src/core/types.ts": "ba51e8b4f1b9bd491a32ab1ffcdac6d3d90cb341100e1345036ce8bdee66d8ad",
+      "src/core/workload.ts": "779d74d42df5eefe701444dfda5a6086ca20a5f3df305ad2138ed06c16af3150",
+      "src/providers/index.ts": "2e26bd7f1ee86a141d99403bb6755d17d5684fa3822284850430f11f4ae01a80",
+      "src/providers/normalize.ts": "d8e3d13824d8046132cc38ad2f3e7d49bd19ed5c553c56c3aaf45371cfd608dc",
+      "src/web/App.tsx": "bcf875075e585c8f12c417756f65ed1013ed3dc9ec02c46a7cc5d2e0b3780a83",
+      "src/web/SetupPanels.tsx": "9b92df00448c10764b67602423c6c50bdb1bf9d969eb8fa17dff2f55f2df56a0",
+      "src/web/main.tsx": "e017de8935f16243c233c40ee48de0c00b3b7eb38da25f5a93b19c36e4184b4d",
+      "src/web/style.css": "bcf5790fbb51b09d81abdbb5b00eccdfc611b7b23fff360af64ef01403cea02c",
+      "scripts/audit-coding.ts": "e45e4e0382741c06051712fbdbba93448efe5440506351508396f9435f828886",
+      "scripts/audit-validation.ts": "065ee92a698fd61f7d937b3ed1083d1e9274f3c5ead69ee9a46a59e7ef77bcdc",
+      "scripts/run-coding.ts": "1373febb3d649a415a0d5e6a2cde61116f9959d3279bde8e0cff45008e4e684f",
+      "scripts/summarize-coding.ts": "d618cc2ce476e08c2b16baf8f522490f670c90ff94266ab0a8a115a3c48725dc",
+      "package.json": "d0bd89593347ec94a05e92da1a594082cdb7e43b3e4cbfe65a43f7b081e59ac2",
+      "package-lock.json": "ce861ce450f647e8dc47033c8bed3660e80779d277b8cca02cbcab511bdf8e52",
+      "docs/METHODOLOGY.md": "bde04e31b90729feea191e20555edbea9ba0d0386aadc2f4257286f74c3100e2",
+      "docs/LONG_CONTEXT_PROTOCOL.md": "051dc7b2a7abf3b04b0e0fd82f8172c5fbed0856869e2c8f2227fa244d8e734d",
+      "tools/prepare-csv-fixtures.py": "5e3e1508a25893dac7e1cae78e2ddf7077824cccd25e64f06543c856e8f344da",
+      "tools/verify-coding-repairs.ts": "c656ae2dfdefd3ebded861436472e7018c3d8880f15c07df2af610f4850ade4b",
+      "tools/verify-csv-fixtures.mjs": "f8bb7db97334cf13f8d13d21655282515f28cbb7aac9e9e071ce93f467b0b343",
+      "runs/opus-transport-recovery.json": "17a2b0994085b56f5485eaf8bf0465d5b3364c6ac274e0086cdcf7fa39b8136b"
+    }
+  },
+  "sourceManifestSha256": "876d11aa204bbf573c292cb6a1ac91523aa8afe586e38c47c35dbe8884869f7c",
+  "models": [
+    {
+      "accountId": "anthropic-paid",
+      "model": "claude-opus-5-5",
+      "planned": 1,
+      "present": 1,
+      "verifiedRepairs": 1,
+      "naturalCompletions": 1,
+      "audited": 1,
+      "followups": 2,
+      "targetFollowups": 2,
+      "targetWeightedPriorCapture": 0.9999921119265042,
+      "weightedPriorCapture": 0.9999921119265042,
+      "minInput": 377261,
+      "maxInput": 385295
+    }
+  ],
+  "trials": [
+    {
+      "targetReadTokens": 760636,
+      "targetPriorInputTokens": 760642,
+      "fixtureId": "coding-csv-stringify",
+      "targetInputMin": 250000,
+      "targetFollowups": 2,
+      "finishReasons": {
+        "tool_use": 2,
+        "end_turn": 1
+      },
+      "name": "01-anthropic-paid__claude-opus-5-5-coding-csv-stringify-30s-t1",
+      "model": "claude-opus-5-5",
+      "accountId": "anthropic-paid",
+      "status": "completed",
+      "stopReason": null,
+      "captured": 3,
+      "audited": true,
+      "auditCurrent": true,
+      "integrityFailures": 0,
+      "auditFailures": 0,
+      "auditUnknowns": 0,
+      "repairVerified": true,
+      "naturalCompletion": true,
+      "finalTestsPassed": 41,
+      "finalTestsFailed": 0,
+      "inputMin": 377261,
+      "inputMax": 385295,
+      "followups": 2,
+      "cachedReadTokens": 760636,
+      "priorInputTokens": 760642,
+      "maxPriorDeficit": 4,
+      "inputEstimateUsd": 2.0786242,
+      "outputEstimateUsd": 0.022199999999999998
+    }
+  ]
+}

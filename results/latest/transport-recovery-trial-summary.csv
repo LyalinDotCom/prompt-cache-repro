@@ -1,0 +1,2 @@
+name,fixtureId,targetInputMin,targetFollowups,model,accountId,status,stopReason,repairVerified,naturalCompletion,captured,audited,auditFailures,auditUnknowns,inputMin,inputMax,followups,maxPriorDeficit,inputEstimateUsd,outputEstimateUsd,finishReasons
+01-anthropic-paid__claude-opus-5-5-coding-csv-stringify-30s-t1,coding-csv-stringify,250000,2,claude-opus-5-5,anthropic-paid,completed,,true,true,3,true,0,0,377261,385295,2,4,2.0786242,0.022199999999999998,"{""tool_use"":2,""end_turn"":1}"

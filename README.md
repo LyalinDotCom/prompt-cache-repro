@@ -4,7 +4,7 @@
 
 Our goal is credible outside-in evidence about prompt-cache reuse during real coding-agent work. The coding harness runs Pi against public provider APIs, retains serialized requests and raw responses, and independently checks patches and tests. The browser contains separate diagnostic controls.
 
-**No benchmark results are currently published in this checkout.** Previous experimental artifacts and reports were removed to start a clean study. Their deletion is tracked in Git history. Read the [current methodology](docs/METHODOLOGY.md) before running or interpreting experiments.
+**Read the [latest verified 250K+ coding pilot](docs/LATEST_RESULTS.md).** Gemini Flash reported 99.63% and Argon 99.72% cached reads relative to preceding input; small shortfalls remained, with high overall reuse in this limited test. Its [current evidence](results/latest/) contains raw request/response archives, per-turn data, audits, and independently replayed repairs. Previous experimental evidence and excluded calibration are retained only in private Git history. Read the [methodology](docs/METHODOLOGY.md) and [registered long-context protocol](docs/LONG_CONTEXT_PROTOCOL.md) before interpreting the result.
 
 ## Run locally
 
@@ -15,7 +15,7 @@ npm ci
 npm run dev
 ```
 
-The browser calls providers directly using official SDKs. Enter keys in the tab; they stay in memory. Browser controls do not run a real coding agent.
+The browser calls providers directly using official SDKs. Enter keys in the tab; they stay in memory. Its experiments are synthetic diagnostics. **Use the CLI below for the real coding study**, which needs a disposable filesystem and Node test execution.
 
 ## Coding runs
 
@@ -37,9 +37,11 @@ npm run coding -- --model gemini-4-argon,gemini-3.8-flash
 
 Accounts own keys and declared tier labels. Each account runs every selected model for its provider: two Gemini keys and two Gemini models produce four sessions per trial/gap. See [configuration](config/README.md).
 
-Sessions finish naturally or stop at a **20-minute session deadline**. There is no spending or request-count cutoff. Cost estimates are observations only. The dependency-free ledger fixture is a small qualification task, **not a 250K-token experiment**. Context occupancy must be established by actual API input counters, separately from the model's advertised window capacity.
+The default allocation repairs two seeded regressions in pinned public CSV-library code on all four models. It preloads the selected source once and targets **at least 250K actual API-reported input tokens**. Each repair must pass all 41 immutable tests and the pipeline CLI; the independent replay applies only library edits to a clean fixture. The configured seed always shuffles cell order.
 
-New run artifacts, independent audits, Markdown reports, and CSV summaries are written under ignored `runs/`. Failed and interrupted attempts remain visible in each fresh study; they do not become cache misses or disappear from its accounting. Results are experimental until the workload, raw evidence, and conclusions have been reviewed.
+Sessions finish naturally or stop at a **20-minute session deadline**. There is no spending or request-count cutoff. Cost estimates are observations only. This is a controlled source-preload pilot, not an organically accumulated 250K-token native-agent session or a provider-wide failure-rate estimate. The small ledger qualification is opt-in: `npm run coding -- --config config/coding-qualification.json`.
+
+New run artifacts, independent audits, Markdown reports, and CSV summaries are written under ignored `runs/`. Failed and interrupted attempts remain visible in each fresh study; they do not become cache misses or disappear from its accounting. Follow-ups within a session are correlated, and public counters do not expose every cache-eligibility rule. Every result remains limited to its declared workload, account, timing, and API path.
 
 ## Diagnostic controls
 

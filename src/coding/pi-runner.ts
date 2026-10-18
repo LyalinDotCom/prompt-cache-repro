@@ -290,12 +290,14 @@ export async function runCodingTrial(options: CodingTrialOptions): Promise<Codin
     const last = session.messages.filter(message => message.role === 'assistant').at(-1);
     if (last && 'stopReason' in last && ['error', 'aborted', 'length'].includes(String(last.stopReason))) report.stopReason ||= `Pi assistant ${last.stopReason}`;
     report.status = controller.signal.aborted || report.stopReason ? 'stopped' : 'completed';
-    writeFileSync(join(outDir, 'messages.json'), JSON.stringify(scrub(session.messages), null, 2) + '\n', { mode: 0o600 });
   } catch (error) { report.status = controller.signal.aborted ? 'stopped' : 'error'; report.stopReason ||= scrub(error instanceof Error ? error.message : String(error)); }
   finally {
-    session?.dispose();
-    await Promise.allSettled(captures);
+    try { if (session) writeFileSync(join(outDir, 'messages.json'), JSON.stringify(scrub(session.messages), null, 2) + '\n', { mode: 0o600 }); }
+    catch (error) { report.status = 'error'; report.stopReason ||= 'Native message snapshot could not be saved'; report.warnings.push(scrub(String(error))); }
+    try { session?.dispose(); }
+    catch (error) { report.status = 'error'; report.stopReason ||= 'Pi session cleanup failed'; report.warnings.push(scrub(String(error))); }
     if (globalFetchPatched) globalThis.fetch = previousGlobalFetch;
+    await Promise.allSettled(captures);
     clearTimeout(deadline); options.signal?.removeEventListener('abort', externalAbort);
     report.finishedAt = new Date().toISOString();
     save();
