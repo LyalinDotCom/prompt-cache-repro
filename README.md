@@ -4,7 +4,7 @@
 
 Our goal is credible outside-in evidence about prompt-cache reuse during real coding-agent work. The coding harness runs Pi against public provider APIs, retains serialized requests and raw responses, and independently checks patches and tests. The browser contains separate diagnostic controls.
 
-**Read the [latest verified 250K+ coding pilot](docs/LATEST_RESULTS.md).** Gemini Flash reported 99.63% and Argon 99.72% cached reads relative to preceding input; small shortfalls remained, with high overall reuse in this limited test. Its [current evidence](results/latest/) contains raw request/response archives, per-turn data, audits, and independently replayed repairs. Previous experimental evidence and excluded calibration are retained only in private Git history. Read the [methodology](docs/METHODOLOGY.md) and [registered long-context protocol](docs/LONG_CONTEXT_PROTOCOL.md) before interpreting the result.
+**[Read the report: did we reproduce Theo’s criticism?](docs/LATEST_RESULTS.md)** Not yet. Gemini showed roughly 2K-token cache-counter shortfalls and fewer strict matches than the controls, but we have not established the cause or reproduced the reported cost impact. High aggregate token reuse does not settle the claim. The report explains the findings, the limits, and what engineering can investigate. Its [current evidence](results/latest/) contains raw request/response archives, per-turn data, audits, and independently replayed repairs. Previous experimental evidence and excluded calibration are retained only in private Git history.
 
 ## Run locally
 

@@ -1,8 +1,42 @@
-# Fresh coding-cache result · 17 October 2026
+# Report: did we reproduce Theo’s Gemini caching criticism?
 
-**Gemini showed small reported cache-read shortfalls. We did not reproduce widespread cache loss in this pilot.** This is evidence about the configured Pi/API paths on two tasks; it does not establish an internal cache defect or refute Theo’s other workloads.
+**Not yet. We found a measurable difference in Gemini’s reported cache counters, but we have not established that it is the problem Theo reported, reproduced its cost impact, or disproved his criticism. The original validation goal remains incomplete.**
 
-All **8 task/model pairs completed naturally**, passed all **41 immutable acceptance tests and the pipeline CLI**, and passed an independent clean replay of only the library edits. All eight patches restored the relevant pinned upstream file exactly. Actual generation-response input was **255,147–386,757 tokens**.
+These are fresh measurements from 17 October 2026. This report separates the evidence we have from the conclusion we still cannot draw.
+
+## What this says about Theo’s claims
+
+The [reference supplied with this project](references/proposed-layered-benchmark.txt) describes [Theo’s post](https://x.com/theo/status/2111370893561909423) as reporting fewer full cache hits for Gemini in an API test simulating agent work, and discusses a possible material cost penalty. That reference is a secondary account. We do not have his complete executable test or verified full-hit definition; the X page also returned HTTP 403 when rechecked for this report. **This is a related experiment, not an exact reproduction of his benchmark.**
+
+| Question | What our data says | Verdict |
+| --- | --- | --- |
+| Does Gemini show a cache-counter difference versus the controls during coding work? | Yes. Gemini often reported about 2,000 fewer cached tokens than the preceding request’s input. GPT and Opus had differences of only 2–4 tokens. | A difference worth investigating. Its cause is unknown. |
+| Does Gemini get fewer nearly complete cache matches? | Yes under **our** rule: Flash 6/23, Argon 5/9, GPT 13/13, Opus 5/5 follow-ups matched within 64 tokens. | Same general direction as the supplied criticism, but a different workload and an unverified match definition. These rates cannot be compared directly to Theo’s. |
+| Did Gemini repeatedly lose large portions of the preceding input? | We did not observe that in these sessions. Aggregate cached reads were about 99.6–99.7% of preceding input. | This test does not demonstrate large cache loss. It also does not establish that all eligible tokens were cached. |
+| Did we reproduce the reported cost penalty? | No. We have not established a controlled cost comparison that reproduces it. | Unanswered. |
+| Is Theo wrong, or is the problem fixed? | This small, different experiment cannot answer either question. | **Neither conclusion is supported.** |
+
+## Why “99.7%” did not answer your question
+
+A **full-hit rate** counts how many requests meet a near-total match rule. A **token ratio** measures how much input was reported as cached. They answer different questions.
+
+For example, in our actual Flash data, a follow-up reported **320,561 cached tokens** after a request with **322,548 input tokens**. That is **99.38%** of the preceding input, but a **1,987-token shortfall**: it fails our strict match rule. So high token ratios and frequent strict-match failures can both be true. Leading with “99.7% cached” made our results sound more reassuring than the evidence supports.
+
+We also cannot tell from these public counters whether those roughly 2,000 tokens were eligible for reuse, why the difference occurs, or whether it reflects an internal cache defect. Some follow-ups report *more* cached tokens than the preceding input, because the conversation grows; those observations remain in the aggregates. These ratios are observations, not a direct measurement of the provider’s eligible-cache hit probability.
+
+## What we actually tested—and the important gap
+
+Four models each repaired two deliberately introduced bugs in real CSV-library code. **All eight repairs passed all 41 acceptance tests, the pipeline CLI, and a clean replay of just the library edits.** Actual API-reported input ranged from **255,147 to 386,757 tokens**. The agents really read, edited, and tested code.
+
+However, most of that large context was loaded at the start as repository files. It was **not** 250K tokens of accumulated coding conversation, edits, and tool results. There were only two tasks from one repository, one paid key per provider, and a fixed 30-second pause between requests. Those choices limit how well this represents everyday coding sessions. Passing the repairs validates the coding workload; it does not validate a conclusion about Theo’s cache problem.
+
+**The next useful experiment is a repeated, controlled agent-style API replay with growing coding/tool history and recorded per-turn cache counters and cost assumptions.** It should exercise the history growth and timing relevant to the criticism, rather than achieve a large token count mainly through a starting preload. We also need Theo’s exact full-hit definition before claiming a numerical replication. Native CLI testing is a separate follow-up if we want conclusions about particular coding products.
+
+## A factual FYI for engineering
+
+> In a small outside-in coding pilot, Gemini Flash and Argon often reported cached-token counts about 2K below the previous request’s input; GPT and Opus differed by only 2–4 tokens. All eight coding repairs passed independent checks at 255K–387K input. Gemini therefore showed fewer strict matches, despite high aggregate token reuse. We have not established cache eligibility or cause, reproduced Theo’s cost penalty, or replicated his benchmark. Please treat this as a counter discrepancy to investigate, not proof of a Gemini cache bug or evidence that the reported problem is fixed.
+
+## Measured results and technical details
 
 | Model | Verified repairs | ≥250K follow-ups | Cached reads / preceding input | Largest positive shortfall |
 | --- | ---: | ---: | ---: | ---: |
@@ -11,9 +45,7 @@ All **8 task/model pairs completed naturally**, passed all **41 immutable accept
 | GPT-6.1 Sol | 2/2 | 13 | 99.9988% | 3 tokens |
 | Claude Opus 5.5 | 2/2 | 5 | 99.9993% | 4 tokens |
 
-**Metric:** sum of cached-read tokens on valid follow-ups divided by sum of their immediately preceding input tokens. Both inputs must be ≥250K. These public counters do not reveal the exact eligible cache frontier. Reads can include newly added history and exceed preceding input; negative shortfalls are retained, not clamped. Follow-ups within a session are correlated.
-
-Under our optional **64-token strict-match rule**, Flash matched **6/23**, Argon **5/9**, GPT **13/13**, and Opus **5/5** follow-ups. Thus strict full-hit counts look much worse for Gemini even while token reuse remains high. The Gemini positive shortfalls were roughly 1.9K–2.1K tokens; their cause and eligibility are not established. No valid follow-up was below 95% of preceding input.
+**Metric:** sum of cached-read tokens on valid follow-ups divided by sum of their immediately preceding input tokens. Both inputs must be ≥250K. Reads can include newly added history and exceed preceding input; negative shortfalls are retained, not clamped. Follow-ups within a session are correlated. Our strict rule counts a match when cached reads are no more than 64 tokens below preceding input; it is not verified as Theo’s rule. No valid follow-up was below 95% of preceding input.
 
 ## What ran
 
