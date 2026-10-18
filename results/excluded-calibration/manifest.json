@@ -1,0 +1,14 @@
+[
+  {
+    "archive": "small-qualification.tar.gz",
+    "sha256": "18f35487a7dc2fcd5af3f6fba4744b00472a914bcaf48ced78cb108c80cbda30",
+    "bytes": 3761207,
+    "sourceDirectory": "coding-2026-10-17T23-59-48.504Z"
+  },
+  {
+    "archive": "long-context-calibration.tar.gz",
+    "sha256": "e5bc9d54202fd8fa7e01fd062f3ff8033a6d1631d72f9870bf138a87dc772e31",
+    "bytes": 16915941,
+    "sourceDirectory": "coding-2026-10-18T00-12-54.677Z"
+  }
+]
