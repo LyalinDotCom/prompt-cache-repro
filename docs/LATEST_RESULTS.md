@@ -6,6 +6,8 @@ These are fresh measurements from 17 October 2026. This report separates the evi
 
 ## What this says about Theo’s claims
 
+**18 October follow-up:** A [review of Theo’s public GitHub projects](THEO_GITHUB_REVIEW.md) found useful accounting and session-recording code, but did not locate the benchmark or full-hit definition behind his post. It does not change this report’s verdict.
+
 The [reference supplied with this project](references/proposed-layered-benchmark.txt) describes [Theo’s post](https://x.com/theo/status/2111370893561909423) as reporting fewer full cache hits for Gemini in an API test simulating agent work, and discusses a possible material cost penalty. That reference is a secondary account. We do not have his complete executable test or verified full-hit definition; the X page also returned HTTP 403 when rechecked for this report. **This is a related experiment, not an exact reproduction of his benchmark.**
 
 | Question | What our data says | Verdict |

@@ -56,6 +56,7 @@ Replay, text-growth, deterministic tool-loop, and prefix-change controls help in
 
 ## Project documents
 
+- [Theo GitHub investigation and complete repository inventory](docs/THEO_GITHUB_REVIEW.md)
 - [Current methodology](docs/METHODOLOGY.md)
 - [Implementation contract](docs/IMPLEMENTATION.md)
 - [Review of the supplied specs](docs/spec-review.md)
